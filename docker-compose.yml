@@ -1,0 +1,24 @@
+services:
+  db:
+    image: mysql:8
+    container_name: muhasabah_db
+    restart: unless-stopped
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: muhasabah_dev
+      MYSQL_USER: muhasabah
+      MYSQL_PASSWORD: muhasabah
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - muhasabah_mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/00-init.sql:ro
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-prootpassword']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+volumes:
+  muhasabah_mysql_data:
