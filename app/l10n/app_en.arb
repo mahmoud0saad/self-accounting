@@ -1,0 +1,68 @@
+{
+  "@@locale": "en",
+  "appTitle": "Muhasabah",
+  "pointsLabel": "pts",
+  "pointsRatio": "{completed} / {total} points",
+  "@pointsRatio": {
+    "placeholders": {
+      "completed": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "taskStateChecked": "checked",
+  "taskStateUnchecked": "not checked",
+  "taskRowSemanticLabel": "{title}, {points} points, {state}",
+  "@taskRowSemanticLabel": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "points": { "type": "int" },
+      "state": { "type": "String" }
+    }
+  },
+  "languageToggleTooltip": "Switch language (system, English, Arabic)",
+  "languageAutoSuffix": "auto",
+
+  "categoryFajr": "Fajr",
+  "categoryDhuhr": "Dhuhr",
+  "categoryAsr": "Asr",
+  "categoryMaghrib": "Maghrib",
+  "categoryIsha": "Isha",
+  "categoryQiyamEvening": "Qiyam & Evening Devotion",
+  "categoryQuranFasting": "Quran & Fasting",
+  "categoryMiscAdhkar": "Miscellaneous Adhkar",
+
+  "taskFajrWakingUpAdhkar": "Waking up Adhkar",
+  "taskFajrSunnahBeforeFajr": "Sunnah before Fajr",
+  "taskFajrFirstCongregation": "First Congregation (Jama'ah)",
+  "taskFajrPostPrayerAdhkar": "Post-prayer Adhkar",
+  "taskFajrMorningAdhkar": "Morning Adhkar",
+  "taskFajrDuhaPrayer4Rakahs": "Duha Prayer — 4 Rak'ahs",
+  "taskDhuhrSunnahBefore4Rakahs": "Sunnah before Dhuhr — 4 Rak'ahs",
+  "taskDhuhrFirstCongregation": "First Congregation (Jama'ah)",
+  "taskDhuhrPostPrayerAdhkar": "Post-prayer Adhkar",
+  "taskDhuhrSunnahAfter": "Sunnah after Dhuhr",
+  "taskAsrFirstCongregation": "First Congregation (Jama'ah)",
+  "taskAsrPostPrayerAdhkar": "Post-prayer Adhkar",
+  "taskAsrEveningAdhkar": "Evening Adhkar",
+  "taskMaghribFirstCongregation": "First Congregation (Jama'ah)",
+  "taskMaghribPostPrayerAdhkar": "Post-prayer Adhkar",
+  "taskMaghribSunnahAfter": "Sunnah after Maghrib",
+  "taskIshaFirstCongregation": "First Congregation (Jama'ah)",
+  "taskIshaPostPrayerAdhkar": "Post-prayer Adhkar",
+  "taskIshaSunnahAfter": "Sunnah after Isha",
+  "taskQiyamTwoRakahs": "Two Rak'ahs of Qiyam al-Layl",
+  "taskQiyamDailyQuranTwoQuarters": "Daily Quran Portion (Wird) — Two quarters",
+  "taskQiyamWitr": "Witr Prayer",
+  "taskQiyamAdhkarBeforeSleep": "Adhkar before sleep",
+  "taskQuranMemorizeHalfPage": "Memorizing half a page",
+  "taskQuranReadSixQuarters": "Reading six quarters (~1.5 Juz')",
+  "taskQuranFastingMonThu": "Fasting (Monday and Thursday)",
+  "taskMiscRestroomAdhkar": "Restroom Adhkar (Entering/Leaving)",
+  "taskMiscClothingAdhkar": "Clothing Adhkar (Putting on/Taking off)",
+  "taskMiscWuduAdhkar": "Wudu (Ablution) Adhkar",
+  "taskMiscHouseAdhkar": "House Adhkar (Entering/Leaving)",
+  "taskMiscMosqueAdhkar": "Mosque Adhkar (Entering/Leaving)",
+  "taskMiscWalkingMosqueAdhkar": "Walking to the Mosque Adhkar",
+  "taskMiscEatingDrinkingAdhkar": "Eating and Drinking Adhkar",
+  "taskMiscRidingTravelingAdhkar": "Riding/Traveling Adhkar"
+}

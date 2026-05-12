@@ -1,0 +1,68 @@
+{
+  "@@locale": "ar",
+  "appTitle": "محاسبة",
+  "pointsLabel": "نقاط",
+  "pointsRatio": "{completed} / {total} نقطة",
+  "@pointsRatio": {
+    "placeholders": {
+      "completed": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "taskStateChecked": "مُحدد",
+  "taskStateUnchecked": "غير مُحدد",
+  "taskRowSemanticLabel": "{title}، {points} نقطة، {state}",
+  "@taskRowSemanticLabel": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "points": { "type": "int" },
+      "state": { "type": "String" }
+    }
+  },
+  "languageToggleTooltip": "تبديل اللغة (النظام، الإنجليزية، العربية)",
+  "languageAutoSuffix": "تلقائي",
+
+  "categoryFajr": "الفجر",
+  "categoryDhuhr": "الظهر",
+  "categoryAsr": "العصر",
+  "categoryMaghrib": "المغرب",
+  "categoryIsha": "العشاء",
+  "categoryQiyamEvening": "قيام الليل والعبادة المسائية",
+  "categoryQuranFasting": "القرآن والصيام",
+  "categoryMiscAdhkar": "أذكار متنوعة",
+
+  "taskFajrWakingUpAdhkar": "أذكار الاستيقاظ",
+  "taskFajrSunnahBeforeFajr": "سنة قبل الفجر",
+  "taskFajrFirstCongregation": "الجماعة في أول وقت",
+  "taskFajrPostPrayerAdhkar": "أذكار بعد الصلاة",
+  "taskFajrMorningAdhkar": "أذكار الصباح",
+  "taskFajrDuhaPrayer4Rakahs": "صلاة الضحى — 4 ركعات",
+  "taskDhuhrSunnahBefore4Rakahs": "سنة قبل الظهر — 4 ركعات",
+  "taskDhuhrFirstCongregation": "الجماعة في أول وقت",
+  "taskDhuhrPostPrayerAdhkar": "أذكار بعد الصلاة",
+  "taskDhuhrSunnahAfter": "سنة بعد الظهر",
+  "taskAsrFirstCongregation": "الجماعة في أول وقت",
+  "taskAsrPostPrayerAdhkar": "أذكار بعد الصلاة",
+  "taskAsrEveningAdhkar": "أذكار المساء",
+  "taskMaghribFirstCongregation": "الجماعة في أول وقت",
+  "taskMaghribPostPrayerAdhkar": "أذكار بعد الصلاة",
+  "taskMaghribSunnahAfter": "سنة بعد المغرب",
+  "taskIshaFirstCongregation": "الجماعة في أول وقت",
+  "taskIshaPostPrayerAdhkar": "أذكار بعد الصلاة",
+  "taskIshaSunnahAfter": "سنة بعد العشاء",
+  "taskQiyamTwoRakahs": "ركعتان من قيام الليل",
+  "taskQiyamDailyQuranTwoQuarters": "ورد القرآن اليومي — ربعان",
+  "taskQiyamWitr": "صلاة الوتر",
+  "taskQiyamAdhkarBeforeSleep": "أذكار قبل النوم",
+  "taskQuranMemorizeHalfPage": "حفظ نصف صفحة",
+  "taskQuranReadSixQuarters": "قراءة ستة أرباع (حوالي 1.5 جزء)",
+  "taskQuranFastingMonThu": "صيام الاثنين والخميس",
+  "taskMiscRestroomAdhkar": "أذكار دخول وخروج الحمام",
+  "taskMiscClothingAdhkar": "أذكار لبس وخلع الملابس",
+  "taskMiscWuduAdhkar": "أذكار الوضوء",
+  "taskMiscHouseAdhkar": "أذكار دخول وخروج البيت",
+  "taskMiscMosqueAdhkar": "أذكار دخول وخروج المسجد",
+  "taskMiscWalkingMosqueAdhkar": "أذكار المشي إلى المسجد",
+  "taskMiscEatingDrinkingAdhkar": "أذكار الأكل والشرب",
+  "taskMiscRidingTravelingAdhkar": "أذكار الركوب والسفر"
+}

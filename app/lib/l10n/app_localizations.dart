@@ -1,0 +1,434 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_ar.dart';
+import 'app_localizations_en.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('en'),
+  ];
+
+  /// No description provided for @appTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Muhasabah'**
+  String get appTitle;
+
+  /// No description provided for @pointsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'pts'**
+  String get pointsLabel;
+
+  /// No description provided for @pointsRatio.
+  ///
+  /// In en, this message translates to:
+  /// **'{completed} / {total} points'**
+  String pointsRatio(int completed, int total);
+
+  /// No description provided for @taskStateChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'checked'**
+  String get taskStateChecked;
+
+  /// No description provided for @taskStateUnchecked.
+  ///
+  /// In en, this message translates to:
+  /// **'not checked'**
+  String get taskStateUnchecked;
+
+  /// No description provided for @taskRowSemanticLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}, {points} points, {state}'**
+  String taskRowSemanticLabel(String title, int points, String state);
+
+  /// No description provided for @languageToggleTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch language (system, English, Arabic)'**
+  String get languageToggleTooltip;
+
+  /// No description provided for @languageAutoSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'auto'**
+  String get languageAutoSuffix;
+
+  /// No description provided for @categoryFajr.
+  ///
+  /// In en, this message translates to:
+  /// **'Fajr'**
+  String get categoryFajr;
+
+  /// No description provided for @categoryDhuhr.
+  ///
+  /// In en, this message translates to:
+  /// **'Dhuhr'**
+  String get categoryDhuhr;
+
+  /// No description provided for @categoryAsr.
+  ///
+  /// In en, this message translates to:
+  /// **'Asr'**
+  String get categoryAsr;
+
+  /// No description provided for @categoryMaghrib.
+  ///
+  /// In en, this message translates to:
+  /// **'Maghrib'**
+  String get categoryMaghrib;
+
+  /// No description provided for @categoryIsha.
+  ///
+  /// In en, this message translates to:
+  /// **'Isha'**
+  String get categoryIsha;
+
+  /// No description provided for @categoryQiyamEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Qiyam & Evening Devotion'**
+  String get categoryQiyamEvening;
+
+  /// No description provided for @categoryQuranFasting.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran & Fasting'**
+  String get categoryQuranFasting;
+
+  /// No description provided for @categoryMiscAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Miscellaneous Adhkar'**
+  String get categoryMiscAdhkar;
+
+  /// No description provided for @taskFajrWakingUpAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Waking up Adhkar'**
+  String get taskFajrWakingUpAdhkar;
+
+  /// No description provided for @taskFajrSunnahBeforeFajr.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunnah before Fajr'**
+  String get taskFajrSunnahBeforeFajr;
+
+  /// No description provided for @taskFajrFirstCongregation.
+  ///
+  /// In en, this message translates to:
+  /// **'First Congregation (Jama\'ah)'**
+  String get taskFajrFirstCongregation;
+
+  /// No description provided for @taskFajrPostPrayerAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Post-prayer Adhkar'**
+  String get taskFajrPostPrayerAdhkar;
+
+  /// No description provided for @taskFajrMorningAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning Adhkar'**
+  String get taskFajrMorningAdhkar;
+
+  /// No description provided for @taskFajrDuhaPrayer4Rakahs.
+  ///
+  /// In en, this message translates to:
+  /// **'Duha Prayer — 4 Rak\'ahs'**
+  String get taskFajrDuhaPrayer4Rakahs;
+
+  /// No description provided for @taskDhuhrSunnahBefore4Rakahs.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunnah before Dhuhr — 4 Rak\'ahs'**
+  String get taskDhuhrSunnahBefore4Rakahs;
+
+  /// No description provided for @taskDhuhrFirstCongregation.
+  ///
+  /// In en, this message translates to:
+  /// **'First Congregation (Jama\'ah)'**
+  String get taskDhuhrFirstCongregation;
+
+  /// No description provided for @taskDhuhrPostPrayerAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Post-prayer Adhkar'**
+  String get taskDhuhrPostPrayerAdhkar;
+
+  /// No description provided for @taskDhuhrSunnahAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunnah after Dhuhr'**
+  String get taskDhuhrSunnahAfter;
+
+  /// No description provided for @taskAsrFirstCongregation.
+  ///
+  /// In en, this message translates to:
+  /// **'First Congregation (Jama\'ah)'**
+  String get taskAsrFirstCongregation;
+
+  /// No description provided for @taskAsrPostPrayerAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Post-prayer Adhkar'**
+  String get taskAsrPostPrayerAdhkar;
+
+  /// No description provided for @taskAsrEveningAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening Adhkar'**
+  String get taskAsrEveningAdhkar;
+
+  /// No description provided for @taskMaghribFirstCongregation.
+  ///
+  /// In en, this message translates to:
+  /// **'First Congregation (Jama\'ah)'**
+  String get taskMaghribFirstCongregation;
+
+  /// No description provided for @taskMaghribPostPrayerAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Post-prayer Adhkar'**
+  String get taskMaghribPostPrayerAdhkar;
+
+  /// No description provided for @taskMaghribSunnahAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunnah after Maghrib'**
+  String get taskMaghribSunnahAfter;
+
+  /// No description provided for @taskIshaFirstCongregation.
+  ///
+  /// In en, this message translates to:
+  /// **'First Congregation (Jama\'ah)'**
+  String get taskIshaFirstCongregation;
+
+  /// No description provided for @taskIshaPostPrayerAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Post-prayer Adhkar'**
+  String get taskIshaPostPrayerAdhkar;
+
+  /// No description provided for @taskIshaSunnahAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunnah after Isha'**
+  String get taskIshaSunnahAfter;
+
+  /// No description provided for @taskQiyamTwoRakahs.
+  ///
+  /// In en, this message translates to:
+  /// **'Two Rak\'ahs of Qiyam al-Layl'**
+  String get taskQiyamTwoRakahs;
+
+  /// No description provided for @taskQiyamDailyQuranTwoQuarters.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Quran Portion (Wird) — Two quarters'**
+  String get taskQiyamDailyQuranTwoQuarters;
+
+  /// No description provided for @taskQiyamWitr.
+  ///
+  /// In en, this message translates to:
+  /// **'Witr Prayer'**
+  String get taskQiyamWitr;
+
+  /// No description provided for @taskQiyamAdhkarBeforeSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhkar before sleep'**
+  String get taskQiyamAdhkarBeforeSleep;
+
+  /// No description provided for @taskQuranMemorizeHalfPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Memorizing half a page'**
+  String get taskQuranMemorizeHalfPage;
+
+  /// No description provided for @taskQuranReadSixQuarters.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading six quarters (~1.5 Juz\')'**
+  String get taskQuranReadSixQuarters;
+
+  /// No description provided for @taskQuranFastingMonThu.
+  ///
+  /// In en, this message translates to:
+  /// **'Fasting (Monday and Thursday)'**
+  String get taskQuranFastingMonThu;
+
+  /// No description provided for @taskMiscRestroomAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Restroom Adhkar (Entering/Leaving)'**
+  String get taskMiscRestroomAdhkar;
+
+  /// No description provided for @taskMiscClothingAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Clothing Adhkar (Putting on/Taking off)'**
+  String get taskMiscClothingAdhkar;
+
+  /// No description provided for @taskMiscWuduAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Wudu (Ablution) Adhkar'**
+  String get taskMiscWuduAdhkar;
+
+  /// No description provided for @taskMiscHouseAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'House Adhkar (Entering/Leaving)'**
+  String get taskMiscHouseAdhkar;
+
+  /// No description provided for @taskMiscMosqueAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Mosque Adhkar (Entering/Leaving)'**
+  String get taskMiscMosqueAdhkar;
+
+  /// No description provided for @taskMiscWalkingMosqueAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Walking to the Mosque Adhkar'**
+  String get taskMiscWalkingMosqueAdhkar;
+
+  /// No description provided for @taskMiscEatingDrinkingAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Eating and Drinking Adhkar'**
+  String get taskMiscEatingDrinkingAdhkar;
+
+  /// No description provided for @taskMiscRidingTravelingAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Riding/Traveling Adhkar'**
+  String get taskMiscRidingTravelingAdhkar;
+}
+
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) =>
+      <String>['ar', 'en'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'ar':
+      return AppLocalizationsAr();
+    case 'en':
+      return AppLocalizationsEn();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
+}
