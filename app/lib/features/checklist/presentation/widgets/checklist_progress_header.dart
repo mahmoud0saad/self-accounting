@@ -33,7 +33,7 @@ class ChecklistProgressHeader extends ConsumerWidget {
       ),
     );
     if (confirmed == true && context.mounted) {
-      await ref.read(checklistControllerProvider).resetToday();
+      await ref.read(checklistControllerProvider).resetActiveDay();
     }
   }
 
@@ -42,7 +42,11 @@ class ChecklistProgressHeader extends ConsumerWidget {
     final progressAsync = ref.watch(dailyProgressProvider);
     final activeDay = ref.watch(activeDayProvider);
     final today = DayKey.today();
-    final readOnly = activeDay != today;
+    // Phase 3 D11 / V13: read-only pill only on days ≥ 2 in the past.
+    // Today and yesterday are editable (D2 / kMaxEditableDays = 2).
+    final daysAgo = today.daysSince(activeDay);
+    final isEditable = daysAgo >= 0 && daysAgo < 2;
+    final readOnly = !isEditable;
 
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
@@ -165,7 +169,7 @@ class ChecklistProgressHeader extends ConsumerWidget {
       ),
     );
 
-    if (readOnly) {
+    if (!isEditable) {
       return child;
     }
 

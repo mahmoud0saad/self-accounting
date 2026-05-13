@@ -195,4 +195,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loadingChecklist => 'Loading your checklist…';
+
+  @override
+  String historyStripCellA11y(String date, int percent, String fardState) {
+    return '$date, $percent percent complete, $fardState';
+  }
+
+  @override
+  String get historyStripFardComplete => 'fard complete';
+
+  @override
+  String get historyStripFardIncomplete => 'fard not complete';
+
+  @override
+  String streakCurrentLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'days',
+      one: 'day',
+    );
+    return 'Current: $count $_temp0';
+  }
+
+  @override
+  String get streakCurrentEmpty => 'Start a streak today';
+
+  @override
+  String streakLongestLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'days',
+      one: 'day',
+    );
+    return 'Best: $count $_temp0';
+  }
+
+  @override
+  String get streakLongestWindowQualifier => '(last 30 days)';
 }

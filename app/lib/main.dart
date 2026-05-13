@@ -9,6 +9,7 @@ import 'core/i18n/locale_provider.dart';
 import 'core/time/midnight_ticker_provider.dart';
 import 'core/routing/app_router.dart';
 import 'features/checklist/data/settings_repository.dart';
+import 'features/checklist/presentation/providers/calendar_today_provider.dart';
 import 'features/checklist/presentation/providers/checklist_repositories_provider.dart';
 
 Future<void> main() async {
@@ -45,6 +46,10 @@ class _MuhasabahAppRootState extends ConsumerState<MuhasabahAppRoot> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(midnightTickerServiceProvider).start((newToday) {
+        // Phase 3: rebase the wall-clock today anchor *first* so the history
+        // strip + streak window providers see the new today before the active
+        // day shifts (D15).
+        ref.read(calendarTodayProvider.notifier).rebase(newToday);
         ref.read(activeDayProvider.notifier).onCalendarDayAdvanced(newToday);
       });
     });

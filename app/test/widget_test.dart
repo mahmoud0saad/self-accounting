@@ -1,8 +1,11 @@
 import 'package:app/core/i18n/launch_locale.dart';
 import 'package:app/features/checklist/data/checklist_repository.dart';
+import 'package:app/features/checklist/data/history_repository.dart';
 import 'package:app/features/checklist/data/settings_repository.dart';
 import 'package:app/features/checklist/data/static_task_catalog.dart';
+import 'package:app/features/checklist/domain/day_completion.dart';
 import 'package:app/features/checklist/presentation/providers/checklist_repositories_provider.dart';
+import 'package:app/features/checklist/presentation/providers/history_repository_provider.dart';
 import 'package:app/features/checklist/presentation/providers/task_catalog_provider.dart';
 import 'package:app/main.dart';
 import 'package:app/core/time/day_key.dart';
@@ -49,6 +52,41 @@ class _FakeSettingsRepository implements SettingsRepository {
   Future<void> writeLocaleOverride(String? languageCode) async {}
 }
 
+/// Empty 7-day window for the history strip; the test only cares about the
+/// AppBar title rendering, not the strip contents.
+class _FakeHistoryRepository implements HistoryRepository {
+  @override
+  Future<List<DayCompletion>> readRange(DayKey start, DayKey end) async {
+    return _build(start, end);
+  }
+
+  @override
+  Stream<List<DayCompletion>> watchRange(DayKey start, DayKey end) {
+    return Stream<List<DayCompletion>>.value(_build(start, end));
+  }
+
+  List<DayCompletion> _build(DayKey start, DayKey end) {
+    final span = end.daysSince(start);
+    if (span < 0) return const [];
+    final out = <DayCompletion>[];
+    var cursor = start;
+    for (var i = 0; i <= span; i++) {
+      out.add(
+        DayCompletion(
+          day: cursor,
+          completedPoints: 0,
+          totalPoints: 74,
+          completedTasks: 0,
+          totalTasks: 34,
+          fardMet: false,
+        ),
+      );
+      cursor = cursor.nextDay();
+    }
+    return out;
+  }
+}
+
 void main() {
   testWidgets('Checklist screen shows Muhasabah title', (
     WidgetTester tester,
@@ -65,6 +103,7 @@ void main() {
           settingsRepositoryProvider.overrideWithValue(
             _FakeSettingsRepository(),
           ),
+          historyRepositoryProvider.overrideWithValue(_FakeHistoryRepository()),
         ],
         child: const MuhasabahApp(),
       ),

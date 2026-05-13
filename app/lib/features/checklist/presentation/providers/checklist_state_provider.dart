@@ -19,9 +19,14 @@ class ChecklistController {
 
   final Ref _ref;
 
+  bool _isEditable(DayKey day) {
+    final daysAgo = DayKey.today().daysSince(day);
+    return daysAgo >= 0 && daysAgo < kMaxEditableDays;
+  }
+
   Future<void> toggle(String taskId) async {
     final day = _ref.read(activeDayProvider);
-    if (day != DayKey.today()) {
+    if (!_isEditable(day)) {
       return;
     }
     final repo = _ref.read(checklistRepositoryProvider);
@@ -30,8 +35,17 @@ class ChecklistController {
     await repo.setCompletion(day: day, taskId: taskId, completed: next);
   }
 
-  Future<void> resetToday() async {
-    final today = DayKey.today();
-    await _ref.read(checklistRepositoryProvider).resetDay(today);
+  /// Wipes completions for the currently active day. No-op when the active
+  /// day is outside the [kMaxEditableDays] window.
+  Future<void> resetActiveDay() async {
+    final day = _ref.read(activeDayProvider);
+    if (!_isEditable(day)) {
+      return;
+    }
+    await _ref.read(checklistRepositoryProvider).resetDay(day);
   }
+
+  /// Phase 2 callers (e.g., tests) may still reference the old name; route
+  /// through [resetActiveDay] so the guard widens transparently.
+  Future<void> resetToday() => resetActiveDay();
 }

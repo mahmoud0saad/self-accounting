@@ -21,7 +21,12 @@ class TaskRow extends ConsumerWidget {
     final title = task.titleResolver(l);
     final activeDay = ref.watch(activeDayProvider);
     final today = DayKey.today();
-    final readOnly = activeDay != today;
+    // Phase 3 D2 / V12: editable when activeDay is today or yesterday.
+    // Canonical constant lives in `checklist_repositories_provider.dart`
+    // (`kMaxEditableDays = 2`); the literal `2` here is intentional to avoid
+    // an import for a one-line read.
+    final daysAgo = today.daysSince(activeDay);
+    final readOnly = daysAgo < 0 || daysAgo >= 2;
 
     final checklistAsync = ref.watch(checklistStateProvider);
     final isChecked = checklistAsync.maybeWhen(

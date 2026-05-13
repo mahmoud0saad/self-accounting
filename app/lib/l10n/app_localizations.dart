@@ -457,6 +457,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading your checklist…'**
   String get loadingChecklist;
+
+  /// No description provided for @historyStripCellA11y.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, {percent} percent complete, {fardState}'**
+  String historyStripCellA11y(String date, int percent, String fardState);
+
+  /// No description provided for @historyStripFardComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'fard complete'**
+  String get historyStripFardComplete;
+
+  /// No description provided for @historyStripFardIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'fard not complete'**
+  String get historyStripFardIncomplete;
+
+  /// No description provided for @streakCurrentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current: {count} {count, plural, one{day} other{days}}'**
+  String streakCurrentLabel(int count);
+
+  /// No description provided for @streakCurrentEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a streak today'**
+  String get streakCurrentEmpty;
+
+  /// No description provided for @streakLongestLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Best: {count} {count, plural, one{day} other{days}}'**
+  String streakLongestLabel(int count);
+
+  /// No description provided for @streakLongestWindowQualifier.
+  ///
+  /// In en, this message translates to:
+  /// **'(last 30 days)'**
+  String get streakLongestWindowQualifier;
 }
 
 class _AppLocalizationsDelegate
