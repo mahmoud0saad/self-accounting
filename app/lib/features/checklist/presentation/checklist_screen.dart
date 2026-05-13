@@ -10,6 +10,8 @@ import 'providers/task_catalog_provider.dart';
 import 'widgets/category_section.dart';
 import 'widgets/checklist_progress_header.dart';
 import 'widgets/day_picker_bar.dart';
+import 'widgets/history_strip.dart';
+import 'widgets/streak_pills.dart';
 
 LinkedHashMap<TaskCategory, List<Task>> _groupByCategoryInOrder(
   List<Task> tasks,
@@ -51,7 +53,9 @@ class ChecklistScreen extends ConsumerWidget {
           return CustomScrollView(
             slivers: [
               const SliverToBoxAdapter(child: DayPickerBar()),
+              const SliverToBoxAdapter(child: HistoryStrip()),
               const SliverToBoxAdapter(child: ChecklistProgressHeader()),
+              const SliverToBoxAdapter(child: StreakPills()),
               for (final entry in grouped.entries)
                 SliverToBoxAdapter(
                   child: CategorySection(

@@ -75,5 +75,30 @@
   "resetTodayDialogBody": "This will uncheck every task for today. Past days are not affected.",
   "resetTodayDialogCancel": "Cancel",
   "resetTodayDialogConfirm": "Reset",
-  "loadingChecklist": "Loading your checklist…"
+  "loadingChecklist": "Loading your checklist…",
+
+  "historyStripCellA11y": "{date}, {percent} percent complete, {fardState}",
+  "@historyStripCellA11y": {
+    "placeholders": {
+      "date": { "type": "String" },
+      "percent": { "type": "int" },
+      "fardState": { "type": "String" }
+    }
+  },
+  "historyStripFardComplete": "fard complete",
+  "historyStripFardIncomplete": "fard not complete",
+  "streakCurrentLabel": "Current: {count} {count, plural, one{day} other{days}}",
+  "@streakCurrentLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "streakCurrentEmpty": "Start a streak today",
+  "streakLongestLabel": "Best: {count} {count, plural, one{day} other{days}}",
+  "@streakLongestLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "streakLongestWindowQualifier": "(last 30 days)"
 }

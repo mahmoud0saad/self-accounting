@@ -20,6 +20,12 @@ final settingsRepositoryProvider = Provider<SettingsRepository>((ref) {
 
 const kMaxHistoryDays = 30;
 
+/// How far back from today task completions remain editable (Phase 3 D2).
+/// `0` = today only, `1` = today only too (semantic: editable when
+/// `today.daysSince(activeDay) < kMaxEditableDays`). Phase 3 sets this to 2
+/// → today + yesterday editable; older days remain read-only.
+const kMaxEditableDays = 2;
+
 class ActiveDayNotifier extends Notifier<DayKey> {
   @override
   DayKey build() => DayKey.today();

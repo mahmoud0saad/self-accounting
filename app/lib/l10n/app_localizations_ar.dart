@@ -193,4 +193,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loadingChecklist => 'جارٍ تحميل قائمتك…';
+
+  @override
+  String historyStripCellA11y(String date, int percent, String fardState) {
+    return 'TODO: $date، $percent بالمئة مكتمل، $fardState';
+  }
+
+  @override
+  String get historyStripFardComplete => 'TODO: الفرائض مكتملة';
+
+  @override
+  String get historyStripFardIncomplete => 'TODO: الفرائض غير مكتملة';
+
+  @override
+  String streakCurrentLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'أيام',
+      one: 'يوم',
+    );
+    return 'TODO: الحالي: $count $_temp0';
+  }
+
+  @override
+  String get streakCurrentEmpty => 'TODO: ابدأ سلسلتك اليوم';
+
+  @override
+  String streakLongestLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'أيام',
+      one: 'يوم',
+    );
+    return 'TODO: الأطول: $count $_temp0';
+  }
+
+  @override
+  String get streakLongestWindowQualifier => 'TODO: (آخر 30 يومًا)';
 }

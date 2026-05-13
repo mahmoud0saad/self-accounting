@@ -67,6 +67,7 @@ class AppDatabase extends _$AppDatabase {
       final rows = await (select(tasks)..where((r) => r.id.isIn(ids))).get();
       final sum = rows.fold<int>(0, (s, r) => s + r.points);
       assert(sum == 74, 'static catalog sum drifted from 74');
+      assertFardAnchorIntegrity();
     }
   }
 }

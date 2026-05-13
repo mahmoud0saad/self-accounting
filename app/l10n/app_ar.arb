@@ -75,5 +75,30 @@
   "resetTodayDialogBody": "سيتم إلغاء تحديد كل المهام لهذا اليوم. الأيام السابقة لن تتأثر.",
   "resetTodayDialogCancel": "إلغاء",
   "resetTodayDialogConfirm": "إعادة تعيين",
-  "loadingChecklist": "جارٍ تحميل قائمتك…"
+  "loadingChecklist": "جارٍ تحميل قائمتك…",
+
+  "historyStripCellA11y": "TODO: {date}، {percent} بالمئة مكتمل، {fardState}",
+  "@historyStripCellA11y": {
+    "placeholders": {
+      "date": { "type": "String" },
+      "percent": { "type": "int" },
+      "fardState": { "type": "String" }
+    }
+  },
+  "historyStripFardComplete": "TODO: الفرائض مكتملة",
+  "historyStripFardIncomplete": "TODO: الفرائض غير مكتملة",
+  "streakCurrentLabel": "TODO: الحالي: {count} {count, plural, one{يوم} other{أيام}}",
+  "@streakCurrentLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "streakCurrentEmpty": "TODO: ابدأ سلسلتك اليوم",
+  "streakLongestLabel": "TODO: الأطول: {count} {count, plural, one{يوم} other{أيام}}",
+  "@streakLongestLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "streakLongestWindowQualifier": "TODO: (آخر 30 يومًا)"
 }

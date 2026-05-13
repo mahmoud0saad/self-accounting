@@ -1,3 +1,4 @@
+import '../domain/fard_anchor_set.dart';
 import '../domain/task.dart';
 
 /// Hard-coded catalog from `specs/2026-05-12-static-daily-checklist/requirements.md` §3.1.
@@ -208,3 +209,30 @@ final List<Task> staticTaskCatalog = <Task>[
     titleResolver: (l) => l.taskMiscRidingTravelingAdhkar,
   ),
 ];
+
+/// Debug-only invariant: every id in [fardAnchorTaskIds] exists in the
+/// catalog, and the anchor set's catalog-points sum equals
+/// [fardAnchorPointsTotal]. Called from `AppDatabase.seedAndReconcile`.
+void assertFardAnchorIntegrity() {
+  assert(() {
+    final ids = staticTaskCatalog.map((t) => t.id).toSet();
+    for (final fardId in fardAnchorTaskIds) {
+      if (!ids.contains(fardId)) {
+        throw StateError(
+          'fardAnchorTaskIds contains "$fardId" but the static catalog '
+          'has no task with that id.',
+        );
+      }
+    }
+    final pts = staticTaskCatalog
+        .where((t) => fardAnchorTaskIds.contains(t.id))
+        .fold<int>(0, (s, t) => s + t.points);
+    if (pts != fardAnchorPointsTotal) {
+      throw StateError(
+        'Fard anchor points drifted: got $pts, expected '
+        '$fardAnchorPointsTotal.',
+      );
+    }
+    return true;
+  }());
+}
