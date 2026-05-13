@@ -201,6 +201,76 @@ class AppLocalizationsAr extends AppLocalizations {
   String get navDashboardLabel => 'TODO: لوحة المعلومات';
 
   @override
+  String get navSettingsLabel => 'TODO: الإعدادات';
+
+  @override
+  String get settingsTitle => 'TODO: الإعدادات';
+
+  @override
+  String get settingsNotificationsTitle => 'TODO: التنبيهات';
+
+  @override
+  String get settingsNotificationsGlobalToggleLabel =>
+      'TODO: تفعيل كل التنبيهات';
+
+  @override
+  String settingsCategoryScheduleTimeLabel(String category, String time) {
+    return 'TODO: $category · $time';
+  }
+
+  @override
+  String get settingsEodToggleLabel => 'TODO: ملخص نهاية اليوم';
+
+  @override
+  String settingsEodTimeLabel(String time) {
+    return 'TODO: عند $time';
+  }
+
+  @override
+  String get settingsEodThresholdNote =>
+      'TODO: يظهر عندما يكون إنجاز اليوم أقل من 50٪.';
+
+  @override
+  String get settingsWebNotificationNote =>
+      'TODO: التنبيهات تحتاج أن تبقى نافذة التطبيق مفتوحة.';
+
+  @override
+  String get settingsAboutTitle => 'TODO: حول التطبيق';
+
+  @override
+  String settingsVersionLabel(String version) {
+    return 'TODO: الإصدار $version';
+  }
+
+  @override
+  String get onboardingNotifTitle => 'TODO: حافظ على الاستمرارية';
+
+  @override
+  String get onboardingNotifBody =>
+      'TODO: اسمح بتذكيرات لطيفة كي ينبهك التطبيق في أوقات الصلاة التي تختارها. أنت تتحكم في التذكيرات التي تصلك.';
+
+  @override
+  String get onboardingNotifEnableButton => 'TODO: تفعيل التنبيهات';
+
+  @override
+  String get onboardingNotifSkipButton => 'TODO: ليس الآن';
+
+  @override
+  String notifCategoryBody(String taskSummary) {
+    return 'TODO: $taskSummary';
+  }
+
+  @override
+  String notifEodBody(int percent) {
+    return 'TODO: أنجزت $percent% اليوم. دقائق من الذكر قد تغير اليوم.';
+  }
+
+  @override
+  String settingsTaskNotifToggleA11y(String taskName) {
+    return 'TODO: تفعيل تنبيه $taskName';
+  }
+
+  @override
   String get dashboardTitle => 'TODO: لوحة المعلومات';
 
   @override

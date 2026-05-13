@@ -2,8 +2,8 @@ import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// Top-level Material 3 [NavigationBar] shell that hosts the two app branches
-/// (Checklist, Dashboard) inside a [StatefulShellRoute.indexedStack].
+/// Top-level Material 3 [NavigationBar] shell that hosts the app branches
+/// inside a [StatefulShellRoute.indexedStack].
 ///
 /// Each branch keeps its widget tree alive across switches, so providers and
 /// scroll positions survive tab changes (D1).
@@ -31,6 +31,11 @@ class RootShell extends StatelessWidget {
             icon: const Icon(Icons.insights),
             selectedIcon: const Icon(Icons.insights_rounded),
             label: l.navDashboardLabel,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.settings),
+            selectedIcon: const Icon(Icons.settings_rounded),
+            label: l.navSettingsLabel,
           ),
         ],
       ),

@@ -55,8 +55,7 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
     return keys;
   }
 
-  GlobalKey _keyFor(DayKey day) =>
-      _keys.putIfAbsent(day, GlobalKey.new);
+  GlobalKey _keyFor(DayKey day) => _keys.putIfAbsent(day, GlobalKey.new);
 
   void _scrollToActive(DayKey active, List<DayKey> dayKeys) {
     if (!dayKeys.contains(active)) {
@@ -135,8 +134,7 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
               key: _keyFor(day),
               color: Colors.transparent,
               child: InkWell(
-                onTap: () =>
-                    ref.read(activeDayProvider.notifier).goToDay(day),
+                onTap: () => ref.read(activeDayProvider.notifier).goToDay(day),
                 borderRadius: BorderRadius.circular(20),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
@@ -164,9 +162,7 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
                         overflow: TextOverflow.ellipsis,
                         style: textTheme.labelLarge?.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: selected
-                              ? scheme.onPrimary
-                              : scheme.onSurface,
+                          color: selected ? scheme.onPrimary : scheme.onSurface,
                         ),
                       ),
                       if (l2 != null) ...[

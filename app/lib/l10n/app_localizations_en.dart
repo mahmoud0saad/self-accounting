@@ -203,6 +203,76 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navDashboardLabel => 'Dashboard';
 
   @override
+  String get navSettingsLabel => 'Settings';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsNotificationsTitle => 'Notifications';
+
+  @override
+  String get settingsNotificationsGlobalToggleLabel =>
+      'Enable all notifications';
+
+  @override
+  String settingsCategoryScheduleTimeLabel(String category, String time) {
+    return '$category · $time';
+  }
+
+  @override
+  String get settingsEodToggleLabel => 'End-of-day summary';
+
+  @override
+  String settingsEodTimeLabel(String time) {
+    return 'At $time';
+  }
+
+  @override
+  String get settingsEodThresholdNote =>
+      'Fires when daily completion is below 50 %.';
+
+  @override
+  String get settingsWebNotificationNote =>
+      'Notifications require the app tab to be open.';
+
+  @override
+  String get settingsAboutTitle => 'About';
+
+  @override
+  String settingsVersionLabel(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get onboardingNotifTitle => 'Stay consistent';
+
+  @override
+  String get onboardingNotifBody =>
+      'Allow gentle reminders so the app can nudge you at your chosen prayer times. You control which reminders you receive.';
+
+  @override
+  String get onboardingNotifEnableButton => 'Enable notifications';
+
+  @override
+  String get onboardingNotifSkipButton => 'Not now';
+
+  @override
+  String notifCategoryBody(String taskSummary) {
+    return '$taskSummary';
+  }
+
+  @override
+  String notifEodBody(int percent) {
+    return 'You\'re at $percent% today. A few minutes of Adhkar can change the day.';
+  }
+
+  @override
+  String settingsTaskNotifToggleA11y(String taskName) {
+    return 'Enable notification for $taskName';
+  }
+
+  @override
   String get dashboardTitle => 'Dashboard';
 
   @override
