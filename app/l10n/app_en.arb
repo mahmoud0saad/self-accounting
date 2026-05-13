@@ -77,6 +77,60 @@
   "resetTodayDialogConfirm": "Reset",
   "loadingChecklist": "Loading your checklist…",
 
+  "navChecklistLabel": "Checklist",
+  "navDashboardLabel": "Dashboard",
+
+  "dashboardTitle": "Dashboard",
+  "dashboardRangeWeek": "Week",
+  "dashboardRangeMonth": "Month",
+  "dashboardRange90": "90 days",
+  "dashboardWeeklyBarsTitle": "Daily completion",
+  "dashboardHeatmapTitle": "Activity map",
+  "dashboardCategoriesTitle": "By category",
+  "dashboardEmptyTitle": "No data yet",
+  "dashboardEmptyBody": "Complete a task on the Checklist to see your insights bloom here.",
+  "dashboardEmptyCtaLabel": "Open Checklist",
+  "dashboardErrorLabel": "Something went wrong loading this view.",
+  "dashboardRetryLabel": "Retry",
+
+  "categoryChartTypeBarsTooltip": "Bars",
+  "categoryChartTypeRadarTooltip": "Radar",
+  "categoryChartTypeStackedTooltip": "Stacked",
+  "categoryChartTypeDonutTooltip": "Donut",
+
+  "categoryNameFajr": "Fajr",
+  "categoryNameDhuhr": "Dhuhr",
+  "categoryNameAsr": "Asr",
+  "categoryNameMaghrib": "Maghrib",
+  "categoryNameIsha": "Isha",
+  "categoryNameQiyamEvening": "Qiyam & Evening",
+  "categoryNameQuranFasting": "Quran & Fasting",
+  "categoryNameMiscAdhkar": "Adhkar",
+
+  "dashboardBarA11y": "{date}, {percent} percent, {fardState}",
+  "@dashboardBarA11y": {
+    "placeholders": {
+      "date": { "type": "String" },
+      "percent": { "type": "int" },
+      "fardState": { "type": "String" }
+    }
+  },
+  "dashboardHeatmapCellA11y": "{date}, {percent} percent complete, {fardState}",
+  "@dashboardHeatmapCellA11y": {
+    "placeholders": {
+      "date": { "type": "String" },
+      "percent": { "type": "int" },
+      "fardState": { "type": "String" }
+    }
+  },
+  "dashboardCategoryA11y": "{category}: {percent} percent complete",
+  "@dashboardCategoryA11y": {
+    "placeholders": {
+      "category": { "type": "String" },
+      "percent": { "type": "int" }
+    }
+  },
+
   "historyStripCellA11y": "{date}, {percent} percent complete, {fardState}",
   "@historyStripCellA11y": {
     "placeholders": {
@@ -100,5 +154,10 @@
       "count": { "type": "int" }
     }
   },
-  "streakLongestWindowQualifier": "(last 30 days)"
+  "streakLongestWindowQualifier": "(last {days} days)",
+  "@streakLongestWindowQualifier": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  }
 }

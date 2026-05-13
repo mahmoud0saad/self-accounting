@@ -77,6 +77,60 @@
   "resetTodayDialogConfirm": "إعادة تعيين",
   "loadingChecklist": "جارٍ تحميل قائمتك…",
 
+  "navChecklistLabel": "TODO: قائمة المهام",
+  "navDashboardLabel": "TODO: لوحة المعلومات",
+
+  "dashboardTitle": "TODO: لوحة المعلومات",
+  "dashboardRangeWeek": "TODO: أسبوع",
+  "dashboardRangeMonth": "TODO: شهر",
+  "dashboardRange90": "TODO: 90 يومًا",
+  "dashboardWeeklyBarsTitle": "TODO: الإنجاز اليومي",
+  "dashboardHeatmapTitle": "TODO: خريطة النشاط",
+  "dashboardCategoriesTitle": "TODO: حسب الفئة",
+  "dashboardEmptyTitle": "TODO: لا توجد بيانات بعد",
+  "dashboardEmptyBody": "TODO: أكمل مهمة في قائمة المهام لتبدأ في عرض الإحصائيات هنا.",
+  "dashboardEmptyCtaLabel": "TODO: فتح قائمة المهام",
+  "dashboardErrorLabel": "TODO: حدث خطأ أثناء تحميل هذا العرض.",
+  "dashboardRetryLabel": "TODO: إعادة المحاولة",
+
+  "categoryChartTypeBarsTooltip": "TODO: أعمدة",
+  "categoryChartTypeRadarTooltip": "TODO: رادار",
+  "categoryChartTypeStackedTooltip": "TODO: مكدسة",
+  "categoryChartTypeDonutTooltip": "TODO: حلقة",
+
+  "categoryNameFajr": "TODO: الفجر",
+  "categoryNameDhuhr": "TODO: الظهر",
+  "categoryNameAsr": "TODO: العصر",
+  "categoryNameMaghrib": "TODO: المغرب",
+  "categoryNameIsha": "TODO: العشاء",
+  "categoryNameQiyamEvening": "TODO: قيام الليل والمساء",
+  "categoryNameQuranFasting": "TODO: القرآن والصيام",
+  "categoryNameMiscAdhkar": "TODO: الأذكار",
+
+  "dashboardBarA11y": "TODO: {date}، {percent} بالمئة، {fardState}",
+  "@dashboardBarA11y": {
+    "placeholders": {
+      "date": { "type": "String" },
+      "percent": { "type": "int" },
+      "fardState": { "type": "String" }
+    }
+  },
+  "dashboardHeatmapCellA11y": "TODO: {date}، {percent} بالمئة مكتمل، {fardState}",
+  "@dashboardHeatmapCellA11y": {
+    "placeholders": {
+      "date": { "type": "String" },
+      "percent": { "type": "int" },
+      "fardState": { "type": "String" }
+    }
+  },
+  "dashboardCategoryA11y": "TODO: {category}: {percent} بالمئة مكتمل",
+  "@dashboardCategoryA11y": {
+    "placeholders": {
+      "category": { "type": "String" },
+      "percent": { "type": "int" }
+    }
+  },
+
   "historyStripCellA11y": "TODO: {date}، {percent} بالمئة مكتمل، {fardState}",
   "@historyStripCellA11y": {
     "placeholders": {
@@ -100,5 +154,10 @@
       "count": { "type": "int" }
     }
   },
-  "streakLongestWindowQualifier": "TODO: (آخر 30 يومًا)"
+  "streakLongestWindowQualifier": "TODO: (آخر {days} يومًا)",
+  "@streakLongestWindowQualifier": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  }
 }

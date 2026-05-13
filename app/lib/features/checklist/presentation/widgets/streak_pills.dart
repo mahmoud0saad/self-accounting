@@ -46,7 +46,9 @@ class _PillRow extends StatelessWidget {
     final hitCap =
         streak.longest >= kMaxHistoryDays &&
         streak.windowDays >= kMaxHistoryDays;
-    return hitCap ? '$base ${l.streakLongestWindowQualifier}' : base;
+    return hitCap
+        ? '$base ${l.streakLongestWindowQualifier(kMaxHistoryDays)}'
+        : base;
   }
 
   @override

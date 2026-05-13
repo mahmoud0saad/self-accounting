@@ -197,6 +197,100 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadingChecklist => 'Loading your checklist…';
 
   @override
+  String get navChecklistLabel => 'Checklist';
+
+  @override
+  String get navDashboardLabel => 'Dashboard';
+
+  @override
+  String get dashboardTitle => 'Dashboard';
+
+  @override
+  String get dashboardRangeWeek => 'Week';
+
+  @override
+  String get dashboardRangeMonth => 'Month';
+
+  @override
+  String get dashboardRange90 => '90 days';
+
+  @override
+  String get dashboardWeeklyBarsTitle => 'Daily completion';
+
+  @override
+  String get dashboardHeatmapTitle => 'Activity map';
+
+  @override
+  String get dashboardCategoriesTitle => 'By category';
+
+  @override
+  String get dashboardEmptyTitle => 'No data yet';
+
+  @override
+  String get dashboardEmptyBody =>
+      'Complete a task on the Checklist to see your insights bloom here.';
+
+  @override
+  String get dashboardEmptyCtaLabel => 'Open Checklist';
+
+  @override
+  String get dashboardErrorLabel => 'Something went wrong loading this view.';
+
+  @override
+  String get dashboardRetryLabel => 'Retry';
+
+  @override
+  String get categoryChartTypeBarsTooltip => 'Bars';
+
+  @override
+  String get categoryChartTypeRadarTooltip => 'Radar';
+
+  @override
+  String get categoryChartTypeStackedTooltip => 'Stacked';
+
+  @override
+  String get categoryChartTypeDonutTooltip => 'Donut';
+
+  @override
+  String get categoryNameFajr => 'Fajr';
+
+  @override
+  String get categoryNameDhuhr => 'Dhuhr';
+
+  @override
+  String get categoryNameAsr => 'Asr';
+
+  @override
+  String get categoryNameMaghrib => 'Maghrib';
+
+  @override
+  String get categoryNameIsha => 'Isha';
+
+  @override
+  String get categoryNameQiyamEvening => 'Qiyam & Evening';
+
+  @override
+  String get categoryNameQuranFasting => 'Quran & Fasting';
+
+  @override
+  String get categoryNameMiscAdhkar => 'Adhkar';
+
+  @override
+  String dashboardBarA11y(String date, int percent, String fardState) {
+    return '$date, $percent percent, $fardState';
+  }
+
+  @override
+  String dashboardHeatmapCellA11y(String date, int percent, String fardState) {
+    return '$date, $percent percent complete, $fardState';
+  }
+
+  @override
+  String dashboardCategoryA11y(String category, int percent) {
+    return '$category: $percent percent complete';
+  }
+
+  @override
   String historyStripCellA11y(String date, int percent, String fardState) {
     return '$date, $percent percent complete, $fardState';
   }
@@ -233,5 +327,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get streakLongestWindowQualifier => '(last 30 days)';
+  String streakLongestWindowQualifier(int days) {
+    return '(last $days days)';
+  }
 }
