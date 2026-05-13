@@ -397,6 +397,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Riding/Traveling Adhkar'**
   String get taskMiscRidingTravelingAdhkar;
+
+  /// No description provided for @dayLabelToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dayLabelToday;
+
+  /// No description provided for @dayLabelYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get dayLabelYesterday;
+
+  /// No description provided for @dayPickerPreviousLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous day'**
+  String get dayPickerPreviousLabel;
+
+  /// No description provided for @dayPickerNextLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Next day'**
+  String get dayPickerNextLabel;
+
+  /// No description provided for @readOnlyBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Read-only'**
+  String get readOnlyBadge;
+
+  /// No description provided for @resetTodayDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset today\'s progress?'**
+  String get resetTodayDialogTitle;
+
+  /// No description provided for @resetTodayDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This will uncheck every task for today. Past days are not affected.'**
+  String get resetTodayDialogBody;
+
+  /// No description provided for @resetTodayDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get resetTodayDialogCancel;
+
+  /// No description provided for @resetTodayDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get resetTodayDialogConfirm;
+
+  /// No description provided for @loadingChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading your checklist…'**
+  String get loadingChecklist;
 }
 
 class _AppLocalizationsDelegate

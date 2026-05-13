@@ -64,5 +64,16 @@
   "taskMiscMosqueAdhkar": "Mosque Adhkar (Entering/Leaving)",
   "taskMiscWalkingMosqueAdhkar": "Walking to the Mosque Adhkar",
   "taskMiscEatingDrinkingAdhkar": "Eating and Drinking Adhkar",
-  "taskMiscRidingTravelingAdhkar": "Riding/Traveling Adhkar"
+  "taskMiscRidingTravelingAdhkar": "Riding/Traveling Adhkar",
+
+  "dayLabelToday": "Today",
+  "dayLabelYesterday": "Yesterday",
+  "dayPickerPreviousLabel": "Previous day",
+  "dayPickerNextLabel": "Next day",
+  "readOnlyBadge": "Read-only",
+  "resetTodayDialogTitle": "Reset today's progress?",
+  "resetTodayDialogBody": "This will uncheck every task for today. Past days are not affected.",
+  "resetTodayDialogCancel": "Cancel",
+  "resetTodayDialogConfirm": "Reset",
+  "loadingChecklist": "Loading your checklist…"
 }

@@ -64,5 +64,16 @@
   "taskMiscMosqueAdhkar": "أذكار دخول وخروج المسجد",
   "taskMiscWalkingMosqueAdhkar": "أذكار المشي إلى المسجد",
   "taskMiscEatingDrinkingAdhkar": "أذكار الأكل والشرب",
-  "taskMiscRidingTravelingAdhkar": "أذكار الركوب والسفر"
+  "taskMiscRidingTravelingAdhkar": "أذكار الركوب والسفر",
+
+  "dayLabelToday": "اليوم",
+  "dayLabelYesterday": "أمس",
+  "dayPickerPreviousLabel": "اليوم السابق",
+  "dayPickerNextLabel": "اليوم التالي",
+  "readOnlyBadge": "للقراءة فقط",
+  "resetTodayDialogTitle": "إعادة تعيين تقدم اليوم؟",
+  "resetTodayDialogBody": "سيتم إلغاء تحديد كل المهام لهذا اليوم. الأيام السابقة لن تتأثر.",
+  "resetTodayDialogCancel": "إلغاء",
+  "resetTodayDialogConfirm": "إعادة تعيين",
+  "loadingChecklist": "جارٍ تحميل قائمتك…"
 }

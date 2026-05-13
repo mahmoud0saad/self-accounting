@@ -164,4 +164,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get taskMiscRidingTravelingAdhkar => 'Riding/Traveling Adhkar';
+
+  @override
+  String get dayLabelToday => 'Today';
+
+  @override
+  String get dayLabelYesterday => 'Yesterday';
+
+  @override
+  String get dayPickerPreviousLabel => 'Previous day';
+
+  @override
+  String get dayPickerNextLabel => 'Next day';
+
+  @override
+  String get readOnlyBadge => 'Read-only';
+
+  @override
+  String get resetTodayDialogTitle => 'Reset today\'s progress?';
+
+  @override
+  String get resetTodayDialogBody =>
+      'This will uncheck every task for today. Past days are not affected.';
+
+  @override
+  String get resetTodayDialogCancel => 'Cancel';
+
+  @override
+  String get resetTodayDialogConfirm => 'Reset';
+
+  @override
+  String get loadingChecklist => 'Loading your checklist…';
 }
