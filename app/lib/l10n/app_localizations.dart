@@ -458,6 +458,180 @@ abstract class AppLocalizations {
   /// **'Loading your checklist…'**
   String get loadingChecklist;
 
+  /// No description provided for @navChecklistLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist'**
+  String get navChecklistLabel;
+
+  /// No description provided for @navDashboardLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get navDashboardLabel;
+
+  /// No description provided for @dashboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get dashboardTitle;
+
+  /// No description provided for @dashboardRangeWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Week'**
+  String get dashboardRangeWeek;
+
+  /// No description provided for @dashboardRangeMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get dashboardRangeMonth;
+
+  /// No description provided for @dashboardRange90.
+  ///
+  /// In en, this message translates to:
+  /// **'90 days'**
+  String get dashboardRange90;
+
+  /// No description provided for @dashboardWeeklyBarsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily completion'**
+  String get dashboardWeeklyBarsTitle;
+
+  /// No description provided for @dashboardHeatmapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity map'**
+  String get dashboardHeatmapTitle;
+
+  /// No description provided for @dashboardCategoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'By category'**
+  String get dashboardCategoriesTitle;
+
+  /// No description provided for @dashboardEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No data yet'**
+  String get dashboardEmptyTitle;
+
+  /// No description provided for @dashboardEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete a task on the Checklist to see your insights bloom here.'**
+  String get dashboardEmptyBody;
+
+  /// No description provided for @dashboardEmptyCtaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Checklist'**
+  String get dashboardEmptyCtaLabel;
+
+  /// No description provided for @dashboardErrorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong loading this view.'**
+  String get dashboardErrorLabel;
+
+  /// No description provided for @dashboardRetryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get dashboardRetryLabel;
+
+  /// No description provided for @categoryChartTypeBarsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Bars'**
+  String get categoryChartTypeBarsTooltip;
+
+  /// No description provided for @categoryChartTypeRadarTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Radar'**
+  String get categoryChartTypeRadarTooltip;
+
+  /// No description provided for @categoryChartTypeStackedTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Stacked'**
+  String get categoryChartTypeStackedTooltip;
+
+  /// No description provided for @categoryChartTypeDonutTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Donut'**
+  String get categoryChartTypeDonutTooltip;
+
+  /// No description provided for @categoryNameFajr.
+  ///
+  /// In en, this message translates to:
+  /// **'Fajr'**
+  String get categoryNameFajr;
+
+  /// No description provided for @categoryNameDhuhr.
+  ///
+  /// In en, this message translates to:
+  /// **'Dhuhr'**
+  String get categoryNameDhuhr;
+
+  /// No description provided for @categoryNameAsr.
+  ///
+  /// In en, this message translates to:
+  /// **'Asr'**
+  String get categoryNameAsr;
+
+  /// No description provided for @categoryNameMaghrib.
+  ///
+  /// In en, this message translates to:
+  /// **'Maghrib'**
+  String get categoryNameMaghrib;
+
+  /// No description provided for @categoryNameIsha.
+  ///
+  /// In en, this message translates to:
+  /// **'Isha'**
+  String get categoryNameIsha;
+
+  /// No description provided for @categoryNameQiyamEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Qiyam & Evening'**
+  String get categoryNameQiyamEvening;
+
+  /// No description provided for @categoryNameQuranFasting.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran & Fasting'**
+  String get categoryNameQuranFasting;
+
+  /// No description provided for @categoryNameMiscAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhkar'**
+  String get categoryNameMiscAdhkar;
+
+  /// No description provided for @dashboardBarA11y.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, {percent} percent, {fardState}'**
+  String dashboardBarA11y(String date, int percent, String fardState);
+
+  /// No description provided for @dashboardHeatmapCellA11y.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, {percent} percent complete, {fardState}'**
+  String dashboardHeatmapCellA11y(String date, int percent, String fardState);
+
+  /// No description provided for @dashboardCategoryA11y.
+  ///
+  /// In en, this message translates to:
+  /// **'{category}: {percent} percent complete'**
+  String dashboardCategoryA11y(String category, int percent);
+
   /// No description provided for @historyStripCellA11y.
   ///
   /// In en, this message translates to:
@@ -497,8 +671,8 @@ abstract class AppLocalizations {
   /// No description provided for @streakLongestWindowQualifier.
   ///
   /// In en, this message translates to:
-  /// **'(last 30 days)'**
-  String get streakLongestWindowQualifier;
+  /// **'(last {days} days)'**
+  String streakLongestWindowQualifier(int days);
 }
 
 class _AppLocalizationsDelegate

@@ -195,6 +195,100 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loadingChecklist => 'جارٍ تحميل قائمتك…';
 
   @override
+  String get navChecklistLabel => 'TODO: قائمة المهام';
+
+  @override
+  String get navDashboardLabel => 'TODO: لوحة المعلومات';
+
+  @override
+  String get dashboardTitle => 'TODO: لوحة المعلومات';
+
+  @override
+  String get dashboardRangeWeek => 'TODO: أسبوع';
+
+  @override
+  String get dashboardRangeMonth => 'TODO: شهر';
+
+  @override
+  String get dashboardRange90 => 'TODO: 90 يومًا';
+
+  @override
+  String get dashboardWeeklyBarsTitle => 'TODO: الإنجاز اليومي';
+
+  @override
+  String get dashboardHeatmapTitle => 'TODO: خريطة النشاط';
+
+  @override
+  String get dashboardCategoriesTitle => 'TODO: حسب الفئة';
+
+  @override
+  String get dashboardEmptyTitle => 'TODO: لا توجد بيانات بعد';
+
+  @override
+  String get dashboardEmptyBody =>
+      'TODO: أكمل مهمة في قائمة المهام لتبدأ في عرض الإحصائيات هنا.';
+
+  @override
+  String get dashboardEmptyCtaLabel => 'TODO: فتح قائمة المهام';
+
+  @override
+  String get dashboardErrorLabel => 'TODO: حدث خطأ أثناء تحميل هذا العرض.';
+
+  @override
+  String get dashboardRetryLabel => 'TODO: إعادة المحاولة';
+
+  @override
+  String get categoryChartTypeBarsTooltip => 'TODO: أعمدة';
+
+  @override
+  String get categoryChartTypeRadarTooltip => 'TODO: رادار';
+
+  @override
+  String get categoryChartTypeStackedTooltip => 'TODO: مكدسة';
+
+  @override
+  String get categoryChartTypeDonutTooltip => 'TODO: حلقة';
+
+  @override
+  String get categoryNameFajr => 'TODO: الفجر';
+
+  @override
+  String get categoryNameDhuhr => 'TODO: الظهر';
+
+  @override
+  String get categoryNameAsr => 'TODO: العصر';
+
+  @override
+  String get categoryNameMaghrib => 'TODO: المغرب';
+
+  @override
+  String get categoryNameIsha => 'TODO: العشاء';
+
+  @override
+  String get categoryNameQiyamEvening => 'TODO: قيام الليل والمساء';
+
+  @override
+  String get categoryNameQuranFasting => 'TODO: القرآن والصيام';
+
+  @override
+  String get categoryNameMiscAdhkar => 'TODO: الأذكار';
+
+  @override
+  String dashboardBarA11y(String date, int percent, String fardState) {
+    return 'TODO: $date، $percent بالمئة، $fardState';
+  }
+
+  @override
+  String dashboardHeatmapCellA11y(String date, int percent, String fardState) {
+    return 'TODO: $date، $percent بالمئة مكتمل، $fardState';
+  }
+
+  @override
+  String dashboardCategoryA11y(String category, int percent) {
+    return 'TODO: $category: $percent بالمئة مكتمل';
+  }
+
+  @override
   String historyStripCellA11y(String date, int percent, String fardState) {
     return 'TODO: $date، $percent بالمئة مكتمل، $fardState';
   }
@@ -231,5 +325,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get streakLongestWindowQualifier => 'TODO: (آخر 30 يومًا)';
+  String streakLongestWindowQualifier(int days) {
+    return 'TODO: (آخر $days يومًا)';
+  }
 }

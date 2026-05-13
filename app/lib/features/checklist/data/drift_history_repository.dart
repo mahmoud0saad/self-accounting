@@ -90,6 +90,7 @@ class DriftHistoryRepository implements HistoryRepository {
           completedTasks: completedTasks,
           totalTasks: _catalogTotalTasks,
           fardMet: fardMet,
+          completedTaskIds: completedIds,
         ),
       );
       cursor = cursor.nextDay();

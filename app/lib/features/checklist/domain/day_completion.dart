@@ -5,14 +5,17 @@ import '../../../core/time/day_key.dart';
 /// Equality is field-based so `StreamProvider` listeners suppress duplicate
 /// re-emissions when nothing relevant has changed (see requirements R6).
 class DayCompletion {
-  const DayCompletion({
+  DayCompletion({
     required this.day,
     required this.completedPoints,
     required this.totalPoints,
     required this.completedTasks,
     required this.totalTasks,
     required this.fardMet,
-  });
+    Set<String>? completedTaskIds,
+  }) : completedTaskIds = completedTaskIds == null
+           ? const <String>{}
+           : Set<String>.unmodifiable(completedTaskIds);
 
   final DayKey day;
   final int completedPoints;
@@ -21,20 +24,31 @@ class DayCompletion {
   final int totalTasks;
   final bool fardMet;
 
+  /// Task ids completed on this day (Phase 4 widening). Used by
+  /// `DashboardAggregator` to compute per-category breakdowns without an
+  /// additional repository query.
+  ///
+  /// Empty for synthetic test instances that pre-date Phase 4 — the per-task
+  /// fidelity is opt-in.
+  final Set<String> completedTaskIds;
+
   double get fraction => totalPoints == 0 ? 0.0 : completedPoints / totalPoints;
 
   int get percentInt => (fraction * 100).round();
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DayCompletion &&
-          other.day == day &&
-          other.completedPoints == completedPoints &&
-          other.totalPoints == totalPoints &&
-          other.completedTasks == completedTasks &&
-          other.totalTasks == totalTasks &&
-          other.fardMet == fardMet;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! DayCompletion) return false;
+    if (other.day != day) return false;
+    if (other.completedPoints != completedPoints) return false;
+    if (other.totalPoints != totalPoints) return false;
+    if (other.completedTasks != completedTasks) return false;
+    if (other.totalTasks != totalTasks) return false;
+    if (other.fardMet != fardMet) return false;
+    if (other.completedTaskIds.length != completedTaskIds.length) return false;
+    return other.completedTaskIds.containsAll(completedTaskIds);
+  }
 
   @override
   int get hashCode => Object.hash(
@@ -44,11 +58,13 @@ class DayCompletion {
     completedTasks,
     totalTasks,
     fardMet,
+    Object.hashAllUnordered(completedTaskIds),
   );
 
   @override
   String toString() =>
       'DayCompletion(${day.toIsoDate()}, '
       '$completedPoints/$totalPoints pts, '
-      'fardMet=$fardMet)';
+      'fardMet=$fardMet, '
+      'ids=${completedTaskIds.length})';
 }

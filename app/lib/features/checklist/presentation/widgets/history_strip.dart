@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../dashboard/presentation/widgets/chart_colors.dart';
 import '../../domain/day_completion.dart';
 import '../providers/calendar_today_provider.dart';
 import '../providers/checklist_repositories_provider.dart';
@@ -134,21 +135,10 @@ class _HistoryCell extends StatelessWidget {
   final ColorScheme scheme;
   final VoidCallback onTap;
 
-  Color _binColor() {
-    final f = dc.fraction;
-    if (f <= 0.0) return scheme.surfaceContainerHighest;
-    if (f < 0.25) return scheme.primary.withValues(alpha: 0.20);
-    if (f < 0.50) return scheme.primary.withValues(alpha: 0.40);
-    if (f < 0.75) return scheme.primary.withValues(alpha: 0.65);
-    return scheme.primary.withValues(alpha: 1.0);
-  }
-
-  String _dayLetter() {
-    final formatted = DateFormat.E(
+  String _weekdayAbbrev() {
+    return DateFormat.E(
       locale.toLanguageTag(),
     ).format(dc.day.toLocalDateTime());
-    if (formatted.isEmpty) return '';
-    return formatted.characters.first.toString();
   }
 
   String _a11yDate() {
@@ -159,7 +149,9 @@ class _HistoryCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fillColor = isActive ? scheme.primaryContainer : _binColor();
+    final fillColor = isActive
+        ? scheme.primaryContainer
+        : completionBinColor(dc.fraction, scheme);
     final showFardRing = dc.fardMet;
     final showTodayRing = isToday && !dc.fardMet;
     final borderColor = showFardRing
@@ -205,7 +197,9 @@ class _HistoryCell extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                _dayLetter(),
+                _weekdayAbbrev(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: scheme.onSurfaceVariant,
                   fontWeight: isToday ? FontWeight.w700 : FontWeight.w500,

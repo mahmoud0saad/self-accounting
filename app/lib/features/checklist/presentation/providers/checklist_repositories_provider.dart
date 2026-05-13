@@ -18,7 +18,10 @@ final settingsRepositoryProvider = Provider<SettingsRepository>((ref) {
   return DriftSettingsRepository(ref.watch(appDatabaseProvider));
 });
 
-const kMaxHistoryDays = 30;
+/// Phase 4 D3: bumped from 30 → 90 to power the Dashboard's 90-day range
+/// option. The day picker, streak window, and dashboard window all read from
+/// this single source of truth.
+const kMaxHistoryDays = 90;
 
 /// How far back from today task completions remain editable (Phase 3 D2).
 /// `0` = today only, `1` = today only too (semantic: editable when
