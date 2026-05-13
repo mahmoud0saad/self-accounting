@@ -174,7 +174,7 @@ flutter run -d chrome
 
 ## Status
 
-Phase 2 ✅ — local persistence (Drift / SQLite, EN + AR)
+Phase 5 ✅ — local notifications, settings screen, MVP shipped (Web + Windows)
 
 ---
 
@@ -193,6 +193,12 @@ Phase 1 source of truth lives in `specs/2026-05-12-static-daily-checklist/`:
 - `validation.md`
 
 Phase 2 source of truth lives in `specs/2026-05-12-local-persistence-sqlite/`:
+
+- `requirements.md`
+- `plan.md`
+- `validation.md`
+
+Phase 5 source of truth lives in `specs/phase-5-2026-05-13-local-notifications/`:
 
 - `requirements.md`
 - `plan.md`

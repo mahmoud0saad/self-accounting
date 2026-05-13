@@ -4,14 +4,35 @@ import 'package:flutter/foundation.dart';
 
 import '../../features/checklist/data/static_task_catalog.dart';
 import 'tables/app_settings_table.dart';
+import 'tables/category_notification_schedules_table.dart';
 import 'tables/daily_logs_table.dart';
+import 'tables/task_notification_toggles_table.dart';
 import 'tables/tasks_table.dart';
 
 part 'app_database.g.dart';
 
-@DriftDatabase(tables: [Tasks, DailyLogs, AppSettings])
+@DriftDatabase(
+  tables: [
+    Tasks,
+    DailyLogs,
+    AppSettings,
+    CategoryNotificationSchedules,
+    TaskNotificationToggles,
+  ],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.executor);
+
+  static const Map<String, (int, int)> _defaultNotificationTimes = {
+    'fajr': (5, 0),
+    'dhuhr': (13, 0),
+    'asr': (16, 0),
+    'maghrib': (18, 30),
+    'isha': (20, 0),
+    'qiyamEvening': (21, 0),
+    'quranFasting': (6, 0),
+    'miscAdhkar': (7, 30),
+  };
 
   static Future<AppDatabase> open() async {
     final executor = driftDatabase(
@@ -28,17 +49,22 @@ class AppDatabase extends _$AppDatabase {
   }
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) async {
       await m.createAll();
+      await _seedNotificationDefaults();
     },
     onUpgrade: (Migrator m, int from, int to) async {
-      throw StateError(
-        'No migration path defined yet; bump schemaVersion deliberately.',
-      );
+      if (from == 1 && to == 2) {
+        await m.createTable(categoryNotificationSchedules);
+        await m.createTable(taskNotificationToggles);
+        await _seedNotificationDefaults();
+        return;
+      }
+      throw StateError('Unsupported database migration: $from → $to.');
     },
     beforeOpen: (OpeningDetails details) async {
       await customStatement('PRAGMA foreign_keys = ON;');
@@ -69,5 +95,50 @@ class AppDatabase extends _$AppDatabase {
       assert(sum == 74, 'static catalog sum drifted from 74');
       assertFardAnchorIntegrity();
     }
+  }
+
+  Future<void> _seedNotificationDefaults() async {
+    await transaction(() async {
+      for (final entry in _defaultNotificationTimes.entries) {
+        await into(categoryNotificationSchedules).insertOnConflictUpdate(
+          CategoryNotificationSchedulesCompanion.insert(
+            category: entry.key,
+            enabled: const Value(true),
+            hour: entry.value.$1,
+            minute: entry.value.$2,
+          ),
+        );
+      }
+
+      for (final task in staticTaskCatalog) {
+        await into(taskNotificationToggles).insertOnConflictUpdate(
+          TaskNotificationTogglesCompanion.insert(
+            taskId: task.id,
+            notificationsEnabled: const Value(true),
+          ),
+        );
+      }
+
+      const defaults = {
+        'notifications_enabled': 'true',
+        'eod_enabled': 'true',
+        'eod_hour': '21',
+        'eod_minute': '30',
+      };
+      for (final entry in defaults.entries) {
+        await into(appSettings).insertOnConflictUpdate(
+          AppSettingsCompanion.insert(
+            key: entry.key,
+            value: Value(entry.value),
+          ),
+        );
+      }
+      await into(appSettings).insertOnConflictUpdate(
+        AppSettingsCompanion.insert(
+          key: ['notification', 'onboarding', 'done'].join('_'),
+          value: const Value('false'),
+        ),
+      );
+    });
   }
 }

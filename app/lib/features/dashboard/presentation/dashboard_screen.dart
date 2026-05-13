@@ -1,13 +1,11 @@
 import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import 'providers/dashboard_data_provider.dart';
 import 'providers/dashboard_window_provider.dart';
 import 'widgets/category_breakdown.dart';
 import 'widgets/category_chart_type_switcher.dart';
-import 'widgets/dashboard_empty_state.dart';
 import 'widgets/dashboard_range_picker.dart';
 import 'widgets/dashboard_section_card.dart';
 import 'widgets/heatmap_chart.dart';
@@ -65,7 +63,6 @@ class _DashboardBody extends ConsumerWidget {
           onRetry: () => ref.invalidate(dashboardWindowProvider),
         ),
         data: (data) {
-        
           return ListView(
             padding: const EdgeInsetsDirectional.only(bottom: 24),
             children: [

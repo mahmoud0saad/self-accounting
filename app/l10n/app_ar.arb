@@ -79,6 +79,56 @@
 
   "navChecklistLabel": "TODO: قائمة المهام",
   "navDashboardLabel": "TODO: لوحة المعلومات",
+  "navSettingsLabel": "TODO: الإعدادات",
+
+  "settingsTitle": "TODO: الإعدادات",
+  "settingsNotificationsTitle": "TODO: التنبيهات",
+  "settingsNotificationsGlobalToggleLabel": "TODO: تفعيل كل التنبيهات",
+  "settingsCategoryScheduleTimeLabel": "TODO: {category} · {time}",
+  "@settingsCategoryScheduleTimeLabel": {
+    "placeholders": {
+      "category": { "type": "String" },
+      "time": { "type": "String" }
+    }
+  },
+  "settingsEodToggleLabel": "TODO: ملخص نهاية اليوم",
+  "settingsEodTimeLabel": "TODO: عند {time}",
+  "@settingsEodTimeLabel": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "settingsEodThresholdNote": "TODO: يظهر عندما يكون إنجاز اليوم أقل من 50٪.",
+  "settingsWebNotificationNote": "TODO: التنبيهات تحتاج أن تبقى نافذة التطبيق مفتوحة.",
+  "settingsAboutTitle": "TODO: حول التطبيق",
+  "settingsVersionLabel": "TODO: الإصدار {version}",
+  "@settingsVersionLabel": {
+    "placeholders": {
+      "version": { "type": "String" }
+    }
+  },
+  "onboardingNotifTitle": "TODO: حافظ على الاستمرارية",
+  "onboardingNotifBody": "TODO: اسمح بتذكيرات لطيفة كي ينبهك التطبيق في أوقات الصلاة التي تختارها. أنت تتحكم في التذكيرات التي تصلك.",
+  "onboardingNotifEnableButton": "TODO: تفعيل التنبيهات",
+  "onboardingNotifSkipButton": "TODO: ليس الآن",
+  "notifCategoryBody": "TODO: {taskSummary}",
+  "@notifCategoryBody": {
+    "placeholders": {
+      "taskSummary": { "type": "String" }
+    }
+  },
+  "notifEodBody": "TODO: أنجزت {percent}% اليوم. دقائق من الذكر قد تغير اليوم.",
+  "@notifEodBody": {
+    "placeholders": {
+      "percent": { "type": "int" }
+    }
+  },
+  "settingsTaskNotifToggleA11y": "TODO: تفعيل تنبيه {taskName}",
+  "@settingsTaskNotifToggleA11y": {
+    "placeholders": {
+      "taskName": { "type": "String" }
+    }
+  },
 
   "dashboardTitle": "TODO: لوحة المعلومات",
   "dashboardRangeWeek": "TODO: أسبوع",

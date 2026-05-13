@@ -470,6 +470,114 @@ abstract class AppLocalizations {
   /// **'Dashboard'**
   String get navDashboardLabel;
 
+  /// No description provided for @navSettingsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get navSettingsLabel;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingsNotificationsTitle;
+
+  /// No description provided for @settingsNotificationsGlobalToggleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable all notifications'**
+  String get settingsNotificationsGlobalToggleLabel;
+
+  /// No description provided for @settingsCategoryScheduleTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} · {time}'**
+  String settingsCategoryScheduleTimeLabel(String category, String time);
+
+  /// No description provided for @settingsEodToggleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'End-of-day summary'**
+  String get settingsEodToggleLabel;
+
+  /// No description provided for @settingsEodTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'At {time}'**
+  String settingsEodTimeLabel(String time);
+
+  /// No description provided for @settingsEodThresholdNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Fires when daily completion is below 50 %.'**
+  String get settingsEodThresholdNote;
+
+  /// No description provided for @settingsWebNotificationNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications require the app tab to be open.'**
+  String get settingsWebNotificationNote;
+
+  /// No description provided for @settingsAboutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsAboutTitle;
+
+  /// No description provided for @settingsVersionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String settingsVersionLabel(String version);
+
+  /// No description provided for @onboardingNotifTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay consistent'**
+  String get onboardingNotifTitle;
+
+  /// No description provided for @onboardingNotifBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow gentle reminders so the app can nudge you at your chosen prayer times. You control which reminders you receive.'**
+  String get onboardingNotifBody;
+
+  /// No description provided for @onboardingNotifEnableButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications'**
+  String get onboardingNotifEnableButton;
+
+  /// No description provided for @onboardingNotifSkipButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get onboardingNotifSkipButton;
+
+  /// No description provided for @notifCategoryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{taskSummary}'**
+  String notifCategoryBody(String taskSummary);
+
+  /// No description provided for @notifEodBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re at {percent}% today. A few minutes of Adhkar can change the day.'**
+  String notifEodBody(int percent);
+
+  /// No description provided for @settingsTaskNotifToggleA11y.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notification for {taskName}'**
+  String settingsTaskNotifToggleA11y(String taskName);
+
   /// No description provided for @dashboardTitle.
   ///
   /// In en, this message translates to:

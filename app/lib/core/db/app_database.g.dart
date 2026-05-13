@@ -840,12 +840,575 @@ class AppSettingsCompanion extends UpdateCompanion<DbAppSetting> {
   }
 }
 
+class $CategoryNotificationSchedulesTable extends CategoryNotificationSchedules
+    with
+        TableInfo<
+          $CategoryNotificationSchedulesTable,
+          DbCategoryNotificationSchedule
+        > {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CategoryNotificationSchedulesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _enabledMeta = const VerificationMeta(
+    'enabled',
+  );
+  @override
+  late final GeneratedColumn<bool> enabled = GeneratedColumn<bool>(
+    'enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _hourMeta = const VerificationMeta('hour');
+  @override
+  late final GeneratedColumn<int> hour = GeneratedColumn<int>(
+    'hour',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _minuteMeta = const VerificationMeta('minute');
+  @override
+  late final GeneratedColumn<int> minute = GeneratedColumn<int>(
+    'minute',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [category, enabled, hour, minute];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'category_notification_schedules';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DbCategoryNotificationSchedule> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('enabled')) {
+      context.handle(
+        _enabledMeta,
+        enabled.isAcceptableOrUnknown(data['enabled']!, _enabledMeta),
+      );
+    }
+    if (data.containsKey('hour')) {
+      context.handle(
+        _hourMeta,
+        hour.isAcceptableOrUnknown(data['hour']!, _hourMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_hourMeta);
+    }
+    if (data.containsKey('minute')) {
+      context.handle(
+        _minuteMeta,
+        minute.isAcceptableOrUnknown(data['minute']!, _minuteMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_minuteMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {category};
+  @override
+  DbCategoryNotificationSchedule map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DbCategoryNotificationSchedule(
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      enabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}enabled'],
+      )!,
+      hour: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}hour'],
+      )!,
+      minute: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}minute'],
+      )!,
+    );
+  }
+
+  @override
+  $CategoryNotificationSchedulesTable createAlias(String alias) {
+    return $CategoryNotificationSchedulesTable(attachedDatabase, alias);
+  }
+}
+
+class DbCategoryNotificationSchedule extends DataClass
+    implements Insertable<DbCategoryNotificationSchedule> {
+  final String category;
+  final bool enabled;
+  final int hour;
+  final int minute;
+  const DbCategoryNotificationSchedule({
+    required this.category,
+    required this.enabled,
+    required this.hour,
+    required this.minute,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['category'] = Variable<String>(category);
+    map['enabled'] = Variable<bool>(enabled);
+    map['hour'] = Variable<int>(hour);
+    map['minute'] = Variable<int>(minute);
+    return map;
+  }
+
+  CategoryNotificationSchedulesCompanion toCompanion(bool nullToAbsent) {
+    return CategoryNotificationSchedulesCompanion(
+      category: Value(category),
+      enabled: Value(enabled),
+      hour: Value(hour),
+      minute: Value(minute),
+    );
+  }
+
+  factory DbCategoryNotificationSchedule.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DbCategoryNotificationSchedule(
+      category: serializer.fromJson<String>(json['category']),
+      enabled: serializer.fromJson<bool>(json['enabled']),
+      hour: serializer.fromJson<int>(json['hour']),
+      minute: serializer.fromJson<int>(json['minute']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'category': serializer.toJson<String>(category),
+      'enabled': serializer.toJson<bool>(enabled),
+      'hour': serializer.toJson<int>(hour),
+      'minute': serializer.toJson<int>(minute),
+    };
+  }
+
+  DbCategoryNotificationSchedule copyWith({
+    String? category,
+    bool? enabled,
+    int? hour,
+    int? minute,
+  }) => DbCategoryNotificationSchedule(
+    category: category ?? this.category,
+    enabled: enabled ?? this.enabled,
+    hour: hour ?? this.hour,
+    minute: minute ?? this.minute,
+  );
+  DbCategoryNotificationSchedule copyWithCompanion(
+    CategoryNotificationSchedulesCompanion data,
+  ) {
+    return DbCategoryNotificationSchedule(
+      category: data.category.present ? data.category.value : this.category,
+      enabled: data.enabled.present ? data.enabled.value : this.enabled,
+      hour: data.hour.present ? data.hour.value : this.hour,
+      minute: data.minute.present ? data.minute.value : this.minute,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DbCategoryNotificationSchedule(')
+          ..write('category: $category, ')
+          ..write('enabled: $enabled, ')
+          ..write('hour: $hour, ')
+          ..write('minute: $minute')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(category, enabled, hour, minute);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DbCategoryNotificationSchedule &&
+          other.category == this.category &&
+          other.enabled == this.enabled &&
+          other.hour == this.hour &&
+          other.minute == this.minute);
+}
+
+class CategoryNotificationSchedulesCompanion
+    extends UpdateCompanion<DbCategoryNotificationSchedule> {
+  final Value<String> category;
+  final Value<bool> enabled;
+  final Value<int> hour;
+  final Value<int> minute;
+  final Value<int> rowid;
+  const CategoryNotificationSchedulesCompanion({
+    this.category = const Value.absent(),
+    this.enabled = const Value.absent(),
+    this.hour = const Value.absent(),
+    this.minute = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CategoryNotificationSchedulesCompanion.insert({
+    required String category,
+    this.enabled = const Value.absent(),
+    required int hour,
+    required int minute,
+    this.rowid = const Value.absent(),
+  }) : category = Value(category),
+       hour = Value(hour),
+       minute = Value(minute);
+  static Insertable<DbCategoryNotificationSchedule> custom({
+    Expression<String>? category,
+    Expression<bool>? enabled,
+    Expression<int>? hour,
+    Expression<int>? minute,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (category != null) 'category': category,
+      if (enabled != null) 'enabled': enabled,
+      if (hour != null) 'hour': hour,
+      if (minute != null) 'minute': minute,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CategoryNotificationSchedulesCompanion copyWith({
+    Value<String>? category,
+    Value<bool>? enabled,
+    Value<int>? hour,
+    Value<int>? minute,
+    Value<int>? rowid,
+  }) {
+    return CategoryNotificationSchedulesCompanion(
+      category: category ?? this.category,
+      enabled: enabled ?? this.enabled,
+      hour: hour ?? this.hour,
+      minute: minute ?? this.minute,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (enabled.present) {
+      map['enabled'] = Variable<bool>(enabled.value);
+    }
+    if (hour.present) {
+      map['hour'] = Variable<int>(hour.value);
+    }
+    if (minute.present) {
+      map['minute'] = Variable<int>(minute.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CategoryNotificationSchedulesCompanion(')
+          ..write('category: $category, ')
+          ..write('enabled: $enabled, ')
+          ..write('hour: $hour, ')
+          ..write('minute: $minute, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TaskNotificationTogglesTable extends TaskNotificationToggles
+    with TableInfo<$TaskNotificationTogglesTable, DbTaskNotificationToggle> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TaskNotificationTogglesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _taskIdMeta = const VerificationMeta('taskId');
+  @override
+  late final GeneratedColumn<String> taskId = GeneratedColumn<String>(
+    'task_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _notificationsEnabledMeta =
+      const VerificationMeta('notificationsEnabled');
+  @override
+  late final GeneratedColumn<bool> notificationsEnabled = GeneratedColumn<bool>(
+    'notifications_enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("notifications_enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [taskId, notificationsEnabled];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'task_notification_toggles';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DbTaskNotificationToggle> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('task_id')) {
+      context.handle(
+        _taskIdMeta,
+        taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_taskIdMeta);
+    }
+    if (data.containsKey('notifications_enabled')) {
+      context.handle(
+        _notificationsEnabledMeta,
+        notificationsEnabled.isAcceptableOrUnknown(
+          data['notifications_enabled']!,
+          _notificationsEnabledMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {taskId};
+  @override
+  DbTaskNotificationToggle map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DbTaskNotificationToggle(
+      taskId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}task_id'],
+      )!,
+      notificationsEnabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}notifications_enabled'],
+      )!,
+    );
+  }
+
+  @override
+  $TaskNotificationTogglesTable createAlias(String alias) {
+    return $TaskNotificationTogglesTable(attachedDatabase, alias);
+  }
+}
+
+class DbTaskNotificationToggle extends DataClass
+    implements Insertable<DbTaskNotificationToggle> {
+  final String taskId;
+  final bool notificationsEnabled;
+  const DbTaskNotificationToggle({
+    required this.taskId,
+    required this.notificationsEnabled,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['task_id'] = Variable<String>(taskId);
+    map['notifications_enabled'] = Variable<bool>(notificationsEnabled);
+    return map;
+  }
+
+  TaskNotificationTogglesCompanion toCompanion(bool nullToAbsent) {
+    return TaskNotificationTogglesCompanion(
+      taskId: Value(taskId),
+      notificationsEnabled: Value(notificationsEnabled),
+    );
+  }
+
+  factory DbTaskNotificationToggle.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DbTaskNotificationToggle(
+      taskId: serializer.fromJson<String>(json['taskId']),
+      notificationsEnabled: serializer.fromJson<bool>(
+        json['notificationsEnabled'],
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'taskId': serializer.toJson<String>(taskId),
+      'notificationsEnabled': serializer.toJson<bool>(notificationsEnabled),
+    };
+  }
+
+  DbTaskNotificationToggle copyWith({
+    String? taskId,
+    bool? notificationsEnabled,
+  }) => DbTaskNotificationToggle(
+    taskId: taskId ?? this.taskId,
+    notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
+  );
+  DbTaskNotificationToggle copyWithCompanion(
+    TaskNotificationTogglesCompanion data,
+  ) {
+    return DbTaskNotificationToggle(
+      taskId: data.taskId.present ? data.taskId.value : this.taskId,
+      notificationsEnabled: data.notificationsEnabled.present
+          ? data.notificationsEnabled.value
+          : this.notificationsEnabled,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DbTaskNotificationToggle(')
+          ..write('taskId: $taskId, ')
+          ..write('notificationsEnabled: $notificationsEnabled')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(taskId, notificationsEnabled);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DbTaskNotificationToggle &&
+          other.taskId == this.taskId &&
+          other.notificationsEnabled == this.notificationsEnabled);
+}
+
+class TaskNotificationTogglesCompanion
+    extends UpdateCompanion<DbTaskNotificationToggle> {
+  final Value<String> taskId;
+  final Value<bool> notificationsEnabled;
+  final Value<int> rowid;
+  const TaskNotificationTogglesCompanion({
+    this.taskId = const Value.absent(),
+    this.notificationsEnabled = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  TaskNotificationTogglesCompanion.insert({
+    required String taskId,
+    this.notificationsEnabled = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : taskId = Value(taskId);
+  static Insertable<DbTaskNotificationToggle> custom({
+    Expression<String>? taskId,
+    Expression<bool>? notificationsEnabled,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (taskId != null) 'task_id': taskId,
+      if (notificationsEnabled != null)
+        'notifications_enabled': notificationsEnabled,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  TaskNotificationTogglesCompanion copyWith({
+    Value<String>? taskId,
+    Value<bool>? notificationsEnabled,
+    Value<int>? rowid,
+  }) {
+    return TaskNotificationTogglesCompanion(
+      taskId: taskId ?? this.taskId,
+      notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (taskId.present) {
+      map['task_id'] = Variable<String>(taskId.value);
+    }
+    if (notificationsEnabled.present) {
+      map['notifications_enabled'] = Variable<bool>(notificationsEnabled.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskNotificationTogglesCompanion(')
+          ..write('taskId: $taskId, ')
+          ..write('notificationsEnabled: $notificationsEnabled, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $TasksTable tasks = $TasksTable(this);
   late final $DailyLogsTable dailyLogs = $DailyLogsTable(this);
   late final $AppSettingsTable appSettings = $AppSettingsTable(this);
+  late final $CategoryNotificationSchedulesTable categoryNotificationSchedules =
+      $CategoryNotificationSchedulesTable(this);
+  late final $TaskNotificationTogglesTable taskNotificationToggles =
+      $TaskNotificationTogglesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -854,6 +1417,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     tasks,
     dailyLogs,
     appSettings,
+    categoryNotificationSchedules,
+    taskNotificationToggles,
   ];
 }
 
@@ -1411,6 +1976,298 @@ typedef $$AppSettingsTableProcessedTableManager =
       DbAppSetting,
       PrefetchHooks Function()
     >;
+typedef $$CategoryNotificationSchedulesTableCreateCompanionBuilder =
+    CategoryNotificationSchedulesCompanion Function({
+      required String category,
+      Value<bool> enabled,
+      required int hour,
+      required int minute,
+      Value<int> rowid,
+    });
+typedef $$CategoryNotificationSchedulesTableUpdateCompanionBuilder =
+    CategoryNotificationSchedulesCompanion Function({
+      Value<String> category,
+      Value<bool> enabled,
+      Value<int> hour,
+      Value<int> minute,
+      Value<int> rowid,
+    });
+
+class $$CategoryNotificationSchedulesTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $CategoryNotificationSchedulesTable> {
+  $$CategoryNotificationSchedulesTableFilterComposer(super.$state);
+  ColumnFilters<String> get category => $state.composableBuilder(
+    column: $state.table.category,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
+
+  ColumnFilters<bool> get enabled => $state.composableBuilder(
+    column: $state.table.enabled,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
+
+  ColumnFilters<int> get hour => $state.composableBuilder(
+    column: $state.table.hour,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
+
+  ColumnFilters<int> get minute => $state.composableBuilder(
+    column: $state.table.minute,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
+}
+
+class $$CategoryNotificationSchedulesTableOrderingComposer
+    extends
+        OrderingComposer<_$AppDatabase, $CategoryNotificationSchedulesTable> {
+  $$CategoryNotificationSchedulesTableOrderingComposer(super.$state);
+  ColumnOrderings<String> get category => $state.composableBuilder(
+    column: $state.table.category,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
+
+  ColumnOrderings<bool> get enabled => $state.composableBuilder(
+    column: $state.table.enabled,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
+
+  ColumnOrderings<int> get hour => $state.composableBuilder(
+    column: $state.table.hour,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
+
+  ColumnOrderings<int> get minute => $state.composableBuilder(
+    column: $state.table.minute,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
+}
+
+class $$CategoryNotificationSchedulesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CategoryNotificationSchedulesTable,
+          DbCategoryNotificationSchedule,
+          $$CategoryNotificationSchedulesTableFilterComposer,
+          $$CategoryNotificationSchedulesTableOrderingComposer,
+          $$CategoryNotificationSchedulesTableCreateCompanionBuilder,
+          $$CategoryNotificationSchedulesTableUpdateCompanionBuilder,
+          (
+            DbCategoryNotificationSchedule,
+            BaseReferences<
+              _$AppDatabase,
+              $CategoryNotificationSchedulesTable,
+              DbCategoryNotificationSchedule
+            >,
+          ),
+          DbCategoryNotificationSchedule,
+          PrefetchHooks Function()
+        > {
+  $$CategoryNotificationSchedulesTableTableManager(
+    _$AppDatabase db,
+    $CategoryNotificationSchedulesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $$CategoryNotificationSchedulesTableFilterComposer(
+            ComposerState(db, table),
+          ),
+          orderingComposer:
+              $$CategoryNotificationSchedulesTableOrderingComposer(
+                ComposerState(db, table),
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> category = const Value.absent(),
+                Value<bool> enabled = const Value.absent(),
+                Value<int> hour = const Value.absent(),
+                Value<int> minute = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CategoryNotificationSchedulesCompanion(
+                category: category,
+                enabled: enabled,
+                hour: hour,
+                minute: minute,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String category,
+                Value<bool> enabled = const Value.absent(),
+                required int hour,
+                required int minute,
+                Value<int> rowid = const Value.absent(),
+              }) => CategoryNotificationSchedulesCompanion.insert(
+                category: category,
+                enabled: enabled,
+                hour: hour,
+                minute: minute,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CategoryNotificationSchedulesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CategoryNotificationSchedulesTable,
+      DbCategoryNotificationSchedule,
+      $$CategoryNotificationSchedulesTableFilterComposer,
+      $$CategoryNotificationSchedulesTableOrderingComposer,
+      $$CategoryNotificationSchedulesTableCreateCompanionBuilder,
+      $$CategoryNotificationSchedulesTableUpdateCompanionBuilder,
+      (
+        DbCategoryNotificationSchedule,
+        BaseReferences<
+          _$AppDatabase,
+          $CategoryNotificationSchedulesTable,
+          DbCategoryNotificationSchedule
+        >,
+      ),
+      DbCategoryNotificationSchedule,
+      PrefetchHooks Function()
+    >;
+typedef $$TaskNotificationTogglesTableCreateCompanionBuilder =
+    TaskNotificationTogglesCompanion Function({
+      required String taskId,
+      Value<bool> notificationsEnabled,
+      Value<int> rowid,
+    });
+typedef $$TaskNotificationTogglesTableUpdateCompanionBuilder =
+    TaskNotificationTogglesCompanion Function({
+      Value<String> taskId,
+      Value<bool> notificationsEnabled,
+      Value<int> rowid,
+    });
+
+class $$TaskNotificationTogglesTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $TaskNotificationTogglesTable> {
+  $$TaskNotificationTogglesTableFilterComposer(super.$state);
+  ColumnFilters<String> get taskId => $state.composableBuilder(
+    column: $state.table.taskId,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
+
+  ColumnFilters<bool> get notificationsEnabled => $state.composableBuilder(
+    column: $state.table.notificationsEnabled,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
+}
+
+class $$TaskNotificationTogglesTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $TaskNotificationTogglesTable> {
+  $$TaskNotificationTogglesTableOrderingComposer(super.$state);
+  ColumnOrderings<String> get taskId => $state.composableBuilder(
+    column: $state.table.taskId,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
+
+  ColumnOrderings<bool> get notificationsEnabled => $state.composableBuilder(
+    column: $state.table.notificationsEnabled,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
+}
+
+class $$TaskNotificationTogglesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TaskNotificationTogglesTable,
+          DbTaskNotificationToggle,
+          $$TaskNotificationTogglesTableFilterComposer,
+          $$TaskNotificationTogglesTableOrderingComposer,
+          $$TaskNotificationTogglesTableCreateCompanionBuilder,
+          $$TaskNotificationTogglesTableUpdateCompanionBuilder,
+          (
+            DbTaskNotificationToggle,
+            BaseReferences<
+              _$AppDatabase,
+              $TaskNotificationTogglesTable,
+              DbTaskNotificationToggle
+            >,
+          ),
+          DbTaskNotificationToggle,
+          PrefetchHooks Function()
+        > {
+  $$TaskNotificationTogglesTableTableManager(
+    _$AppDatabase db,
+    $TaskNotificationTogglesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $$TaskNotificationTogglesTableFilterComposer(
+            ComposerState(db, table),
+          ),
+          orderingComposer: $$TaskNotificationTogglesTableOrderingComposer(
+            ComposerState(db, table),
+          ),
+          updateCompanionCallback:
+              ({
+                Value<String> taskId = const Value.absent(),
+                Value<bool> notificationsEnabled = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TaskNotificationTogglesCompanion(
+                taskId: taskId,
+                notificationsEnabled: notificationsEnabled,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String taskId,
+                Value<bool> notificationsEnabled = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TaskNotificationTogglesCompanion.insert(
+                taskId: taskId,
+                notificationsEnabled: notificationsEnabled,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$TaskNotificationTogglesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TaskNotificationTogglesTable,
+      DbTaskNotificationToggle,
+      $$TaskNotificationTogglesTableFilterComposer,
+      $$TaskNotificationTogglesTableOrderingComposer,
+      $$TaskNotificationTogglesTableCreateCompanionBuilder,
+      $$TaskNotificationTogglesTableUpdateCompanionBuilder,
+      (
+        DbTaskNotificationToggle,
+        BaseReferences<
+          _$AppDatabase,
+          $TaskNotificationTogglesTable,
+          DbTaskNotificationToggle
+        >,
+      ),
+      DbTaskNotificationToggle,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1421,4 +2278,15 @@ class $AppDatabaseManager {
       $$DailyLogsTableTableManager(_db, _db.dailyLogs);
   $$AppSettingsTableTableManager get appSettings =>
       $$AppSettingsTableTableManager(_db, _db.appSettings);
+  $$CategoryNotificationSchedulesTableTableManager
+  get categoryNotificationSchedules =>
+      $$CategoryNotificationSchedulesTableTableManager(
+        _db,
+        _db.categoryNotificationSchedules,
+      );
+  $$TaskNotificationTogglesTableTableManager get taskNotificationToggles =>
+      $$TaskNotificationTogglesTableTableManager(
+        _db,
+        _db.taskNotificationToggles,
+      );
 }
