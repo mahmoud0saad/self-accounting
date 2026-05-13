@@ -1,24 +1,29 @@
-import 'dart:ui';
+import 'dart:ui' show Locale;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../features/checklist/presentation/providers/checklist_repositories_provider.dart';
+import 'launch_locale.dart';
+
 class LocaleNotifier extends Notifier<Locale?> {
   @override
-  Locale? build() => null;
+  Locale? build() => persistedLocaleAtLaunch;
 
-  void setLocale(Locale? locale) {
+  Future<void> setLocale(Locale? locale) async {
+    final repo = ref.read(settingsRepositoryProvider);
+    await repo.writeLocaleOverride(locale?.languageCode);
     state = locale;
   }
 
   /// Cycles: system (`null`) → English → Arabic → system.
-  void toggle() {
+  Future<void> toggle() async {
     final current = state;
     if (current == null) {
-      state = const Locale('en');
+      await setLocale(const Locale('en'));
     } else if (current.languageCode == 'en') {
-      state = const Locale('ar');
+      await setLocale(const Locale('ar'));
     } else {
-      state = null;
+      await setLocale(null);
     }
   }
 }

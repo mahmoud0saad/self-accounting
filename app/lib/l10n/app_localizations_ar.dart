@@ -162,4 +162,35 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get taskMiscRidingTravelingAdhkar => 'أذكار الركوب والسفر';
+
+  @override
+  String get dayLabelToday => 'اليوم';
+
+  @override
+  String get dayLabelYesterday => 'أمس';
+
+  @override
+  String get dayPickerPreviousLabel => 'اليوم السابق';
+
+  @override
+  String get dayPickerNextLabel => 'اليوم التالي';
+
+  @override
+  String get readOnlyBadge => 'للقراءة فقط';
+
+  @override
+  String get resetTodayDialogTitle => 'إعادة تعيين تقدم اليوم؟';
+
+  @override
+  String get resetTodayDialogBody =>
+      'سيتم إلغاء تحديد كل المهام لهذا اليوم. الأيام السابقة لن تتأثر.';
+
+  @override
+  String get resetTodayDialogCancel => 'إلغاء';
+
+  @override
+  String get resetTodayDialogConfirm => 'إعادة تعيين';
+
+  @override
+  String get loadingChecklist => 'جارٍ تحميل قائمتك…';
 }

@@ -48,7 +48,12 @@ class CategorySection extends ConsumerWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    final state = ref.watch(checklistStateProvider);
+    final checklistAsync = ref.watch(checklistStateProvider);
+    final state = checklistAsync.maybeWhen(
+      data: (m) => m,
+      orElse: () => const <String, bool>{},
+    );
+
     final totalPts = tasks.fold<int>(0, (s, t) => s + t.points);
     final doneTasks = tasks.where((t) => state[t.id] == true).length;
     final donePts = tasks

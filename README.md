@@ -174,7 +174,7 @@ flutter run -d chrome
 
 ## Status
 
-Phase 1 ✅ — static daily checklist (EN + AR)
+Phase 2 ✅ — local persistence (Drift / SQLite, EN + AR)
 
 ---
 
@@ -187,6 +187,12 @@ Phase 0 source of truth lives in `specs/2026-05-11-foundations/`:
 - `validation.md`
 
 Phase 1 source of truth lives in `specs/2026-05-12-static-daily-checklist/`:
+
+- `requirements.md`
+- `plan.md`
+- `validation.md`
+
+Phase 2 source of truth lives in `specs/2026-05-12-local-persistence-sqlite/`:
 
 - `requirements.md`
 - `plan.md`

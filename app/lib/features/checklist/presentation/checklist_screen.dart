@@ -9,6 +9,7 @@ import '../domain/task.dart';
 import 'providers/task_catalog_provider.dart';
 import 'widgets/category_section.dart';
 import 'widgets/checklist_progress_header.dart';
+import 'widgets/day_picker_bar.dart';
 
 LinkedHashMap<TaskCategory, List<Task>> _groupByCategoryInOrder(
   List<Task> tasks,
@@ -21,12 +22,11 @@ LinkedHashMap<TaskCategory, List<Task>> _groupByCategoryInOrder(
 }
 
 class ChecklistScreen extends ConsumerWidget {
-  const ChecklistScreen({super.key}); 
+  const ChecklistScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tasks = ref.watch(taskCatalogProvider);
-    final grouped = _groupByCategoryInOrder(tasks);
+    final tasksAsync = ref.watch(taskCatalogProvider);
     final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
     final l = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
@@ -45,15 +45,26 @@ class ChecklistScreen extends ConsumerWidget {
         ),
         actions: const [LanguageToggleButton()],
       ),
-      body: CustomScrollView(
-        slivers: [
-          const SliverToBoxAdapter(child: ChecklistProgressHeader()),
-          for (final entry in grouped.entries)
-            SliverToBoxAdapter(
-              child: CategorySection(category: entry.key, tasks: entry.value),
-            ),
-          SliverToBoxAdapter(child: SizedBox(height: 24 + bottomInset)),
-        ],
+      body: tasksAsync.when(
+        data: (tasks) {
+          final grouped = _groupByCategoryInOrder(tasks);
+          return CustomScrollView(
+            slivers: [
+              const SliverToBoxAdapter(child: DayPickerBar()),
+              const SliverToBoxAdapter(child: ChecklistProgressHeader()),
+              for (final entry in grouped.entries)
+                SliverToBoxAdapter(
+                  child: CategorySection(
+                    category: entry.key,
+                    tasks: entry.value,
+                  ),
+                ),
+              SliverToBoxAdapter(child: SizedBox(height: 24 + bottomInset)),
+            ],
+          );
+        },
+        loading: () => Center(child: Text(l.loadingChecklist)),
+        error: (e, _) => Center(child: Text('$e')),
       ),
     );
   }

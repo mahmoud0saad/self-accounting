@@ -2,12 +2,58 @@ import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'core/db/app_database.dart';
+import 'core/db/app_database_provider.dart';
+import 'core/i18n/launch_locale.dart';
 import 'core/i18n/locale_provider.dart';
+import 'core/time/midnight_ticker_provider.dart';
 import 'core/routing/app_router.dart';
+import 'features/checklist/data/settings_repository.dart';
+import 'features/checklist/presentation/providers/checklist_repositories_provider.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: MuhasabahApp()));
+  final database = await AppDatabase.open();
+  await database.seedAndReconcile();
+
+  final settingsRepo = DriftSettingsRepository(database);
+  final code = await settingsRepo.readLocaleOverride();
+  persistedLocaleAtLaunch = switch (code) {
+    'ar' => const Locale('ar'),
+    'en' => const Locale('en'),
+    _ => null,
+  };
+
+  runApp(
+    ProviderScope(
+      overrides: [appDatabaseProvider.overrideWithValue(database)],
+      child: const MuhasabahAppRoot(),
+    ),
+  );
+}
+
+class MuhasabahAppRoot extends ConsumerStatefulWidget {
+  const MuhasabahAppRoot({super.key});
+
+  @override
+  ConsumerState<MuhasabahAppRoot> createState() => _MuhasabahAppRootState();
+}
+
+class _MuhasabahAppRootState extends ConsumerState<MuhasabahAppRoot> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(midnightTickerServiceProvider).start((newToday) {
+        ref.read(activeDayProvider.notifier).onCalendarDayAdvanced(newToday);
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const MuhasabahApp();
+  }
 }
 
 class MuhasabahApp extends ConsumerWidget {

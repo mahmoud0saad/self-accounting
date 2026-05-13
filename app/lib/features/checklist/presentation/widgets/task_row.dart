@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/time/day_key.dart';
 import '../../domain/task.dart';
+import '../providers/checklist_repositories_provider.dart';
 import '../providers/checklist_state_provider.dart';
 
 class TaskRow extends ConsumerWidget {
@@ -11,48 +13,60 @@ class TaskRow extends ConsumerWidget {
 
   final Task task;
 
-  void _toggle(WidgetRef ref) {
-    HapticFeedback.selectionClick();
-    ref.read(checklistStateProvider.notifier).toggle(task.id);
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final title = task.titleResolver(l);
-    final isChecked = ref.watch(
-      checklistStateProvider.select((m) => m[task.id] ?? false),
+    final activeDay = ref.watch(activeDayProvider);
+    final today = DayKey.today();
+    final readOnly = activeDay != today;
+
+    final checklistAsync = ref.watch(checklistStateProvider);
+    final isChecked = checklistAsync.maybeWhen(
+      data: (m) => m[task.id] ?? false,
+      orElse: () => false,
     );
 
     final stateLabel = isChecked ? l.taskStateChecked : l.taskStateUnchecked;
+    final semanticsLabel = readOnly
+        ? '${l.taskRowSemanticLabel(title, task.points, stateLabel)}, ${l.readOnlyBadge}'
+        : l.taskRowSemanticLabel(title, task.points, stateLabel);
+
+    void onToggle() {
+      if (readOnly) {
+        return;
+      }
+      HapticFeedback.selectionClick();
+      ref.read(checklistControllerProvider).toggle(task.id);
+    }
 
     return Semantics(
-      label: l.taskRowSemanticLabel(title, task.points, stateLabel),
+      label: semanticsLabel,
       toggled: isChecked,
-      button: true,
+      button: !readOnly,
       excludeSemantics: true,
       child: Material(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(14),
         child: InkWell(
           borderRadius: BorderRadius.circular(14),
-          onTap: () => _toggle(ref),
+          onTap: readOnly ? null : onToggle,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 220),
             curve: Curves.easeOut,
             padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
             decoration: BoxDecoration(
               color: isChecked
-                  ? scheme.primary.withValues(alpha: 0.07)
+                  ? scheme.primary.withValues(alpha: readOnly ? 0.04 : 0.07)
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(14),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _AnimatedCheck(isChecked: isChecked),
+                _AnimatedCheck(isChecked: isChecked, dimmed: readOnly),
                 const SizedBox(width: 12),
                 Expanded(
                   child: AnimatedDefaultTextStyle(
@@ -60,8 +74,12 @@ class TaskRow extends ConsumerWidget {
                     style:
                         theme.textTheme.bodyLarge?.copyWith(
                           color: isChecked
-                              ? scheme.onSurface.withValues(alpha: 0.55)
-                              : scheme.onSurface,
+                              ? scheme.onSurface.withValues(
+                                  alpha: readOnly ? 0.4 : 0.55,
+                                )
+                              : scheme.onSurface.withValues(
+                                  alpha: readOnly ? 0.55 : 1.0,
+                                ),
                           decoration: isChecked
                               ? TextDecoration.lineThrough
                               : TextDecoration.none,
@@ -78,7 +96,11 @@ class TaskRow extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                _PointsBadge(points: task.points, dim: isChecked, l: l),
+                _PointsBadge(
+                  points: task.points,
+                  dim: isChecked || readOnly,
+                  l: l,
+                ),
               ],
             ),
           ),
@@ -89,40 +111,45 @@ class TaskRow extends ConsumerWidget {
 }
 
 class _AnimatedCheck extends StatelessWidget {
-  const _AnimatedCheck({required this.isChecked});
+  const _AnimatedCheck({required this.isChecked, required this.dimmed});
 
   final bool isChecked;
+  final bool dimmed;
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return AnimatedContainer(
+    return AnimatedOpacity(
       duration: const Duration(milliseconds: 220),
-      curve: Curves.easeOutBack,
-      width: 28,
-      height: 28,
-      decoration: BoxDecoration(
-        color: isChecked ? scheme.primary : Colors.transparent,
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: isChecked
-              ? scheme.primary
-              : scheme.outline.withValues(alpha: 0.6),
-          width: 2,
+      opacity: dimmed ? 0.45 : 1,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOutBack,
+        width: 28,
+        height: 28,
+        decoration: BoxDecoration(
+          color: isChecked ? scheme.primary : Colors.transparent,
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: isChecked
+                ? scheme.primary
+                : scheme.outline.withValues(alpha: 0.6),
+            width: 2,
+          ),
         ),
-      ),
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 180),
-        transitionBuilder: (child, anim) =>
-            ScaleTransition(scale: anim, child: child),
-        child: isChecked
-            ? Icon(
-                Icons.check_rounded,
-                key: const ValueKey('on'),
-                color: scheme.onPrimary,
-                size: 18,
-              )
-            : const SizedBox.shrink(key: ValueKey('off')),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 180),
+          transitionBuilder: (child, anim) =>
+              ScaleTransition(scale: anim, child: child),
+          child: isChecked
+              ? Icon(
+                  Icons.check_rounded,
+                  key: const ValueKey('on'),
+                  color: scheme.onPrimary,
+                  size: 18,
+                )
+              : const SizedBox.shrink(key: ValueKey('off')),
+        ),
       ),
     );
   }
