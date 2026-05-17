@@ -65,6 +65,18 @@ class AppSettingsRepository {
     await _write(_eodMinuteKey, minute.toString());
   }
 
+  Future<bool?> getBool(String key) async {
+    final value = await _read(key);
+    if (value == null) {
+      return null;
+    }
+    return value == 'true';
+  }
+
+  Future<void> setBool(String key, bool value) {
+    return _write(key, value.toString());
+  }
+
   Future<String?> _read(String key) async {
     final row = await (_db.select(
       _db.appSettings,

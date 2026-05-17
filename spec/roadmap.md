@@ -96,6 +96,7 @@ Tiny phases (~3–5 days each). Each phase is independently shippable, demoable,
 - Ability to hide/disable default tasks without deleting them.
 - Validations: prevent negative points; cap per-task points to keep system balanced.
 - Sync custom tasks if signed in.
+- implement senario for signed-in optional flow on mobile  show btn login if not on home screen and show name if is already login and make btn sign out in setting and other senario for login or not 
 
 **Exit:** Users can fully tailor their checklist to their own routine.
 

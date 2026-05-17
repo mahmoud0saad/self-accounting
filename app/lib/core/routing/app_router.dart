@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/auth/presentation/providers/auth_state_provider.dart';
+import '../../features/auth/presentation/sign_in_screen.dart';
+import '../../features/auth/presentation/sign_up_screen.dart';
 import '../../features/checklist/presentation/checklist_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/settings/data/app_settings_repository.dart';
@@ -21,12 +24,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     navigatorKey: _rootKey,
     initialLocation: '/',
     redirect: (context, state) async {
-      final onboardingPath =
-          state.matchedLocation == '/onboarding/notifications';
+      final location = state.matchedLocation;
+      final authPath =
+          location == '/auth/sign-in' || location == '/auth/sign-up';
+      final auth = ref.read(authStateProvider);
+
+      if (auth.isSignedIn && authPath) {
+        return '/';
+      }
+
+      final onboardingPath = location == '/onboarding/notifications';
       final done = await ref
           .read(appSettingsRepositoryProvider)
           .getNotificationOnboardingDone();
-      if (!done && !onboardingPath) {
+      if (!done && !onboardingPath && !authPath) {
         return '/onboarding/notifications';
       }
       if (done && onboardingPath) {
@@ -38,6 +49,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/onboarding/notifications',
         builder: (context, state) => const NotificationOnboardingScreen(),
+      ),
+      GoRoute(
+        path: '/auth/sign-in',
+        builder: (context, state) => const SignInScreen(),
+      ),
+      GoRoute(
+        path: '/auth/sign-up',
+        builder: (context, state) => const SignUpScreen(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => RootShell(shell: shell),

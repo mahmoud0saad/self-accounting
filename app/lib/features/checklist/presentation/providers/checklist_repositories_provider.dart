@@ -2,16 +2,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/db/app_database_provider.dart';
 import '../../../../core/time/day_key.dart';
+import '../../../auth/presentation/providers/auth_state_provider.dart';
+import '../../../../core/api/remote_providers.dart';
+import '../../../sync/presentation/providers/sync_providers.dart';
+import '../../data/caching_remote_task_repository.dart';
 import '../../data/checklist_repository.dart';
 import '../../data/settings_repository.dart';
+import '../../data/synced_checklist_repository.dart';
 import '../../data/task_repository.dart';
 
 final checklistRepositoryProvider = Provider<ChecklistRepository>((ref) {
-  return DriftChecklistRepository(ref.watch(appDatabaseProvider));
+  final local = DriftChecklistRepository(ref.watch(appDatabaseProvider));
+  if (!ref.watch(authStateProvider).isSignedIn) {
+    return local;
+  }
+  return SyncedChecklistRepository(local, ref.watch(syncServiceProvider));
 });
 
 final taskRepositoryProvider = Provider<TaskRepository>((ref) {
-  return DriftTaskRepository(ref.watch(appDatabaseProvider));
+  final local = DriftTaskRepository(ref.watch(appDatabaseProvider));
+  if (!ref.watch(authStateProvider).isSignedIn) {
+    return local;
+  }
+  return CachingRemoteTaskRepository(
+    local,
+    ref.watch(remoteTaskRepositoryProvider),
+  );
 });
 
 final settingsRepositoryProvider = Provider<SettingsRepository>((ref) {

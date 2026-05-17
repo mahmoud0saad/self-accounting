@@ -400,4 +400,58 @@ class AppLocalizationsEn extends AppLocalizations {
   String streakLongestWindowQualifier(int days) {
     return '(last $days days)';
   }
+
+  @override
+  String get settingsAccountTitle => 'Account';
+
+  @override
+  String get settingsAccountSignedOut =>
+      'Use the app offline, or sign in to sync across devices.';
+
+  @override
+  String get settingsSignIn => 'Sign in';
+
+  @override
+  String get settingsSignUp => 'Create account';
+
+  @override
+  String get settingsSignOut => 'Sign out';
+
+  @override
+  String settingsSignedInAs(String email) {
+    return 'Signed in as $email';
+  }
+
+  @override
+  String get authSignInTitle => 'Sign in';
+
+  @override
+  String get authSignUpTitle => 'Create account';
+
+  @override
+  String get authEmailLabel => 'Email';
+
+  @override
+  String get authPasswordLabel => 'Password';
+
+  @override
+  String get authPasswordMinLength => 'Password must be at least 8 characters';
+
+  @override
+  String get authInvalidEmail => 'Enter a valid email address';
+
+  @override
+  String get authSignInButton => 'Sign in';
+
+  @override
+  String get authSignUpButton => 'Create account';
+
+  @override
+  String get authNoAccount => 'Need an account? Sign up';
+
+  @override
+  String get authHaveAccount => 'Already have an account? Sign in';
+
+  @override
+  String get authGenericError => 'Something went wrong. Please try again.';
 }
