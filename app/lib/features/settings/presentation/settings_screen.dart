@@ -2,10 +2,8 @@ import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../../auth/presentation/providers/auth_state_provider.dart';
 import '../../checklist/domain/task.dart';
 import '../../checklist/presentation/providers/task_catalog_provider.dart';
 import '../../notifications/notification_service.dart';
@@ -61,12 +59,6 @@ class SettingsScreen extends ConsumerWidget {
                 notificationsEnabled,
                 tasks,
               ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: SettingsSectionCard(
-              title: l.settingsAccountTitle,
-              child: _AccountSection(l: l),
             ),
           ),
           SliverToBoxAdapter(child: _AboutSection(l: l)),
@@ -187,48 +179,6 @@ class _InfoBanner extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _AccountSection extends ConsumerWidget {
-  const _AccountSection({required this.l});
-
-  final AppLocalizations l;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final auth = ref.watch(authStateProvider);
-    if (auth.isSignedIn) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(l.settingsSignedInAs(auth.email ?? '')),
-          const SizedBox(height: 8),
-          OutlinedButton(
-            onPressed: () =>
-                ref.read(authStateProvider.notifier).signOut(),
-            child: Text(l.settingsSignOut),
-          ),
-        ],
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(l.settingsAccountSignedOut),
-        const SizedBox(height: 12),
-        FilledButton(
-          onPressed: () => context.push('/auth/sign-in'),
-          child: Text(l.settingsSignIn),
-        ),
-        const SizedBox(height: 8),
-        OutlinedButton(
-          onPressed: () => context.push('/auth/sign-up'),
-          child: Text(l.settingsSignUp),
-        ),
-      ],
     );
   }
 }
