@@ -398,4 +398,104 @@ class AppLocalizationsAr extends AppLocalizations {
   String streakLongestWindowQualifier(int days) {
     return 'TODO: (آخر $days يومًا)';
   }
+
+  @override
+  String get authSignInTitle => 'تسجيل الدخول';
+
+  @override
+  String get authSignUpTitle => 'إنشاء حساب';
+
+  @override
+  String get authEmailLabel => 'البريد الإلكتروني';
+
+  @override
+  String get authEmailInvalid => 'أدخل بريدًا إلكترونيًا صالحًا';
+
+  @override
+  String get authPasswordLabel => 'كلمة المرور';
+
+  @override
+  String get authPasswordTooShort => 'استخدم 8 أحرف على الأقل';
+
+  @override
+  String get authConfirmPasswordLabel => 'تأكيد كلمة المرور';
+
+  @override
+  String get authPasswordMismatch => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get authFullNameLabel => 'الاسم الكامل';
+
+  @override
+  String get authFullNameInvalid => 'يجب أن يكون الاسم حرفين على الأقل';
+
+  @override
+  String get authNoAccountPrompt => 'جديد هنا؟ أنشئ حسابًا';
+
+  @override
+  String get authHaveAccountPrompt => 'لديك حساب؟ سجّل الدخول';
+
+  @override
+  String get authConfirmEmailTitle => 'أكّد بريدك الإلكتروني';
+
+  @override
+  String authConfirmEmailBody(String email) {
+    return 'أرسلنا رابطًا إلى $email. افتحه ثم عد هنا.';
+  }
+
+  @override
+  String get authResendConfirmation => 'إعادة إرسال البريد';
+
+  @override
+  String get authResendSent => 'إن وُجد حساب، أُرسل بريد جديد.';
+
+  @override
+  String get authCheckAgain => 'أكّدت — تحقق مرة أخرى';
+
+  @override
+  String get authSignOut => 'تسجيل الخروج';
+
+  @override
+  String get authSignOutConfirm => 'تسجيل الخروج؟ تبقى بياناتك على هذا الجهاز.';
+
+  @override
+  String get authSignOutCancel => 'البقاء مسجّلًا';
+
+  @override
+  String syncHistorySnack(int days) {
+    return 'تمت مزامنة $days يومًا من السجل.';
+  }
+
+  @override
+  String get profileTitle => 'الملف الشخصي';
+
+  @override
+  String get profileSave => 'حفظ';
+
+  @override
+  String get profilePhotoUrlLabel => 'رابط الصورة (اختياري)';
+
+  @override
+  String get profileTimezoneLabel => 'المنطقة الزمنية (اختياري)';
+
+  @override
+  String get profileLocaleLabel => 'اللغة';
+
+  @override
+  String get profileLocaleEn => 'English';
+
+  @override
+  String get profileLocaleAr => 'العربية';
+
+  @override
+  String get profileBioLabel => 'نبذة (اختياري)';
+
+  @override
+  String get settingsAccountTitle => 'الحساب';
+
+  @override
+  String get settingsSyncNow => 'مزامنة الآن';
+
+  @override
+  String get settingsSyncDone => 'اكتملت المزامنة.';
 }

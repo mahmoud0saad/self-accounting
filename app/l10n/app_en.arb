@@ -209,5 +209,48 @@
     "placeholders": {
       "days": { "type": "int" }
     }
-  }
+  },
+
+  "authSignInTitle": "Sign in",
+  "authSignUpTitle": "Create account",
+  "authEmailLabel": "Email",
+  "authEmailInvalid": "Enter a valid email address",
+  "authPasswordLabel": "Password",
+  "authPasswordTooShort": "Use at least 8 characters",
+  "authConfirmPasswordLabel": "Confirm password",
+  "authPasswordMismatch": "Passwords do not match",
+  "authFullNameLabel": "Full name",
+  "authFullNameInvalid": "Name must be at least 2 characters",
+  "authNoAccountPrompt": "New here? Create an account",
+  "authHaveAccountPrompt": "Already have an account? Sign in",
+  "authConfirmEmailTitle": "Confirm your email",
+  "authConfirmEmailBody": "We sent a link to {email}. Open it, then return here.",
+  "@authConfirmEmailBody": {
+    "placeholders": {
+      "email": { "type": "String" }
+    }
+  },
+  "authResendConfirmation": "Resend email",
+  "authResendSent": "If an account exists, a new email was sent.",
+  "authCheckAgain": "I've confirmed — check again",
+  "authSignOut": "Sign out",
+  "authSignOutConfirm": "Sign out? Your data on this device will be kept.",
+  "authSignOutCancel": "Stay signed in",
+  "syncHistorySnack": "Synced {days} days of history.",
+  "@syncHistorySnack": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "profileTitle": "Profile",
+  "profileSave": "Save",
+  "profilePhotoUrlLabel": "Photo URL (optional)",
+  "profileTimezoneLabel": "Timezone (optional)",
+  "profileLocaleLabel": "Language",
+  "profileLocaleEn": "English",
+  "profileLocaleAr": "Arabic",
+  "profileBioLabel": "Bio (optional)",
+  "settingsAccountTitle": "Account",
+  "settingsSyncNow": "Sync now",
+  "settingsSyncDone": "Sync complete."
 }

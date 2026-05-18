@@ -781,6 +781,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'(last {days} days)'**
   String streakLongestWindowQualifier(int days);
+
+  /// No description provided for @authSignInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get authSignInTitle;
+
+  /// No description provided for @authSignUpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get authSignUpTitle;
+
+  /// No description provided for @authEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get authEmailLabel;
+
+  /// No description provided for @authEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email address'**
+  String get authEmailInvalid;
+
+  /// No description provided for @authPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPasswordLabel;
+
+  /// No description provided for @authPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 8 characters'**
+  String get authPasswordTooShort;
+
+  /// No description provided for @authConfirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get authConfirmPasswordLabel;
+
+  /// No description provided for @authPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get authPasswordMismatch;
+
+  /// No description provided for @authFullNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get authFullNameLabel;
+
+  /// No description provided for @authFullNameInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Name must be at least 2 characters'**
+  String get authFullNameInvalid;
+
+  /// No description provided for @authNoAccountPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'New here? Create an account'**
+  String get authNoAccountPrompt;
+
+  /// No description provided for @authHaveAccountPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign in'**
+  String get authHaveAccountPrompt;
+
+  /// No description provided for @authConfirmEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your email'**
+  String get authConfirmEmailTitle;
+
+  /// No description provided for @authConfirmEmailBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a link to {email}. Open it, then return here.'**
+  String authConfirmEmailBody(String email);
+
+  /// No description provided for @authResendConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend email'**
+  String get authResendConfirmation;
+
+  /// No description provided for @authResendSent.
+  ///
+  /// In en, this message translates to:
+  /// **'If an account exists, a new email was sent.'**
+  String get authResendSent;
+
+  /// No description provided for @authCheckAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve confirmed — check again'**
+  String get authCheckAgain;
+
+  /// No description provided for @authSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get authSignOut;
+
+  /// No description provided for @authSignOutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out? Your data on this device will be kept.'**
+  String get authSignOutConfirm;
+
+  /// No description provided for @authSignOutCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay signed in'**
+  String get authSignOutCancel;
+
+  /// No description provided for @syncHistorySnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Synced {days} days of history.'**
+  String syncHistorySnack(int days);
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// No description provided for @profileSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get profileSave;
+
+  /// No description provided for @profilePhotoUrlLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo URL (optional)'**
+  String get profilePhotoUrlLabel;
+
+  /// No description provided for @profileTimezoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Timezone (optional)'**
+  String get profileTimezoneLabel;
+
+  /// No description provided for @profileLocaleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get profileLocaleLabel;
+
+  /// No description provided for @profileLocaleEn.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get profileLocaleEn;
+
+  /// No description provided for @profileLocaleAr.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get profileLocaleAr;
+
+  /// No description provided for @profileBioLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bio (optional)'**
+  String get profileBioLabel;
+
+  /// No description provided for @settingsAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get settingsAccountTitle;
+
+  /// No description provided for @settingsSyncNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get settingsSyncNow;
+
+  /// No description provided for @settingsSyncDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync complete.'**
+  String get settingsSyncDone;
 }
 
 class _AppLocalizationsDelegate

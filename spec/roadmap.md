@@ -84,6 +84,9 @@ Tiny phases (~3–5 days each). Each phase is independently shippable, demoable,
 - Flutter: optional sign-in flow; on sign-in, merge local data → server.
 - Sync queue: offline writes replay when online.
 - Conflict resolution: last-write-wins on `(user_id, date, task_id)`.
+- implement senario for signed-in optional flow on mobile  show btn login if not on home screen and show name if is already login and make btn sign out in setting and other senario for login or not 
+- add more detail for user like { full name required ,photo optional, and other make optional } 
+- Please add the email (SMTP) feature integration (anti.mahmoud.saad.6@gmail.com) for confirm email when sign up 
 
 **Exit:** A signed-in user can log on phone, open the web build, and see identical state.
 
