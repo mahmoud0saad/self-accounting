@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,9 +9,7 @@ import 'core/i18n/locale_provider.dart';
 import 'core/time/midnight_ticker_provider.dart';
 import 'core/routing/app_router.dart';
 import 'features/checklist/data/settings_repository.dart';
-import 'features/auth/presentation/providers/auth_state_provider.dart';
 import 'features/checklist/presentation/providers/calendar_today_provider.dart';
-import 'features/sync/presentation/providers/sync_providers.dart';
 import 'features/checklist/presentation/providers/checklist_state_provider.dart';
 import 'features/checklist/presentation/providers/checklist_repositories_provider.dart';
 import 'features/checklist/presentation/providers/task_catalog_provider.dart';
@@ -55,9 +51,6 @@ class _MuhasabahAppRootState extends ConsumerState<MuhasabahAppRoot> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (ref.read(authStateProvider).isSignedIn) {
-        unawaited(ref.read(syncLifecycleProvider).onSignedIn());
-      }
       ref.read(midnightTickerServiceProvider).start((newToday) {
         // Phase 3: rebase the wall-clock today anchor *first* so the history
         // strip + streak window providers see the new today before the active
@@ -70,13 +63,6 @@ class _MuhasabahAppRootState extends ConsumerState<MuhasabahAppRoot> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(authStateProvider, (previous, next) {
-      if (next.isSignedIn && previous?.isSignedIn != true) {
-        unawaited(ref.read(syncLifecycleProvider).onSignedIn());
-      } else if (!next.isSignedIn && previous?.isSignedIn == true) {
-        unawaited(ref.read(syncLifecycleProvider).onSignedOut());
-      }
-    });
     return const MuhasabahApp();
   }
 }

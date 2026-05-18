@@ -209,28 +209,5 @@
     "placeholders": {
       "days": { "type": "int" }
     }
-  },
-
-  "settingsAccountTitle": "Account",
-  "settingsAccountSignedOut": "Use the app offline, or sign in to sync across devices.",
-  "settingsSignIn": "Sign in",
-  "settingsSignUp": "Create account",
-  "settingsSignOut": "Sign out",
-  "settingsSignedInAs": "Signed in as {email}",
-  "@settingsSignedInAs": {
-    "placeholders": {
-      "email": { "type": "String" }
-    }
-  },
-  "authSignInTitle": "Sign in",
-  "authSignUpTitle": "Create account",
-  "authEmailLabel": "Email",
-  "authPasswordLabel": "Password",
-  "authPasswordMinLength": "Password must be at least 8 characters",
-  "authInvalidEmail": "Enter a valid email address",
-  "authSignInButton": "Sign in",
-  "authSignUpButton": "Create account",
-  "authNoAccount": "Need an account? Sign up",
-  "authHaveAccount": "Already have an account? Sign in",
-  "authGenericError": "Something went wrong. Please try again."
+  }
 }

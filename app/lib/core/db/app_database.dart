@@ -6,7 +6,6 @@ import '../../features/checklist/data/static_task_catalog.dart';
 import 'tables/app_settings_table.dart';
 import 'tables/category_notification_schedules_table.dart';
 import 'tables/daily_logs_table.dart';
-import 'tables/sync_queue_table.dart';
 import 'tables/task_notification_toggles_table.dart';
 import 'tables/tasks_table.dart';
 
@@ -19,7 +18,6 @@ part 'app_database.g.dart';
     AppSettings,
     CategoryNotificationSchedules,
     TaskNotificationToggles,
-    SyncQueue,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -51,7 +49,7 @@ class AppDatabase extends _$AppDatabase {
   }
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -60,14 +58,13 @@ class AppDatabase extends _$AppDatabase {
       await _seedNotificationDefaults();
     },
     onUpgrade: (Migrator m, int from, int to) async {
-      if (from < 2) {
+      if (from == 1 && to == 2) {
         await m.createTable(categoryNotificationSchedules);
         await m.createTable(taskNotificationToggles);
         await _seedNotificationDefaults();
+        return;
       }
-      if (from < 3) {
-        await m.createTable(syncQueue);
-      }
+      throw StateError('Unsupported database migration: $from → $to.');
     },
     beforeOpen: (OpeningDetails details) async {
       await customStatement('PRAGMA foreign_keys = ON;');

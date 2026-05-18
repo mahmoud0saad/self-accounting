@@ -11,25 +11,43 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, DbTask> {
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _pointsMeta = const VerificationMeta('points');
   @override
   late final GeneratedColumn<int> points = GeneratedColumn<int>(
-      'points', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _categoryMeta =
-      const VerificationMeta('category');
+    'points',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
   @override
   late final GeneratedColumn<String> category = GeneratedColumn<String>(
-      'category', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _sortOrderMeta =
-      const VerificationMeta('sortOrder');
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sortOrderMeta = const VerificationMeta(
+    'sortOrder',
+  );
   @override
   late final GeneratedColumn<int> sortOrder = GeneratedColumn<int>(
-      'sort_order', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+    'sort_order',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [id, points, category, sortOrder];
   @override
@@ -38,8 +56,10 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, DbTask> {
   String get actualTableName => $name;
   static const String $name = 'tasks';
   @override
-  VerificationContext validateIntegrity(Insertable<DbTask> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<DbTask> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -48,20 +68,26 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, DbTask> {
       context.missing(_idMeta);
     }
     if (data.containsKey('points')) {
-      context.handle(_pointsMeta,
-          points.isAcceptableOrUnknown(data['points']!, _pointsMeta));
+      context.handle(
+        _pointsMeta,
+        points.isAcceptableOrUnknown(data['points']!, _pointsMeta),
+      );
     } else if (isInserting) {
       context.missing(_pointsMeta);
     }
     if (data.containsKey('category')) {
-      context.handle(_categoryMeta,
-          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
     } else if (isInserting) {
       context.missing(_categoryMeta);
     }
     if (data.containsKey('sort_order')) {
-      context.handle(_sortOrderMeta,
-          sortOrder.isAcceptableOrUnknown(data['sort_order']!, _sortOrderMeta));
+      context.handle(
+        _sortOrderMeta,
+        sortOrder.isAcceptableOrUnknown(data['sort_order']!, _sortOrderMeta),
+      );
     } else if (isInserting) {
       context.missing(_sortOrderMeta);
     }
@@ -74,14 +100,22 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, DbTask> {
   DbTask map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DbTask(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      points: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}points'])!,
-      category: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
-      sortOrder: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}sort_order'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      points: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}points'],
+      )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      sortOrder: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sort_order'],
+      )!,
     );
   }
 
@@ -96,11 +130,12 @@ class DbTask extends DataClass implements Insertable<DbTask> {
   final int points;
   final String category;
   final int sortOrder;
-  const DbTask(
-      {required this.id,
-      required this.points,
-      required this.category,
-      required this.sortOrder});
+  const DbTask({
+    required this.id,
+    required this.points,
+    required this.category,
+    required this.sortOrder,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -120,8 +155,10 @@ class DbTask extends DataClass implements Insertable<DbTask> {
     );
   }
 
-  factory DbTask.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory DbTask.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DbTask(
       id: serializer.fromJson<String>(json['id']),
@@ -141,14 +178,17 @@ class DbTask extends DataClass implements Insertable<DbTask> {
     };
   }
 
-  DbTask copyWith(
-          {String? id, int? points, String? category, int? sortOrder}) =>
-      DbTask(
-        id: id ?? this.id,
-        points: points ?? this.points,
-        category: category ?? this.category,
-        sortOrder: sortOrder ?? this.sortOrder,
-      );
+  DbTask copyWith({
+    String? id,
+    int? points,
+    String? category,
+    int? sortOrder,
+  }) => DbTask(
+    id: id ?? this.id,
+    points: points ?? this.points,
+    category: category ?? this.category,
+    sortOrder: sortOrder ?? this.sortOrder,
+  );
   DbTask copyWithCompanion(TasksCompanion data) {
     return DbTask(
       id: data.id.present ? data.id.value : this.id,
@@ -200,10 +240,10 @@ class TasksCompanion extends UpdateCompanion<DbTask> {
     required String category,
     required int sortOrder,
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        points = Value(points),
-        category = Value(category),
-        sortOrder = Value(sortOrder);
+  }) : id = Value(id),
+       points = Value(points),
+       category = Value(category),
+       sortOrder = Value(sortOrder);
   static Insertable<DbTask> custom({
     Expression<String>? id,
     Expression<int>? points,
@@ -220,12 +260,13 @@ class TasksCompanion extends UpdateCompanion<DbTask> {
     });
   }
 
-  TasksCompanion copyWith(
-      {Value<String>? id,
-      Value<int>? points,
-      Value<String>? category,
-      Value<int>? sortOrder,
-      Value<int>? rowid}) {
+  TasksCompanion copyWith({
+    Value<String>? id,
+    Value<int>? points,
+    Value<String>? category,
+    Value<int>? sortOrder,
+    Value<int>? rowid,
+  }) {
     return TasksCompanion(
       id: id ?? this.id,
       points: points ?? this.points,
@@ -278,34 +319,51 @@ class $DailyLogsTable extends DailyLogs
   static const VerificationMeta _dateMeta = const VerificationMeta('date');
   @override
   late final GeneratedColumn<String> date = GeneratedColumn<String>(
-      'date', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _taskIdMeta = const VerificationMeta('taskId');
   @override
   late final GeneratedColumn<String> taskId = GeneratedColumn<String>(
-      'task_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES tasks (id)'));
-  static const VerificationMeta _completedMeta =
-      const VerificationMeta('completed');
+    'task_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES tasks (id)',
+    ),
+  );
+  static const VerificationMeta _completedMeta = const VerificationMeta(
+    'completed',
+  );
   @override
   late final GeneratedColumn<bool> completed = GeneratedColumn<bool>(
-      'completed', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("completed" IN (0, 1))'),
-      defaultValue: const Constant(false));
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
+    'completed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("completed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
   late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
   @override
   List<GeneratedColumn> get $columns => [date, taskId, completed, updatedAt];
   @override
@@ -314,29 +372,39 @@ class $DailyLogsTable extends DailyLogs
   String get actualTableName => $name;
   static const String $name = 'daily_logs';
   @override
-  VerificationContext validateIntegrity(Insertable<DbDailyLog> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<DbDailyLog> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('date')) {
       context.handle(
-          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+        _dateMeta,
+        date.isAcceptableOrUnknown(data['date']!, _dateMeta),
+      );
     } else if (isInserting) {
       context.missing(_dateMeta);
     }
     if (data.containsKey('task_id')) {
-      context.handle(_taskIdMeta,
-          taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta));
+      context.handle(
+        _taskIdMeta,
+        taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_taskIdMeta);
     }
     if (data.containsKey('completed')) {
-      context.handle(_completedMeta,
-          completed.isAcceptableOrUnknown(data['completed']!, _completedMeta));
+      context.handle(
+        _completedMeta,
+        completed.isAcceptableOrUnknown(data['completed']!, _completedMeta),
+      );
     }
     if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
     }
     return context;
   }
@@ -347,14 +415,22 @@ class $DailyLogsTable extends DailyLogs
   DbDailyLog map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DbDailyLog(
-      date: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}date'])!,
-      taskId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}task_id'])!,
-      completed: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}completed'])!,
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+      date: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}date'],
+      )!,
+      taskId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}task_id'],
+      )!,
+      completed: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}completed'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
     );
   }
 
@@ -369,11 +445,12 @@ class DbDailyLog extends DataClass implements Insertable<DbDailyLog> {
   final String taskId;
   final bool completed;
   final DateTime updatedAt;
-  const DbDailyLog(
-      {required this.date,
-      required this.taskId,
-      required this.completed,
-      required this.updatedAt});
+  const DbDailyLog({
+    required this.date,
+    required this.taskId,
+    required this.completed,
+    required this.updatedAt,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -393,8 +470,10 @@ class DbDailyLog extends DataClass implements Insertable<DbDailyLog> {
     );
   }
 
-  factory DbDailyLog.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory DbDailyLog.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DbDailyLog(
       date: serializer.fromJson<String>(json['date']),
@@ -414,17 +493,17 @@ class DbDailyLog extends DataClass implements Insertable<DbDailyLog> {
     };
   }
 
-  DbDailyLog copyWith(
-          {String? date,
-          String? taskId,
-          bool? completed,
-          DateTime? updatedAt}) =>
-      DbDailyLog(
-        date: date ?? this.date,
-        taskId: taskId ?? this.taskId,
-        completed: completed ?? this.completed,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  DbDailyLog copyWith({
+    String? date,
+    String? taskId,
+    bool? completed,
+    DateTime? updatedAt,
+  }) => DbDailyLog(
+    date: date ?? this.date,
+    taskId: taskId ?? this.taskId,
+    completed: completed ?? this.completed,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
   DbDailyLog copyWithCompanion(DailyLogsCompanion data) {
     return DbDailyLog(
       date: data.date.present ? data.date.value : this.date,
@@ -476,8 +555,8 @@ class DailyLogsCompanion extends UpdateCompanion<DbDailyLog> {
     this.completed = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : date = Value(date),
-        taskId = Value(taskId);
+  }) : date = Value(date),
+       taskId = Value(taskId);
   static Insertable<DbDailyLog> custom({
     Expression<String>? date,
     Expression<String>? taskId,
@@ -494,12 +573,13 @@ class DailyLogsCompanion extends UpdateCompanion<DbDailyLog> {
     });
   }
 
-  DailyLogsCompanion copyWith(
-      {Value<String>? date,
-      Value<String>? taskId,
-      Value<bool>? completed,
-      Value<DateTime>? updatedAt,
-      Value<int>? rowid}) {
+  DailyLogsCompanion copyWith({
+    Value<String>? date,
+    Value<String>? taskId,
+    Value<bool>? completed,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
     return DailyLogsCompanion(
       date: date ?? this.date,
       taskId: taskId ?? this.taskId,
@@ -552,13 +632,21 @@ class $AppSettingsTable extends AppSettings
   static const VerificationMeta _keyMeta = const VerificationMeta('key');
   @override
   late final GeneratedColumn<String> key = GeneratedColumn<String>(
-      'key', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _valueMeta = const VerificationMeta('value');
   @override
   late final GeneratedColumn<String> value = GeneratedColumn<String>(
-      'value', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+    'value',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [key, value];
   @override
@@ -567,19 +655,25 @@ class $AppSettingsTable extends AppSettings
   String get actualTableName => $name;
   static const String $name = 'app_settings';
   @override
-  VerificationContext validateIntegrity(Insertable<DbAppSetting> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<DbAppSetting> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('key')) {
       context.handle(
-          _keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
+        _keyMeta,
+        key.isAcceptableOrUnknown(data['key']!, _keyMeta),
+      );
     } else if (isInserting) {
       context.missing(_keyMeta);
     }
     if (data.containsKey('value')) {
       context.handle(
-          _valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
+        _valueMeta,
+        value.isAcceptableOrUnknown(data['value']!, _valueMeta),
+      );
     }
     return context;
   }
@@ -590,10 +684,14 @@ class $AppSettingsTable extends AppSettings
   DbAppSetting map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DbAppSetting(
-      key: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}key'])!,
-      value: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}value']),
+      key: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}key'],
+      )!,
+      value: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}value'],
+      ),
     );
   }
 
@@ -620,13 +718,16 @@ class DbAppSetting extends DataClass implements Insertable<DbAppSetting> {
   AppSettingsCompanion toCompanion(bool nullToAbsent) {
     return AppSettingsCompanion(
       key: Value(key),
-      value:
-          value == null && nullToAbsent ? const Value.absent() : Value(value),
+      value: value == null && nullToAbsent
+          ? const Value.absent()
+          : Value(value),
     );
   }
 
-  factory DbAppSetting.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory DbAppSetting.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DbAppSetting(
       key: serializer.fromJson<String>(json['key']),
@@ -642,12 +743,13 @@ class DbAppSetting extends DataClass implements Insertable<DbAppSetting> {
     };
   }
 
-  DbAppSetting copyWith(
-          {String? key, Value<String?> value = const Value.absent()}) =>
-      DbAppSetting(
-        key: key ?? this.key,
-        value: value.present ? value.value : this.value,
-      );
+  DbAppSetting copyWith({
+    String? key,
+    Value<String?> value = const Value.absent(),
+  }) => DbAppSetting(
+    key: key ?? this.key,
+    value: value.present ? value.value : this.value,
+  );
   DbAppSetting copyWithCompanion(AppSettingsCompanion data) {
     return DbAppSetting(
       key: data.key.present ? data.key.value : this.key,
@@ -700,8 +802,11 @@ class AppSettingsCompanion extends UpdateCompanion<DbAppSetting> {
     });
   }
 
-  AppSettingsCompanion copyWith(
-      {Value<String>? key, Value<String?>? value, Value<int>? rowid}) {
+  AppSettingsCompanion copyWith({
+    Value<String>? key,
+    Value<String?>? value,
+    Value<int>? rowid,
+  }) {
     return AppSettingsCompanion(
       key: key ?? this.key,
       value: value ?? this.value,
@@ -737,38 +842,58 @@ class AppSettingsCompanion extends UpdateCompanion<DbAppSetting> {
 
 class $CategoryNotificationSchedulesTable extends CategoryNotificationSchedules
     with
-        TableInfo<$CategoryNotificationSchedulesTable,
-            DbCategoryNotificationSchedule> {
+        TableInfo<
+          $CategoryNotificationSchedulesTable,
+          DbCategoryNotificationSchedule
+        > {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $CategoryNotificationSchedulesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _categoryMeta =
-      const VerificationMeta('category');
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
   @override
   late final GeneratedColumn<String> category = GeneratedColumn<String>(
-      'category', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _enabledMeta =
-      const VerificationMeta('enabled');
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _enabledMeta = const VerificationMeta(
+    'enabled',
+  );
   @override
   late final GeneratedColumn<bool> enabled = GeneratedColumn<bool>(
-      'enabled', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("enabled" IN (0, 1))'),
-      defaultValue: const Constant(true));
+    'enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
   static const VerificationMeta _hourMeta = const VerificationMeta('hour');
   @override
   late final GeneratedColumn<int> hour = GeneratedColumn<int>(
-      'hour', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+    'hour',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _minuteMeta = const VerificationMeta('minute');
   @override
   late final GeneratedColumn<int> minute = GeneratedColumn<int>(
-      'minute', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+    'minute',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [category, enabled, hour, minute];
   @override
@@ -778,29 +903,38 @@ class $CategoryNotificationSchedulesTable extends CategoryNotificationSchedules
   static const String $name = 'category_notification_schedules';
   @override
   VerificationContext validateIntegrity(
-      Insertable<DbCategoryNotificationSchedule> instance,
-      {bool isInserting = false}) {
+    Insertable<DbCategoryNotificationSchedule> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('category')) {
-      context.handle(_categoryMeta,
-          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
     } else if (isInserting) {
       context.missing(_categoryMeta);
     }
     if (data.containsKey('enabled')) {
-      context.handle(_enabledMeta,
-          enabled.isAcceptableOrUnknown(data['enabled']!, _enabledMeta));
+      context.handle(
+        _enabledMeta,
+        enabled.isAcceptableOrUnknown(data['enabled']!, _enabledMeta),
+      );
     }
     if (data.containsKey('hour')) {
       context.handle(
-          _hourMeta, hour.isAcceptableOrUnknown(data['hour']!, _hourMeta));
+        _hourMeta,
+        hour.isAcceptableOrUnknown(data['hour']!, _hourMeta),
+      );
     } else if (isInserting) {
       context.missing(_hourMeta);
     }
     if (data.containsKey('minute')) {
-      context.handle(_minuteMeta,
-          minute.isAcceptableOrUnknown(data['minute']!, _minuteMeta));
+      context.handle(
+        _minuteMeta,
+        minute.isAcceptableOrUnknown(data['minute']!, _minuteMeta),
+      );
     } else if (isInserting) {
       context.missing(_minuteMeta);
     }
@@ -810,18 +944,28 @@ class $CategoryNotificationSchedulesTable extends CategoryNotificationSchedules
   @override
   Set<GeneratedColumn> get $primaryKey => {category};
   @override
-  DbCategoryNotificationSchedule map(Map<String, dynamic> data,
-      {String? tablePrefix}) {
+  DbCategoryNotificationSchedule map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DbCategoryNotificationSchedule(
-      category: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
-      enabled: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}enabled'])!,
-      hour: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}hour'])!,
-      minute: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}minute'])!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      enabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}enabled'],
+      )!,
+      hour: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}hour'],
+      )!,
+      minute: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}minute'],
+      )!,
     );
   }
 
@@ -837,11 +981,12 @@ class DbCategoryNotificationSchedule extends DataClass
   final bool enabled;
   final int hour;
   final int minute;
-  const DbCategoryNotificationSchedule(
-      {required this.category,
-      required this.enabled,
-      required this.hour,
-      required this.minute});
+  const DbCategoryNotificationSchedule({
+    required this.category,
+    required this.enabled,
+    required this.hour,
+    required this.minute,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -861,8 +1006,10 @@ class DbCategoryNotificationSchedule extends DataClass
     );
   }
 
-  factory DbCategoryNotificationSchedule.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory DbCategoryNotificationSchedule.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DbCategoryNotificationSchedule(
       category: serializer.fromJson<String>(json['category']),
@@ -882,16 +1029,20 @@ class DbCategoryNotificationSchedule extends DataClass
     };
   }
 
-  DbCategoryNotificationSchedule copyWith(
-          {String? category, bool? enabled, int? hour, int? minute}) =>
-      DbCategoryNotificationSchedule(
-        category: category ?? this.category,
-        enabled: enabled ?? this.enabled,
-        hour: hour ?? this.hour,
-        minute: minute ?? this.minute,
-      );
+  DbCategoryNotificationSchedule copyWith({
+    String? category,
+    bool? enabled,
+    int? hour,
+    int? minute,
+  }) => DbCategoryNotificationSchedule(
+    category: category ?? this.category,
+    enabled: enabled ?? this.enabled,
+    hour: hour ?? this.hour,
+    minute: minute ?? this.minute,
+  );
   DbCategoryNotificationSchedule copyWithCompanion(
-      CategoryNotificationSchedulesCompanion data) {
+    CategoryNotificationSchedulesCompanion data,
+  ) {
     return DbCategoryNotificationSchedule(
       category: data.category.present ? data.category.value : this.category,
       enabled: data.enabled.present ? data.enabled.value : this.enabled,
@@ -943,9 +1094,9 @@ class CategoryNotificationSchedulesCompanion
     required int hour,
     required int minute,
     this.rowid = const Value.absent(),
-  })  : category = Value(category),
-        hour = Value(hour),
-        minute = Value(minute);
+  }) : category = Value(category),
+       hour = Value(hour),
+       minute = Value(minute);
   static Insertable<DbCategoryNotificationSchedule> custom({
     Expression<String>? category,
     Expression<bool>? enabled,
@@ -962,12 +1113,13 @@ class CategoryNotificationSchedulesCompanion
     });
   }
 
-  CategoryNotificationSchedulesCompanion copyWith(
-      {Value<String>? category,
-      Value<bool>? enabled,
-      Value<int>? hour,
-      Value<int>? minute,
-      Value<int>? rowid}) {
+  CategoryNotificationSchedulesCompanion copyWith({
+    Value<String>? category,
+    Value<bool>? enabled,
+    Value<int>? hour,
+    Value<int>? minute,
+    Value<int>? rowid,
+  }) {
     return CategoryNotificationSchedulesCompanion(
       category: category ?? this.category,
       enabled: enabled ?? this.enabled,
@@ -1020,18 +1172,26 @@ class $TaskNotificationTogglesTable extends TaskNotificationToggles
   static const VerificationMeta _taskIdMeta = const VerificationMeta('taskId');
   @override
   late final GeneratedColumn<String> taskId = GeneratedColumn<String>(
-      'task_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'task_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _notificationsEnabledMeta =
       const VerificationMeta('notificationsEnabled');
   @override
   late final GeneratedColumn<bool> notificationsEnabled = GeneratedColumn<bool>(
-      'notifications_enabled', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'CHECK ("notifications_enabled" IN (0, 1))'),
-      defaultValue: const Constant(true));
+    'notifications_enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("notifications_enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
   @override
   List<GeneratedColumn> get $columns => [taskId, notificationsEnabled];
   @override
@@ -1041,21 +1201,27 @@ class $TaskNotificationTogglesTable extends TaskNotificationToggles
   static const String $name = 'task_notification_toggles';
   @override
   VerificationContext validateIntegrity(
-      Insertable<DbTaskNotificationToggle> instance,
-      {bool isInserting = false}) {
+    Insertable<DbTaskNotificationToggle> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('task_id')) {
-      context.handle(_taskIdMeta,
-          taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta));
+      context.handle(
+        _taskIdMeta,
+        taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_taskIdMeta);
     }
     if (data.containsKey('notifications_enabled')) {
       context.handle(
+        _notificationsEnabledMeta,
+        notificationsEnabled.isAcceptableOrUnknown(
+          data['notifications_enabled']!,
           _notificationsEnabledMeta,
-          notificationsEnabled.isAcceptableOrUnknown(
-              data['notifications_enabled']!, _notificationsEnabledMeta));
+        ),
+      );
     }
     return context;
   }
@@ -1063,14 +1229,20 @@ class $TaskNotificationTogglesTable extends TaskNotificationToggles
   @override
   Set<GeneratedColumn> get $primaryKey => {taskId};
   @override
-  DbTaskNotificationToggle map(Map<String, dynamic> data,
-      {String? tablePrefix}) {
+  DbTaskNotificationToggle map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DbTaskNotificationToggle(
-      taskId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}task_id'])!,
+      taskId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}task_id'],
+      )!,
       notificationsEnabled: attachedDatabase.typeMapping.read(
-          DriftSqlType.bool, data['${effectivePrefix}notifications_enabled'])!,
+        DriftSqlType.bool,
+        data['${effectivePrefix}notifications_enabled'],
+      )!,
     );
   }
 
@@ -1084,8 +1256,10 @@ class DbTaskNotificationToggle extends DataClass
     implements Insertable<DbTaskNotificationToggle> {
   final String taskId;
   final bool notificationsEnabled;
-  const DbTaskNotificationToggle(
-      {required this.taskId, required this.notificationsEnabled});
+  const DbTaskNotificationToggle({
+    required this.taskId,
+    required this.notificationsEnabled,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1101,13 +1275,16 @@ class DbTaskNotificationToggle extends DataClass
     );
   }
 
-  factory DbTaskNotificationToggle.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory DbTaskNotificationToggle.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DbTaskNotificationToggle(
       taskId: serializer.fromJson<String>(json['taskId']),
-      notificationsEnabled:
-          serializer.fromJson<bool>(json['notificationsEnabled']),
+      notificationsEnabled: serializer.fromJson<bool>(
+        json['notificationsEnabled'],
+      ),
     );
   }
   @override
@@ -1119,14 +1296,16 @@ class DbTaskNotificationToggle extends DataClass
     };
   }
 
-  DbTaskNotificationToggle copyWith(
-          {String? taskId, bool? notificationsEnabled}) =>
-      DbTaskNotificationToggle(
-        taskId: taskId ?? this.taskId,
-        notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
-      );
+  DbTaskNotificationToggle copyWith({
+    String? taskId,
+    bool? notificationsEnabled,
+  }) => DbTaskNotificationToggle(
+    taskId: taskId ?? this.taskId,
+    notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
+  );
   DbTaskNotificationToggle copyWithCompanion(
-      TaskNotificationTogglesCompanion data) {
+    TaskNotificationTogglesCompanion data,
+  ) {
     return DbTaskNotificationToggle(
       taskId: data.taskId.present ? data.taskId.value : this.taskId,
       notificationsEnabled: data.notificationsEnabled.present
@@ -1182,10 +1361,11 @@ class TaskNotificationTogglesCompanion
     });
   }
 
-  TaskNotificationTogglesCompanion copyWith(
-      {Value<String>? taskId,
-      Value<bool>? notificationsEnabled,
-      Value<int>? rowid}) {
+  TaskNotificationTogglesCompanion copyWith({
+    Value<String>? taskId,
+    Value<bool>? notificationsEnabled,
+    Value<int>? rowid,
+  }) {
     return TaskNotificationTogglesCompanion(
       taskId: taskId ?? this.taskId,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
@@ -1219,378 +1399,6 @@ class TaskNotificationTogglesCompanion
   }
 }
 
-class $SyncQueueTable extends SyncQueue
-    with TableInfo<$SyncQueueTable, DbSyncQueueEntry> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $SyncQueueTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _entityMeta = const VerificationMeta('entity');
-  @override
-  late final GeneratedColumn<String> entity = GeneratedColumn<String>(
-      'entity', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _entityIdMeta =
-      const VerificationMeta('entityId');
-  @override
-  late final GeneratedColumn<String> entityId = GeneratedColumn<String>(
-      'entity_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _actionMeta = const VerificationMeta('action');
-  @override
-  late final GeneratedColumn<String> action = GeneratedColumn<String>(
-      'action', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _payloadMeta =
-      const VerificationMeta('payload');
-  @override
-  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
-      'payload', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
-  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
-  @override
-  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
-      'synced', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
-      defaultValue: const Constant(false));
-  @override
-  List<GeneratedColumn> get $columns =>
-      [id, entity, entityId, action, payload, createdAt, synced];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'sync_queue';
-  @override
-  VerificationContext validateIntegrity(Insertable<DbSyncQueueEntry> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('entity')) {
-      context.handle(_entityMeta,
-          entity.isAcceptableOrUnknown(data['entity']!, _entityMeta));
-    } else if (isInserting) {
-      context.missing(_entityMeta);
-    }
-    if (data.containsKey('entity_id')) {
-      context.handle(_entityIdMeta,
-          entityId.isAcceptableOrUnknown(data['entity_id']!, _entityIdMeta));
-    } else if (isInserting) {
-      context.missing(_entityIdMeta);
-    }
-    if (data.containsKey('action')) {
-      context.handle(_actionMeta,
-          action.isAcceptableOrUnknown(data['action']!, _actionMeta));
-    } else if (isInserting) {
-      context.missing(_actionMeta);
-    }
-    if (data.containsKey('payload')) {
-      context.handle(_payloadMeta,
-          payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta));
-    } else if (isInserting) {
-      context.missing(_payloadMeta);
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    }
-    if (data.containsKey('synced')) {
-      context.handle(_syncedMeta,
-          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  DbSyncQueueEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return DbSyncQueueEntry(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      entity: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}entity'])!,
-      entityId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}entity_id'])!,
-      action: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}action'])!,
-      payload: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}payload'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
-      synced: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
-    );
-  }
-
-  @override
-  $SyncQueueTable createAlias(String alias) {
-    return $SyncQueueTable(attachedDatabase, alias);
-  }
-}
-
-class DbSyncQueueEntry extends DataClass
-    implements Insertable<DbSyncQueueEntry> {
-  final int id;
-  final String entity;
-  final String entityId;
-  final String action;
-  final String payload;
-  final DateTime createdAt;
-  final bool synced;
-  const DbSyncQueueEntry(
-      {required this.id,
-      required this.entity,
-      required this.entityId,
-      required this.action,
-      required this.payload,
-      required this.createdAt,
-      required this.synced});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['entity'] = Variable<String>(entity);
-    map['entity_id'] = Variable<String>(entityId);
-    map['action'] = Variable<String>(action);
-    map['payload'] = Variable<String>(payload);
-    map['created_at'] = Variable<DateTime>(createdAt);
-    map['synced'] = Variable<bool>(synced);
-    return map;
-  }
-
-  SyncQueueCompanion toCompanion(bool nullToAbsent) {
-    return SyncQueueCompanion(
-      id: Value(id),
-      entity: Value(entity),
-      entityId: Value(entityId),
-      action: Value(action),
-      payload: Value(payload),
-      createdAt: Value(createdAt),
-      synced: Value(synced),
-    );
-  }
-
-  factory DbSyncQueueEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return DbSyncQueueEntry(
-      id: serializer.fromJson<int>(json['id']),
-      entity: serializer.fromJson<String>(json['entity']),
-      entityId: serializer.fromJson<String>(json['entityId']),
-      action: serializer.fromJson<String>(json['action']),
-      payload: serializer.fromJson<String>(json['payload']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-      synced: serializer.fromJson<bool>(json['synced']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'entity': serializer.toJson<String>(entity),
-      'entityId': serializer.toJson<String>(entityId),
-      'action': serializer.toJson<String>(action),
-      'payload': serializer.toJson<String>(payload),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-      'synced': serializer.toJson<bool>(synced),
-    };
-  }
-
-  DbSyncQueueEntry copyWith(
-          {int? id,
-          String? entity,
-          String? entityId,
-          String? action,
-          String? payload,
-          DateTime? createdAt,
-          bool? synced}) =>
-      DbSyncQueueEntry(
-        id: id ?? this.id,
-        entity: entity ?? this.entity,
-        entityId: entityId ?? this.entityId,
-        action: action ?? this.action,
-        payload: payload ?? this.payload,
-        createdAt: createdAt ?? this.createdAt,
-        synced: synced ?? this.synced,
-      );
-  DbSyncQueueEntry copyWithCompanion(SyncQueueCompanion data) {
-    return DbSyncQueueEntry(
-      id: data.id.present ? data.id.value : this.id,
-      entity: data.entity.present ? data.entity.value : this.entity,
-      entityId: data.entityId.present ? data.entityId.value : this.entityId,
-      action: data.action.present ? data.action.value : this.action,
-      payload: data.payload.present ? data.payload.value : this.payload,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-      synced: data.synced.present ? data.synced.value : this.synced,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('DbSyncQueueEntry(')
-          ..write('id: $id, ')
-          ..write('entity: $entity, ')
-          ..write('entityId: $entityId, ')
-          ..write('action: $action, ')
-          ..write('payload: $payload, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('synced: $synced')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(id, entity, entityId, action, payload, createdAt, synced);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is DbSyncQueueEntry &&
-          other.id == this.id &&
-          other.entity == this.entity &&
-          other.entityId == this.entityId &&
-          other.action == this.action &&
-          other.payload == this.payload &&
-          other.createdAt == this.createdAt &&
-          other.synced == this.synced);
-}
-
-class SyncQueueCompanion extends UpdateCompanion<DbSyncQueueEntry> {
-  final Value<int> id;
-  final Value<String> entity;
-  final Value<String> entityId;
-  final Value<String> action;
-  final Value<String> payload;
-  final Value<DateTime> createdAt;
-  final Value<bool> synced;
-  const SyncQueueCompanion({
-    this.id = const Value.absent(),
-    this.entity = const Value.absent(),
-    this.entityId = const Value.absent(),
-    this.action = const Value.absent(),
-    this.payload = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.synced = const Value.absent(),
-  });
-  SyncQueueCompanion.insert({
-    this.id = const Value.absent(),
-    required String entity,
-    required String entityId,
-    required String action,
-    required String payload,
-    this.createdAt = const Value.absent(),
-    this.synced = const Value.absent(),
-  })  : entity = Value(entity),
-        entityId = Value(entityId),
-        action = Value(action),
-        payload = Value(payload);
-  static Insertable<DbSyncQueueEntry> custom({
-    Expression<int>? id,
-    Expression<String>? entity,
-    Expression<String>? entityId,
-    Expression<String>? action,
-    Expression<String>? payload,
-    Expression<DateTime>? createdAt,
-    Expression<bool>? synced,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (entity != null) 'entity': entity,
-      if (entityId != null) 'entity_id': entityId,
-      if (action != null) 'action': action,
-      if (payload != null) 'payload': payload,
-      if (createdAt != null) 'created_at': createdAt,
-      if (synced != null) 'synced': synced,
-    });
-  }
-
-  SyncQueueCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? entity,
-      Value<String>? entityId,
-      Value<String>? action,
-      Value<String>? payload,
-      Value<DateTime>? createdAt,
-      Value<bool>? synced}) {
-    return SyncQueueCompanion(
-      id: id ?? this.id,
-      entity: entity ?? this.entity,
-      entityId: entityId ?? this.entityId,
-      action: action ?? this.action,
-      payload: payload ?? this.payload,
-      createdAt: createdAt ?? this.createdAt,
-      synced: synced ?? this.synced,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (entity.present) {
-      map['entity'] = Variable<String>(entity.value);
-    }
-    if (entityId.present) {
-      map['entity_id'] = Variable<String>(entityId.value);
-    }
-    if (action.present) {
-      map['action'] = Variable<String>(action.value);
-    }
-    if (payload.present) {
-      map['payload'] = Variable<String>(payload.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    if (synced.present) {
-      map['synced'] = Variable<bool>(synced.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('SyncQueueCompanion(')
-          ..write('id: $id, ')
-          ..write('entity: $entity, ')
-          ..write('entityId: $entityId, ')
-          ..write('action: $action, ')
-          ..write('payload: $payload, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('synced: $synced')
-          ..write(')'))
-        .toString();
-  }
-}
-
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1601,52 +1409,56 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $CategoryNotificationSchedulesTable(this);
   late final $TaskNotificationTogglesTable taskNotificationToggles =
       $TaskNotificationTogglesTable(this);
-  late final $SyncQueueTable syncQueue = $SyncQueueTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-        tasks,
-        dailyLogs,
-        appSettings,
-        categoryNotificationSchedules,
-        taskNotificationToggles,
-        syncQueue
-      ];
+    tasks,
+    dailyLogs,
+    appSettings,
+    categoryNotificationSchedules,
+    taskNotificationToggles,
+  ];
 }
 
-typedef $$TasksTableCreateCompanionBuilder = TasksCompanion Function({
-  required String id,
-  required int points,
-  required String category,
-  required int sortOrder,
-  Value<int> rowid,
-});
-typedef $$TasksTableUpdateCompanionBuilder = TasksCompanion Function({
-  Value<String> id,
-  Value<int> points,
-  Value<String> category,
-  Value<int> sortOrder,
-  Value<int> rowid,
-});
+typedef $$TasksTableCreateCompanionBuilder =
+    TasksCompanion Function({
+      required String id,
+      required int points,
+      required String category,
+      required int sortOrder,
+      Value<int> rowid,
+    });
+typedef $$TasksTableUpdateCompanionBuilder =
+    TasksCompanion Function({
+      Value<String> id,
+      Value<int> points,
+      Value<String> category,
+      Value<int> sortOrder,
+      Value<int> rowid,
+    });
 
 final class $$TasksTableReferences
     extends BaseReferences<_$AppDatabase, $TasksTable, DbTask> {
   $$TasksTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<$DailyLogsTable, List<DbDailyLog>>
-      _dailyLogsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-          db.dailyLogs,
-          aliasName: $_aliasNameGenerator(db.tasks.id, db.dailyLogs.taskId));
+  _dailyLogsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.dailyLogs,
+    aliasName: $_aliasNameGenerator(db.tasks.id, db.dailyLogs.taskId),
+  );
 
   $$DailyLogsTableProcessedTableManager get dailyLogsRefs {
-    final manager = $$DailyLogsTableTableManager($_db, $_db.dailyLogs)
-        .filter((f) => f.taskId.id($_item.id));
+    final manager = $$DailyLogsTableTableManager(
+      $_db,
+      $_db.dailyLogs,
+    ).filter((f) => f.taskId.id($_item.id));
 
     final cache = $_typedResult.readTableOrNull(_dailyLogsRefsTable($_db));
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 }
 
@@ -1654,35 +1466,46 @@ class $$TasksTableFilterComposer
     extends FilterComposer<_$AppDatabase, $TasksTable> {
   $$TasksTableFilterComposer(super.$state);
   ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.id,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 
   ColumnFilters<int> get points => $state.composableBuilder(
-      column: $state.table.points,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.points,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 
   ColumnFilters<String> get category => $state.composableBuilder(
-      column: $state.table.category,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.category,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 
   ColumnFilters<int> get sortOrder => $state.composableBuilder(
-      column: $state.table.sortOrder,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.sortOrder,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 
   ComposableFilter dailyLogsRefs(
-      ComposableFilter Function($$DailyLogsTableFilterComposer f) f) {
+    ComposableFilter Function($$DailyLogsTableFilterComposer f) f,
+  ) {
     final $$DailyLogsTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $state.db.dailyLogs,
-        getReferencedColumn: (t) => t.taskId,
-        builder: (joinBuilder, parentComposers) =>
-            $$DailyLogsTableFilterComposer(ComposerState(
-                $state.db, $state.db.dailyLogs, joinBuilder, parentComposers)));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $state.db.dailyLogs,
+      getReferencedColumn: (t) => t.taskId,
+      builder: (joinBuilder, parentComposers) => $$DailyLogsTableFilterComposer(
+        ComposerState(
+          $state.db,
+          $state.db.dailyLogs,
+          joinBuilder,
+          parentComposers,
+        ),
+      ),
+    );
     return f(composer);
   }
 }
@@ -1691,76 +1514,88 @@ class $$TasksTableOrderingComposer
     extends OrderingComposer<_$AppDatabase, $TasksTable> {
   $$TasksTableOrderingComposer(super.$state);
   ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.id,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 
   ColumnOrderings<int> get points => $state.composableBuilder(
-      column: $state.table.points,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.points,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 
   ColumnOrderings<String> get category => $state.composableBuilder(
-      column: $state.table.category,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.category,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 
   ColumnOrderings<int> get sortOrder => $state.composableBuilder(
-      column: $state.table.sortOrder,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.sortOrder,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 }
 
-class $$TasksTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $TasksTable,
-    DbTask,
-    $$TasksTableFilterComposer,
-    $$TasksTableOrderingComposer,
-    $$TasksTableCreateCompanionBuilder,
-    $$TasksTableUpdateCompanionBuilder,
-    (DbTask, $$TasksTableReferences),
-    DbTask,
-    PrefetchHooks Function({bool dailyLogsRefs})> {
+class $$TasksTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TasksTable,
+          DbTask,
+          $$TasksTableFilterComposer,
+          $$TasksTableOrderingComposer,
+          $$TasksTableCreateCompanionBuilder,
+          $$TasksTableUpdateCompanionBuilder,
+          (DbTask, $$TasksTableReferences),
+          DbTask,
+          PrefetchHooks Function({bool dailyLogsRefs})
+        > {
   $$TasksTableTableManager(_$AppDatabase db, $TasksTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$TasksTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$TasksTableOrderingComposer(ComposerState(db, table)),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<int> points = const Value.absent(),
-            Value<String> category = const Value.absent(),
-            Value<int> sortOrder = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              TasksCompanion(
-            id: id,
-            points: points,
-            category: category,
-            sortOrder: sortOrder,
-            rowid: rowid,
+          filteringComposer: $$TasksTableFilterComposer(
+            ComposerState(db, table),
           ),
-          createCompanionCallback: ({
-            required String id,
-            required int points,
-            required String category,
-            required int sortOrder,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              TasksCompanion.insert(
-            id: id,
-            points: points,
-            category: category,
-            sortOrder: sortOrder,
-            rowid: rowid,
+          orderingComposer: $$TasksTableOrderingComposer(
+            ComposerState(db, table),
           ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<int> points = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<int> sortOrder = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TasksCompanion(
+                id: id,
+                points: points,
+                category: category,
+                sortOrder: sortOrder,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required int points,
+                required String category,
+                required int sortOrder,
+                Value<int> rowid = const Value.absent(),
+              }) => TasksCompanion.insert(
+                id: id,
+                points: points,
+                category: category,
+                sortOrder: sortOrder,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$TasksTableReferences(db, table, e)))
+              .map(
+                (e) =>
+                    (e.readTable(table), $$TasksTableReferences(db, table, e)),
+              )
               .toList(),
           prefetchHooksCallback: ({dailyLogsRefs = false}) {
             return PrefetchHooks(
@@ -1771,63 +1606,72 @@ class $$TasksTableTableManager extends RootTableManager<
                 return [
                   if (dailyLogsRefs)
                     await $_getPrefetchedData(
-                        currentTable: table,
-                        referencedTable:
-                            $$TasksTableReferences._dailyLogsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$TasksTableReferences(db, table, p0).dailyLogsRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.taskId == item.id),
-                        typedResults: items)
+                      currentTable: table,
+                      referencedTable: $$TasksTableReferences
+                          ._dailyLogsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$TasksTableReferences(db, table, p0).dailyLogsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.taskId == item.id),
+                      typedResults: items,
+                    ),
                 ];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$TasksTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $TasksTable,
-    DbTask,
-    $$TasksTableFilterComposer,
-    $$TasksTableOrderingComposer,
-    $$TasksTableCreateCompanionBuilder,
-    $$TasksTableUpdateCompanionBuilder,
-    (DbTask, $$TasksTableReferences),
-    DbTask,
-    PrefetchHooks Function({bool dailyLogsRefs})>;
-typedef $$DailyLogsTableCreateCompanionBuilder = DailyLogsCompanion Function({
-  required String date,
-  required String taskId,
-  Value<bool> completed,
-  Value<DateTime> updatedAt,
-  Value<int> rowid,
-});
-typedef $$DailyLogsTableUpdateCompanionBuilder = DailyLogsCompanion Function({
-  Value<String> date,
-  Value<String> taskId,
-  Value<bool> completed,
-  Value<DateTime> updatedAt,
-  Value<int> rowid,
-});
+typedef $$TasksTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TasksTable,
+      DbTask,
+      $$TasksTableFilterComposer,
+      $$TasksTableOrderingComposer,
+      $$TasksTableCreateCompanionBuilder,
+      $$TasksTableUpdateCompanionBuilder,
+      (DbTask, $$TasksTableReferences),
+      DbTask,
+      PrefetchHooks Function({bool dailyLogsRefs})
+    >;
+typedef $$DailyLogsTableCreateCompanionBuilder =
+    DailyLogsCompanion Function({
+      required String date,
+      required String taskId,
+      Value<bool> completed,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+typedef $$DailyLogsTableUpdateCompanionBuilder =
+    DailyLogsCompanion Function({
+      Value<String> date,
+      Value<String> taskId,
+      Value<bool> completed,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
 
 final class $$DailyLogsTableReferences
     extends BaseReferences<_$AppDatabase, $DailyLogsTable, DbDailyLog> {
   $$DailyLogsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static $TasksTable _taskIdTable(_$AppDatabase db) => db.tasks
-      .createAlias($_aliasNameGenerator(db.dailyLogs.taskId, db.tasks.id));
+  static $TasksTable _taskIdTable(_$AppDatabase db) => db.tasks.createAlias(
+    $_aliasNameGenerator(db.dailyLogs.taskId, db.tasks.id),
+  );
 
   $$TasksTableProcessedTableManager? get taskId {
     if ($_item.taskId == null) return null;
-    final manager = $$TasksTableTableManager($_db, $_db.tasks)
-        .filter((f) => f.id($_item.taskId!));
+    final manager = $$TasksTableTableManager(
+      $_db,
+      $_db.tasks,
+    ).filter((f) => f.id($_item.taskId!));
     final item = $_typedResult.readTableOrNull(_taskIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
@@ -1835,29 +1679,33 @@ class $$DailyLogsTableFilterComposer
     extends FilterComposer<_$AppDatabase, $DailyLogsTable> {
   $$DailyLogsTableFilterComposer(super.$state);
   ColumnFilters<String> get date => $state.composableBuilder(
-      column: $state.table.date,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.date,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 
   ColumnFilters<bool> get completed => $state.composableBuilder(
-      column: $state.table.completed,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.completed,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 
   ColumnFilters<DateTime> get updatedAt => $state.composableBuilder(
-      column: $state.table.updatedAt,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.updatedAt,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 
   $$TasksTableFilterComposer get taskId {
     final $$TasksTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.taskId,
-        referencedTable: $state.db.tasks,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) => $$TasksTableFilterComposer(
-            ComposerState(
-                $state.db, $state.db.tasks, joinBuilder, parentComposers)));
+      composer: this,
+      getCurrentColumn: (t) => t.taskId,
+      referencedTable: $state.db.tasks,
+      getReferencedColumn: (t) => t.id,
+      builder: (joinBuilder, parentComposers) => $$TasksTableFilterComposer(
+        ComposerState($state.db, $state.db.tasks, joinBuilder, parentComposers),
+      ),
+    );
     return composer;
   }
 }
@@ -1866,92 +1714,105 @@ class $$DailyLogsTableOrderingComposer
     extends OrderingComposer<_$AppDatabase, $DailyLogsTable> {
   $$DailyLogsTableOrderingComposer(super.$state);
   ColumnOrderings<String> get date => $state.composableBuilder(
-      column: $state.table.date,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.date,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 
   ColumnOrderings<bool> get completed => $state.composableBuilder(
-      column: $state.table.completed,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.completed,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 
   ColumnOrderings<DateTime> get updatedAt => $state.composableBuilder(
-      column: $state.table.updatedAt,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.updatedAt,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 
   $$TasksTableOrderingComposer get taskId {
     final $$TasksTableOrderingComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.taskId,
-        referencedTable: $state.db.tasks,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) => $$TasksTableOrderingComposer(
-            ComposerState(
-                $state.db, $state.db.tasks, joinBuilder, parentComposers)));
+      composer: this,
+      getCurrentColumn: (t) => t.taskId,
+      referencedTable: $state.db.tasks,
+      getReferencedColumn: (t) => t.id,
+      builder: (joinBuilder, parentComposers) => $$TasksTableOrderingComposer(
+        ComposerState($state.db, $state.db.tasks, joinBuilder, parentComposers),
+      ),
+    );
     return composer;
   }
 }
 
-class $$DailyLogsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $DailyLogsTable,
-    DbDailyLog,
-    $$DailyLogsTableFilterComposer,
-    $$DailyLogsTableOrderingComposer,
-    $$DailyLogsTableCreateCompanionBuilder,
-    $$DailyLogsTableUpdateCompanionBuilder,
-    (DbDailyLog, $$DailyLogsTableReferences),
-    DbDailyLog,
-    PrefetchHooks Function({bool taskId})> {
+class $$DailyLogsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DailyLogsTable,
+          DbDailyLog,
+          $$DailyLogsTableFilterComposer,
+          $$DailyLogsTableOrderingComposer,
+          $$DailyLogsTableCreateCompanionBuilder,
+          $$DailyLogsTableUpdateCompanionBuilder,
+          (DbDailyLog, $$DailyLogsTableReferences),
+          DbDailyLog,
+          PrefetchHooks Function({bool taskId})
+        > {
   $$DailyLogsTableTableManager(_$AppDatabase db, $DailyLogsTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$DailyLogsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$DailyLogsTableOrderingComposer(ComposerState(db, table)),
-          updateCompanionCallback: ({
-            Value<String> date = const Value.absent(),
-            Value<String> taskId = const Value.absent(),
-            Value<bool> completed = const Value.absent(),
-            Value<DateTime> updatedAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              DailyLogsCompanion(
-            date: date,
-            taskId: taskId,
-            completed: completed,
-            updatedAt: updatedAt,
-            rowid: rowid,
+          filteringComposer: $$DailyLogsTableFilterComposer(
+            ComposerState(db, table),
           ),
-          createCompanionCallback: ({
-            required String date,
-            required String taskId,
-            Value<bool> completed = const Value.absent(),
-            Value<DateTime> updatedAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              DailyLogsCompanion.insert(
-            date: date,
-            taskId: taskId,
-            completed: completed,
-            updatedAt: updatedAt,
-            rowid: rowid,
+          orderingComposer: $$DailyLogsTableOrderingComposer(
+            ComposerState(db, table),
           ),
+          updateCompanionCallback:
+              ({
+                Value<String> date = const Value.absent(),
+                Value<String> taskId = const Value.absent(),
+                Value<bool> completed = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DailyLogsCompanion(
+                date: date,
+                taskId: taskId,
+                completed: completed,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String date,
+                required String taskId,
+                Value<bool> completed = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DailyLogsCompanion.insert(
+                date: date,
+                taskId: taskId,
+                completed: completed,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$DailyLogsTableReferences(db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DailyLogsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: ({taskId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -1961,569 +1822,452 @@ class $$DailyLogsTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (taskId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.taskId,
-                    referencedTable:
-                        $$DailyLogsTableReferences._taskIdTable(db),
-                    referencedColumn:
-                        $$DailyLogsTableReferences._taskIdTable(db).id,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (taskId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.taskId,
+                                referencedTable: $$DailyLogsTableReferences
+                                    ._taskIdTable(db),
+                                referencedColumn: $$DailyLogsTableReferences
+                                    ._taskIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$DailyLogsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $DailyLogsTable,
-    DbDailyLog,
-    $$DailyLogsTableFilterComposer,
-    $$DailyLogsTableOrderingComposer,
-    $$DailyLogsTableCreateCompanionBuilder,
-    $$DailyLogsTableUpdateCompanionBuilder,
-    (DbDailyLog, $$DailyLogsTableReferences),
-    DbDailyLog,
-    PrefetchHooks Function({bool taskId})>;
-typedef $$AppSettingsTableCreateCompanionBuilder = AppSettingsCompanion
-    Function({
-  required String key,
-  Value<String?> value,
-  Value<int> rowid,
-});
-typedef $$AppSettingsTableUpdateCompanionBuilder = AppSettingsCompanion
-    Function({
-  Value<String> key,
-  Value<String?> value,
-  Value<int> rowid,
-});
+typedef $$DailyLogsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DailyLogsTable,
+      DbDailyLog,
+      $$DailyLogsTableFilterComposer,
+      $$DailyLogsTableOrderingComposer,
+      $$DailyLogsTableCreateCompanionBuilder,
+      $$DailyLogsTableUpdateCompanionBuilder,
+      (DbDailyLog, $$DailyLogsTableReferences),
+      DbDailyLog,
+      PrefetchHooks Function({bool taskId})
+    >;
+typedef $$AppSettingsTableCreateCompanionBuilder =
+    AppSettingsCompanion Function({
+      required String key,
+      Value<String?> value,
+      Value<int> rowid,
+    });
+typedef $$AppSettingsTableUpdateCompanionBuilder =
+    AppSettingsCompanion Function({
+      Value<String> key,
+      Value<String?> value,
+      Value<int> rowid,
+    });
 
 class $$AppSettingsTableFilterComposer
     extends FilterComposer<_$AppDatabase, $AppSettingsTable> {
   $$AppSettingsTableFilterComposer(super.$state);
   ColumnFilters<String> get key => $state.composableBuilder(
-      column: $state.table.key,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.key,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 
   ColumnFilters<String> get value => $state.composableBuilder(
-      column: $state.table.value,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.value,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 }
 
 class $$AppSettingsTableOrderingComposer
     extends OrderingComposer<_$AppDatabase, $AppSettingsTable> {
   $$AppSettingsTableOrderingComposer(super.$state);
   ColumnOrderings<String> get key => $state.composableBuilder(
-      column: $state.table.key,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.key,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 
   ColumnOrderings<String> get value => $state.composableBuilder(
-      column: $state.table.value,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.value,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 }
 
-class $$AppSettingsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $AppSettingsTable,
-    DbAppSetting,
-    $$AppSettingsTableFilterComposer,
-    $$AppSettingsTableOrderingComposer,
-    $$AppSettingsTableCreateCompanionBuilder,
-    $$AppSettingsTableUpdateCompanionBuilder,
-    (
-      DbAppSetting,
-      BaseReferences<_$AppDatabase, $AppSettingsTable, DbAppSetting>
-    ),
-    DbAppSetting,
-    PrefetchHooks Function()> {
+class $$AppSettingsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $AppSettingsTable,
+          DbAppSetting,
+          $$AppSettingsTableFilterComposer,
+          $$AppSettingsTableOrderingComposer,
+          $$AppSettingsTableCreateCompanionBuilder,
+          $$AppSettingsTableUpdateCompanionBuilder,
+          (
+            DbAppSetting,
+            BaseReferences<_$AppDatabase, $AppSettingsTable, DbAppSetting>,
+          ),
+          DbAppSetting,
+          PrefetchHooks Function()
+        > {
   $$AppSettingsTableTableManager(_$AppDatabase db, $AppSettingsTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$AppSettingsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$AppSettingsTableOrderingComposer(ComposerState(db, table)),
-          updateCompanionCallback: ({
-            Value<String> key = const Value.absent(),
-            Value<String?> value = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              AppSettingsCompanion(
-            key: key,
-            value: value,
-            rowid: rowid,
+          filteringComposer: $$AppSettingsTableFilterComposer(
+            ComposerState(db, table),
           ),
-          createCompanionCallback: ({
-            required String key,
-            Value<String?> value = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              AppSettingsCompanion.insert(
-            key: key,
-            value: value,
-            rowid: rowid,
+          orderingComposer: $$AppSettingsTableOrderingComposer(
+            ComposerState(db, table),
           ),
+          updateCompanionCallback:
+              ({
+                Value<String> key = const Value.absent(),
+                Value<String?> value = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => AppSettingsCompanion(key: key, value: value, rowid: rowid),
+          createCompanionCallback:
+              ({
+                required String key,
+                Value<String?> value = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => AppSettingsCompanion.insert(
+                key: key,
+                value: value,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$AppSettingsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $AppSettingsTable,
-    DbAppSetting,
-    $$AppSettingsTableFilterComposer,
-    $$AppSettingsTableOrderingComposer,
-    $$AppSettingsTableCreateCompanionBuilder,
-    $$AppSettingsTableUpdateCompanionBuilder,
-    (
+typedef $$AppSettingsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $AppSettingsTable,
       DbAppSetting,
-      BaseReferences<_$AppDatabase, $AppSettingsTable, DbAppSetting>
-    ),
-    DbAppSetting,
-    PrefetchHooks Function()>;
-typedef $$CategoryNotificationSchedulesTableCreateCompanionBuilder
-    = CategoryNotificationSchedulesCompanion Function({
-  required String category,
-  Value<bool> enabled,
-  required int hour,
-  required int minute,
-  Value<int> rowid,
-});
-typedef $$CategoryNotificationSchedulesTableUpdateCompanionBuilder
-    = CategoryNotificationSchedulesCompanion Function({
-  Value<String> category,
-  Value<bool> enabled,
-  Value<int> hour,
-  Value<int> minute,
-  Value<int> rowid,
-});
+      $$AppSettingsTableFilterComposer,
+      $$AppSettingsTableOrderingComposer,
+      $$AppSettingsTableCreateCompanionBuilder,
+      $$AppSettingsTableUpdateCompanionBuilder,
+      (
+        DbAppSetting,
+        BaseReferences<_$AppDatabase, $AppSettingsTable, DbAppSetting>,
+      ),
+      DbAppSetting,
+      PrefetchHooks Function()
+    >;
+typedef $$CategoryNotificationSchedulesTableCreateCompanionBuilder =
+    CategoryNotificationSchedulesCompanion Function({
+      required String category,
+      Value<bool> enabled,
+      required int hour,
+      required int minute,
+      Value<int> rowid,
+    });
+typedef $$CategoryNotificationSchedulesTableUpdateCompanionBuilder =
+    CategoryNotificationSchedulesCompanion Function({
+      Value<String> category,
+      Value<bool> enabled,
+      Value<int> hour,
+      Value<int> minute,
+      Value<int> rowid,
+    });
 
 class $$CategoryNotificationSchedulesTableFilterComposer
     extends FilterComposer<_$AppDatabase, $CategoryNotificationSchedulesTable> {
   $$CategoryNotificationSchedulesTableFilterComposer(super.$state);
   ColumnFilters<String> get category => $state.composableBuilder(
-      column: $state.table.category,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.category,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 
   ColumnFilters<bool> get enabled => $state.composableBuilder(
-      column: $state.table.enabled,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.enabled,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 
   ColumnFilters<int> get hour => $state.composableBuilder(
-      column: $state.table.hour,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.hour,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 
   ColumnFilters<int> get minute => $state.composableBuilder(
-      column: $state.table.minute,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.minute,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 }
 
 class $$CategoryNotificationSchedulesTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase,
-        $CategoryNotificationSchedulesTable> {
+    extends
+        OrderingComposer<_$AppDatabase, $CategoryNotificationSchedulesTable> {
   $$CategoryNotificationSchedulesTableOrderingComposer(super.$state);
   ColumnOrderings<String> get category => $state.composableBuilder(
-      column: $state.table.category,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.category,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 
   ColumnOrderings<bool> get enabled => $state.composableBuilder(
-      column: $state.table.enabled,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.enabled,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 
   ColumnOrderings<int> get hour => $state.composableBuilder(
-      column: $state.table.hour,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.hour,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 
   ColumnOrderings<int> get minute => $state.composableBuilder(
-      column: $state.table.minute,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.minute,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 }
 
-class $$CategoryNotificationSchedulesTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $CategoryNotificationSchedulesTable,
-    DbCategoryNotificationSchedule,
-    $$CategoryNotificationSchedulesTableFilterComposer,
-    $$CategoryNotificationSchedulesTableOrderingComposer,
-    $$CategoryNotificationSchedulesTableCreateCompanionBuilder,
-    $$CategoryNotificationSchedulesTableUpdateCompanionBuilder,
-    (
-      DbCategoryNotificationSchedule,
-      BaseReferences<_$AppDatabase, $CategoryNotificationSchedulesTable,
-          DbCategoryNotificationSchedule>
-    ),
-    DbCategoryNotificationSchedule,
-    PrefetchHooks Function()> {
+class $$CategoryNotificationSchedulesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CategoryNotificationSchedulesTable,
+          DbCategoryNotificationSchedule,
+          $$CategoryNotificationSchedulesTableFilterComposer,
+          $$CategoryNotificationSchedulesTableOrderingComposer,
+          $$CategoryNotificationSchedulesTableCreateCompanionBuilder,
+          $$CategoryNotificationSchedulesTableUpdateCompanionBuilder,
+          (
+            DbCategoryNotificationSchedule,
+            BaseReferences<
+              _$AppDatabase,
+              $CategoryNotificationSchedulesTable,
+              DbCategoryNotificationSchedule
+            >,
+          ),
+          DbCategoryNotificationSchedule,
+          PrefetchHooks Function()
+        > {
   $$CategoryNotificationSchedulesTableTableManager(
-      _$AppDatabase db, $CategoryNotificationSchedulesTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $CategoryNotificationSchedulesTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           filteringComposer: $$CategoryNotificationSchedulesTableFilterComposer(
-              ComposerState(db, table)),
+            ComposerState(db, table),
+          ),
           orderingComposer:
               $$CategoryNotificationSchedulesTableOrderingComposer(
-                  ComposerState(db, table)),
-          updateCompanionCallback: ({
-            Value<String> category = const Value.absent(),
-            Value<bool> enabled = const Value.absent(),
-            Value<int> hour = const Value.absent(),
-            Value<int> minute = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CategoryNotificationSchedulesCompanion(
-            category: category,
-            enabled: enabled,
-            hour: hour,
-            minute: minute,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String category,
-            Value<bool> enabled = const Value.absent(),
-            required int hour,
-            required int minute,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CategoryNotificationSchedulesCompanion.insert(
-            category: category,
-            enabled: enabled,
-            hour: hour,
-            minute: minute,
-            rowid: rowid,
-          ),
+                ComposerState(db, table),
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> category = const Value.absent(),
+                Value<bool> enabled = const Value.absent(),
+                Value<int> hour = const Value.absent(),
+                Value<int> minute = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CategoryNotificationSchedulesCompanion(
+                category: category,
+                enabled: enabled,
+                hour: hour,
+                minute: minute,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String category,
+                Value<bool> enabled = const Value.absent(),
+                required int hour,
+                required int minute,
+                Value<int> rowid = const Value.absent(),
+              }) => CategoryNotificationSchedulesCompanion.insert(
+                category: category,
+                enabled: enabled,
+                hour: hour,
+                minute: minute,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$CategoryNotificationSchedulesTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $CategoryNotificationSchedulesTable,
+typedef $$CategoryNotificationSchedulesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CategoryNotificationSchedulesTable,
+      DbCategoryNotificationSchedule,
+      $$CategoryNotificationSchedulesTableFilterComposer,
+      $$CategoryNotificationSchedulesTableOrderingComposer,
+      $$CategoryNotificationSchedulesTableCreateCompanionBuilder,
+      $$CategoryNotificationSchedulesTableUpdateCompanionBuilder,
+      (
         DbCategoryNotificationSchedule,
-        $$CategoryNotificationSchedulesTableFilterComposer,
-        $$CategoryNotificationSchedulesTableOrderingComposer,
-        $$CategoryNotificationSchedulesTableCreateCompanionBuilder,
-        $$CategoryNotificationSchedulesTableUpdateCompanionBuilder,
-        (
-          DbCategoryNotificationSchedule,
-          BaseReferences<_$AppDatabase, $CategoryNotificationSchedulesTable,
-              DbCategoryNotificationSchedule>
-        ),
-        DbCategoryNotificationSchedule,
-        PrefetchHooks Function()>;
-typedef $$TaskNotificationTogglesTableCreateCompanionBuilder
-    = TaskNotificationTogglesCompanion Function({
-  required String taskId,
-  Value<bool> notificationsEnabled,
-  Value<int> rowid,
-});
-typedef $$TaskNotificationTogglesTableUpdateCompanionBuilder
-    = TaskNotificationTogglesCompanion Function({
-  Value<String> taskId,
-  Value<bool> notificationsEnabled,
-  Value<int> rowid,
-});
+        BaseReferences<
+          _$AppDatabase,
+          $CategoryNotificationSchedulesTable,
+          DbCategoryNotificationSchedule
+        >,
+      ),
+      DbCategoryNotificationSchedule,
+      PrefetchHooks Function()
+    >;
+typedef $$TaskNotificationTogglesTableCreateCompanionBuilder =
+    TaskNotificationTogglesCompanion Function({
+      required String taskId,
+      Value<bool> notificationsEnabled,
+      Value<int> rowid,
+    });
+typedef $$TaskNotificationTogglesTableUpdateCompanionBuilder =
+    TaskNotificationTogglesCompanion Function({
+      Value<String> taskId,
+      Value<bool> notificationsEnabled,
+      Value<int> rowid,
+    });
 
 class $$TaskNotificationTogglesTableFilterComposer
     extends FilterComposer<_$AppDatabase, $TaskNotificationTogglesTable> {
   $$TaskNotificationTogglesTableFilterComposer(super.$state);
   ColumnFilters<String> get taskId => $state.composableBuilder(
-      column: $state.table.taskId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.taskId,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 
   ColumnFilters<bool> get notificationsEnabled => $state.composableBuilder(
-      column: $state.table.notificationsEnabled,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    column: $state.table.notificationsEnabled,
+    builder: (column, joinBuilders) =>
+        ColumnFilters(column, joinBuilders: joinBuilders),
+  );
 }
 
 class $$TaskNotificationTogglesTableOrderingComposer
     extends OrderingComposer<_$AppDatabase, $TaskNotificationTogglesTable> {
   $$TaskNotificationTogglesTableOrderingComposer(super.$state);
   ColumnOrderings<String> get taskId => $state.composableBuilder(
-      column: $state.table.taskId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.taskId,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 
   ColumnOrderings<bool> get notificationsEnabled => $state.composableBuilder(
-      column: $state.table.notificationsEnabled,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    column: $state.table.notificationsEnabled,
+    builder: (column, joinBuilders) =>
+        ColumnOrderings(column, joinBuilders: joinBuilders),
+  );
 }
 
-class $$TaskNotificationTogglesTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $TaskNotificationTogglesTable,
-    DbTaskNotificationToggle,
-    $$TaskNotificationTogglesTableFilterComposer,
-    $$TaskNotificationTogglesTableOrderingComposer,
-    $$TaskNotificationTogglesTableCreateCompanionBuilder,
-    $$TaskNotificationTogglesTableUpdateCompanionBuilder,
-    (
-      DbTaskNotificationToggle,
-      BaseReferences<_$AppDatabase, $TaskNotificationTogglesTable,
-          DbTaskNotificationToggle>
-    ),
-    DbTaskNotificationToggle,
-    PrefetchHooks Function()> {
+class $$TaskNotificationTogglesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TaskNotificationTogglesTable,
+          DbTaskNotificationToggle,
+          $$TaskNotificationTogglesTableFilterComposer,
+          $$TaskNotificationTogglesTableOrderingComposer,
+          $$TaskNotificationTogglesTableCreateCompanionBuilder,
+          $$TaskNotificationTogglesTableUpdateCompanionBuilder,
+          (
+            DbTaskNotificationToggle,
+            BaseReferences<
+              _$AppDatabase,
+              $TaskNotificationTogglesTable,
+              DbTaskNotificationToggle
+            >,
+          ),
+          DbTaskNotificationToggle,
+          PrefetchHooks Function()
+        > {
   $$TaskNotificationTogglesTableTableManager(
-      _$AppDatabase db, $TaskNotificationTogglesTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $TaskNotificationTogglesTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           filteringComposer: $$TaskNotificationTogglesTableFilterComposer(
-              ComposerState(db, table)),
+            ComposerState(db, table),
+          ),
           orderingComposer: $$TaskNotificationTogglesTableOrderingComposer(
-              ComposerState(db, table)),
-          updateCompanionCallback: ({
-            Value<String> taskId = const Value.absent(),
-            Value<bool> notificationsEnabled = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              TaskNotificationTogglesCompanion(
-            taskId: taskId,
-            notificationsEnabled: notificationsEnabled,
-            rowid: rowid,
+            ComposerState(db, table),
           ),
-          createCompanionCallback: ({
-            required String taskId,
-            Value<bool> notificationsEnabled = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              TaskNotificationTogglesCompanion.insert(
-            taskId: taskId,
-            notificationsEnabled: notificationsEnabled,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> taskId = const Value.absent(),
+                Value<bool> notificationsEnabled = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TaskNotificationTogglesCompanion(
+                taskId: taskId,
+                notificationsEnabled: notificationsEnabled,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String taskId,
+                Value<bool> notificationsEnabled = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TaskNotificationTogglesCompanion.insert(
+                taskId: taskId,
+                notificationsEnabled: notificationsEnabled,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
-}
-
-typedef $$TaskNotificationTogglesTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $TaskNotificationTogglesTable,
-        DbTaskNotificationToggle,
-        $$TaskNotificationTogglesTableFilterComposer,
-        $$TaskNotificationTogglesTableOrderingComposer,
-        $$TaskNotificationTogglesTableCreateCompanionBuilder,
-        $$TaskNotificationTogglesTableUpdateCompanionBuilder,
-        (
-          DbTaskNotificationToggle,
-          BaseReferences<_$AppDatabase, $TaskNotificationTogglesTable,
-              DbTaskNotificationToggle>
         ),
+      );
+}
+
+typedef $$TaskNotificationTogglesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TaskNotificationTogglesTable,
+      DbTaskNotificationToggle,
+      $$TaskNotificationTogglesTableFilterComposer,
+      $$TaskNotificationTogglesTableOrderingComposer,
+      $$TaskNotificationTogglesTableCreateCompanionBuilder,
+      $$TaskNotificationTogglesTableUpdateCompanionBuilder,
+      (
         DbTaskNotificationToggle,
-        PrefetchHooks Function()>;
-typedef $$SyncQueueTableCreateCompanionBuilder = SyncQueueCompanion Function({
-  Value<int> id,
-  required String entity,
-  required String entityId,
-  required String action,
-  required String payload,
-  Value<DateTime> createdAt,
-  Value<bool> synced,
-});
-typedef $$SyncQueueTableUpdateCompanionBuilder = SyncQueueCompanion Function({
-  Value<int> id,
-  Value<String> entity,
-  Value<String> entityId,
-  Value<String> action,
-  Value<String> payload,
-  Value<DateTime> createdAt,
-  Value<bool> synced,
-});
-
-class $$SyncQueueTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $SyncQueueTable> {
-  $$SyncQueueTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get entity => $state.composableBuilder(
-      column: $state.table.entity,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get entityId => $state.composableBuilder(
-      column: $state.table.entityId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get action => $state.composableBuilder(
-      column: $state.table.action,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get payload => $state.composableBuilder(
-      column: $state.table.payload,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<DateTime> get createdAt => $state.composableBuilder(
-      column: $state.table.createdAt,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get synced => $state.composableBuilder(
-      column: $state.table.synced,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$SyncQueueTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $SyncQueueTable> {
-  $$SyncQueueTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get entity => $state.composableBuilder(
-      column: $state.table.entity,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get entityId => $state.composableBuilder(
-      column: $state.table.entityId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get action => $state.composableBuilder(
-      column: $state.table.action,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get payload => $state.composableBuilder(
-      column: $state.table.payload,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<DateTime> get createdAt => $state.composableBuilder(
-      column: $state.table.createdAt,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get synced => $state.composableBuilder(
-      column: $state.table.synced,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
-class $$SyncQueueTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $SyncQueueTable,
-    DbSyncQueueEntry,
-    $$SyncQueueTableFilterComposer,
-    $$SyncQueueTableOrderingComposer,
-    $$SyncQueueTableCreateCompanionBuilder,
-    $$SyncQueueTableUpdateCompanionBuilder,
-    (
-      DbSyncQueueEntry,
-      BaseReferences<_$AppDatabase, $SyncQueueTable, DbSyncQueueEntry>
-    ),
-    DbSyncQueueEntry,
-    PrefetchHooks Function()> {
-  $$SyncQueueTableTableManager(_$AppDatabase db, $SyncQueueTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          filteringComposer:
-              $$SyncQueueTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$SyncQueueTableOrderingComposer(ComposerState(db, table)),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String> entity = const Value.absent(),
-            Value<String> entityId = const Value.absent(),
-            Value<String> action = const Value.absent(),
-            Value<String> payload = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<bool> synced = const Value.absent(),
-          }) =>
-              SyncQueueCompanion(
-            id: id,
-            entity: entity,
-            entityId: entityId,
-            action: action,
-            payload: payload,
-            createdAt: createdAt,
-            synced: synced,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required String entity,
-            required String entityId,
-            required String action,
-            required String payload,
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<bool> synced = const Value.absent(),
-          }) =>
-              SyncQueueCompanion.insert(
-            id: id,
-            entity: entity,
-            entityId: entityId,
-            action: action,
-            payload: payload,
-            createdAt: createdAt,
-            synced: synced,
-          ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
-          prefetchHooksCallback: null,
-        ));
-}
-
-typedef $$SyncQueueTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $SyncQueueTable,
-    DbSyncQueueEntry,
-    $$SyncQueueTableFilterComposer,
-    $$SyncQueueTableOrderingComposer,
-    $$SyncQueueTableCreateCompanionBuilder,
-    $$SyncQueueTableUpdateCompanionBuilder,
-    (
-      DbSyncQueueEntry,
-      BaseReferences<_$AppDatabase, $SyncQueueTable, DbSyncQueueEntry>
-    ),
-    DbSyncQueueEntry,
-    PrefetchHooks Function()>;
+        BaseReferences<
+          _$AppDatabase,
+          $TaskNotificationTogglesTable,
+          DbTaskNotificationToggle
+        >,
+      ),
+      DbTaskNotificationToggle,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -2535,12 +2279,14 @@ class $AppDatabaseManager {
   $$AppSettingsTableTableManager get appSettings =>
       $$AppSettingsTableTableManager(_db, _db.appSettings);
   $$CategoryNotificationSchedulesTableTableManager
-      get categoryNotificationSchedules =>
-          $$CategoryNotificationSchedulesTableTableManager(
-              _db, _db.categoryNotificationSchedules);
+  get categoryNotificationSchedules =>
+      $$CategoryNotificationSchedulesTableTableManager(
+        _db,
+        _db.categoryNotificationSchedules,
+      );
   $$TaskNotificationTogglesTableTableManager get taskNotificationToggles =>
       $$TaskNotificationTogglesTableTableManager(
-          _db, _db.taskNotificationToggles);
-  $$SyncQueueTableTableManager get syncQueue =>
-      $$SyncQueueTableTableManager(_db, _db.syncQueue);
+        _db,
+        _db.taskNotificationToggles,
+      );
 }

@@ -209,28 +209,5 @@
     "placeholders": {
       "days": { "type": "int" }
     }
-  },
-
-  "settingsAccountTitle": "TODO: الحساب",
-  "settingsAccountSignedOut": "TODO: استخدم التطبيق دون اتصال، أو سجّل الدخول للمزامنة بين الأجهزة.",
-  "settingsSignIn": "TODO: تسجيل الدخول",
-  "settingsSignUp": "TODO: إنشاء حساب",
-  "settingsSignOut": "TODO: تسجيل الخروج",
-  "settingsSignedInAs": "TODO: مسجّل الدخول باسم {email}",
-  "@settingsSignedInAs": {
-    "placeholders": {
-      "email": { "type": "String" }
-    }
-  },
-  "authSignInTitle": "TODO: تسجيل الدخول",
-  "authSignUpTitle": "TODO: إنشاء حساب",
-  "authEmailLabel": "TODO: البريد الإلكتروني",
-  "authPasswordLabel": "TODO: كلمة المرور",
-  "authPasswordMinLength": "TODO: يجب أن تكون كلمة المرور 8 أحرف على الأقل",
-  "authInvalidEmail": "TODO: أدخل بريدًا إلكترونيًا صالحًا",
-  "authSignInButton": "TODO: تسجيل الدخول",
-  "authSignUpButton": "TODO: إنشاء حساب",
-  "authNoAccount": "TODO: ليس لديك حساب؟ سجّل",
-  "authHaveAccount": "TODO: لديك حساب؟ سجّل الدخول",
-  "authGenericError": "TODO: حدث خطأ. حاول مرة أخرى."
+  }
 }

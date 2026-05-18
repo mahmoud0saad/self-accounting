@@ -10,7 +10,7 @@ important  : you *must* use your AskUserQuestion tool , grouped on these 3 befor
 
  ### Impl phase 
 
-find  the next phase {phase 0} on specs/@spec/roadmap.md and make a  branch , ask me about the feature spec 
+find  the next phase {phase 0} on specs/@spec/roadmap.md and make a  branch , ask me about the feature spec
 creae:
   - A new directory YYY-MM-DD-feature-name specs for this feature work 
   - In there : 
