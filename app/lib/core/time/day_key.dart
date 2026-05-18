@@ -13,6 +13,18 @@ final class DayKey implements Comparable<DayKey> {
 
   factory DayKey.today() => DayKey.fromLocalDateTime(DateTime.now());
 
+  factory DayKey.parseIso(String iso) {
+    final parts = iso.split('-');
+    if (parts.length != 3) {
+      throw FormatException('Expected YYYY-MM-DD, got $iso');
+    }
+    return DayKey(
+      year: int.parse(parts[0]),
+      month: int.parse(parts[1]),
+      day: int.parse(parts[2]),
+    );
+  }
+
   DateTime toLocalDateTime() => DateTime(year, month, day);
 
   String toIsoDate() {
