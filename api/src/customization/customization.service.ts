@@ -187,6 +187,14 @@ export class CustomizationService {
   }
 
   async createUserTask(userId: string, dto: CreateUserTaskDto) {
+    return this.createUserTaskWithId(userId, undefined, dto);
+  }
+
+  private async createUserTaskWithId(
+    userId: string,
+    id: string | undefined,
+    dto: CreateUserTaskDto,
+  ) {
     const active = await this.prisma.userTask.count({
       where: { userId, archivedAt: null },
     });
@@ -204,6 +212,7 @@ export class CustomizationService {
 
     const row = await this.prisma.userTask.create({
       data: {
+        ...(id != null ? { id } : {}),
         userId,
         name,
         categoryRef: dto.categoryRef,
@@ -381,6 +390,10 @@ export class CustomizationService {
     return { outcomes };
   }
 
+  private isStale(existingUpdatedAt: Date, clientAt: Date): boolean {
+    return existingUpdatedAt > clientAt;
+  }
+
   private async applyBatchOp(
     userId: string,
     op: CustomizationBatchOpDto,
@@ -388,6 +401,178 @@ export class CustomizationService {
   ): Promise<{ applied: boolean; serverUpdatedAt?: string; error?: string }> {
     const p = op.payload;
     switch (op.opType) {
+      case 'create_user_category': {
+        const id = String(p.id);
+        const existing = await this.prisma.userCategory.findFirst({
+          where: { id, userId },
+        });
+        if (existing) {
+          if (this.isStale(existing.updatedAt, clientAt)) {
+            return {
+              applied: false,
+              serverUpdatedAt: existing.updatedAt.toISOString(),
+              error: 'STALE',
+            };
+          }
+          const row = await this.updateUserCategory(userId, id, {
+            name: String(p.name),
+            icon: String(p.icon),
+            sortOrder: p.sortOrder as number | undefined,
+          });
+          return { applied: true, serverUpdatedAt: row.updatedAt };
+        }
+        const active = await this.prisma.userCategory.count({
+          where: { userId, archivedAt: null },
+        });
+        if (active >= this.maxUserCategories) {
+          throw new UnprocessableEntityException({
+            code: 'LIMIT_EXCEEDED',
+            message: 'Maximum user categories reached.',
+          });
+        }
+        const name = assertName(String(p.name));
+        assertCuratedIcon(String(p.icon));
+        const row = await this.prisma.userCategory.create({
+          data: {
+            id,
+            userId,
+            name,
+            icon: String(p.icon),
+            sortOrder: (p.sortOrder as number | undefined) ?? 100,
+          },
+        });
+        return { applied: true, serverUpdatedAt: row.updatedAt.toISOString() };
+      }
+      case 'update_user_category': {
+        const id = String(p.id);
+        const existing = await this.prisma.userCategory.findFirst({
+          where: { id, userId },
+        });
+        if (!existing) {
+          return { applied: false, error: 'NOT_FOUND' };
+        }
+        if (this.isStale(existing.updatedAt, clientAt)) {
+          return {
+            applied: false,
+            serverUpdatedAt: existing.updatedAt.toISOString(),
+            error: 'STALE',
+          };
+        }
+        const row = await this.updateUserCategory(userId, id, {
+          name: p.name != null ? String(p.name) : undefined,
+          icon: p.icon != null ? String(p.icon) : undefined,
+          sortOrder: p.sortOrder as number | undefined,
+          restore: p.restore === true ? true : undefined,
+        });
+        return { applied: true, serverUpdatedAt: row.updatedAt };
+      }
+      case 'delete_user_category': {
+        const id = String(p.id);
+        const existing = await this.prisma.userCategory.findFirst({
+          where: { id, userId },
+        });
+        if (!existing) {
+          return { applied: true };
+        }
+        if (this.isStale(existing.updatedAt, clientAt)) {
+          return {
+            applied: false,
+            serverUpdatedAt: existing.updatedAt.toISOString(),
+            error: 'STALE',
+          };
+        }
+        const result = await this.deleteUserCategory(
+          userId,
+          id,
+          p.force === true,
+          p.archive === true,
+        );
+        const updatedAt =
+          'updatedAt' in result ? String(result.updatedAt) : new Date().toISOString();
+        return { applied: true, serverUpdatedAt: updatedAt };
+      }
+      case 'create_user_task': {
+        const id = String(p.id);
+        const existing = await this.prisma.userTask.findFirst({
+          where: { id, userId },
+        });
+        if (existing) {
+          if (this.isStale(existing.updatedAt, clientAt)) {
+            return {
+              applied: false,
+              serverUpdatedAt: existing.updatedAt.toISOString(),
+              error: 'STALE',
+            };
+          }
+          const row = await this.updateUserTask(userId, id, {
+            name: String(p.name),
+            categoryRef: String(p.categoryRef),
+            points: Number(p.points),
+            icon: String(p.icon),
+            sortOrder: p.sortOrder as number | undefined,
+          });
+          return { applied: true, serverUpdatedAt: row.updatedAt };
+        }
+        const row = await this.createUserTaskWithId(userId, id, {
+          name: String(p.name),
+          categoryRef: String(p.categoryRef),
+          points: Number(p.points),
+          icon: String(p.icon),
+          sortOrder: (p.sortOrder as number | undefined) ?? 0,
+        });
+        return { applied: true, serverUpdatedAt: row.updatedAt };
+      }
+      case 'update_user_task': {
+        const id = String(p.id);
+        const existing = await this.prisma.userTask.findFirst({
+          where: { id, userId },
+        });
+        if (!existing) {
+          return { applied: false, error: 'NOT_FOUND' };
+        }
+        if (this.isStale(existing.updatedAt, clientAt)) {
+          return {
+            applied: false,
+            serverUpdatedAt: existing.updatedAt.toISOString(),
+            error: 'STALE',
+          };
+        }
+        const row = await this.updateUserTask(userId, id, {
+          name: p.name != null ? String(p.name) : undefined,
+          categoryRef:
+            p.categoryRef != null ? String(p.categoryRef) : undefined,
+          points: p.points != null ? Number(p.points) : undefined,
+          icon: p.icon != null ? String(p.icon) : undefined,
+          sortOrder: p.sortOrder as number | undefined,
+          ...(p.restore === true ? { restore: true } : {}),
+        } as Partial<CreateUserTaskDto> & { restore?: boolean });
+        return { applied: true, serverUpdatedAt: row.updatedAt };
+      }
+      case 'delete_user_task': {
+        const id = String(p.id);
+        const existing = await this.prisma.userTask.findFirst({
+          where: { id, userId },
+        });
+        if (!existing) {
+          return { applied: true };
+        }
+        if (this.isStale(existing.updatedAt, clientAt)) {
+          return {
+            applied: false,
+            serverUpdatedAt: existing.updatedAt.toISOString(),
+            error: 'STALE',
+          };
+        }
+        await this.deleteUserTask(userId, id, p.archive === true);
+        const row = await this.prisma.userTask.findFirst({
+          where: { id, userId },
+        });
+        return {
+          applied: true,
+          serverUpdatedAt:
+            row?.updatedAt.toISOString() ?? new Date().toISOString(),
+        };
+      }
       case 'upsert_user_category_override': {
         const code = String(p.categoryCode);
         const existing = await this.prisma.userCategoryOverride.findUnique({
