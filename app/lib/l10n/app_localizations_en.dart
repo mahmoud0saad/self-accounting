@@ -514,4 +514,108 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsSyncDone => 'Sync complete.';
+
+  @override
+  String get manageChecklistTitle => 'Manage checklist';
+
+  @override
+  String get manageChecklistMenu => 'Manage checklist';
+
+  @override
+  String get manageChecklistCategoriesTab => 'Categories';
+
+  @override
+  String get manageChecklistTasksTab => 'Tasks';
+
+  @override
+  String get manageChecklistAddCategory => 'Add category';
+
+  @override
+  String get manageChecklistAddTask => 'Add task';
+
+  @override
+  String get manageChecklistEditCategory => 'Edit category';
+
+  @override
+  String get manageChecklistEditTask => 'Edit task';
+
+  @override
+  String get manageChecklistNameLabel => 'Name';
+
+  @override
+  String get manageChecklistCategoryLabel => 'Category';
+
+  @override
+  String get manageChecklistSave => 'Save';
+
+  @override
+  String get manageChecklistCancel => 'Cancel';
+
+  @override
+  String get manageChecklistHide => 'Hide';
+
+  @override
+  String get manageChecklistFardHideTitle => 'Hide this task?';
+
+  @override
+  String get manageChecklistFardHideBody =>
+      'This is an obligatory prayer. Hiding removes it from your daily count, not from your day.';
+
+  @override
+  String get manageChecklistRemovePermanently => 'Remove permanently';
+
+  @override
+  String get manageChecklistRemoveConfirmBody =>
+      'This removes the entry and cannot be undone. Your daily progress on other tasks is kept.';
+
+  @override
+  String get manageChecklistRemoveHasHistory =>
+      'This task has history. Hide it instead to keep your records.';
+
+  @override
+  String get manageChecklistTooltipHide =>
+      'Hide from today — keeps your history.';
+
+  @override
+  String get manageChecklistTooltipShow => 'Show on today\'s list.';
+
+  @override
+  String get restoreCatalogDialogTitle => 'Restore your saved checklist?';
+
+  @override
+  String get restoreCatalogDialogBody =>
+      'We found your saved checklist on this account. Restoring will replace the customizations on this device — your daily progress on default tasks is kept.';
+
+  @override
+  String get restoreCatalogDialogRestore => 'Restore';
+
+  @override
+  String get settingsRestoreCatalogTitle =>
+      'Restore checklist from your account';
+
+  @override
+  String get settingsRestoreCatalogNever => 'Never restored on this device';
+
+  @override
+  String settingsRestoreCatalogLast(String when) {
+    return 'Last restored: $when';
+  }
+
+  @override
+  String get settingsRestoreCatalogOffline =>
+      'You\'re offline — restore will run when you\'re back online.';
+
+  @override
+  String get restoreCatalogPushing => 'Saving your checklist to your account…';
+
+  @override
+  String get restoreCatalogRestoring => 'Restoring your saved checklist…';
+
+  @override
+  String restoreCatalogDone(int count) {
+    return 'Restored $count items from your account.';
+  }
+
+  @override
+  String get restoreCatalogSaved => 'Saved your checklist to your account.';
 }

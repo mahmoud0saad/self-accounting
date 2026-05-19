@@ -16,23 +16,26 @@ model HealthCheck {
 }
 
 model User {
-  id                String    @id @default(cuid())
-  email             String    @unique
-  passwordHash      String    @map("password_hash")
-  fullName          String    @map("full_name")
-  photoUrl          String?   @map("photo_url")
-  timezone          String?
-  locale            String?
-  bio               String?   @db.VarChar(280)
-  provider          String    @default("local")
-  emailConfirmedAt  DateTime? @map("email_confirmed_at")
-  createdAt         DateTime  @default(now()) @map("created_at")
-  updatedAt         DateTime  @updatedAt @map("updated_at")
+  id               String    @id @default(cuid())
+  email            String    @unique
+  passwordHash     String    @map("password_hash")
+  fullName         String    @map("full_name")
+  photoUrl         String?   @map("photo_url")
+  timezone         String?
+  locale           String?
+  bio              String?   @db.VarChar(280)
+  provider         String    @default("local")
+  emailConfirmedAt DateTime? @map("email_confirmed_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
 
-  confirmationTokens EmailConfirmationToken[]
-  refreshTokens      RefreshToken[]
-  dailyLogs          DailyLog[]
-  customTasks        Task[]                   @relation("UserCustomTasks")
+  confirmationTokens    EmailConfirmationToken[]
+  refreshTokens         RefreshToken[]
+  dailyLogs             DailyLog[]
+  userCategories        UserCategory[]
+  userCategoryOverrides UserCategoryOverride[]
+  userTasks             UserTask[]
+  userTaskOverrides     UserTaskOverride[]
 
   @@map("users")
 }
@@ -66,35 +69,126 @@ model RefreshToken {
   @@map("refresh_tokens")
 }
 
-/// Catalog task. `id` matches Flutter `staticTaskCatalog` codes (e.g. `fajr_waking_up_adhkar`).
-/// `userId` reserved for Phase 7 custom tasks — null means default catalog row.
+/// Global default category (Fajr, Dhuhr, …).
+model Category {
+  code             String   @id
+  defaultName      String   @map("default_name")
+  defaultIcon      String   @map("default_icon")
+  defaultSortOrder Int      @map("default_sort_order")
+  isFard           Boolean  @default(false) @map("is_fard")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  tasks                 Task[]
+  userCategoryOverrides UserCategoryOverride[]
+
+  @@map("categories")
+}
+
+model UserCategory {
+  id         String    @id @default(cuid())
+  userId     String    @map("user_id")
+  name       String
+  icon       String
+  sortOrder  Int       @map("sort_order")
+  archivedAt DateTime? @map("archived_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, archivedAt])
+  @@map("user_categories")
+}
+
+model UserCategoryOverride {
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id")
+  categoryCode String   @map("category_code")
+  hidden       Boolean  @default(false)
+  customName   String?  @map("custom_name")
+  customIcon   String?  @map("custom_icon")
+  sortOrder    Int?     @map("sort_order")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryCode], references: [code], onDelete: Cascade)
+
+  @@unique([userId, categoryCode])
+  @@map("user_category_overrides")
+}
+
+/// Default catalog task. `id` matches Flutter static catalog codes.
 model Task {
-  id            String   @id
-  category      String
-  defaultPoints Int      @map("default_points")
-  isDefault     Boolean  @default(true) @map("is_default")
-  userId        String?  @map("user_id")
-  createdAt     DateTime @default(now()) @map("created_at")
+  id               String   @id
+  categoryCode     String   @map("category_code")
+  defaultPoints    Int      @map("default_points")
+  defaultIcon      String   @default("star") @map("default_icon")
+  defaultSortOrder Int      @default(0) @map("default_sort_order")
+  isDefault        Boolean  @default(true) @map("is_default")
+  createdAt        DateTime @default(now()) @map("created_at")
 
-  user      User?      @relation("UserCustomTasks", fields: [userId], references: [id], onDelete: Cascade)
-  dailyLogs DailyLog[]
+  category            Category            @relation(fields: [categoryCode], references: [code])
+  dailyLogs           DailyLog[]
+  userTaskOverrides   UserTaskOverride[]
 
-  @@index([userId])
+  @@index([categoryCode])
   @@map("tasks")
 }
 
-model DailyLog {
-  id        String   @id @default(cuid())
-  userId    String   @map("user_id")
-  date      DateTime @db.Date
-  taskId    String   @map("task_id")
-  completed Boolean  @default(false)
-  updatedAt DateTime @updatedAt @map("updated_at")
+model UserTask {
+  id           String    @id @default(cuid())
+  userId       String    @map("user_id")
+  categoryRef  String    @map("category_ref")
+  name         String
+  points       Int
+  icon         String
+  sortOrder    Int       @default(0) @map("sort_order")
+  archivedAt   DateTime? @map("archived_at")
+  description  String?   @db.VarChar(280)
+  recurrence   Json?
+  kind         String    @default("TASK")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dailyLogs DailyLog[]
+
+  @@index([userId, archivedAt])
+  @@map("user_tasks")
+}
+
+model UserTaskOverride {
+  id                String   @id @default(cuid())
+  userId            String   @map("user_id")
+  taskCode          String   @map("task_code")
+  hidden            Boolean  @default(false)
+  customName        String?  @map("custom_name")
+  customPoints      Int?     @map("custom_points")
+  customIcon        String?  @map("custom_icon")
+  customCategoryRef String?  @map("custom_category_ref")
+  sortOrder         Int?     @map("sort_order")
+  updatedAt         DateTime @updatedAt @map("updated_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  task Task @relation(fields: [taskId], references: [id])
+  task Task @relation(fields: [taskCode], references: [id], onDelete: Cascade)
+
+  @@unique([userId, taskCode])
+  @@map("user_task_overrides")
+}
+
+model DailyLog {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  date       DateTime @db.Date
+  taskId     String?  @map("task_id")
+  userTaskId String?  @map("user_task_id")
+  completed  Boolean  @default(false)
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task     Task?     @relation(fields: [taskId], references: [id])
+  userTask UserTask? @relation(fields: [userTaskId], references: [id])
 
   @@unique([userId, date, taskId])
+  @@unique([userId, date, userTaskId])
   @@index([userId, date])
   @@map("daily_logs")
 }

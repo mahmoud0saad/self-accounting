@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../customization/presentation/widgets/restore_catalog_dialog.dart';
+import '../../sync/data/customization_restore_provider.dart';
 import '../../sync/presentation/providers/sync_provider.dart';
 import 'providers/auth_provider.dart';
 
@@ -65,6 +67,14 @@ class _ConfirmEmailScreenState extends ConsumerState<ConfirmEmailScreen> {
     final l = AppLocalizations.of(context)!;
 
     if (status == AuthStatus.authenticated) {
+      ref.read(customizationRestoreConfirmProvider).call =
+          (total) => showRestoreCatalogDialog(context, l, total);
+
+      await ref.read(customizationRestoreServiceProvider).restoreIfNeeded(
+            confirmReplacePrompt:
+                ref.read(customizationRestoreConfirmProvider).call,
+          );
+
       final days = await sync.runFirstSignInMigrationIfNeeded();
       await sync.syncNow();
       if (mounted && days > 0) {

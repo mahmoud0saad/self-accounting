@@ -511,4 +511,106 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsSyncDone => 'اكتملت المزامنة.';
+
+  @override
+  String get manageChecklistTitle => 'TODO: إدارة القائمة';
+
+  @override
+  String get manageChecklistMenu => 'TODO: إدارة القائمة';
+
+  @override
+  String get manageChecklistCategoriesTab => 'TODO: الفئات';
+
+  @override
+  String get manageChecklistTasksTab => 'TODO: المهام';
+
+  @override
+  String get manageChecklistAddCategory => 'TODO: إضافة فئة';
+
+  @override
+  String get manageChecklistAddTask => 'TODO: إضافة مهمة';
+
+  @override
+  String get manageChecklistEditCategory => 'TODO: تعديل الفئة';
+
+  @override
+  String get manageChecklistEditTask => 'TODO: تعديل المهمة';
+
+  @override
+  String get manageChecklistNameLabel => 'TODO: الاسم';
+
+  @override
+  String get manageChecklistCategoryLabel => 'TODO: الفئة';
+
+  @override
+  String get manageChecklistSave => 'TODO: حفظ';
+
+  @override
+  String get manageChecklistCancel => 'TODO: إلغاء';
+
+  @override
+  String get manageChecklistHide => 'TODO: إخفاء';
+
+  @override
+  String get manageChecklistFardHideTitle => 'TODO: إخفاء هذه المهمة؟';
+
+  @override
+  String get manageChecklistFardHideBody =>
+      'هذا فرض. الإخفاء يزيله من عدّك اليومي، لا من يومك.';
+
+  @override
+  String get manageChecklistRemovePermanently => 'إزالة نهائية';
+
+  @override
+  String get manageChecklistRemoveConfirmBody =>
+      'سيُزال هذا العنصر ولا يمكن التراجع. يبقى تقدّمك اليومي في المهام الأخرى.';
+
+  @override
+  String get manageChecklistRemoveHasHistory =>
+      'لهذا العنصر سجل. يمكنك إخفاؤه بدل الإزالة للاحتفاظ بسجلك.';
+
+  @override
+  String get manageChecklistTooltipHide => 'إخفاء من اليوم — يبقى السجل.';
+
+  @override
+  String get manageChecklistTooltipShow => 'إظهار في قائمة اليوم.';
+
+  @override
+  String get restoreCatalogDialogTitle => 'استعادة قائمتك المحفوظة؟';
+
+  @override
+  String get restoreCatalogDialogBody =>
+      'وجدنا قائمتك المحفوظة على هذا الحساب. الاستعادة ستستبدل التخصيصات على هذا الجهاز — يبقى تقدّمك اليومي في المهام الافتراضية.';
+
+  @override
+  String get restoreCatalogDialogRestore => 'استعادة';
+
+  @override
+  String get settingsRestoreCatalogTitle => 'استعادة القائمة من حسابك';
+
+  @override
+  String get settingsRestoreCatalogNever => 'لم تُستعَد على هذا الجهاز بعد';
+
+  @override
+  String settingsRestoreCatalogLast(String when) {
+    return 'آخر استعادة: $when';
+  }
+
+  @override
+  String get settingsRestoreCatalogOffline =>
+      'أنت غير متصل — ستُنفَّذ الاستعادة عند عودة الاتصال.';
+
+  @override
+  String get restoreCatalogPushing => 'جارٍ حفظ قائمتك على حسابك…';
+
+  @override
+  String get restoreCatalogRestoring => 'جارٍ استعادة قائمتك المحفوظة…';
+
+  @override
+  String restoreCatalogDone(int count) {
+    return 'تمت استعادة $count عنصراً من حسابك.';
+  }
+
+  @override
+  String get restoreCatalogSaved => 'تم حفظ قائمتك على حسابك.';
 }

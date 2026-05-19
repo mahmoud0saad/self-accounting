@@ -61,6 +61,7 @@ class _MuhasabahAppRootState extends ConsumerState<MuhasabahAppRoot> {
       });
       ref.read(syncSchedulerProvider).start();
     });
+    //comment test commit 
   }
 
   @override

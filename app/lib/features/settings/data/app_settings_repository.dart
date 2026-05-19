@@ -6,6 +6,7 @@ import '../../../core/db/app_database_provider.dart';
 import '../domain/eod_summary_settings.dart';
 
 const notificationOnboardingDoneKey = 'notification_onboarding_done';
+const customizationLastRestoredAtKey = 'customization_last_restored_at';
 const _notificationsEnabledKey = 'notifications_enabled';
 const _eodEnabledKey = 'eod_enabled';
 const _eodHourKey = 'eod_hour';
@@ -63,6 +64,18 @@ class AppSettingsRepository {
   Future<void> setEodTime(int hour, int minute) async {
     await _write(_eodHourKey, hour.toString());
     await _write(_eodMinuteKey, minute.toString());
+  }
+
+  Future<DateTime?> getCustomizationLastRestoredAt() async {
+    final raw = await _read(customizationLastRestoredAtKey);
+    if (raw == null) {
+      return null;
+    }
+    return DateTime.tryParse(raw)?.toUtc();
+  }
+
+  Future<void> setCustomizationLastRestoredAt(DateTime at) {
+    return _write(customizationLastRestoredAtKey, at.toIso8601String());
   }
 
   Future<String?> _read(String key) async {

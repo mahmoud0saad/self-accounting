@@ -7,12 +7,13 @@ export class TasksService {
 
   listCatalog() {
     return this.prisma.task.findMany({
-      where: { isDefault: true, userId: null },
+      where: { isDefault: true },
       orderBy: { id: 'asc' },
       select: {
         id: true,
-        category: true,
+        categoryCode: true,
         defaultPoints: true,
+        defaultIcon: true,
         isDefault: true,
       },
     });

@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/db/app_database.dart';
+import '../../checklist/data/checklist_repository.dart';
 import '../../../core/db/app_database_provider.dart';
 import '../../../core/time/day_key.dart';
 import '../../auth/data/token_storage.dart';
@@ -54,6 +55,56 @@ class SyncService {
     );
   }
 
+  Future<void> enqueueCustomizationOp({
+    required String opType,
+    required Map<String, dynamic> payload,
+    required DateTime clientUpdatedAt,
+  }) async {
+    await _coalesceCustomizationOp(opType, payload, clientUpdatedAt);
+  }
+
+  Future<void> _coalesceCustomizationOp(
+    String opType,
+    Map<String, dynamic> payload,
+    DateTime clientUpdatedAt,
+  ) async {
+    final entityId = _customizationEntityId(opType, payload);
+    if (entityId != null) {
+      final pending = await db.select(db.pendingSyncOps).get();
+      for (final op in pending) {
+        if (op.opType != opType) {
+          continue;
+        }
+        final existing = jsonDecode(op.payloadJson) as Map<String, dynamic>;
+        if (_customizationEntityId(opType, existing) == entityId) {
+          await (db.delete(db.pendingSyncOps)
+                ..where((t) => t.id.equals(op.id)))
+              .go();
+        }
+      }
+    }
+    await db.into(db.pendingSyncOps).insert(
+      PendingSyncOpsCompanion.insert(
+        opType: opType,
+        payloadJson: jsonEncode(payload),
+        clientUpdatedAt: clientUpdatedAt.toUtc(),
+      ),
+    );
+  }
+
+  String? _customizationEntityId(
+    String opType,
+    Map<String, dynamic> payload,
+  ) {
+    return switch (opType) {
+      'upsert_user_category_override' => payload['categoryCode'] as String?,
+      'upsert_user_task_override' => payload['taskCode'] as String?,
+      'update_user_category' || 'delete_user_category' => payload['id'] as String?,
+      'update_user_task' || 'delete_user_task' => payload['id'] as String?,
+      _ => null,
+    };
+  }
+
   Future<void> syncNow() async {
     if (!canSync) {
       return;
@@ -93,15 +144,55 @@ class SyncService {
       if (ops.isEmpty) {
         break;
       }
-      final items = ops
-          .map((o) => jsonDecode(o.payloadJson) as Map<String, dynamic>)
-          .toList();
+      final logItems = <Map<String, dynamic>>[];
+      final customizationOps = <Map<String, dynamic>>[];
+      for (final o in ops) {
+        if (o.opType == 'batch_log') {
+          logItems.add(jsonDecode(o.payloadJson) as Map<String, dynamic>);
+        } else {
+          customizationOps.add({
+            'opId': '${o.id}',
+            'opType': o.opType,
+            'payload': jsonDecode(o.payloadJson),
+            'clientUpdatedAt': o.clientUpdatedAt.toUtc().toIso8601String(),
+          });
+        }
+      }
       try {
-        await api.batchUpsert(items);
-        final ids = ops.map((o) => o.id).toList();
-        await (db.delete(db.pendingSyncOps)
-              ..where((t) => t.id.isIn(ids)))
-            .go();
+        if (logItems.isNotEmpty) {
+          await api.batchUpsert(logItems);
+        }
+        if (customizationOps.isNotEmpty) {
+          final outcomes = await api.batchCustomizations(customizationOps);
+          final appliedOpIds = <String>{};
+          for (final outcome in outcomes) {
+            if (outcome['applied'] == true) {
+              appliedOpIds.add(outcome['opId'] as String);
+            }
+          }
+          final customizationOpIds = customizationOps
+              .map((o) => o['opId'] as String)
+              .toSet();
+          final idsToDelete = ops
+              .where(
+                (o) =>
+                    o.opType == 'batch_log' ||
+                    !customizationOpIds.contains('${o.id}') ||
+                    appliedOpIds.contains('${o.id}'),
+              )
+              .map((o) => o.id)
+              .toList();
+          if (idsToDelete.isNotEmpty) {
+            await (db.delete(db.pendingSyncOps)
+                  ..where((t) => t.id.isIn(idsToDelete)))
+                .go();
+          }
+        } else {
+          final ids = ops.map((o) => o.id).toList();
+          await (db.delete(db.pendingSyncOps)
+                ..where((t) => t.id.isIn(ids)))
+              .go();
+        }
       } on Object catch (e) {
         for (final op in ops) {
           await (db.update(db.pendingSyncOps)..where((t) => t.id.equals(op.id)))
@@ -139,14 +230,24 @@ class SyncService {
       if (local != null && local.updatedAt.isAfter(remoteAt)) {
         continue;
       }
-      await db.into(db.dailyLogs).insertOnConflictUpdate(
-        DailyLogsCompanion.insert(
-          date: date,
-          taskId: taskId,
-          completed: Value(completed),
-          updatedAt: Value(remoteAt),
-        ),
-      );
+      if (local != null) {
+        await (db.update(db.dailyLogs)..where((r) => r.id.equals(local.id)))
+            .write(
+          DailyLogsCompanion(
+            completed: Value(completed),
+            updatedAt: Value(remoteAt),
+          ),
+        );
+      } else {
+        await db.into(db.dailyLogs).insert(
+          DailyLogsCompanion.insert(
+            date: date,
+            taskId: Value(taskId),
+            completed: Value(completed),
+            updatedAt: Value(remoteAt),
+          ),
+        );
+      }
     }
     if (remote.isNotEmpty) {
       await storage.writeSyncCursor(userId, today);
@@ -166,9 +267,13 @@ class SyncService {
 
     final allLogs = await db.select(db.dailyLogs).get();
     for (final log in allLogs) {
+      final taskId = log.taskId;
+      if (taskId == null || isUserOwnedTaskLogId(taskId)) {
+        continue;
+      }
       await enqueueLogOp(
         date: log.date,
-        taskId: log.taskId,
+        taskId: taskId,
         completed: log.completed,
         clientUpdatedAt: log.updatedAt.toUtc(),
       );

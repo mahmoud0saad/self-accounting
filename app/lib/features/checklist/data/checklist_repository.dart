@@ -4,6 +4,12 @@ import '../../../core/db/app_database.dart';
 import '../../../core/time/day_key.dart';
 import '../../sync/data/sync_service.dart';
 
+/// User-owned task ids are generated with the `ut_` prefix in [CatalogRepository].
+bool isUserOwnedTaskLogId(String taskId) => taskId.startsWith('ut_');
+
+String effectiveTaskIdFromLog(DbDailyLog row) =>
+    row.userTaskId ?? row.taskId!;
+
 abstract class ChecklistRepository {
   Future<Map<String, bool>> readDay(DayKey day);
 
@@ -29,7 +35,11 @@ class DriftChecklistRepository implements ChecklistRepository {
     final rows = await (_db.select(
       _db.dailyLogs,
     )..where((r) => r.date.equals(day.toIsoDate()))).get();
-    return {for (final r in rows) r.taskId: r.completed};
+    return {
+      for (final r in rows)
+        if (r.userTaskId != null || r.taskId != null)
+          effectiveTaskIdFromLog(r): r.completed,
+    };
   }
 
   @override
@@ -41,21 +51,60 @@ class DriftChecklistRepository implements ChecklistRepository {
     final now = DateTime.now().toUtc();
     final dateIso = day.toIsoDate();
     await _db.transaction(() async {
-      await _db.into(_db.dailyLogs).insertOnConflictUpdate(
-            DailyLogsCompanion.insert(
-              date: dateIso,
-              taskId: taskId,
-              completed: Value(completed),
-              updatedAt: Value(now),
-            ),
-          );
-      await _sync?.enqueueLogOp(
-        date: dateIso,
+      await _upsertDailyLog(
+        dateIso: dateIso,
         taskId: taskId,
         completed: completed,
-        clientUpdatedAt: now,
+        updatedAt: now,
       );
+      if (!isUserOwnedTaskLogId(taskId)) {
+        await _sync?.enqueueLogOp(
+          date: dateIso,
+          taskId: taskId,
+          completed: completed,
+          clientUpdatedAt: now,
+        );
+      }
     });
+  }
+
+  Future<void> _upsertDailyLog({
+    required String dateIso,
+    required String taskId,
+    required bool completed,
+    required DateTime updatedAt,
+  }) async {
+    final isUserTask = isUserOwnedTaskLogId(taskId);
+    final existing = await (_db.select(_db.dailyLogs)
+          ..where((r) {
+            final dateMatch = r.date.equals(dateIso);
+            if (isUserTask) {
+              return dateMatch & r.userTaskId.equals(taskId);
+            }
+            return dateMatch & r.taskId.equals(taskId);
+          }))
+        .getSingleOrNull();
+
+    if (existing != null) {
+      await (_db.update(_db.dailyLogs)..where((r) => r.id.equals(existing.id)))
+          .write(
+        DailyLogsCompanion(
+          completed: Value(completed),
+          updatedAt: Value(updatedAt),
+        ),
+      );
+      return;
+    }
+
+    await _db.into(_db.dailyLogs).insert(
+          DailyLogsCompanion.insert(
+            date: dateIso,
+            taskId: isUserTask ? const Value.absent() : Value(taskId),
+            userTaskId: isUserTask ? Value(taskId) : const Value.absent(),
+            completed: Value(completed),
+            updatedAt: Value(updatedAt),
+          ),
+        );
   }
 
   @override
@@ -70,6 +119,12 @@ class DriftChecklistRepository implements ChecklistRepository {
     return (_db.select(_db.dailyLogs)
           ..where((r) => r.date.equals(day.toIsoDate())))
         .watch()
-        .map((rows) => {for (final r in rows) r.taskId: r.completed});
+        .map(
+          (rows) => {
+            for (final r in rows)
+              if (r.userTaskId != null || r.taskId != null)
+                effectiveTaskIdFromLog(r): r.completed,
+          },
+        );
   }
 }

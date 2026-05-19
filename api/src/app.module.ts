@@ -9,6 +9,7 @@ import { HealthModule } from './health/health.module';
 import { LogsModule } from './logs/logs.module';
 import { MailModule } from './mail/mail.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { CustomizationModule } from './customization/customization.module';
 import { TasksModule } from './tasks/tasks.module';
 import { UsersModule } from './users/users.module';
 
@@ -28,6 +29,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     UsersModule,
     TasksModule,
+    CustomizationModule,
     LogsModule,
   ],
   providers: [

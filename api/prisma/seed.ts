@@ -1,21 +1,44 @@
 import { PrismaClient } from '@prisma/client';
-import { defaultTasksSeed } from './seed-data';
+import { defaultCategoriesSeed, defaultTasksSeed } from './seed-data';
 
 const prisma = new PrismaClient();
 
 async function main() {
+  for (const cat of defaultCategoriesSeed) {
+    await prisma.category.upsert({
+      where: { code: cat.code },
+      create: {
+        code: cat.code,
+        defaultName: cat.defaultName,
+        defaultIcon: cat.defaultIcon,
+        defaultSortOrder: cat.defaultSortOrder,
+        isFard: cat.isFard,
+      },
+      update: {
+        defaultName: cat.defaultName,
+        defaultIcon: cat.defaultIcon,
+        defaultSortOrder: cat.defaultSortOrder,
+        isFard: cat.isFard,
+      },
+    });
+  }
+  console.log(`Seeded ${defaultCategoriesSeed.length} categories.`);
+
   for (const task of defaultTasksSeed) {
     await prisma.task.upsert({
       where: { id: task.id },
       create: {
         id: task.id,
-        category: task.category,
+        categoryCode: task.categoryCode,
         defaultPoints: task.defaultPoints,
+        defaultIcon: 'star',
+        defaultSortOrder: task.defaultSortOrder,
         isDefault: true,
       },
       update: {
-        category: task.category,
+        categoryCode: task.categoryCode,
         defaultPoints: task.defaultPoints,
+        defaultSortOrder: task.defaultSortOrder,
         isDefault: true,
       },
     });

@@ -997,6 +997,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sync complete.'**
   String get settingsSyncDone;
+
+  /// No description provided for @manageChecklistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage checklist'**
+  String get manageChecklistTitle;
+
+  /// No description provided for @manageChecklistMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage checklist'**
+  String get manageChecklistMenu;
+
+  /// No description provided for @manageChecklistCategoriesTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get manageChecklistCategoriesTab;
+
+  /// No description provided for @manageChecklistTasksTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get manageChecklistTasksTab;
+
+  /// No description provided for @manageChecklistAddCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Add category'**
+  String get manageChecklistAddCategory;
+
+  /// No description provided for @manageChecklistAddTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Add task'**
+  String get manageChecklistAddTask;
+
+  /// No description provided for @manageChecklistEditCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit category'**
+  String get manageChecklistEditCategory;
+
+  /// No description provided for @manageChecklistEditTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit task'**
+  String get manageChecklistEditTask;
+
+  /// No description provided for @manageChecklistNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get manageChecklistNameLabel;
+
+  /// No description provided for @manageChecklistCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get manageChecklistCategoryLabel;
+
+  /// No description provided for @manageChecklistSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get manageChecklistSave;
+
+  /// No description provided for @manageChecklistCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get manageChecklistCancel;
+
+  /// No description provided for @manageChecklistHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide'**
+  String get manageChecklistHide;
+
+  /// No description provided for @manageChecklistFardHideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide this task?'**
+  String get manageChecklistFardHideTitle;
+
+  /// No description provided for @manageChecklistFardHideBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This is an obligatory prayer. Hiding removes it from your daily count, not from your day.'**
+  String get manageChecklistFardHideBody;
+
+  /// No description provided for @manageChecklistRemovePermanently.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove permanently'**
+  String get manageChecklistRemovePermanently;
+
+  /// No description provided for @manageChecklistRemoveConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This removes the entry and cannot be undone. Your daily progress on other tasks is kept.'**
+  String get manageChecklistRemoveConfirmBody;
+
+  /// No description provided for @manageChecklistRemoveHasHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'This task has history. Hide it instead to keep your records.'**
+  String get manageChecklistRemoveHasHistory;
+
+  /// No description provided for @manageChecklistTooltipHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide from today — keeps your history.'**
+  String get manageChecklistTooltipHide;
+
+  /// No description provided for @manageChecklistTooltipShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show on today\'s list.'**
+  String get manageChecklistTooltipShow;
+
+  /// No description provided for @restoreCatalogDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore your saved checklist?'**
+  String get restoreCatalogDialogTitle;
+
+  /// No description provided for @restoreCatalogDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We found your saved checklist on this account. Restoring will replace the customizations on this device — your daily progress on default tasks is kept.'**
+  String get restoreCatalogDialogBody;
+
+  /// No description provided for @restoreCatalogDialogRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get restoreCatalogDialogRestore;
+
+  /// No description provided for @settingsRestoreCatalogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore checklist from your account'**
+  String get settingsRestoreCatalogTitle;
+
+  /// No description provided for @settingsRestoreCatalogNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Never restored on this device'**
+  String get settingsRestoreCatalogNever;
+
+  /// No description provided for @settingsRestoreCatalogLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Last restored: {when}'**
+  String settingsRestoreCatalogLast(String when);
+
+  /// No description provided for @settingsRestoreCatalogOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline — restore will run when you\'re back online.'**
+  String get settingsRestoreCatalogOffline;
+
+  /// No description provided for @restoreCatalogPushing.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving your checklist to your account…'**
+  String get restoreCatalogPushing;
+
+  /// No description provided for @restoreCatalogRestoring.
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring your saved checklist…'**
+  String get restoreCatalogRestoring;
+
+  /// No description provided for @restoreCatalogDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Restored {count} items from your account.'**
+  String restoreCatalogDone(int count);
+
+  /// No description provided for @restoreCatalogSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved your checklist to your account.'**
+  String get restoreCatalogSaved;
 }
 
 class _AppLocalizationsDelegate

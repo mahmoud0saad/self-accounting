@@ -246,5 +246,47 @@
   "profileBioLabel": "نبذة (اختياري)",
   "settingsAccountTitle": "الحساب",
   "settingsSyncNow": "مزامنة الآن",
-  "settingsSyncDone": "اكتملت المزامنة."
+  "settingsSyncDone": "اكتملت المزامنة.",
+
+  "manageChecklistTitle": "TODO: إدارة القائمة",
+  "manageChecklistMenu": "TODO: إدارة القائمة",
+  "manageChecklistCategoriesTab": "TODO: الفئات",
+  "manageChecklistTasksTab": "TODO: المهام",
+  "manageChecklistAddCategory": "TODO: إضافة فئة",
+  "manageChecklistAddTask": "TODO: إضافة مهمة",
+  "manageChecklistEditCategory": "TODO: تعديل الفئة",
+  "manageChecklistEditTask": "TODO: تعديل المهمة",
+  "manageChecklistNameLabel": "TODO: الاسم",
+  "manageChecklistCategoryLabel": "TODO: الفئة",
+  "manageChecklistSave": "TODO: حفظ",
+  "manageChecklistCancel": "TODO: إلغاء",
+  "manageChecklistHide": "TODO: إخفاء",
+  "manageChecklistFardHideTitle": "TODO: إخفاء هذه المهمة؟",
+  "manageChecklistFardHideBody": "هذا فرض. الإخفاء يزيله من عدّك اليومي، لا من يومك.",
+  "manageChecklistRemovePermanently": "إزالة نهائية",
+  "manageChecklistRemoveConfirmBody": "سيُزال هذا العنصر ولا يمكن التراجع. يبقى تقدّمك اليومي في المهام الأخرى.",
+  "manageChecklistRemoveHasHistory": "لهذا العنصر سجل. يمكنك إخفاؤه بدل الإزالة للاحتفاظ بسجلك.",
+  "manageChecklistTooltipHide": "إخفاء من اليوم — يبقى السجل.",
+  "manageChecklistTooltipShow": "إظهار في قائمة اليوم.",
+  "restoreCatalogDialogTitle": "استعادة قائمتك المحفوظة؟",
+  "restoreCatalogDialogBody": "وجدنا قائمتك المحفوظة على هذا الحساب. الاستعادة ستستبدل التخصيصات على هذا الجهاز — يبقى تقدّمك اليومي في المهام الافتراضية.",
+  "restoreCatalogDialogRestore": "استعادة",
+  "settingsRestoreCatalogTitle": "استعادة القائمة من حسابك",
+  "settingsRestoreCatalogNever": "لم تُستعَد على هذا الجهاز بعد",
+  "settingsRestoreCatalogLast": "آخر استعادة: {when}",
+  "@settingsRestoreCatalogLast": {
+    "placeholders": {
+      "when": { "type": "String" }
+    }
+  },
+  "settingsRestoreCatalogOffline": "أنت غير متصل — ستُنفَّذ الاستعادة عند عودة الاتصال.",
+  "restoreCatalogPushing": "جارٍ حفظ قائمتك على حسابك…",
+  "restoreCatalogRestoring": "جارٍ استعادة قائمتك المحفوظة…",
+  "restoreCatalogDone": "تمت استعادة {count} عنصراً من حسابك.",
+  "@restoreCatalogDone": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "restoreCatalogSaved": "تم حفظ قائمتك على حسابك."
 }
