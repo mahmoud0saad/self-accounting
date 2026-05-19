@@ -187,8 +187,10 @@ A series of **numbered task groups**, ordered so each group leaves the repo in a
 10.3. RTL pass on `Manage checklist`, both editors, and the fard explainer copy.
 10.4. Update `app/test/widget_test.dart` if it asserted the seeded checklist count — make it tolerant.
 10.5. Update `api/README.md`: env vars `MAX_USER_CATEGORIES`, `MAX_USER_TASKS`; a short note on the override model and the deprecated `GET /v1/tasks`.
-10.6. Update `spec/roadmap.md`: tick Phase 7; note any items pushed forward (e.g., task ordering within a category) under Phase 8 prep.
-10.7. Manual QA against `validation.md`; record a ≤ 90-second demo of full customization → sync → second device.
+10.6. Update top-level `README.md`: one short paragraph linking the customization story and the deprecation of `GET /v1/tasks` (satisfies `validation.md` §8).
+10.7. Update `spec/roadmap.md`: tick Phase 7; note any items pushed forward (e.g., task ordering within a category) under Phase 8 prep.
+10.8. **Provision the QA confirmed-user fixture** referenced in `validation.md` §1: extend `api/prisma/seed.ts` (behind an `NODE_ENV !== "production"` guard) to create `qa+phase7@example.com` with `emailConfirmedAt = now()` and a known password from `QA_FIXTURE_PASSWORD` env. Document in `api/README.md` how to seed and how to rotate. This is the user §1 step 3 ("Sign in with `qa+phase7@example.com` (already confirmed)") relies on.
+10.9. Manual QA against `validation.md`; record a ≤ 90-second demo of full customization → sync → second device.
 
 **Exit:** Every checkbox in `validation.md` passes; branch ready to merge.
 

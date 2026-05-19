@@ -246,5 +246,21 @@
   "profileBioLabel": "نبذة (اختياري)",
   "settingsAccountTitle": "الحساب",
   "settingsSyncNow": "مزامنة الآن",
-  "settingsSyncDone": "اكتملت المزامنة."
+  "settingsSyncDone": "اكتملت المزامنة.",
+
+  "manageChecklistTitle": "TODO: إدارة القائمة",
+  "manageChecklistMenu": "TODO: إدارة القائمة",
+  "manageChecklistCategoriesTab": "TODO: الفئات",
+  "manageChecklistTasksTab": "TODO: المهام",
+  "manageChecklistAddCategory": "TODO: إضافة فئة",
+  "manageChecklistAddTask": "TODO: إضافة مهمة",
+  "manageChecklistEditCategory": "TODO: تعديل الفئة",
+  "manageChecklistEditTask": "TODO: تعديل المهمة",
+  "manageChecklistNameLabel": "TODO: الاسم",
+  "manageChecklistCategoryLabel": "TODO: الفئة",
+  "manageChecklistSave": "TODO: حفظ",
+  "manageChecklistCancel": "TODO: إلغاء",
+  "manageChecklistHide": "TODO: إخفاء",
+  "manageChecklistFardHideTitle": "TODO: إخفاء هذه المهمة؟",
+  "manageChecklistFardHideBody": "TODO: هذا فرض. الإخفاء يزيله من عدّك اليومي، لا من يومك."
 }

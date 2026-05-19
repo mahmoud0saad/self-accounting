@@ -511,4 +511,50 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsSyncDone => 'اكتملت المزامنة.';
+
+  @override
+  String get manageChecklistTitle => 'TODO: إدارة القائمة';
+
+  @override
+  String get manageChecklistMenu => 'TODO: إدارة القائمة';
+
+  @override
+  String get manageChecklistCategoriesTab => 'TODO: الفئات';
+
+  @override
+  String get manageChecklistTasksTab => 'TODO: المهام';
+
+  @override
+  String get manageChecklistAddCategory => 'TODO: إضافة فئة';
+
+  @override
+  String get manageChecklistAddTask => 'TODO: إضافة مهمة';
+
+  @override
+  String get manageChecklistEditCategory => 'TODO: تعديل الفئة';
+
+  @override
+  String get manageChecklistEditTask => 'TODO: تعديل المهمة';
+
+  @override
+  String get manageChecklistNameLabel => 'TODO: الاسم';
+
+  @override
+  String get manageChecklistCategoryLabel => 'TODO: الفئة';
+
+  @override
+  String get manageChecklistSave => 'TODO: حفظ';
+
+  @override
+  String get manageChecklistCancel => 'TODO: إلغاء';
+
+  @override
+  String get manageChecklistHide => 'TODO: إخفاء';
+
+  @override
+  String get manageChecklistFardHideTitle => 'TODO: إخفاء هذه المهمة؟';
+
+  @override
+  String get manageChecklistFardHideBody =>
+      'TODO: هذا فرض. الإخفاء يزيله من عدّك اليومي، لا من يومك.';
 }

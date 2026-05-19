@@ -33,7 +33,8 @@ The catalog the UI consumes is a **merge of three layers**, in order:
    - `Category` and `Task` rows owned by no user; one shared copy across the install base.
 2. **User overrides on defaults** (per-user, optional)
    - `UserCategoryOverride`: `hidden`, `customName?`, `customIcon?`, `sortOrder?`.
-   - `UserTaskOverride`: `hidden`, `customName?`, `customPoints?`, `customIcon?`, `customCategoryId?`, `sortOrder?`.
+   - `UserTaskOverride`: `hidden`, `customName?`, `customPoints?`, `customIcon?`, `customCategoryRef?`, `sortOrder?`.
+   - `customCategoryRef` is a stringly-typed reference of the form `category:<code>` (default) or `userCategory:<id>` (user-owned), so a default task can be re-categorized into either layer without a second nullable column. The same shape is used by `UserTask.categoryRef`.
    - **Absence of an override row ⇒ the default is shown as-is.** Edits create or update the override.
 3. **User-owned items** (per-user, created from scratch)
    - `UserCategory` and `UserTask` rows that didn't exist in the defaults.
@@ -63,11 +64,11 @@ The Flutter client computes the effective catalog locally; the server validates 
 - `points`: integer, **1 ≤ p ≤ 20**. Zero and negative rejected. 20 is chosen because it equals the highest default (`fajr_in_jamaah` in the Phase 1 catalog) — keeps user weights inside the honest range.
 - `name`: trimmed, 2–60 chars; no leading/trailing whitespace; Unicode allowed (Arabic, English, mixed).
 - `icon`: must be a member of the curated allowlist (§3.5). Anything else → 422.
-- `categoryId`: must reference a non-hidden category the user owns or can override.
+- `categoryRef` (and `customCategoryRef`): must parse as `category:<code>` or `userCategory:<id>`; the referenced category must exist, belong to the user (for `userCategory:*`), and not be hidden by an override at write time.
 - Per-user soft caps to keep totals sane:
-  - Max **30** user-owned tasks per user.
-  - Max **10** user-owned categories per user.
-  - These are config constants, not hard schema limits.
+  - Max **30** *active* user-owned tasks per user (`archivedAt IS NULL`). Archived tasks do **not** count against this cap, so a user who archives an old task can always create a new one.
+  - Max **10** *active* user-owned categories per user (`archivedAt IS NULL`). Same rule.
+  - These are config constants (`MAX_USER_TASKS`, `MAX_USER_CATEGORIES`), not hard schema limits.
 
 ### 3.5 Icon set — Curated Material Symbols
 

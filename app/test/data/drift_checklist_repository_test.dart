@@ -120,4 +120,38 @@ void main() {
     expect(m11['fajr_waking_up_adhkar'], isTrue);
     expect(m12, isEmpty);
   });
+
+  test('user-owned task completion persists without FK error', () async {
+    final db = AppDatabase(NativeDatabase.memory());
+    await db.seedAndReconcile();
+
+    const userTaskId = 'ut_test_task_1';
+    await db.into(db.userTasks).insert(
+          UserTasksCompanion.insert(
+            id: userTaskId,
+            categoryRef: 'category:miscAdhkar',
+            name: 'Custom dhikr',
+            points: 5,
+            icon: 'star',
+            sortOrder: 0,
+          ),
+        );
+
+    final repo = DriftChecklistRepository(db);
+    final day = DayKey(year: 2026, month: 5, day: 19);
+
+    await repo.setCompletion(
+      day: day,
+      taskId: userTaskId,
+      completed: true,
+    );
+
+    expect(await repo.readDay(day), {userTaskId: true});
+
+    final row = await (db.select(db.dailyLogs)
+          ..where((r) => r.userTaskId.equals(userTaskId)))
+        .getSingle();
+    expect(row.taskId, isNull);
+    expect(row.userTaskId, userTaskId);
+  });
 }

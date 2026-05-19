@@ -85,6 +85,17 @@ class SettingsScreen extends ConsumerWidget {
             ),
           SliverToBoxAdapter(
             child: SettingsSectionCard(
+              title: l.manageChecklistTitle,
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(l.manageChecklistMenu),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () => context.push('/manage'),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SettingsSectionCard(
               title: l.settingsNotificationsTitle,
               child: _notificationsBody(
                 context,

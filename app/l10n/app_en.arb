@@ -256,5 +256,21 @@
   "profileBioLabel": "Bio (optional)",
   "settingsAccountTitle": "Account",
   "settingsSyncNow": "Sync now",
-  "settingsSyncDone": "Sync complete."
+  "settingsSyncDone": "Sync complete.",
+
+  "manageChecklistTitle": "Manage checklist",
+  "manageChecklistMenu": "Manage checklist",
+  "manageChecklistCategoriesTab": "Categories",
+  "manageChecklistTasksTab": "Tasks",
+  "manageChecklistAddCategory": "Add category",
+  "manageChecklistAddTask": "Add task",
+  "manageChecklistEditCategory": "Edit category",
+  "manageChecklistEditTask": "Edit task",
+  "manageChecklistNameLabel": "Name",
+  "manageChecklistCategoryLabel": "Category",
+  "manageChecklistSave": "Save",
+  "manageChecklistCancel": "Cancel",
+  "manageChecklistHide": "Hide",
+  "manageChecklistFardHideTitle": "Hide this task?",
+  "manageChecklistFardHideBody": "This is an obligatory prayer. Hiding removes it from your daily count, not from your day."
 }

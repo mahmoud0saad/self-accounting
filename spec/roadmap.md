@@ -101,10 +101,18 @@ Tiny phases (~3–5 days each). Each phase is independently shippable, demoable,
 - Validations: prevent negative points; cap per-task points to keep system balanced.
 - Sync custom tasks if signed in.
 **Exit:** Users can fully tailor their checklist to their own routine.
-
+ 
 ---
 
-## Phase 8 — Weekly Challenges (4 days)
+## Phase 8 — Tasks and category Sync (4 days)
+**Goal:** sync category and tasks from server to db device if has backup.
+
+- sync date from server (task , category) if has data for user breivous.
+- upload new cutomization ( task , category) to account after change .
+- when toggle (task , category) from manage don't remove from db only deactive and can active again  when toggle.
+ 
+
+## Phase 9 — Weekly Challenges (4 days)
 **Goal:** Add a layer of fresh motivation on top of the daily loop.
 
 - Predefined challenge templates (e.g., "Read 1 Juz' this week", "Pray all Fajr in congregation").

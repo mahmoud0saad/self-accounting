@@ -9,6 +9,7 @@ import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/auth/presentation/sign_in_screen.dart';
 import '../../features/auth/presentation/sign_up_screen.dart';
 import '../../features/checklist/presentation/checklist_screen.dart';
+import '../../features/customization/presentation/manage_checklist_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
 import '../../features/settings/data/app_settings_repository.dart';
@@ -83,6 +84,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/profile',
         builder: (context, state) =>
             const _DebugNetworkLoggerAttach(child: ProfileScreen()),
+      ),
+      GoRoute(
+        path: '/manage',
+        builder: (context, state) =>
+            const _DebugNetworkLoggerAttach(child: ManageChecklistScreen()),
       ),
       GoRoute(
         path: '/onboarding/notifications',

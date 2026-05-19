@@ -1,3 +1,4 @@
+import '../../customization/domain/catalog_models.dart';
 import 'task.dart';
 
 class DailyProgress {
@@ -19,6 +20,30 @@ class DailyProgress {
 
   factory DailyProgress.from(List<Task> tasks, Map<String, bool> state) {
     final totalPoints = tasks.fold<int>(0, (sum, t) => sum + t.points);
+    var completedPoints = 0;
+    var completedTasks = 0;
+    for (final t in tasks) {
+      if (state[t.id] == true) {
+        completedPoints += t.points;
+        completedTasks += 1;
+      }
+    }
+    final fraction = totalPoints == 0 ? 0.0 : completedPoints / totalPoints;
+    return DailyProgress(
+      completedPoints: completedPoints,
+      totalPoints: totalPoints,
+      completedTasks: completedTasks,
+      totalTasks: tasks.length,
+      fraction: fraction,
+    );
+  }
+
+  factory DailyProgress.fromEffective(
+    EffectiveCatalog catalog,
+    Map<String, bool> state,
+  ) {
+    final tasks = catalog.tasks;
+    final totalPoints = catalog.totalPoints;
     var completedPoints = 0;
     var completedTasks = 0;
     for (final t in tasks) {

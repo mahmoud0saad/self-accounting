@@ -36,6 +36,7 @@ From `spec/roadmap.md` Phase 7:
 - [ ] `PUT /v1/user-category-overrides/fajr` with `{ customName: "Subh" }` returns **422** `{ code: "FARD_CATEGORY_LOCKED" }`.
 - [ ] Reordering fard categories among themselves is allowed (verified by manual drag-handle test).
 - [ ] User-owned categories support: create, rename, reorder, hide, delete with `?force=true`.
+- [ ] **Asymmetry check (fard task vs. fard category):** `PUT /v1/user-task-overrides/fajr_fard` with `{ hidden: true }` returns **200** with `warning: "FARD_TASK_HIDDEN"` in the response body — *not* 422. The task is hidden server-side; the client uses the warning to show the calm niyyah-first dialog (§4.3). This contrasts with fard *categories*, which reject hide outright.
 
 ### 2.2 `user_task_overrides` table model (decision §4.2)
 
@@ -85,9 +86,10 @@ For each endpoint below, an automated e2e test covers:
 
 ### 3.3 Caps & limits
 
-- [ ] Creating the 11th `UserCategory` returns **422** `{ code: "LIMIT_EXCEEDED" }`.
-- [ ] Creating the 31st `UserTask` returns **422** `{ code: "LIMIT_EXCEEDED" }`.
-- [ ] Archiving (not deleting) a `UserTask` does NOT count toward the active-task limit.
+- [ ] Creating the 11th *active* `UserCategory` returns **422** `{ code: "LIMIT_EXCEEDED" }`.
+- [ ] Creating the 31st *active* `UserTask` returns **422** `{ code: "LIMIT_EXCEEDED" }`.
+- [ ] Archiving a `UserTask` decreases the active count: a user with 30 active tasks archives one, then successfully creates a 30th — verified by an e2e test (per `requirements.md` §3.4).
+- [ ] Archiving a `UserCategory` follows the same rule (symmetry).
 
 ### 3.4 OpenAPI
 
@@ -127,7 +129,7 @@ For each endpoint below, an automated e2e test covers:
 
 - [ ] Toggle airplane mode → all customization actions succeed locally; the `pending_sync_ops` count increases.
 - [ ] Restore connectivity (signed-in, confirmed) → the queue drains within 15 seconds; no UI jank.
-- [ ] Anonymous user can fully customize the checklist for 7 consecutive days without ever signing in; closing/reopening the app preserves everything.
+- [ ] Anonymous user can fully customize the checklist without ever signing in: customizations survive **5 cold-start cycles** of the app and at least one `flutter_secure_storage` clear of the *auth* token (anon state lives in SQLite, not in secure storage). Verified by an integration test that kills and restarts the app process between mutations.
 
 ### 4.6 Sign-in migration of customizations
 
@@ -141,7 +143,10 @@ For each endpoint below, an automated e2e test covers:
 
 ### 4.8 Tone
 
-- [ ] No new error message uses words from this blocklist: *invalid, illegal, denied, forbidden, failure, error code* (verified by grep against the new ARB entries).
+- [ ] No new error message uses words from this blocklist:
+  - English (verified by `rg -i` against new entries in `app/l10n/app_en.arb`): *invalid, illegal, denied, forbidden, failure, error code*.
+  - Arabic (verified by `rg` against new entries in `app/l10n/app_ar.arb`): `خطأ`, `فشل`, `ممنوع`, `غير مسموح`, `غير صالح`, `محظور`.
+  - The grep is scoped to *new* entries only (diff against `master`); pre-existing strings are out of scope for this gate.
 - [ ] The fard hide warning uses the exact niyyah-first phrasing in §4.3 (verified by string assertion in widget test).
 - [ ] Destructive actions (delete category, delete task) use soft amber, not red.
 
@@ -197,7 +202,7 @@ The `effectiveCatalog(...)` function from Plan Group 1 is the brain of this phas
 
 Phase 7 is merged into `master` only when **all** of these are true:
 
-- [ ] Every checkbox in §1, §2, §3, §4.1, §4.2, §4.3, §4.4, §4.5, §4.7, §5, §6, §7 is ticked.
+- [ ] Every checkbox in §1, §2, §3, §4 (all sub-sections §4.1–§4.8), §5, §6, §7, §8 is ticked. The full §4 is in-scope because §4.6 (sign-in migration) is the anonymous→signed-in flow that the roadmap exit criterion in §1 depends on, and §4.8 (tone) is mission principle #1.
 - [ ] Manual demo recorded (≥ 60s screen capture) showing: create category → add task → hide default → edit default points → daily % recalculates → sign in → second device shows identical state.
 - [ ] Two-device convergence verified once on real hardware (not only emulators).
 - [ ] No secrets, no `.env` files, no real email passwords in the diff.

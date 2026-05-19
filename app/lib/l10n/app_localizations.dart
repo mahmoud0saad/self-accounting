@@ -997,6 +997,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sync complete.'**
   String get settingsSyncDone;
+
+  /// No description provided for @manageChecklistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage checklist'**
+  String get manageChecklistTitle;
+
+  /// No description provided for @manageChecklistMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage checklist'**
+  String get manageChecklistMenu;
+
+  /// No description provided for @manageChecklistCategoriesTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get manageChecklistCategoriesTab;
+
+  /// No description provided for @manageChecklistTasksTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get manageChecklistTasksTab;
+
+  /// No description provided for @manageChecklistAddCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Add category'**
+  String get manageChecklistAddCategory;
+
+  /// No description provided for @manageChecklistAddTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Add task'**
+  String get manageChecklistAddTask;
+
+  /// No description provided for @manageChecklistEditCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit category'**
+  String get manageChecklistEditCategory;
+
+  /// No description provided for @manageChecklistEditTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit task'**
+  String get manageChecklistEditTask;
+
+  /// No description provided for @manageChecklistNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get manageChecklistNameLabel;
+
+  /// No description provided for @manageChecklistCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get manageChecklistCategoryLabel;
+
+  /// No description provided for @manageChecklistSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get manageChecklistSave;
+
+  /// No description provided for @manageChecklistCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get manageChecklistCancel;
+
+  /// No description provided for @manageChecklistHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide'**
+  String get manageChecklistHide;
+
+  /// No description provided for @manageChecklistFardHideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide this task?'**
+  String get manageChecklistFardHideTitle;
+
+  /// No description provided for @manageChecklistFardHideBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This is an obligatory prayer. Hiding removes it from your daily count, not from your day.'**
+  String get manageChecklistFardHideBody;
 }
 
 class _AppLocalizationsDelegate

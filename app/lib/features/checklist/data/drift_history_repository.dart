@@ -5,6 +5,7 @@ import '../../../core/time/day_key.dart';
 import '../domain/day_completion.dart';
 import '../domain/fard_anchor_set.dart';
 import '../domain/task.dart';
+import 'checklist_repository.dart';
 import 'history_repository.dart';
 import 'static_task_catalog.dart';
 
@@ -72,13 +73,17 @@ class DriftHistoryRepository implements HistoryRepository {
       var completedTasks = 0;
       final completedIds = <String>{};
       for (final log in logs) {
-        final task = _catalogById[log.taskId];
+        final taskKey = log.userTaskId ?? log.taskId;
+        if (taskKey == null) {
+          continue;
+        }
+        final task = _catalogById[taskKey];
         if (task == null) {
-          continue; // Phase 2 D7: filter orphans, don't count them.
+          continue; // Default-catalog orphans / user-owned tasks (history TBD).
         }
         completedPoints += task.points;
         completedTasks += 1;
-        completedIds.add(log.taskId);
+        completedIds.add(taskKey);
       }
       final fardMet = fardAnchorTaskIds.every(completedIds.contains);
 

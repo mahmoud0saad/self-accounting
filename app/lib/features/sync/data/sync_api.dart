@@ -25,4 +25,13 @@ class SyncApi {
   Future<void> batchUpsert(List<Map<String, dynamic>> items) async {
     await _dio.put<void>('/logs/batch', data: {'items': items});
   }
+
+  Future<void> batchCustomizations(List<Map<String, dynamic>> ops) async {
+    await _dio.put<void>('/customizations/batch', data: {'ops': ops});
+  }
+
+  Future<Map<String, dynamic>> fetchCatalog() async {
+    final res = await _dio.get<Map<String, dynamic>>('/catalog');
+    return res.data!;
+  }
 }

@@ -514,4 +514,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsSyncDone => 'Sync complete.';
+
+  @override
+  String get manageChecklistTitle => 'Manage checklist';
+
+  @override
+  String get manageChecklistMenu => 'Manage checklist';
+
+  @override
+  String get manageChecklistCategoriesTab => 'Categories';
+
+  @override
+  String get manageChecklistTasksTab => 'Tasks';
+
+  @override
+  String get manageChecklistAddCategory => 'Add category';
+
+  @override
+  String get manageChecklistAddTask => 'Add task';
+
+  @override
+  String get manageChecklistEditCategory => 'Edit category';
+
+  @override
+  String get manageChecklistEditTask => 'Edit task';
+
+  @override
+  String get manageChecklistNameLabel => 'Name';
+
+  @override
+  String get manageChecklistCategoryLabel => 'Category';
+
+  @override
+  String get manageChecklistSave => 'Save';
+
+  @override
+  String get manageChecklistCancel => 'Cancel';
+
+  @override
+  String get manageChecklistHide => 'Hide';
+
+  @override
+  String get manageChecklistFardHideTitle => 'Hide this task?';
+
+  @override
+  String get manageChecklistFardHideBody =>
+      'This is an obligatory prayer. Hiding removes it from your daily count, not from your day.';
 }

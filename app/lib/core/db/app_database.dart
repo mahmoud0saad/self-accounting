@@ -7,8 +7,13 @@ import 'tables/app_settings_table.dart';
 import 'tables/category_notification_schedules_table.dart';
 import 'tables/daily_logs_table.dart';
 import 'tables/task_notification_toggles_table.dart';
+import 'tables/categories_table.dart';
 import 'tables/pending_sync_ops_table.dart';
 import 'tables/tasks_table.dart';
+import 'tables/user_categories_table.dart';
+import 'tables/user_category_overrides_table.dart';
+import 'tables/user_task_overrides_table.dart';
+import 'tables/user_tasks_table.dart';
 
 part 'app_database.g.dart';
 
@@ -16,6 +21,11 @@ part 'app_database.g.dart';
   tables: [
     Tasks,
     DailyLogs,
+    Categories,
+    UserCategories,
+    UserCategoryOverrides,
+    UserTasks,
+    UserTaskOverrides,
     AppSettings,
     CategoryNotificationSchedules,
     TaskNotificationToggles,
@@ -51,12 +61,13 @@ class AppDatabase extends _$AppDatabase {
   }
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) async {
       await m.createAll();
+      await _seedCategoriesTable();
       await _seedNotificationDefaults();
     },
     onUpgrade: (Migrator m, int from, int to) async {
@@ -67,6 +78,17 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 3) {
         await m.createTable(pendingSyncOps);
+      }
+      if (from < 4) {
+        await m.createTable(categories);
+        await m.createTable(userCategories);
+        await m.createTable(userCategoryOverrides);
+        await m.createTable(userTasks);
+        await m.createTable(userTaskOverrides);
+        await _seedCategoriesTable();
+      }
+      if (from < 5) {
+        await _migrateDailyLogsForUserTasks();
       }
     },
     beforeOpen: (OpeningDetails details) async {
@@ -100,9 +122,69 @@ class AppDatabase extends _$AppDatabase {
     }
   }
 
+  /// Rebuilds [daily_logs] so user-owned completions can reference [user_tasks].
+  Future<void> _migrateDailyLogsForUserTasks() async {
+    await customStatement('''
+      CREATE TABLE daily_logs_new (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        date TEXT NOT NULL,
+        task_id TEXT REFERENCES tasks(id),
+        user_task_id TEXT REFERENCES user_tasks(id),
+        completed INTEGER NOT NULL DEFAULT 0 CHECK (completed IN (0, 1)),
+        updated_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER))
+      );
+    ''');
+    await customStatement('''
+      INSERT INTO daily_logs_new (date, task_id, completed, updated_at)
+      SELECT date, task_id, completed, updated_at FROM daily_logs;
+    ''');
+    await customStatement('DROP TABLE daily_logs;');
+    await customStatement(
+      'ALTER TABLE daily_logs_new RENAME TO daily_logs;',
+    );
+    await customStatement('''
+      CREATE UNIQUE INDEX uq_daily_logs_date_task
+      ON daily_logs(date, task_id)
+      WHERE task_id IS NOT NULL;
+    ''');
+    await customStatement('''
+      CREATE UNIQUE INDEX uq_daily_logs_date_user_task
+      ON daily_logs(date, user_task_id)
+      WHERE user_task_id IS NOT NULL;
+    ''');
+  }
+
+  Future<void> _seedCategoriesTable() async {
+    const rows = [
+      ('fajr', 'Fajr', 'wb_twilight', 0, true),
+      ('dhuhr', 'Dhuhr', 'wb_sunny', 1, true),
+      ('asr', 'Asr', 'partly_cloudy_day', 2, true),
+      ('maghrib', 'Maghrib', 'wb_twilight', 3, true),
+      ('isha', 'Isha', 'nights_stay', 4, true),
+      ('qiyamEvening', 'Qiyam & Evening', 'bedtime', 5, false),
+      ('quranFasting', 'Quran & Fasting', 'menu_book', 6, false),
+      ('miscAdhkar', 'Misc Adhkar', 'auto_awesome', 7, false),
+    ];
+    for (final r in rows) {
+      await into(categories).insertOnConflictUpdate(
+        CategoriesCompanion.insert(
+          code: r.$1,
+          defaultName: r.$2,
+          defaultIcon: r.$3,
+          defaultSortOrder: r.$4,
+          isFard: r.$5,
+        ),
+      );
+    }
+  }
+
   Future<void> clearUserData() async {
     await delete(dailyLogs).go();
     await delete(pendingSyncOps).go();
+    await delete(userCategoryOverrides).go();
+    await delete(userTaskOverrides).go();
+    await delete(userTasks).go();
+    await delete(userCategories).go();
     await delete(categoryNotificationSchedules).go();
     await delete(taskNotificationToggles).go();
     await delete(appSettings).go();
