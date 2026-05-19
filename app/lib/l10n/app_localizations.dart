@@ -1087,6 +1087,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This is an obligatory prayer. Hiding removes it from your daily count, not from your day.'**
   String get manageChecklistFardHideBody;
+
+  /// No description provided for @manageChecklistRemovePermanently.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove permanently'**
+  String get manageChecklistRemovePermanently;
+
+  /// No description provided for @manageChecklistRemoveConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This removes the entry and cannot be undone. Your daily progress on other tasks is kept.'**
+  String get manageChecklistRemoveConfirmBody;
+
+  /// No description provided for @manageChecklistRemoveHasHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'This task has history. Hide it instead to keep your records.'**
+  String get manageChecklistRemoveHasHistory;
+
+  /// No description provided for @manageChecklistTooltipHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide from today — keeps your history.'**
+  String get manageChecklistTooltipHide;
+
+  /// No description provided for @manageChecklistTooltipShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show on today\'s list.'**
+  String get manageChecklistTooltipShow;
+
+  /// No description provided for @restoreCatalogDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore your saved checklist?'**
+  String get restoreCatalogDialogTitle;
+
+  /// No description provided for @restoreCatalogDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We found your saved checklist on this account. Restoring will replace the customizations on this device — your daily progress on default tasks is kept.'**
+  String get restoreCatalogDialogBody;
+
+  /// No description provided for @restoreCatalogDialogRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get restoreCatalogDialogRestore;
+
+  /// No description provided for @settingsRestoreCatalogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore checklist from your account'**
+  String get settingsRestoreCatalogTitle;
+
+  /// No description provided for @settingsRestoreCatalogNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Never restored on this device'**
+  String get settingsRestoreCatalogNever;
+
+  /// No description provided for @settingsRestoreCatalogLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Last restored: {when}'**
+  String settingsRestoreCatalogLast(String when);
+
+  /// No description provided for @settingsRestoreCatalogOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline — restore will run when you\'re back online.'**
+  String get settingsRestoreCatalogOffline;
+
+  /// No description provided for @restoreCatalogPushing.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving your checklist to your account…'**
+  String get restoreCatalogPushing;
+
+  /// No description provided for @restoreCatalogRestoring.
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring your saved checklist…'**
+  String get restoreCatalogRestoring;
+
+  /// No description provided for @restoreCatalogDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Restored {count} items from your account.'**
+  String restoreCatalogDone(int count);
+
+  /// No description provided for @restoreCatalogSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved your checklist to your account.'**
+  String get restoreCatalogSaved;
 }
 
 class _AppLocalizationsDelegate

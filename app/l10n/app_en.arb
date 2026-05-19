@@ -272,5 +272,31 @@
   "manageChecklistCancel": "Cancel",
   "manageChecklistHide": "Hide",
   "manageChecklistFardHideTitle": "Hide this task?",
-  "manageChecklistFardHideBody": "This is an obligatory prayer. Hiding removes it from your daily count, not from your day."
+  "manageChecklistFardHideBody": "This is an obligatory prayer. Hiding removes it from your daily count, not from your day.",
+  "manageChecklistRemovePermanently": "Remove permanently",
+  "manageChecklistRemoveConfirmBody": "This removes the entry and cannot be undone. Your daily progress on other tasks is kept.",
+  "manageChecklistRemoveHasHistory": "This task has history. Hide it instead to keep your records.",
+  "manageChecklistTooltipHide": "Hide from today — keeps your history.",
+  "manageChecklistTooltipShow": "Show on today's list.",
+  "restoreCatalogDialogTitle": "Restore your saved checklist?",
+  "restoreCatalogDialogBody": "We found your saved checklist on this account. Restoring will replace the customizations on this device — your daily progress on default tasks is kept.",
+  "restoreCatalogDialogRestore": "Restore",
+  "settingsRestoreCatalogTitle": "Restore checklist from your account",
+  "settingsRestoreCatalogNever": "Never restored on this device",
+  "settingsRestoreCatalogLast": "Last restored: {when}",
+  "@settingsRestoreCatalogLast": {
+    "placeholders": {
+      "when": { "type": "String" }
+    }
+  },
+  "settingsRestoreCatalogOffline": "You're offline — restore will run when you're back online.",
+  "restoreCatalogPushing": "Saving your checklist to your account…",
+  "restoreCatalogRestoring": "Restoring your saved checklist…",
+  "restoreCatalogDone": "Restored {count} items from your account.",
+  "@restoreCatalogDone": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "restoreCatalogSaved": "Saved your checklist to your account."
 }

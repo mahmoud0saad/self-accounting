@@ -44,15 +44,18 @@ export class CustomizationController {
 
   @Delete('user-categories/:id')
   @ApiQuery({ name: 'force', required: false, type: Boolean })
+  @ApiQuery({ name: 'archive', required: false, type: Boolean })
   deleteCategory(
     @CurrentUser() user: RequestUser,
     @Param('id') id: string,
     @Query('force') force?: string,
+    @Query('archive') archive?: string,
   ) {
     return this.customization.deleteUserCategory(
       user.sub,
       id,
       force === 'true',
+      archive === 'true',
     );
   }
 

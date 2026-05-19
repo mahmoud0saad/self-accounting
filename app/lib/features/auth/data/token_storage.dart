@@ -85,7 +85,29 @@ class TokenStorage {
   Future<void> clearUserSyncData(String userId) async {
     await _storage.delete(key: 'sync_cursor_$userId');
     await _storage.delete(key: 'first_sync_done_$userId');
+    await _storage.delete(key: 'customization_first_sync_done_$userId');
+    await _storage.delete(key: 'customization_server_last_seen_$userId');
   }
+
+  Future<bool> isCustomizationFirstSyncDone(String userId) async {
+    final v = await _storage.read(key: 'customization_first_sync_done_$userId');
+    return v == 'true';
+  }
+
+  Future<void> markCustomizationFirstSyncDone(String userId) =>
+      _storage.write(key: 'customization_first_sync_done_$userId', value: 'true');
+
+  Future<void> clearCustomizationFirstSyncFlag(String userId) =>
+      _storage.delete(key: 'customization_first_sync_done_$userId');
+
+  Future<String?> readCustomizationServerLastSeen(String userId) =>
+      _storage.read(key: 'customization_server_last_seen_$userId');
+
+  Future<void> writeCustomizationServerLastSeen(
+    String userId,
+    String iso,
+  ) =>
+      _storage.write(key: 'customization_server_last_seen_$userId', value: iso);
 }
 
 final tokenStorageProvider = Provider<TokenStorage>(

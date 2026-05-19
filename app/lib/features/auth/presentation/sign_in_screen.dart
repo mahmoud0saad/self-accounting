@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../customization/presentation/widgets/restore_catalog_dialog.dart';
+import '../../sync/data/customization_restore_provider.dart';
 import '../../sync/data/sync_service.dart';
 import 'providers/auth_provider.dart';
 
@@ -57,6 +59,15 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             ],
           ),
         ),
+      );
+
+      ref.read(customizationRestoreConfirmProvider).call =
+          (total) => showRestoreCatalogDialog(context, l, total);
+
+      final restore = ref.read(customizationRestoreServiceProvider);
+      await restore.restoreIfNeeded(
+        confirmReplacePrompt:
+            ref.read(customizationRestoreConfirmProvider).call,
       );
 
       final days = await sync.runFirstSignInMigrationIfNeeded();

@@ -1,4 +1,4 @@
-import { IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { IsBoolean, IsInt, IsOptional, IsString, Min } from 'class-validator';
 
 export class UpdateUserCategoryDto {
   @IsOptional()
@@ -13,4 +13,9 @@ export class UpdateUserCategoryDto {
   @IsInt()
   @Min(0)
   sortOrder?: number;
+
+  /** When true, clears [archivedAt] and shows the category again. */
+  @IsOptional()
+  @IsBoolean()
+  restore?: boolean;
 }

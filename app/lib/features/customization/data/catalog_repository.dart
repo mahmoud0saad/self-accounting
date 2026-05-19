@@ -16,7 +16,10 @@ String _newLocalId(String prefix) =>
     '${prefix}_${DateTime.now().microsecondsSinceEpoch}_${_random.nextInt(0x7fffffff)}';
 
 abstract class CatalogRepository {
-  Stream<EffectiveCatalog> watchEffective(AppLocalizations l);
+  Stream<EffectiveCatalog> watchEffective(
+    AppLocalizations l, {
+    bool forManage = false,
+  });
 
   Future<void> createUserCategory({
     required String name,
@@ -69,6 +72,16 @@ abstract class CatalogRepository {
     String? customCategoryRef,
     int? sortOrder,
   });
+
+  Future<void> setUserCategoryArchived(String id, bool archived);
+
+  Future<void> clearTaskOverride(String taskCode);
+
+  Future<void> clearCategoryOverride(String categoryCode);
+
+  Future<int> countDailyLogsForUserTask(String userTaskId);
+
+  Future<void> restoreUserTask(String id);
 }
 
 class DriftCatalogRepository implements CatalogRepository {
@@ -78,7 +91,10 @@ class DriftCatalogRepository implements CatalogRepository {
   final SyncService? _sync;
 
   @override
-  Stream<EffectiveCatalog> watchEffective(AppLocalizations l) {
+  Stream<EffectiveCatalog> watchEffective(
+    AppLocalizations l, {
+    bool forManage = false,
+  }) {
     final defaults = buildDefaultCategories(l);
     final defaultTasks = buildDefaultTasks(l);
 
@@ -90,6 +106,7 @@ class DriftCatalogRepository implements CatalogRepository {
         defaultTasks: defaultTasks,
         userTasks: userData.tasks,
         taskOverrides: userData.taskOverrides,
+        forManage: forManage,
       ),
     );
   }
@@ -422,6 +439,87 @@ class DriftCatalogRepository implements CatalogRepository {
       },
       now,
     );
+  }
+
+  @override
+  Future<void> setUserCategoryArchived(String id, bool archived) async {
+    final now = DateTime.now().toUtc();
+    if (archived) {
+      await (_db.update(_db.userCategories)..where((r) => r.id.equals(id)))
+          .write(
+        UserCategoriesCompanion(archivedAt: Value(now), updatedAt: Value(now)),
+      );
+      await _enqueue('delete_user_category', {'id': id, 'archive': true}, now);
+    } else {
+      await (_db.update(_db.userCategories)..where((r) => r.id.equals(id)))
+          .write(
+        UserCategoriesCompanion(
+          archivedAt: const Value(null),
+          updatedAt: Value(now),
+        ),
+      );
+      await _enqueue('update_user_category', {'id': id, 'restore': true}, now);
+    }
+  }
+
+  @override
+  Future<void> clearTaskOverride(String taskCode) async {
+    await (_db.delete(_db.userTaskOverrides)
+          ..where((r) => r.taskCode.equals(taskCode)))
+        .go();
+    final now = DateTime.now().toUtc();
+    await _enqueue(
+      'upsert_user_task_override',
+      {
+        'taskCode': taskCode,
+        'hidden': false,
+        'customName': null,
+        'customPoints': null,
+        'customIcon': null,
+        'customCategoryRef': null,
+        'sortOrder': null,
+      },
+      now,
+    );
+  }
+
+  @override
+  Future<void> clearCategoryOverride(String categoryCode) async {
+    await (_db.delete(_db.userCategoryOverrides)
+          ..where((r) => r.categoryCode.equals(categoryCode)))
+        .go();
+    final now = DateTime.now().toUtc();
+    await _enqueue(
+      'upsert_user_category_override',
+      {
+        'categoryCode': categoryCode,
+        'hidden': false,
+        'customName': null,
+        'customIcon': null,
+        'sortOrder': null,
+      },
+      now,
+    );
+  }
+
+  @override
+  Future<int> countDailyLogsForUserTask(String userTaskId) async {
+    final rows = await (_db.select(_db.dailyLogs)
+          ..where((r) => r.userTaskId.equals(userTaskId)))
+        .get();
+    return rows.length;
+  }
+
+  @override
+  Future<void> restoreUserTask(String id) async {
+    final now = DateTime.now().toUtc();
+    await (_db.update(_db.userTasks)..where((r) => r.id.equals(id))).write(
+      UserTasksCompanion(
+        archivedAt: const Value(null),
+        updatedAt: Value(now),
+      ),
+    );
+    await _enqueue('update_user_task', {'id': id, 'restore': true}, now);
   }
 
   Future<void> _enqueue(

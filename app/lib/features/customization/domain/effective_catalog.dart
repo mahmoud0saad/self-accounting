@@ -9,6 +9,7 @@ EffectiveCatalog effectiveCatalog({
   required List<DefaultTask> defaultTasks,
   required List<UserTask> userTasks,
   required List<UserTaskOverride> taskOverrides,
+  bool forManage = false,
 }) {
   final categoryOverrideByCode = {
     for (final o in categoryOverrides) o.categoryCode: o,
@@ -24,7 +25,8 @@ EffectiveCatalog effectiveCatalog({
 
   for (final dc in defaultCategories) {
     final ov = categoryOverrideByCode[dc.code];
-    if (ov?.hidden == true) {
+    final hidden = ov?.hidden == true;
+    if (hidden && !forManage) {
       continue;
     }
     if (ov != null &&
@@ -45,13 +47,14 @@ EffectiveCatalog effectiveCatalog({
         sortOrder: ov?.sortOrder ?? dc.defaultSortOrder,
         isFard: dc.isFard,
         isUserOwned: false,
+        isVisible: !hidden,
         defaultCode: dc.code,
       ),
     );
   }
 
   for (final uc in userCategories) {
-    if (uc.isArchived) {
+    if (uc.isArchived && !forManage) {
       continue;
     }
     final ref = CategoryRef.userCategory(uc.id).value;
@@ -65,6 +68,7 @@ EffectiveCatalog effectiveCatalog({
         sortOrder: uc.sortOrder,
         isFard: false,
         isUserOwned: true,
+        isVisible: !uc.isArchived,
         userCategoryId: uc.id,
       ),
     );
@@ -83,7 +87,8 @@ EffectiveCatalog effectiveCatalog({
 
   for (final dt in defaultTasks) {
     final ov = taskOverrideByCode[dt.code];
-    if (ov?.hidden == true) {
+    final hidden = ov?.hidden == true;
+    if (hidden && !forManage) {
       continue;
     }
     final catRef = ov?.customCategoryRef ??
@@ -101,13 +106,14 @@ EffectiveCatalog effectiveCatalog({
         categoryKey: categoryKey,
         sortOrder: ov?.sortOrder ?? dt.defaultSortOrder,
         isUserOwned: false,
+        isVisible: !hidden,
         defaultCode: dt.code,
       ),
     );
   }
 
   for (final ut in userTasks) {
-    if (ut.isArchived) {
+    if (ut.isArchived && !forManage) {
       continue;
     }
     final categoryKey = categoryKeyByRef[ut.categoryRef];
@@ -123,6 +129,7 @@ EffectiveCatalog effectiveCatalog({
         categoryKey: categoryKey,
         sortOrder: ut.sortOrder,
         isUserOwned: true,
+        isVisible: !ut.isArchived,
       ),
     );
   }

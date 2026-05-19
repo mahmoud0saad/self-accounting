@@ -21,6 +21,12 @@ describe('Health (e2e)', () => {
     return request(app.getHttpServer()).get('/health').expect(404);
   });
 
+  it('/v1/catalog/snapshot-state (GET) without auth returns 401', () => {
+    return request(app.getHttpServer())
+      .get('/v1/catalog/snapshot-state')
+      .expect(401);
+  });
+
   it('/v1/health (GET) returns JSON health payload', async () => {
     const res = await request(app.getHttpServer())
       .get('/v1/health')

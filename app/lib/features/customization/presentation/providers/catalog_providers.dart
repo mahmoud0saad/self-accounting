@@ -16,13 +16,30 @@ final catalogRepositoryProvider = Provider<CatalogRepository>((ref) {
   );
 });
 
-final effectiveCatalogProvider = StreamProvider<EffectiveCatalog>((ref) {
+Stream<EffectiveCatalog> _watchCatalog(
+  Ref ref,
+  CatalogRepository repo, {
+  bool forManage = false,
+}) {
   final l = ref.watch(appLocalizationsProvider);
   if (l != null) {
-    return ref.watch(catalogRepositoryProvider).watchEffective(l);
+    return repo.watchEffective(l, forManage: forManage);
   }
   final locale = ref.watch(localeProvider) ?? const Locale('en');
-  return ref
-      .watch(catalogRepositoryProvider)
-      .watchEffective(lookupAppLocalizations(locale));
+  return repo.watchEffective(
+    lookupAppLocalizations(locale),
+    forManage: forManage,
+  );
+}
+
+final effectiveCatalogProvider = StreamProvider<EffectiveCatalog>((ref) {
+  return _watchCatalog(ref, ref.watch(catalogRepositoryProvider));
+});
+
+final manageEffectiveCatalogProvider = StreamProvider<EffectiveCatalog>((ref) {
+  return _watchCatalog(
+    ref,
+    ref.watch(catalogRepositoryProvider),
+    forManage: true,
+  );
 });

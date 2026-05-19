@@ -7,12 +7,15 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../auth/presentation/providers/auth_provider.dart';
 import '../../checklist/domain/task.dart';
+import '../../customization/presentation/widgets/restore_catalog_dialog.dart';
+import '../../sync/data/customization_restore_provider.dart';
 import '../../sync/data/sync_service.dart';
 import '../../checklist/presentation/providers/task_catalog_provider.dart';
 import '../../notifications/notification_service.dart';
 import '../../notifications/providers/app_localizations_provider.dart';
 import '../../notifications/providers/notification_scheduler_provider.dart';
 import '../../notifications/providers/notification_service_provider.dart';
+import '../../auth/data/token_storage.dart';
 import '../data/app_settings_repository.dart';
 import '../domain/category_notification_schedule.dart';
 import '../domain/eod_summary_settings.dart';
@@ -50,12 +53,14 @@ class SettingsScreen extends ConsumerWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(title: Text(l.settingsTitle), pinned: true),
-          if (auth.status == AuthStatus.authenticated)
+          if (auth.status == AuthStatus.authenticated &&
+              auth.user?.isEmailConfirmed == true)
             SliverToBoxAdapter(
               child: SettingsSectionCard(
                 title: l.settingsAccountTitle,
                 child: Column(
                   children: [
+                    _RestoreCatalogTile(l: l),
                     ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: Text(l.settingsSyncNow),
@@ -261,6 +266,64 @@ class _InfoBanner extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _RestoreCatalogTile extends ConsumerWidget {
+  const _RestoreCatalogTile({required this.l});
+
+  final AppLocalizations l;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(appSettingsRepositoryProvider);
+    return FutureBuilder<DateTime?>(
+      future: settings.getCustomizationLastRestoredAt(),
+      builder: (context, snapshot) {
+        final at = snapshot.data;
+        final subtitle = at == null
+            ? l.settingsRestoreCatalogNever
+            : l.settingsRestoreCatalogLast(_formatRelative(at, l));
+        return ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(l.settingsRestoreCatalogTitle),
+          subtitle: Text(subtitle),
+          trailing: const Icon(Icons.cloud_download_rounded),
+          onTap: () => _onTap(context, ref),
+        );
+      },
+    );
+  }
+
+  String _formatRelative(DateTime at, AppLocalizations l) {
+    final days = DateTime.now().difference(at).inDays;
+    if (days <= 0) {
+      return 'today';
+    }
+    if (days == 1) {
+      return '1 day ago';
+    }
+    return '$days days ago';
+  }
+
+  Future<void> _onTap(BuildContext context, WidgetRef ref) async {
+    final user = ref.read(authNotifierProvider).user;
+    if (user == null) {
+      return;
+    }
+    await ref.read(tokenStorageProvider).clearCustomizationFirstSyncFlag(user.id);
+    ref.read(customizationRestoreConfirmProvider).call =
+        (total) => showRestoreCatalogDialog(context, l, total);
+    await ref.read(customizationRestoreServiceProvider).restoreIfNeeded(
+          force: true,
+          confirmReplacePrompt:
+              ref.read(customizationRestoreConfirmProvider).call,
+        );
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l.settingsSyncDone)),
+      );
+    }
   }
 }
 

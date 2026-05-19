@@ -1,9 +1,73 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import type { SnapshotStateDto } from './dto/snapshot-state.dto';
 
 @Injectable()
 export class CatalogService {
   constructor(private readonly prisma: PrismaService) {}
+
+  async getSnapshotState(userId: string): Promise<SnapshotStateDto> {
+    const [
+      userCategories,
+      userTasks,
+      categoryOverrides,
+      taskOverrides,
+      latestCategory,
+      latestTask,
+      latestCatOv,
+      latestTaskOv,
+    ] = await Promise.all([
+      this.prisma.userCategory.count({ where: { userId } }),
+      this.prisma.userTask.count({ where: { userId } }),
+      this.prisma.userCategoryOverride.count({ where: { userId } }),
+      this.prisma.userTaskOverride.count({ where: { userId } }),
+      this.prisma.userCategory.findFirst({
+        where: { userId },
+        orderBy: { updatedAt: 'desc' },
+        select: { updatedAt: true },
+      }),
+      this.prisma.userTask.findFirst({
+        where: { userId },
+        orderBy: { updatedAt: 'desc' },
+        select: { updatedAt: true },
+      }),
+      this.prisma.userCategoryOverride.findFirst({
+        where: { userId },
+        orderBy: { updatedAt: 'desc' },
+        select: { updatedAt: true },
+      }),
+      this.prisma.userTaskOverride.findFirst({
+        where: { userId },
+        orderBy: { updatedAt: 'desc' },
+        select: { updatedAt: true },
+      }),
+    ]);
+
+    const totals = {
+      userCategories,
+      userTasks,
+      categoryOverrides,
+      taskOverrides,
+    };
+    const totalCount =
+      userCategories + userTasks + categoryOverrides + taskOverrides;
+
+    const candidates = [
+      latestCategory?.updatedAt,
+      latestTask?.updatedAt,
+      latestCatOv?.updatedAt,
+      latestTaskOv?.updatedAt,
+    ].filter((d): d is Date => d != null);
+
+    return {
+      hasSnapshot: totalCount > 0,
+      totals,
+      lastUpdatedAt:
+        candidates.length > 0
+          ? new Date(Math.max(...candidates.map((d) => d.getTime()))).toISOString()
+          : undefined,
+    };
+  }
 
   async getFullCatalog(userId: string) {
     const [
@@ -20,11 +84,11 @@ export class CatalogService {
         orderBy: { defaultSortOrder: 'asc' },
       }),
       this.prisma.userCategory.findMany({
-        where: { userId, archivedAt: null },
+        where: { userId },
         orderBy: { sortOrder: 'asc' },
       }),
       this.prisma.userTask.findMany({
-        where: { userId, archivedAt: null },
+        where: { userId },
         orderBy: { sortOrder: 'asc' },
       }),
       this.prisma.userCategoryOverride.findMany({ where: { userId } }),
@@ -51,6 +115,7 @@ export class CatalogService {
         name: c.name,
         icon: c.icon,
         sortOrder: c.sortOrder,
+        archivedAt: c.archivedAt?.toISOString() ?? null,
         updatedAt: c.updatedAt.toISOString(),
       })),
       userTasks: userTasks.map((t) => ({
@@ -62,6 +127,7 @@ export class CatalogService {
         sortOrder: t.sortOrder,
         description: t.description,
         kind: t.kind,
+        archivedAt: t.archivedAt?.toISOString() ?? null,
         updatedAt: t.updatedAt.toISOString(),
       })),
       userCategoryOverrides: userCategoryOverrides.map((o) => ({

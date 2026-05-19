@@ -154,6 +154,7 @@ class EffectiveCategory {
     required this.sortOrder,
     required this.isFard,
     required this.isUserOwned,
+    this.isVisible = true,
     this.defaultCode,
     this.userCategoryId,
   });
@@ -165,6 +166,7 @@ class EffectiveCategory {
   final int sortOrder;
   final bool isFard;
   final bool isUserOwned;
+  final bool isVisible;
   final String? defaultCode;
   final String? userCategoryId;
 }
@@ -179,6 +181,7 @@ class EffectiveTask {
     required this.categoryKey,
     required this.sortOrder,
     required this.isUserOwned,
+    this.isVisible = true,
     this.defaultCode,
   });
 
@@ -189,6 +192,7 @@ class EffectiveTask {
   final String categoryKey;
   final int sortOrder;
   final bool isUserOwned;
+  final bool isVisible;
   final String? defaultCode;
 }
 

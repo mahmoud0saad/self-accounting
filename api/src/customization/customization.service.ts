@@ -79,13 +79,33 @@ export class CustomizationService {
     }
     const row = await this.prisma.userCategory.update({
       where: { id: existing.id },
-      data,
+      data: {
+        ...data,
+        ...(dto.restore === true ? { archivedAt: null } : {}),
+      },
     });
     return this.mapUserCategory(row);
   }
 
-  async deleteUserCategory(userId: string, id: string, force: boolean) {
-    const existing = await this.findUserCategory(userId, id);
+  async deleteUserCategory(
+    userId: string,
+    id: string,
+    force: boolean,
+    archive = false,
+  ) {
+    const existing = await this.prisma.userCategory.findFirst({
+      where: { id, userId },
+    });
+    if (!existing) {
+      throw new NotFoundException('User category not found');
+    }
+    if (archive) {
+      const row = await this.prisma.userCategory.update({
+        where: { id: existing.id },
+        data: { archivedAt: new Date() },
+      });
+      return this.mapUserCategory(row);
+    }
     const taskCount = await this.prisma.userTask.count({
       where: { userId, categoryRef: `userCategory:${id}`, archivedAt: null },
     });
@@ -227,9 +247,14 @@ export class CustomizationService {
     if (dto.sortOrder != null) {
       data.sortOrder = dto.sortOrder;
     }
+    const restore =
+      dto && 'restore' in dto && (dto as { restore?: boolean }).restore === true;
     const row = await this.prisma.userTask.update({
       where: { id: existing.id },
-      data,
+      data: {
+        ...data,
+        ...(restore ? { archivedAt: null } : {}),
+      },
     });
     return this.mapUserTask(row);
   }
@@ -416,7 +441,7 @@ export class CustomizationService {
 
   private async findUserCategory(userId: string, id: string) {
     const row = await this.prisma.userCategory.findFirst({
-      where: { id, userId, archivedAt: null },
+      where: { id, userId },
     });
     if (!row) {
       throw new NotFoundException('User category not found.');
@@ -426,7 +451,7 @@ export class CustomizationService {
 
   private async findUserTask(userId: string, id: string) {
     const row = await this.prisma.userTask.findFirst({
-      where: { id, userId, archivedAt: null },
+      where: { id, userId },
     });
     if (!row) {
       throw new NotFoundException('User task not found.');
