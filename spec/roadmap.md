@@ -97,6 +97,7 @@ Tiny phases (~3–5 days each). Each phase is independently shippable, demoable,
 
 - CRUD UI for custom tasks and category (name, category, points, icon).
 - Ability to hide/disable default tasks without deleting them.
+- every user has ability to control for tasks and category that shows can use default or change on it by create new or remove (hide) 
 - Validations: prevent negative points; cap per-task points to keep system balanced.
 - Sync custom tasks if signed in.
 **Exit:** Users can fully tailor their checklist to their own routine.
