@@ -187,6 +187,12 @@ export class ChallengesService {
   }
 
   async patchChallenge(userId: string, id: string, dto: PatchChallengeDto) {
+    if (dto.customSourceKind != null || dto.customSourceRef != null) {
+      throw new UnprocessableEntityException({
+        code: 'SOURCE_NOT_EDITABLE',
+        message: 'Source kind and reference cannot be changed.',
+      });
+    }
     const existing = await this.findUserChallenge(userId, id);
     if (existing.templateCode != null) {
       if (dto.customTitle != null || dto.customIcon != null || dto.customGoalCount != null) {

@@ -299,8 +299,13 @@
     }
   },
   "restoreCatalogSaved": "تم حفظ قائمتك على حسابك.",
+  "restoreUnifiedDialogTitle": "استعادة بياناتك المحفوظة؟",
+  "restoreUnifiedDialogBody": "وجدنا قائمتك وتحدياتك المحفوظة على هذا الحساب. ستحلّ الاستعادة محلّ ما على هذا الجهاز — مع الاحتفاظ بتقدّمك اليومي في المهام الافتراضية.",
+  "restoreChallengesDialogTitle": "استعادة تحدياتك المحفوظة؟",
+  "restoreChallengesDialogBody": "وجدنا تحدياتك الأسبوعية المحفوظة على هذا الحساب. ستحلّ الاستعادة محلّ التحديات على هذا الجهاز.",
 
   "challengeStartThisWeek": "هذا الأسبوع: ابدأ تحديًا",
+  "challengeBrowseTemplatesCta": "استكشاف القوالب",
   "challengesThisWeekTab": "هذا الأسبوع",
   "challengesBrowseTab": "استكشاف",
   "challengeSubscribe": "اشتراك",
@@ -313,6 +318,18 @@
     }
   },
   "challengeCreateCustom": "إنشاء تحدي مخصص",
+  "challengeCustomTitleLabel": "العنوان",
+  "challengeCustomIconLabel": "الأيقونة",
+  "challengeCustomSourceLabel": "المصدر",
+  "challengeSourceTabTask": "مهمة",
+  "challengeSourceTabCategory": "فئة",
+  "challengeGoalDaysLabel": "الهدف: {days} أيام هذا الأسبوع",
+  "@challengeGoalDaysLabel": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "challengeCustomCreate": "إنشاء",
   "challengeWeekStartTitle": "بداية الأسبوع",
   "challengeWeekStartSubtitle": "يُطبَّق من الأسبوع القادم.",
   "challengeWeekStartSaturday": "السبت",

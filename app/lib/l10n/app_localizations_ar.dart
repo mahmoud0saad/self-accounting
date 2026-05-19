@@ -638,7 +638,24 @@ class AppLocalizationsAr extends AppLocalizations {
   String get restoreCatalogSaved => 'تم حفظ قائمتك على حسابك.';
 
   @override
+  String get restoreUnifiedDialogTitle => 'استعادة بياناتك المحفوظة؟';
+
+  @override
+  String get restoreUnifiedDialogBody =>
+      'وجدنا قائمتك وتحدياتك المحفوظة على هذا الحساب. ستحلّ الاستعادة محلّ ما على هذا الجهاز — مع الاحتفاظ بتقدّمك اليومي في المهام الافتراضية.';
+
+  @override
+  String get restoreChallengesDialogTitle => 'استعادة تحدياتك المحفوظة؟';
+
+  @override
+  String get restoreChallengesDialogBody =>
+      'وجدنا تحدياتك الأسبوعية المحفوظة على هذا الحساب. ستحلّ الاستعادة محلّ التحديات على هذا الجهاز.';
+
+  @override
   String get challengeStartThisWeek => 'هذا الأسبوع: ابدأ تحديًا';
+
+  @override
+  String get challengeBrowseTemplatesCta => 'استكشاف القوالب';
 
   @override
   String get challengesThisWeekTab => 'هذا الأسبوع';
@@ -659,6 +676,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get challengeCreateCustom => 'إنشاء تحدي مخصص';
+
+  @override
+  String get challengeCustomTitleLabel => 'العنوان';
+
+  @override
+  String get challengeCustomIconLabel => 'الأيقونة';
+
+  @override
+  String get challengeCustomSourceLabel => 'المصدر';
+
+  @override
+  String get challengeSourceTabTask => 'مهمة';
+
+  @override
+  String get challengeSourceTabCategory => 'فئة';
+
+  @override
+  String challengeGoalDaysLabel(int days) {
+    return 'الهدف: $days أيام هذا الأسبوع';
+  }
+
+  @override
+  String get challengeCustomCreate => 'إنشاء';
 
   @override
   String get challengeWeekStartTitle => 'بداية الأسبوع';

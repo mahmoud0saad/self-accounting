@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/time/day_key.dart';
+import '../../../challenges/presentation/providers/challenge_providers.dart';
 import '../../../customization/domain/catalog_models.dart';
 import '../providers/checklist_repositories_provider.dart';
 import '../providers/checklist_state_provider.dart';
@@ -30,6 +31,8 @@ class EffectiveTaskRow extends ConsumerWidget {
       data: (m) => m[task.id] ?? false,
       orElse: () => false,
     );
+    final weekBadge = ref.watch(completedChallengeWeekBadgesProvider);
+    final showWeekComplete = weekBadge.showsForTask(task.id, task.categoryKey);
 
     final stateLabel = isChecked ? l.taskStateChecked : l.taskStateUnchecked;
     final semanticsLabel = readOnly
@@ -108,6 +111,29 @@ class EffectiveTaskRow extends ConsumerWidget {
                     ),
                   ),
                 ),
+                if (showWeekComplete) ...[
+                  const SizedBox(width: 6),
+                  Tooltip(
+                    message: l.challengeCompletedThisWeek,
+                    child: Container(
+                      padding: const EdgeInsetsDirectional.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: scheme.primary.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Text(
+                        l.challengeCompletedThisWeek,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: scheme.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
                 const SizedBox(width: 8),
                 _PointsBadge(
                   points: task.points,

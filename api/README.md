@@ -46,6 +46,20 @@ npm run prisma:seed
 
 4. Run the API: `npm run start:dev` → `http://localhost:3000/v1/health`, OpenAPI at `/v1/docs`.
 
+### Weekly challenges (`/v1/challenges/*`, Phase 9)
+
+Three MySQL tables: `challenge_templates` (seeded catalog), `user_challenges` (subscriptions / custom definitions), `user_challenge_weeks` (per-week `achieved_count`, `status`, `celebration_seen_at`).
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/v1/challenges/templates` | List active templates |
+| GET | `/v1/challenges` | List user subscriptions (+ week rows) |
+| POST | `/v1/challenges` | Subscribe to template or create custom |
+| PATCH | `/v1/challenges/:id` | Archive/un-archive or edit custom fields |
+| PUT | `/v1/challenges/:id/weeks/:weekStart` | Upsert weekly progress |
+| GET | `/v1/challenges/snapshot-state` | Cheap restore head-check |
+| PUT | `/v1/challenges/batch` | Sync queue drain (`upsert_user_challenge`, `upsert_user_challenge_week`, …) |
+
 ### Gmail SMTP (anti.mahmoud.saad.6@gmail.com)
 
 Use a [Google App Password](https://support.google.com/accounts/answer/185833) (2FA required). Set `SMTP_USER` and `SMTP_PASSWORD`. Registration sends a **6-digit code** (15 min TTL); the user enters it in the app via `POST /v1/auth/confirm-email`.

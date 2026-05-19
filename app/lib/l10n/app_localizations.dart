@@ -1184,11 +1184,41 @@ abstract class AppLocalizations {
   /// **'Saved your checklist to your account.'**
   String get restoreCatalogSaved;
 
+  /// No description provided for @restoreUnifiedDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore your saved data?'**
+  String get restoreUnifiedDialogTitle;
+
+  /// No description provided for @restoreUnifiedDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We found your saved checklist and your saved challenges on this account. Restoring will replace what\'s on this device — your daily progress on default tasks is kept.'**
+  String get restoreUnifiedDialogBody;
+
+  /// No description provided for @restoreChallengesDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore your saved challenges?'**
+  String get restoreChallengesDialogTitle;
+
+  /// No description provided for @restoreChallengesDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We found your saved weekly challenges on this account. Restoring will replace the challenges on this device.'**
+  String get restoreChallengesDialogBody;
+
   /// No description provided for @challengeStartThisWeek.
   ///
   /// In en, this message translates to:
   /// **'This week: start a challenge'**
   String get challengeStartThisWeek;
+
+  /// No description provided for @challengeBrowseTemplatesCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse templates'**
+  String get challengeBrowseTemplatesCta;
 
   /// No description provided for @challengesThisWeekTab.
   ///
@@ -1225,6 +1255,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create custom challenge'**
   String get challengeCreateCustom;
+
+  /// No description provided for @challengeCustomTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get challengeCustomTitleLabel;
+
+  /// No description provided for @challengeCustomIconLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon'**
+  String get challengeCustomIconLabel;
+
+  /// No description provided for @challengeCustomSourceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get challengeCustomSourceLabel;
+
+  /// No description provided for @challengeSourceTabTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get challengeSourceTabTask;
+
+  /// No description provided for @challengeSourceTabCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get challengeSourceTabCategory;
+
+  /// No description provided for @challengeGoalDaysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal: {days} days this week'**
+  String challengeGoalDaysLabel(int days);
+
+  /// No description provided for @challengeCustomCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get challengeCustomCreate;
 
   /// No description provided for @challengeWeekStartTitle.
   ///

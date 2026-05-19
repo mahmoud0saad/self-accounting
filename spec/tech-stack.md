@@ -48,7 +48,9 @@ A cross-platform Flutter client (Android, iOS, Web) backed by a MySQL-powered RE
 - `tasks` — catalog of default + user-custom tasks, each with a point value and category (Fajr, Dhuhr, Adhkar, etc.).
 - `daily_logs` — one row per `(user_id, date, task_id)` indicating completion.
 - `streaks` — derived/cached per user.
-- `challenges` — optional weekly goals (Phase ≥ 6).
+- `challenge_templates` — seeded catalog of opt-in weekly goals (code, source kind/ref, default goal).
+- `user_challenges` — per-user subscription to a template or custom challenge definition.
+- `user_challenge_weeks` — per-week progress (`achieved_count`, `status`, `celebration_seen_at`).
 
 ---
 

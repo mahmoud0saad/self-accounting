@@ -299,8 +299,13 @@
     }
   },
   "restoreCatalogSaved": "Saved your checklist to your account.",
+  "restoreUnifiedDialogTitle": "Restore your saved data?",
+  "restoreUnifiedDialogBody": "We found your saved checklist and your saved challenges on this account. Restoring will replace what's on this device — your daily progress on default tasks is kept.",
+  "restoreChallengesDialogTitle": "Restore your saved challenges?",
+  "restoreChallengesDialogBody": "We found your saved weekly challenges on this account. Restoring will replace the challenges on this device.",
 
   "challengeStartThisWeek": "This week: start a challenge",
+  "challengeBrowseTemplatesCta": "Browse templates",
   "challengesThisWeekTab": "This week",
   "challengesBrowseTab": "Browse",
   "challengeSubscribe": "Subscribe",
@@ -313,6 +318,18 @@
     }
   },
   "challengeCreateCustom": "Create custom challenge",
+  "challengeCustomTitleLabel": "Title",
+  "challengeCustomIconLabel": "Icon",
+  "challengeCustomSourceLabel": "Source",
+  "challengeSourceTabTask": "Task",
+  "challengeSourceTabCategory": "Category",
+  "challengeGoalDaysLabel": "Goal: {days} days this week",
+  "@challengeGoalDaysLabel": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "challengeCustomCreate": "Create",
   "challengeWeekStartTitle": "Week start",
   "challengeWeekStartSubtitle": "Applies to next week.",
   "challengeWeekStartSaturday": "Saturday",

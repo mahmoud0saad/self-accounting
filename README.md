@@ -97,7 +97,7 @@ Dashboard: Display a graph showing the level of achievement over a week or a mon
 
 Smart Notifications: Send alerts for prayer times and Adhkar.  
 
-Challenges: Ability to add a weekly challenge (e.g., completing a specific part of the Quran).  
+Challenges: Opt-in weekly goals (six seeded templates plus custom challenges). Progress is derived automatically from daily checklist logs—no separate “mark challenge done” control. Home shows a compact weekly strip; completing a goal opens a calm celebration dialog. Week boundaries default to Saturday→Friday and can be changed in Settings (applies from the next week).  
 
 Task Customization: Allow users to add their own tasks and assign custom points to them.  
 

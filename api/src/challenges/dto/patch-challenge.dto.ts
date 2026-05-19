@@ -22,4 +22,14 @@ export class PatchChallengeDto {
   @Min(1)
   @Max(7)
   customGoalCount?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  customSourceKind?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  customSourceRef?: string;
 }

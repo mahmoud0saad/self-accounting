@@ -17,16 +17,16 @@ const VALID_WEEK_STATUSES = new Set([
 const VALID_WEEK_START_DAYS = new Set([0, 1, 6]);
 
 export function assertSourceKind(kind: string): void {
-  if (!VALID_SOURCE_KINDS.has(kind)) {
-    throw new BadRequestException({
-      code: 'INVALID_SOURCE_KIND',
-      message: 'sourceKind must be TASK_WEEKLY_COUNT or CATEGORY_WEEKLY_COUNT.',
-    });
-  }
   if (kind === 'MANUAL') {
     throw new BadRequestException({
       code: 'MANUAL_NOT_SUPPORTED_PHASE_9',
       message: 'Manual challenges are not supported yet.',
+    });
+  }
+  if (!VALID_SOURCE_KINDS.has(kind)) {
+    throw new BadRequestException({
+      code: 'INVALID_SOURCE_KIND',
+      message: 'sourceKind must be TASK_WEEKLY_COUNT or CATEGORY_WEEKLY_COUNT.',
     });
   }
 }

@@ -102,6 +102,52 @@ final currentWeekProgressProvider =
   return out;
 });
 
+/// Task ids and category keys with a COMPLETED challenge this week.
+class CompletedChallengeWeekBadges {
+  const CompletedChallengeWeekBadges({
+    required this.taskIds,
+    required this.categoryKeys,
+  });
+
+  final Set<String> taskIds;
+  final Set<String> categoryKeys;
+
+  static const empty = CompletedChallengeWeekBadges(
+    taskIds: {},
+    categoryKeys: {},
+  );
+
+  bool showsForTask(String taskId, String categoryKey) =>
+      taskIds.contains(taskId) || categoryKeys.contains(categoryKey);
+}
+
+final completedChallengeWeekBadgesProvider =
+    Provider<CompletedChallengeWeekBadges>((ref) {
+  final progress = ref.watch(currentWeekProgressProvider);
+  return progress.maybeWhen(
+    data: (items) {
+      final taskIds = <String>{};
+      final categoryKeys = <String>{};
+      for (final item in items) {
+        final w = item.week;
+        if (w == null || !w.isCompleted) {
+          continue;
+        }
+        if (item.challenge.sourceKind == 'TASK_WEEKLY_COUNT') {
+          taskIds.add(item.challenge.sourceRef);
+        } else {
+          categoryKeys.add(item.challenge.sourceRef);
+        }
+      }
+      return CompletedChallengeWeekBadges(
+        taskIds: taskIds,
+        categoryKeys: categoryKeys,
+      );
+    },
+    orElse: () => CompletedChallengeWeekBadges.empty,
+  );
+});
+
 /// Fires when a challenge newly completes and celebration not yet seen.
 final challengeCelebrationProvider =
     Provider<ChallengeWithWeek?>((ref) {

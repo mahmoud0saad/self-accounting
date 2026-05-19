@@ -1,12 +1,13 @@
 import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../customization/presentation/providers/catalog_providers.dart';
 import '../data/challenge_repository.dart';
 import '../domain/challenge_models.dart';
 import 'challenge_l10n.dart';
+import 'challenge_template_groups.dart';
 import 'providers/challenge_providers.dart';
+import 'widgets/custom_challenge_sheet.dart';
 
 class ChallengesScreen extends ConsumerStatefulWidget {
   const ChallengesScreen({super.key});
@@ -48,7 +49,7 @@ class _ChallengesScreenState extends ConsumerState<ChallengesScreen>
       body: TabBarView(
         controller: _tabs,
         children: [
-          const _ThisWeekTab(),
+          _ThisWeekTab(onBrowse: () => _tabs.animateTo(1)),
           _BrowseTab(onSubscribed: () => _tabs.animateTo(0)),
         ],
       ),
@@ -57,7 +58,9 @@ class _ChallengesScreenState extends ConsumerState<ChallengesScreen>
 }
 
 class _ThisWeekTab extends ConsumerWidget {
-  const _ThisWeekTab();
+  const _ThisWeekTab({required this.onBrowse});
+
+  final VoidCallback onBrowse;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -70,9 +73,19 @@ class _ThisWeekTab extends ConsumerWidget {
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(24),
-              child: Text(
-                l.challengeStartThisWeek,
-                textAlign: TextAlign.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    l.challengeStartThisWeek,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  FilledButton.tonal(
+                    onPressed: onBrowse,
+                    child: Text(l.challengeBrowseTemplatesCta),
+                  ),
+                ],
               ),
             ),
           );
@@ -157,36 +170,72 @@ class _BrowseTab extends ConsumerWidget {
     final l = AppLocalizations.of(context)!;
     final templates = ref.watch(challengeTemplatesProvider);
     final active = ref.watch(activeUserChallengesProvider);
+    final catalog = ref.watch(effectiveCatalogProvider).asData?.value;
 
     return templates.when(
       data: (list) {
-        final subscribed = active.asData?.value
-                ?.map((c) => c.templateCode)
-                .whereType<String>()
-                .toSet() ??
-            {};
+        final subscribed = active.maybeWhen(
+          data: (challenges) => challenges
+              .map((c) => c.templateCode)
+              .whereType<String>()
+              .toSet(),
+          orElse: () => <String>{},
+        );
+
+        final grouped = groupChallengeTemplates(list);
+        final groupKeys = grouped.keys.toList()
+          ..sort((a, b) {
+            final catA = catalog?.categories
+                .where((c) => c.key == a)
+                .map((c) => c.sortOrder)
+                .firstOrNull;
+            final catB = catalog?.categories
+                .where((c) => c.key == b)
+                .map((c) => c.sortOrder)
+                .firstOrNull;
+            return (catA ?? 99).compareTo(catB ?? 99);
+          });
 
         return ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            for (final t in list)
-              ListTile(
-                title: Text(_templateTitle(l, t.code, t.defaultTitle)),
-                subtitle: Text(l.challengeProgress(0, t.goalCount)),
-                trailing: FilledButton.tonal(
-                  onPressed: subscribed.contains(t.code)
-                      ? null
-                      : () => _subscribe(ref, context, t.code),
-                  child: Text(
-                    subscribed.contains(t.code)
-                        ? l.challengeSubscribed
-                        : l.challengeSubscribe,
-                  ),
+            for (final groupKey in groupKeys) ...[
+              Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 4),
+                child: Text(
+                  catalog?.categories
+                          .where((c) => c.key == groupKey)
+                          .map((c) => c.displayName)
+                          .firstOrNull ??
+                      groupKey,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                 ),
               ),
+              for (final t in grouped[groupKey]!)
+                ListTile(
+                  title: Text(_templateTitle(l, t)),
+                  subtitle: Text(l.challengeProgress(0, t.goalCount)),
+                  trailing: FilledButton.tonal(
+                    onPressed: subscribed.contains(t.code)
+                        ? null
+                        : () => _subscribe(ref, context, t.code),
+                    child: Text(
+                      subscribed.contains(t.code)
+                          ? l.challengeSubscribed
+                          : l.challengeSubscribe,
+                    ),
+                  ),
+                ),
+            ],
             const SizedBox(height: 16),
             OutlinedButton.icon(
-              onPressed: () => _showCreateSheet(context, ref),
+              onPressed: () => showCustomChallengeSheet(
+                context,
+                ref,
+                onCreated: onSubscribed,
+              ),
               icon: const Icon(Icons.add),
               label: Text(l.challengeCreateCustom),
             ),
@@ -198,22 +247,13 @@ class _BrowseTab extends ConsumerWidget {
     );
   }
 
-  String _templateTitle(AppLocalizations l, String code, String fallback) {
+  String _templateTitle(AppLocalizations l, ChallengeTemplate t) {
     final c = UserChallenge(
       id: '',
-      templateCode: code,
+      templateCode: t.code,
       startedAt: DateTime.now(),
       updatedAt: DateTime.now(),
-      template: ChallengeTemplate(
-        code: code,
-        defaultTitle: fallback,
-        defaultIcon: 'star',
-        sourceKind: 'TASK_WEEKLY_COUNT',
-        sourceRef: '',
-        goalCount: 7,
-        defaultSortOrder: 0,
-        isActive: true,
-      ),
+      template: t,
     );
     return challengeDisplayTitle(l, c);
   }
@@ -235,83 +275,5 @@ class _BrowseTab extends ConsumerWidget {
         );
       }
     }
-  }
-
-  Future<void> _showCreateSheet(BuildContext context, WidgetRef ref) async {
-    final l = AppLocalizations.of(context)!;
-    final titleCtrl = TextEditingController();
-    var goal = 7;
-
-    final catalog = ref.read(effectiveCatalogProvider).asData?.value;
-    if (catalog == null || catalog.tasks.isEmpty) {
-      return;
-    }
-    var taskId = catalog.tasks.first.id;
-
-    await showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      builder: (ctx) => Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 16,
-          bottom: 16 + MediaQuery.viewPaddingOf(ctx).bottom,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: titleCtrl,
-              decoration: InputDecoration(labelText: l.manageChecklistNameLabel),
-            ),
-            const SizedBox(height: 12),
-            DropdownButtonFormField<String>(
-              value: taskId,
-              items: [
-                for (final t in catalog.tasks)
-                  DropdownMenuItem(value: t.id, child: Text(t.displayName)),
-              ],
-              onChanged: (v) {
-                if (v != null) {
-                  taskId = v;
-                }
-              },
-            ),
-            Slider(
-              value: goal.toDouble(),
-              min: 1,
-              max: 7,
-              divisions: 6,
-              label: '$goal',
-              onChanged: (v) => goal = v.round(),
-            ),
-            FilledButton(
-              onPressed: () async {
-                final name = titleCtrl.text.trim();
-                if (name.length < 2) {
-                  return;
-                }
-                await ref.read(challengeRepositoryProvider).createCustom(
-                      title: name,
-                      icon: 'star',
-                      sourceKind: 'TASK_WEEKLY_COUNT',
-                      sourceRef: taskId,
-                      goalCount: goal,
-                    );
-                ref.invalidate(activeUserChallengesProvider);
-                ref.invalidate(currentWeekProgressProvider);
-                if (ctx.mounted) {
-                  Navigator.pop(ctx);
-                  onSubscribed();
-                }
-              },
-              child: Text(l.manageChecklistSave),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

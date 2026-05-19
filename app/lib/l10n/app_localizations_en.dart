@@ -619,7 +619,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get restoreCatalogSaved => 'Saved your checklist to your account.';
 
   @override
+  String get restoreUnifiedDialogTitle => 'Restore your saved data?';
+
+  @override
+  String get restoreUnifiedDialogBody =>
+      'We found your saved checklist and your saved challenges on this account. Restoring will replace what\'s on this device — your daily progress on default tasks is kept.';
+
+  @override
+  String get restoreChallengesDialogTitle => 'Restore your saved challenges?';
+
+  @override
+  String get restoreChallengesDialogBody =>
+      'We found your saved weekly challenges on this account. Restoring will replace the challenges on this device.';
+
+  @override
   String get challengeStartThisWeek => 'This week: start a challenge';
+
+  @override
+  String get challengeBrowseTemplatesCta => 'Browse templates';
 
   @override
   String get challengesThisWeekTab => 'This week';
@@ -640,6 +657,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get challengeCreateCustom => 'Create custom challenge';
+
+  @override
+  String get challengeCustomTitleLabel => 'Title';
+
+  @override
+  String get challengeCustomIconLabel => 'Icon';
+
+  @override
+  String get challengeCustomSourceLabel => 'Source';
+
+  @override
+  String get challengeSourceTabTask => 'Task';
+
+  @override
+  String get challengeSourceTabCategory => 'Category';
+
+  @override
+  String challengeGoalDaysLabel(int days) {
+    return 'Goal: $days days this week';
+  }
+
+  @override
+  String get challengeCustomCreate => 'Create';
 
   @override
   String get challengeWeekStartTitle => 'Week start';
