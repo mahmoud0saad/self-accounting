@@ -209,5 +209,52 @@
     "placeholders": {
       "days": { "type": "int" }
     }
-  }
+  },
+
+  "authSignInTitle": "Sign in",
+  "authSignUpTitle": "Create account",
+  "authEmailLabel": "Email",
+  "authEmailInvalid": "Enter a valid email address",
+  "authPasswordLabel": "Password",
+  "authPasswordTooShort": "Use at least 8 characters",
+  "authConfirmPasswordLabel": "Confirm password",
+  "authPasswordMismatch": "Passwords do not match",
+  "authFullNameLabel": "Full name",
+  "authFullNameInvalid": "Name must be at least 2 characters",
+  "authNoAccountPrompt": "New here? Create an account",
+  "authHaveAccountPrompt": "Already have an account? Sign in",
+  "authConfirmEmailTitle": "Confirm your email",
+  "authConfirmEmailCodeBody": "We sent a 6-digit code to {email}. Enter it below.",
+  "@authConfirmEmailCodeBody": {
+    "placeholders": {
+      "email": { "type": "String" }
+    }
+  },
+  "authConfirmationCodeLabel": "Confirmation code",
+  "authConfirmCodeButton": "Confirm email",
+  "authCodeInvalid": "Enter the 6-digit code from your email",
+  "authEmailConfirmedSignIn": "Email confirmed. You can sign in now.",
+  "authResendConfirmation": "Resend code",
+  "authResendSent": "If an account exists, a new code was sent.",
+  "authSignOut": "Sign out",
+  "authSignOutConfirm": "Sign out? Your data on this device will be kept.",
+  "authSignOutCancel": "Stay signed in",
+  "syncHistorySnack": "Synced {days} days of history.",
+  "@syncHistorySnack": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "syncLoadingMessage": "Syncing your data…",
+  "profileTitle": "Profile",
+  "profileSave": "Save",
+  "profilePhotoUrlLabel": "Photo URL (optional)",
+  "profileTimezoneLabel": "Timezone (optional)",
+  "profileLocaleLabel": "Language",
+  "profileLocaleEn": "English",
+  "profileLocaleAr": "Arabic",
+  "profileBioLabel": "Bio (optional)",
+  "settingsAccountTitle": "Account",
+  "settingsSyncNow": "Sync now",
+  "settingsSyncDone": "Sync complete."
 }

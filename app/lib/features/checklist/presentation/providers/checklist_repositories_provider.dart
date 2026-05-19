@@ -5,9 +5,13 @@ import '../../../../core/time/day_key.dart';
 import '../../data/checklist_repository.dart';
 import '../../data/settings_repository.dart';
 import '../../data/task_repository.dart';
+import '../../../sync/data/sync_service.dart';
 
 final checklistRepositoryProvider = Provider<ChecklistRepository>((ref) {
-  return DriftChecklistRepository(ref.watch(appDatabaseProvider));
+  return DriftChecklistRepository(
+    ref.watch(appDatabaseProvider),
+    sync: ref.watch(syncServiceProvider),
+  );
 });
 
 final taskRepositoryProvider = Provider<TaskRepository>((ref) {

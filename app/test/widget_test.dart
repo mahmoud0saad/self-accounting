@@ -7,8 +7,11 @@ import 'package:app/features/checklist/domain/day_completion.dart';
 import 'package:app/features/checklist/presentation/providers/checklist_repositories_provider.dart';
 import 'package:app/features/checklist/presentation/providers/history_repository_provider.dart';
 import 'package:app/features/checklist/presentation/providers/task_catalog_provider.dart';
-import 'package:app/main.dart';
+import 'package:app/l10n/app_localizations.dart';
+import 'package:app/features/auth/presentation/providers/auth_provider.dart';
+import 'package:app/features/checklist/presentation/checklist_screen.dart';
 import 'package:app/core/time/day_key.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -87,15 +90,20 @@ class _FakeHistoryRepository implements HistoryRepository {
   }
 }
 
+class _TestAuthNotifier extends AuthNotifier {
+  @override
+  AuthState build() =>
+      const AuthState(status: AuthStatus.unauthenticated);
+}
+
 void main() {
   testWidgets('Checklist screen shows Muhasabah title', (
     WidgetTester tester,
   ) async {
-    persistedLocaleAtLaunch = null;
-
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          authNotifierProvider.overrideWith(_TestAuthNotifier.new),
           taskCatalogProvider.overrideWith((ref) async => staticTaskCatalog),
           checklistRepositoryProvider.overrideWithValue(
             _FakeChecklistRepository(),
@@ -105,10 +113,15 @@ void main() {
           ),
           historyRepositoryProvider.overrideWithValue(_FakeHistoryRepository()),
         ],
-        child: const MuhasabahApp(),
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const ChecklistScreen(),
+        ),
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.text('Muhasabah'), findsWidgets);
     expect(find.text('0%'), findsOneWidget);

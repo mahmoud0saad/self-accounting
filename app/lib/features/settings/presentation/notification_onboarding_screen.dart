@@ -64,6 +64,7 @@ class NotificationOnboardingScreen extends ConsumerWidget {
         .read(appSettingsRepositoryProvider)
         .setNotificationOnboardingDone(true);
     if (context.mounted) {
+      //test commit
       context.go('/');
     }
   }

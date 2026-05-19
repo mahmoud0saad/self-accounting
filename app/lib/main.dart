@@ -17,6 +17,7 @@ import 'features/notifications/providers/app_localizations_provider.dart';
 import 'features/notifications/providers/notification_scheduler_provider.dart';
 import 'features/settings/presentation/providers/eod_settings_provider.dart';
 import 'features/settings/presentation/providers/notification_settings_provider.dart';
+import 'features/sync/data/sync_scheduler.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,6 +59,7 @@ class _MuhasabahAppRootState extends ConsumerState<MuhasabahAppRoot> {
         ref.read(calendarTodayProvider.notifier).rebase(newToday);
         ref.read(activeDayProvider.notifier).onCalendarDayAdvanced(newToday);
       });
+      ref.read(syncSchedulerProvider).start();
     });
   }
 

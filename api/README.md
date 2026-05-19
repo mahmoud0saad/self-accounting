@@ -23,7 +23,32 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Muhasabah REST API (NestJS + Prisma + MySQL). Phase 6 adds optional email/password auth, SMTP confirmation, and sync endpoints under `/v1`.
+
+## Local setup (Phase 6)
+
+1. Copy `.env.example` → `.env` and set `DATABASE_URL`, JWT secrets, and SMTP vars.
+2. Start MySQL **in the background** (keeps running while you use another terminal):
+
+```bash
+npm run db:up
+```
+
+From repo root you can instead run `docker compose up -d --wait`. Do **not** use bare `docker compose up` in the foreground — stopping that terminal (Ctrl+C) shuts MySQL down and Prisma will fail with `P1001`.
+
+3. Apply migrations and seed default tasks:
+
+```bash
+npm install
+npm run prisma:migrate:deploy
+npm run prisma:seed
+```
+
+4. Run the API: `npm run start:dev` → `http://localhost:3000/v1/health`, OpenAPI at `/v1/docs`.
+
+### Gmail SMTP (anti.mahmoud.saad.6@gmail.com)
+
+Use a [Google App Password](https://support.google.com/accounts/answer/185833) (2FA required). Set `SMTP_USER` and `SMTP_PASSWORD`. Registration sends a **6-digit code** (15 min TTL); the user enters it in the app via `POST /v1/auth/confirm-email`.
 
 ## Project setup
 

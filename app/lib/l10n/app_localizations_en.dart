@@ -400,4 +400,118 @@ class AppLocalizationsEn extends AppLocalizations {
   String streakLongestWindowQualifier(int days) {
     return '(last $days days)';
   }
+
+  @override
+  String get authSignInTitle => 'Sign in';
+
+  @override
+  String get authSignUpTitle => 'Create account';
+
+  @override
+  String get authEmailLabel => 'Email';
+
+  @override
+  String get authEmailInvalid => 'Enter a valid email address';
+
+  @override
+  String get authPasswordLabel => 'Password';
+
+  @override
+  String get authPasswordTooShort => 'Use at least 8 characters';
+
+  @override
+  String get authConfirmPasswordLabel => 'Confirm password';
+
+  @override
+  String get authPasswordMismatch => 'Passwords do not match';
+
+  @override
+  String get authFullNameLabel => 'Full name';
+
+  @override
+  String get authFullNameInvalid => 'Name must be at least 2 characters';
+
+  @override
+  String get authNoAccountPrompt => 'New here? Create an account';
+
+  @override
+  String get authHaveAccountPrompt => 'Already have an account? Sign in';
+
+  @override
+  String get authConfirmEmailTitle => 'Confirm your email';
+
+  @override
+  String authConfirmEmailCodeBody(String email) {
+    return 'We sent a 6-digit code to $email. Enter it below.';
+  }
+
+  @override
+  String get authConfirmationCodeLabel => 'Confirmation code';
+
+  @override
+  String get authConfirmCodeButton => 'Confirm email';
+
+  @override
+  String get authCodeInvalid => 'Enter the 6-digit code from your email';
+
+  @override
+  String get authEmailConfirmedSignIn =>
+      'Email confirmed. You can sign in now.';
+
+  @override
+  String get authResendConfirmation => 'Resend code';
+
+  @override
+  String get authResendSent => 'If an account exists, a new code was sent.';
+
+  @override
+  String get authSignOut => 'Sign out';
+
+  @override
+  String get authSignOutConfirm =>
+      'Sign out? Your data on this device will be kept.';
+
+  @override
+  String get authSignOutCancel => 'Stay signed in';
+
+  @override
+  String syncHistorySnack(int days) {
+    return 'Synced $days days of history.';
+  }
+
+  @override
+  String get syncLoadingMessage => 'Syncing your data…';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get profileSave => 'Save';
+
+  @override
+  String get profilePhotoUrlLabel => 'Photo URL (optional)';
+
+  @override
+  String get profileTimezoneLabel => 'Timezone (optional)';
+
+  @override
+  String get profileLocaleLabel => 'Language';
+
+  @override
+  String get profileLocaleEn => 'English';
+
+  @override
+  String get profileLocaleAr => 'Arabic';
+
+  @override
+  String get profileBioLabel => 'Bio (optional)';
+
+  @override
+  String get settingsAccountTitle => 'Account';
+
+  @override
+  String get settingsSyncNow => 'Sync now';
+
+  @override
+  String get settingsSyncDone => 'Sync complete.';
 }

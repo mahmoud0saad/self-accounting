@@ -14,3 +14,87 @@ model HealthCheck {
   id        Int      @id @default(autoincrement())
   checkedAt DateTime @default(now())
 }
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  passwordHash      String    @map("password_hash")
+  fullName          String    @map("full_name")
+  photoUrl          String?   @map("photo_url")
+  timezone          String?
+  locale            String?
+  bio               String?   @db.VarChar(280)
+  provider          String    @default("local")
+  emailConfirmedAt  DateTime? @map("email_confirmed_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  confirmationTokens EmailConfirmationToken[]
+  refreshTokens      RefreshToken[]
+  dailyLogs          DailyLog[]
+  customTasks        Task[]                   @relation("UserCustomTasks")
+
+  @@map("users")
+}
+
+model EmailConfirmationToken {
+  id         String    @id @default(cuid())
+  userId     String    @map("user_id")
+  codeHash   String    @map("code_hash")
+  expiresAt  DateTime  @map("expires_at")
+  consumedAt DateTime? @map("consumed_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("email_confirmation_tokens")
+}
+
+model RefreshToken {
+  id        String    @id @default(cuid())
+  userId    String    @map("user_id")
+  tokenHash String    @unique @map("token_hash")
+  family    String
+  expiresAt DateTime  @map("expires_at")
+  revokedAt DateTime? @map("revoked_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+/// Catalog task. `id` matches Flutter `staticTaskCatalog` codes (e.g. `fajr_waking_up_adhkar`).
+/// `userId` reserved for Phase 7 custom tasks — null means default catalog row.
+model Task {
+  id            String   @id
+  category      String
+  defaultPoints Int      @map("default_points")
+  isDefault     Boolean  @default(true) @map("is_default")
+  userId        String?  @map("user_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user      User?      @relation("UserCustomTasks", fields: [userId], references: [id], onDelete: Cascade)
+  dailyLogs DailyLog[]
+
+  @@index([userId])
+  @@map("tasks")
+}
+
+model DailyLog {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  date      DateTime @db.Date
+  taskId    String   @map("task_id")
+  completed Boolean  @default(false)
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task Task @relation(fields: [taskId], references: [id])
+
+  @@unique([userId, date, taskId])
+  @@index([userId, date])
+  @@map("daily_logs")
+}
