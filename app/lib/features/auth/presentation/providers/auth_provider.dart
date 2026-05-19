@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/db/app_database_provider.dart';
 import '../../data/auth_api.dart';
 import '../../data/auth_repository.dart';
 import '../../data/token_storage.dart';
@@ -87,7 +88,7 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  Future<void> signIn({
+  Future<AuthStatus> signIn({
     required String email,
     required String password,
   }) async {
@@ -114,6 +115,7 @@ class AuthNotifier extends Notifier<AuthState> {
         errorMessage: _friendlyDioMessage(e),
       );
     }
+    return state.status;
   }
 
   Future<void> refreshProfile() async {
@@ -143,6 +145,38 @@ class AuthNotifier extends Notifier<AuthState> {
     await ref.read(authRepositoryProvider).resendConfirmation(email);
   }
 
+  /// Returns the resulting [AuthStatus], or `null` when confirmation failed.
+  Future<AuthStatus?> confirmEmailCode(String code) async {
+    final email = state.pendingEmail ?? state.user?.email;
+    if (email == null) {
+      return null;
+    }
+    try {
+      await ref.read(authRepositoryProvider).confirmEmailWithCode(
+        email: email,
+        code: code,
+      );
+      final tokens = await ref.read(tokenStorageProvider).read();
+      if (tokens != null) {
+        await refreshProfile();
+        return state.status;
+      }
+      state = AuthState(
+        status: AuthStatus.unauthenticated,
+        pendingEmail: email,
+      );
+      return AuthStatus.unauthenticated;
+    } on DioException catch (e) {
+      state = AuthState(
+        status: AuthStatus.emailPending,
+        pendingEmail: email,
+        user: state.user,
+        errorMessage: _friendlyDioMessage(e),
+      );
+      return null;
+    }
+  }
+
   Future<void> signOut() async {
     final tokens = await ref.read(tokenStorageProvider).read();
     if (tokens != null) {
@@ -154,7 +188,14 @@ class AuthNotifier extends Notifier<AuthState> {
   }
 
   Future<void> signOutLocal() async {
-    await ref.read(tokenStorageProvider).clear();
+    final userId = state.user?.id;
+    final db = ref.read(appDatabaseProvider);
+    final storage = ref.read(tokenStorageProvider);
+    await db.clearUserData();
+    if (userId != null) {
+      await storage.clearUserSyncData(userId);
+    }
+    await storage.clear();
     state = const AuthState(status: AuthStatus.unauthenticated);
   }
 

@@ -23,6 +23,9 @@ class SyncService {
   final TokenStorage storage;
   final Ref ref;
 
+  Future<void>? _inflight;
+  bool _pending = false;
+
   bool get canSync {
     final auth = ref.read(authNotifierProvider);
     return auth.status == AuthStatus.authenticated &&
@@ -55,8 +58,26 @@ class SyncService {
     if (!canSync) {
       return;
     }
-    await drainOutbound();
-    await pullDeltas();
+    if (_inflight != null) {
+      // Re-arm a trailing pass so ops enqueued during this run are not missed.
+      _pending = true;
+      return _inflight;
+    }
+    final future = _runSyncCycle();
+    _inflight = future;
+    try {
+      await future;
+    } finally {
+      _inflight = null;
+    }
+  }
+
+  Future<void> _runSyncCycle() async {
+    do {
+      _pending = false;
+      await drainOutbound();
+      await pullDeltas();
+    } while (_pending);
   }
 
   Future<void> drainOutbound() async {

@@ -48,7 +48,7 @@ npm run prisma:seed
 
 ### Gmail SMTP (anti.mahmoud.saad.6@gmail.com)
 
-Use a [Google App Password](https://support.google.com/accounts/answer/185833) (2FA required). Set `SMTP_USER`, `SMTP_PASSWORD`, and `APP_PUBLIC_URL` (link target for confirmation emails).
+Use a [Google App Password](https://support.google.com/accounts/answer/185833) (2FA required). Set `SMTP_USER` and `SMTP_PASSWORD`. Registration sends a **6-digit code** (15 min TTL); the user enters it in the app via `POST /v1/auth/confirm-email`.
 
 ## Project setup
 

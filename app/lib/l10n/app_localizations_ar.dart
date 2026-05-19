@@ -439,18 +439,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authConfirmEmailTitle => 'أكّد بريدك الإلكتروني';
 
   @override
-  String authConfirmEmailBody(String email) {
-    return 'أرسلنا رابطًا إلى $email. افتحه ثم عد هنا.';
+  String authConfirmEmailCodeBody(String email) {
+    return 'أرسلنا رمزًا من 6 أرقام إلى $email. أدخله أدناه.';
   }
 
   @override
-  String get authResendConfirmation => 'إعادة إرسال البريد';
+  String get authConfirmationCodeLabel => 'رمز التأكيد';
 
   @override
-  String get authResendSent => 'إن وُجد حساب، أُرسل بريد جديد.';
+  String get authConfirmCodeButton => 'تأكيد البريد';
 
   @override
-  String get authCheckAgain => 'أكّدت — تحقق مرة أخرى';
+  String get authCodeInvalid => 'أدخل الرمز المكوّن من 6 أرقام من بريدك';
+
+  @override
+  String get authEmailConfirmedSignIn =>
+      'تم تأكيد البريد. يمكنك تسجيل الدخول الآن.';
+
+  @override
+  String get authResendConfirmation => 'إعادة إرسال الرمز';
+
+  @override
+  String get authResendSent => 'إن وُجد حساب، أُرسل رمز جديد.';
 
   @override
   String get authSignOut => 'تسجيل الخروج';
@@ -465,6 +475,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String syncHistorySnack(int days) {
     return 'تمت مزامنة $days يومًا من السجل.';
   }
+
+  @override
+  String get syncLoadingMessage => 'جارٍ مزامنة بياناتك…';
 
   @override
   String get profileTitle => 'الملف الشخصي';

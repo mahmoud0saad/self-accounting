@@ -1,5 +1,6 @@
 import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,9 +16,17 @@ class ConfirmEmailScreen extends ConsumerStatefulWidget {
 }
 
 class _ConfirmEmailScreenState extends ConsumerState<ConfirmEmailScreen> {
+  final _codeController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   bool _resendBusy = false;
-  bool _checkBusy = false;
+  bool _confirmBusy = false;
   DateTime? _lastResend;
+
+  @override
+  void dispose() {
+    _codeController.dispose();
+    super.dispose();
+  }
 
   Future<void> _resend() async {
     if (_lastResend != null &&
@@ -35,19 +44,42 @@ class _ConfirmEmailScreenState extends ConsumerState<ConfirmEmailScreen> {
     }
   }
 
-  Future<void> _checkAgain() async {
-    setState(() => _checkBusy = true);
-    await ref.read(authNotifierProvider.notifier).refreshProfile();
-    final auth = ref.read(authNotifierProvider);
-    if (auth.status == AuthStatus.authenticated) {
-      await ref.read(syncServiceProvider).runFirstSignInMigrationIfNeeded();
-      await ref.read(syncServiceProvider).syncNow();
-      if (mounted) {
-        context.go('/');
-      }
+  Future<void> _submitCode() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
     }
+    final sync = ref.read(syncServiceProvider);
+    setState(() => _confirmBusy = true);
+    final status = await ref
+        .read(authNotifierProvider.notifier)
+        .confirmEmailCode(_codeController.text.trim());
+    if (!mounted) {
+      return;
+    }
+    setState(() => _confirmBusy = false);
+
+    if (status == null) {
+      return;
+    }
+
+    final l = AppLocalizations.of(context)!;
+
+    if (status == AuthStatus.authenticated) {
+      final days = await sync.runFirstSignInMigrationIfNeeded();
+      await sync.syncNow();
+      if (mounted && days > 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l.syncHistorySnack(days))),
+        );
+      }
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l.authEmailConfirmedSignIn)),
+    );
     if (mounted) {
-      setState(() => _checkBusy = false);
+      context.go('/auth/sign-in');
     }
   }
 
@@ -56,45 +88,83 @@ class _ConfirmEmailScreenState extends ConsumerState<ConfirmEmailScreen> {
     final l = AppLocalizations.of(context)!;
     final auth = ref.watch(authNotifierProvider);
     final email = auth.pendingEmail ?? auth.user?.email ?? '';
+    final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(title: Text(l.authConfirmEmailTitle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(l.authConfirmEmailBody(email), style: Theme.of(context).textTheme.bodyLarge),
-              const SizedBox(height: 24),
-              OutlinedButton(
-                onPressed: _resendBusy ? null : _resend,
-                child: _resendBusy
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(l.authResendConfirmation),
-              ),
-              const SizedBox(height: 12),
-              FilledButton(
-                onPressed: _checkBusy ? null : _checkAgain,
-                child: _checkBusy
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(l.authCheckAgain),
-              ),
-              const Spacer(),
-              TextButton(
-                onPressed: () =>
-                    ref.read(authNotifierProvider.notifier).signOutLocal(),
-                child: Text(l.authSignOut),
-              ),
-            ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  l.authConfirmEmailCodeBody(email),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                if (auth.errorMessage != null) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    auth.errorMessage!,
+                    style: TextStyle(color: scheme.error),
+                  ),
+                ],
+                const SizedBox(height: 24),
+                TextFormField(
+                  controller: _codeController,
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  maxLength: 6,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  autofillHints: const [AutofillHints.oneTimeCode],
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    letterSpacing: 8,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: l.authConfirmationCodeLabel,
+                    counterText: '',
+                    hintText: '000000',
+                  ),
+                  validator: (v) {
+                    if (v == null || !RegExp(r'^\d{6}$').hasMatch(v)) {
+                      return l.authCodeInvalid;
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                FilledButton(
+                  onPressed: _confirmBusy ? null : _submitCode,
+                  child: _confirmBusy
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Text(l.authConfirmCodeButton),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton(
+                  onPressed: _resendBusy ? null : _resend,
+                  child: _resendBusy
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Text(l.authResendConfirmation),
+                ),
+                const Spacer(),
+                TextButton(
+                  onPressed: () =>
+                      ref.read(authNotifierProvider.notifier).signOutLocal(),
+                  child: Text(l.authSignOut),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -51,6 +51,16 @@ class AuthApi {
     );
   }
 
+  Future<void> confirmEmailWithCode({
+    required String email,
+    required String code,
+  }) async {
+    await _dio.post<void>(
+      '/auth/confirm-email',
+      data: {'email': email, 'code': code},
+    );
+  }
+
   Future<AuthUser> fetchMe() async {
     final res = await _dio.get<Map<String, dynamic>>('/users/me');
     return AuthUser.fromJson(res.data!);

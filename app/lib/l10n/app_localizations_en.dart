@@ -441,18 +441,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authConfirmEmailTitle => 'Confirm your email';
 
   @override
-  String authConfirmEmailBody(String email) {
-    return 'We sent a link to $email. Open it, then return here.';
+  String authConfirmEmailCodeBody(String email) {
+    return 'We sent a 6-digit code to $email. Enter it below.';
   }
 
   @override
-  String get authResendConfirmation => 'Resend email';
+  String get authConfirmationCodeLabel => 'Confirmation code';
 
   @override
-  String get authResendSent => 'If an account exists, a new email was sent.';
+  String get authConfirmCodeButton => 'Confirm email';
 
   @override
-  String get authCheckAgain => 'I\'ve confirmed — check again';
+  String get authCodeInvalid => 'Enter the 6-digit code from your email';
+
+  @override
+  String get authEmailConfirmedSignIn =>
+      'Email confirmed. You can sign in now.';
+
+  @override
+  String get authResendConfirmation => 'Resend code';
+
+  @override
+  String get authResendSent => 'If an account exists, a new code was sent.';
 
   @override
   String get authSignOut => 'Sign out';
@@ -468,6 +478,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String syncHistorySnack(int days) {
     return 'Synced $days days of history.';
   }
+
+  @override
+  String get syncLoadingMessage => 'Syncing your data…';
 
   @override
   String get profileTitle => 'Profile';

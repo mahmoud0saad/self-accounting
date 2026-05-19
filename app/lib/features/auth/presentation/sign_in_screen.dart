@@ -30,32 +30,51 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    final sync = ref.read(syncServiceProvider);
     setState(() => _loading = true);
-    await ref.read(authNotifierProvider.notifier).signIn(
-      email: _email.text,
-      password: _password.text,
-    );
+    final status = await ref
+        .read(authNotifierProvider.notifier)
+        .signIn(email: _email.text, password: _password.text);
     if (!mounted) {
       return;
     }
     setState(() => _loading = false);
-    final auth = ref.read(authNotifierProvider);
-    if (auth.status == AuthStatus.authenticated) {
-      final days =
-          await ref.read(syncServiceProvider).runFirstSignInMigrationIfNeeded();
-      await ref.read(syncServiceProvider).syncNow();
-      if (mounted && days > 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.syncHistorySnack(days)),
+    if (status == AuthStatus.authenticated) {
+      if (!mounted) {
+        return;
+      }
+      final l = AppLocalizations.of(context)!;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => AlertDialog(
+          content: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(width: 16),
+              Flexible(child: Text(l.syncLoadingMessage)),
+            ],
           ),
-        );
+        ),
+      );
+
+      final days = await sync.runFirstSignInMigrationIfNeeded();
+      await sync.syncNow();
+
+      if (!mounted) {
+        return;
+      }
+      Navigator.of(context).pop();
+      if (days > 0) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l.syncHistorySnack(days))));
+        context.go('/');
       }
       if (mounted) {
         context.go('/');
       }
-    } else if (auth.status == AuthStatus.emailPending) {
-      context.go('/auth/confirm');
     }
   }
 

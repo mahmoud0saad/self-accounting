@@ -39,21 +39,23 @@ class DriftChecklistRepository implements ChecklistRepository {
     required bool completed,
   }) async {
     final now = DateTime.now().toUtc();
-    await _db.into(_db.dailyLogs).insertOnConflictUpdate(
-      DailyLogsCompanion.insert(
-        date: day.toIsoDate(),
+    final dateIso = day.toIsoDate();
+    await _db.transaction(() async {
+      await _db.into(_db.dailyLogs).insertOnConflictUpdate(
+            DailyLogsCompanion.insert(
+              date: dateIso,
+              taskId: taskId,
+              completed: Value(completed),
+              updatedAt: Value(now),
+            ),
+          );
+      await _sync?.enqueueLogOp(
+        date: dateIso,
         taskId: taskId,
-        completed: Value(completed),
-        updatedAt: Value(now),
-      ),
-    );
-    await _sync?.enqueueLogOp(
-      date: day.toIsoDate(),
-      taskId: taskId,
-      completed: completed,
-      clientUpdatedAt: now,
-    );
-    await _sync?.syncNow();
+        completed: completed,
+        clientUpdatedAt: now,
+      );
+    });
   }
 
   @override

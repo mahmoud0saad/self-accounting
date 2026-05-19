@@ -95,11 +95,10 @@ Tiny phases (~3–5 days each). Each phase is independently shippable, demoable,
 ## Phase 7 — Task Customization (4 days)
 **Goal:** User-defined tasks and weights.
 
-- CRUD UI for custom tasks (name, category, points, icon).
+- CRUD UI for custom tasks and category (name, category, points, icon).
 - Ability to hide/disable default tasks without deleting them.
 - Validations: prevent negative points; cap per-task points to keep system balanced.
 - Sync custom tasks if signed in.
-
 **Exit:** Users can fully tailor their checklist to their own routine.
 
 ---

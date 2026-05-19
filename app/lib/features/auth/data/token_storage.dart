@@ -81,6 +81,11 @@ class TokenStorage {
 
   Future<void> markFirstSyncDone(String userId) =>
       _storage.write(key: 'first_sync_done_$userId', value: 'true');
+
+  Future<void> clearUserSyncData(String userId) async {
+    await _storage.delete(key: 'sync_cursor_$userId');
+    await _storage.delete(key: 'first_sync_done_$userId');
+  }
 }
 
 final tokenStorageProvider = Provider<TokenStorage>(

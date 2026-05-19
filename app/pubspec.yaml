@@ -43,6 +43,7 @@ dependencies:
   flutter_timezone: ^5.0.2
   go_router: ^17.2.3
   intl: ^0.20.2
+  network_logger: ^1.0.4
   package_info_plus: ^9.0.1
   path: ^1.9.1
   path_provider: ^2.1.5

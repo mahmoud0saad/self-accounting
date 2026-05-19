@@ -860,29 +860,47 @@ abstract class AppLocalizations {
   /// **'Confirm your email'**
   String get authConfirmEmailTitle;
 
-  /// No description provided for @authConfirmEmailBody.
+  /// No description provided for @authConfirmEmailCodeBody.
   ///
   /// In en, this message translates to:
-  /// **'We sent a link to {email}. Open it, then return here.'**
-  String authConfirmEmailBody(String email);
+  /// **'We sent a 6-digit code to {email}. Enter it below.'**
+  String authConfirmEmailCodeBody(String email);
+
+  /// No description provided for @authConfirmationCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation code'**
+  String get authConfirmationCodeLabel;
+
+  /// No description provided for @authConfirmCodeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm email'**
+  String get authConfirmCodeButton;
+
+  /// No description provided for @authCodeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6-digit code from your email'**
+  String get authCodeInvalid;
+
+  /// No description provided for @authEmailConfirmedSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Email confirmed. You can sign in now.'**
+  String get authEmailConfirmedSignIn;
 
   /// No description provided for @authResendConfirmation.
   ///
   /// In en, this message translates to:
-  /// **'Resend email'**
+  /// **'Resend code'**
   String get authResendConfirmation;
 
   /// No description provided for @authResendSent.
   ///
   /// In en, this message translates to:
-  /// **'If an account exists, a new email was sent.'**
+  /// **'If an account exists, a new code was sent.'**
   String get authResendSent;
-
-  /// No description provided for @authCheckAgain.
-  ///
-  /// In en, this message translates to:
-  /// **'I\'ve confirmed — check again'**
-  String get authCheckAgain;
 
   /// No description provided for @authSignOut.
   ///
@@ -907,6 +925,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Synced {days} days of history.'**
   String syncHistorySnack(int days);
+
+  /// No description provided for @syncLoadingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing your data…'**
+  String get syncLoadingMessage;
 
   /// No description provided for @profileTitle.
   ///

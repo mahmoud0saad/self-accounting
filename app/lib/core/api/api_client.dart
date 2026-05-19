@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:network_logger/network_logger.dart';
 
 import '../../features/auth/data/token_storage.dart';
 import 'api_config.dart';
@@ -22,6 +24,10 @@ final dioProvider = Provider<Dio>((ref) {
   final base = ref.watch(dioBaseProvider);
   final dio = Dio(base.options);
   final storage = ref.read(tokenStorageProvider);
+
+  if (kDebugMode) {
+    dio.interceptors.add(DioNetworkLogger());
+  }
 
   dio.interceptors.add(
     InterceptorsWrapper(

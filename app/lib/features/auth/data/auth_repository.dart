@@ -48,5 +48,11 @@ class AuthRepository {
   Future<void> resendConfirmation(String email) =>
       _api.resendConfirmation(email);
 
+  Future<void> confirmEmailWithCode({
+    required String email,
+    required String code,
+  }) =>
+      _api.confirmEmailWithCode(email: email, code: code);
+
   Future<AuthUser> fetchMe() => _api.fetchMe();
 }

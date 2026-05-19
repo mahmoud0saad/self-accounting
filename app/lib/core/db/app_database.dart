@@ -100,6 +100,15 @@ class AppDatabase extends _$AppDatabase {
     }
   }
 
+  Future<void> clearUserData() async {
+    await delete(dailyLogs).go();
+    await delete(pendingSyncOps).go();
+    await delete(categoryNotificationSchedules).go();
+    await delete(taskNotificationToggles).go();
+    await delete(appSettings).go();
+    await _seedNotificationDefaults();
+  }
+
   Future<void> _seedNotificationDefaults() async {
     await transaction(() async {
       for (final entry in _defaultNotificationTimes.entries) {

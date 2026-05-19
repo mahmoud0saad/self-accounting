@@ -224,15 +224,18 @@
   "authNoAccountPrompt": "New here? Create an account",
   "authHaveAccountPrompt": "Already have an account? Sign in",
   "authConfirmEmailTitle": "Confirm your email",
-  "authConfirmEmailBody": "We sent a link to {email}. Open it, then return here.",
-  "@authConfirmEmailBody": {
+  "authConfirmEmailCodeBody": "We sent a 6-digit code to {email}. Enter it below.",
+  "@authConfirmEmailCodeBody": {
     "placeholders": {
       "email": { "type": "String" }
     }
   },
-  "authResendConfirmation": "Resend email",
-  "authResendSent": "If an account exists, a new email was sent.",
-  "authCheckAgain": "I've confirmed — check again",
+  "authConfirmationCodeLabel": "Confirmation code",
+  "authConfirmCodeButton": "Confirm email",
+  "authCodeInvalid": "Enter the 6-digit code from your email",
+  "authEmailConfirmedSignIn": "Email confirmed. You can sign in now.",
+  "authResendConfirmation": "Resend code",
+  "authResendSent": "If an account exists, a new code was sent.",
   "authSignOut": "Sign out",
   "authSignOutConfirm": "Sign out? Your data on this device will be kept.",
   "authSignOutCancel": "Stay signed in",
@@ -242,6 +245,7 @@
       "days": { "type": "int" }
     }
   },
+  "syncLoadingMessage": "Syncing your data…",
   "profileTitle": "Profile",
   "profileSave": "Save",
   "profilePhotoUrlLabel": "Photo URL (optional)",

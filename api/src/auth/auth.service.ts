@@ -8,14 +8,21 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { createHash, randomBytes } from 'crypto';
+import { createHash, randomBytes, randomInt } from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from '../prisma/prisma.service';
 import { MailService } from '../mail/mail.service';
 import type { JwtPayload } from '../common/types/jwt-payload';
-import type { LoginDto, RefreshDto, RegisterDto } from './dto/register.dto';
+import type {
+  ConfirmEmailCodeDto,
+  LoginDto,
+  RefreshDto,
+  RegisterDto,
+} from './dto/register.dto';
 
 const BCRYPT_ROUNDS = 12;
+const CONFIRMATION_CODE_TTL_MS = 15 * 60 * 1000;
+const CONFIRMATION_CODE_EXPIRES_MINUTES = 15;
 
 export type AuthUserDto = {
   id: string;
@@ -56,10 +63,10 @@ export class AuthService {
       },
     });
 
-    await this.issueConfirmationToken(user.id, email);
+    await this.issueConfirmationCode(user.id, email);
     return {
       message:
-        'Account created. Please check your email to confirm before signing in.',
+        'Account created. Enter the 6-digit code we sent to your email.',
     };
   }
 
@@ -80,11 +87,9 @@ export class AuthService {
     }
 
     if (!user.emailConfirmedAt) {
-      const appUrl = this.config.getOrThrow<string>('APP_PUBLIC_URL');
       throw new ForbiddenException({
         code: 'EMAIL_NOT_CONFIRMED',
         email: user.email,
-        resendUrl: `${appUrl}/v1/auth/resend-confirmation`,
       });
     }
 
@@ -121,37 +126,50 @@ export class AuthService {
     });
   }
 
-  async confirmEmail(token: string): Promise<{ already: boolean }> {
-    const row = await this.prisma.emailConfirmationToken.findUnique({
-      where: { token },
+  async confirmEmailWithCode(
+    dto: ConfirmEmailCodeDto,
+  ): Promise<{ message: string; already: boolean }> {
+    const email = dto.email.trim().toLowerCase();
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      throw new UnauthorizedException(
+        'That code does not match. Check the email and try again.',
+      );
+    }
+
+    if (user.emailConfirmedAt) {
+      return {
+        message: 'Your email is already confirmed. You can sign in.',
+        already: true,
+      };
+    }
+
+    const row = await this.prisma.emailConfirmationToken.findFirst({
+      where: {
+        userId: user.id,
+        consumedAt: null,
+        expiresAt: { gt: new Date() },
+      },
+      orderBy: { createdAt: 'desc' },
       include: { user: true },
     });
 
     if (!row) {
-      throw new GoneException('This confirmation link is no longer valid.');
+      throw new GoneException(
+        'This code has expired. Tap resend to get a new one.',
+      );
     }
 
-    if (row.user.emailConfirmedAt) {
-      if (!row.consumedAt) {
-        await this.prisma.emailConfirmationToken.update({
-          where: { id: row.id },
-          data: { consumedAt: new Date() },
-        });
-      }
-      return { already: true };
-    }
-
-    if (row.consumedAt) {
-      throw new GoneException('This confirmation link has already been used.');
-    }
-
-    if (row.expiresAt < new Date()) {
-      throw new GoneException('This confirmation link has expired.');
+    const ok = await bcrypt.compare(dto.code, row.codeHash);
+    if (!ok) {
+      throw new UnauthorizedException(
+        'That code does not match. Check the email and try again.',
+      );
     }
 
     await this.prisma.$transaction([
       this.prisma.user.update({
-        where: { id: row.userId },
+        where: { id: user.id },
         data: { emailConfirmedAt: new Date() },
       }),
       this.prisma.emailConfirmationToken.update({
@@ -160,8 +178,11 @@ export class AuthService {
       }),
     ]);
 
-    await this.mail.sendWelcome(row.user.email, row.user.fullName);
-    return { already: false };
+    await this.mail.sendWelcome(user.email, user.fullName);
+    return {
+      message: 'Email confirmed. You can sign in now.',
+      already: false,
+    };
   }
 
   async resendConfirmation(emailRaw: string): Promise<{ message: string }> {
@@ -177,27 +198,35 @@ export class AuthService {
       return { message: 'This email is already confirmed.' };
     }
 
-    await this.issueConfirmationToken(user.id, email);
+    await this.issueConfirmationCode(user.id, email);
     return {
       message:
-        'If an account exists for this email, a confirmation message was sent.',
+        'If an account exists for this email, a new confirmation code was sent.',
     };
   }
 
-  private async issueConfirmationToken(
+  private async issueConfirmationCode(
     userId: string,
     email: string,
   ): Promise<void> {
-    const token = randomBytes(32).toString('base64url');
-    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    const code = randomInt(0, 1_000_000).toString().padStart(6, '0');
+    const codeHash = await bcrypt.hash(code, BCRYPT_ROUNDS);
+    const expiresAt = new Date(Date.now() + CONFIRMATION_CODE_TTL_MS);
 
-    await this.prisma.emailConfirmationToken.create({
-      data: { userId, token, expiresAt },
+    await this.prisma.emailConfirmationToken.updateMany({
+      where: { userId, consumedAt: null },
+      data: { consumedAt: new Date() },
     });
 
-    const appUrl = this.config.getOrThrow<string>('APP_PUBLIC_URL');
-    const link = `${appUrl}/v1/auth/confirm?token=${encodeURIComponent(token)}`;
-    await this.mail.sendConfirmEmail(email, link);
+    await this.prisma.emailConfirmationToken.create({
+      data: { userId, codeHash, expiresAt },
+    });
+
+    await this.mail.sendConfirmEmail(
+      email,
+      code,
+      CONFIRMATION_CODE_EXPIRES_MINUTES,
+    );
   }
 
   private async issueTokens(

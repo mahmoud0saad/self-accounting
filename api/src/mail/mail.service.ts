@@ -46,9 +46,13 @@ export class MailService implements OnModuleInit {
     );
   }
 
-  async sendConfirmEmail(to: string, link: string): Promise<void> {
-    const html = this.confirmTemplate({ link });
-    await this.send(to, 'Confirm your Muhasabah email', html);
+  async sendConfirmEmail(
+    to: string,
+    code: string,
+    expiresMinutes: number,
+  ): Promise<void> {
+    const html = this.confirmTemplate({ code, expiresMinutes });
+    await this.send(to, 'Your Muhasabah confirmation code', html);
   }
 
   async sendWelcome(to: string, fullName: string): Promise<void> {
