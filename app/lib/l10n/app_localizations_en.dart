@@ -31,8 +31,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get languageToggleTooltip =>
-      'Switch language (system, English, Arabic)';
+  String get languageToggleTooltip => 'Switch language (Arabic, English)';
 
   @override
   String get languageAutoSuffix => 'auto';
@@ -618,4 +617,85 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get restoreCatalogSaved => 'Saved your checklist to your account.';
+
+  @override
+  String get challengeStartThisWeek => 'This week: start a challenge';
+
+  @override
+  String get challengesThisWeekTab => 'This week';
+
+  @override
+  String get challengesBrowseTab => 'Browse';
+
+  @override
+  String get challengeSubscribe => 'Subscribe';
+
+  @override
+  String get challengeSubscribed => 'Subscribed';
+
+  @override
+  String challengeProgress(int achieved, int goal) {
+    return '$achieved / $goal';
+  }
+
+  @override
+  String get challengeCreateCustom => 'Create custom challenge';
+
+  @override
+  String get challengeWeekStartTitle => 'Week start';
+
+  @override
+  String get challengeWeekStartSubtitle => 'Applies to next week.';
+
+  @override
+  String get challengeWeekStartSaturday => 'Saturday';
+
+  @override
+  String get challengeWeekStartSunday => 'Sunday';
+
+  @override
+  String get challengeWeekStartMonday => 'Monday';
+
+  @override
+  String challengeWeekStartSnackbar(String weekday) {
+    return 'Your new week starts $weekday.';
+  }
+
+  @override
+  String get challengeCelebrationTitle => 'Mā shā\' Allāh';
+
+  @override
+  String challengeCelebrationBody(String title, int goal) {
+    return '$title — $goal of $goal days this week.';
+  }
+
+  @override
+  String get challengeContinue => 'Continue';
+
+  @override
+  String get challengeViewChallenge => 'View challenge';
+
+  @override
+  String get challengeCompletedThisWeek => 'Completed this week';
+
+  @override
+  String get challengeTemplateFajrInJamaah => 'Pray every Fajr in congregation';
+
+  @override
+  String get challengeTemplateQiyamWitrAllWeek => 'Pray Witr every night';
+
+  @override
+  String get challengeTemplateReadQuranDaily => 'Read Qur\'an every day';
+
+  @override
+  String get challengeTemplateTahajjudThreeNights =>
+      'Stand for Tahajjud three nights';
+
+  @override
+  String get challengeTemplateFajrCategoryAllWeek =>
+      'Complete the Fajr block every day';
+
+  @override
+  String get challengeTemplateMorningAdhkarDaily =>
+      'Morning Adhkar every morning';
 }

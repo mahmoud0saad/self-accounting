@@ -19,7 +19,7 @@
       "state": { "type": "String" }
     }
   },
-  "languageToggleTooltip": "Switch language (system, English, Arabic)",
+  "languageToggleTooltip": "Switch language (Arabic, English)",
   "languageAutoSuffix": "auto",
 
   "categoryFajr": "Fajr",
@@ -298,5 +298,47 @@
       "count": { "type": "int" }
     }
   },
-  "restoreCatalogSaved": "Saved your checklist to your account."
+  "restoreCatalogSaved": "Saved your checklist to your account.",
+
+  "challengeStartThisWeek": "This week: start a challenge",
+  "challengesThisWeekTab": "This week",
+  "challengesBrowseTab": "Browse",
+  "challengeSubscribe": "Subscribe",
+  "challengeSubscribed": "Subscribed",
+  "challengeProgress": "{achieved} / {goal}",
+  "@challengeProgress": {
+    "placeholders": {
+      "achieved": { "type": "int" },
+      "goal": { "type": "int" }
+    }
+  },
+  "challengeCreateCustom": "Create custom challenge",
+  "challengeWeekStartTitle": "Week start",
+  "challengeWeekStartSubtitle": "Applies to next week.",
+  "challengeWeekStartSaturday": "Saturday",
+  "challengeWeekStartSunday": "Sunday",
+  "challengeWeekStartMonday": "Monday",
+  "challengeWeekStartSnackbar": "Your new week starts {weekday}.",
+  "@challengeWeekStartSnackbar": {
+    "placeholders": {
+      "weekday": { "type": "String" }
+    }
+  },
+  "challengeCelebrationTitle": "Mā shā' Allāh",
+  "challengeCelebrationBody": "{title} — {goal} of {goal} days this week.",
+  "@challengeCelebrationBody": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "goal": { "type": "int" }
+    }
+  },
+  "challengeContinue": "Continue",
+  "challengeViewChallenge": "View challenge",
+  "challengeCompletedThisWeek": "Completed this week",
+  "challengeTemplateFajrInJamaah": "Pray every Fajr in congregation",
+  "challengeTemplateQiyamWitrAllWeek": "Pray Witr every night",
+  "challengeTemplateReadQuranDaily": "Read Qur'an every day",
+  "challengeTemplateTahajjudThreeNights": "Stand for Tahajjud three nights",
+  "challengeTemplateFajrCategoryAllWeek": "Complete the Fajr block every day",
+  "challengeTemplateMorningAdhkarDaily": "Morning Adhkar every morning"
 }

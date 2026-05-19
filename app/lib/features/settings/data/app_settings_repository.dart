@@ -78,6 +78,10 @@ class AppSettingsRepository {
     return _write(customizationLastRestoredAtKey, at.toIso8601String());
   }
 
+  Future<String?> readRaw(String key) => _read(key);
+
+  Future<void> writeRaw(String key, String value) => _write(key, value);
+
   Future<String?> _read(String key) async {
     final row = await (_db.select(
       _db.appSettings,

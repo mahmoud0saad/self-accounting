@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../customization/presentation/widgets/restore_catalog_dialog.dart';
+import '../../challenges/data/challenge_restore_service.dart';
 import '../../sync/data/customization_restore_provider.dart';
 import '../../sync/data/sync_service.dart';
 import 'providers/auth_provider.dart';
@@ -66,6 +67,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
       final restore = ref.read(customizationRestoreServiceProvider);
       await restore.restoreIfNeeded(
+        confirmReplacePrompt:
+            ref.read(customizationRestoreConfirmProvider).call,
+      );
+
+      final challengeRestore = ref.read(challengeRestoreServiceProvider);
+      await challengeRestore.restoreIfNeeded(
         confirmReplacePrompt:
             ref.read(customizationRestoreConfirmProvider).call,
       );

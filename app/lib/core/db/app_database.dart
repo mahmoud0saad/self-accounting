@@ -14,6 +14,10 @@ import 'tables/user_categories_table.dart';
 import 'tables/user_category_overrides_table.dart';
 import 'tables/user_task_overrides_table.dart';
 import 'tables/user_tasks_table.dart';
+import 'tables/challenge_templates_table.dart';
+import 'tables/user_challenges_table.dart';
+import 'tables/user_challenge_weeks_table.dart';
+import '../../features/challenges/data/challenge_template_seed.dart';
 
 part 'app_database.g.dart';
 
@@ -30,6 +34,9 @@ part 'app_database.g.dart';
     CategoryNotificationSchedules,
     TaskNotificationToggles,
     PendingSyncOps,
+    ChallengeTemplates,
+    UserChallenges,
+    UserChallengeWeeks,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -61,7 +68,7 @@ class AppDatabase extends _$AppDatabase {
   }
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -69,6 +76,7 @@ class AppDatabase extends _$AppDatabase {
       await m.createAll();
       await _seedCategoriesTable();
       await _seedNotificationDefaults();
+      await _seedChallengeTemplates();
     },
     onUpgrade: (Migrator m, int from, int to) async {
       if (from < 2) {
@@ -89,6 +97,12 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 5) {
         await _migrateDailyLogsForUserTasks();
+      }
+      if (from < 6) {
+        await m.createTable(challengeTemplates);
+        await m.createTable(userChallenges);
+        await m.createTable(userChallengeWeeks);
+        await _seedChallengeTemplates();
       }
     },
     beforeOpen: (OpeningDetails details) async {
@@ -178,8 +192,26 @@ class AppDatabase extends _$AppDatabase {
     }
   }
 
+  Future<void> _seedChallengeTemplates() async {
+    for (final t in kSeededChallengeTemplates) {
+      await into(challengeTemplates).insertOnConflictUpdate(
+        ChallengeTemplatesCompanion.insert(
+          code: t.code,
+          defaultTitle: t.defaultTitle,
+          defaultIcon: t.defaultIcon,
+          sourceKind: t.sourceKind,
+          sourceRef: t.sourceRef,
+          goalCount: t.goalCount,
+          defaultSortOrder: Value(t.defaultSortOrder),
+        ),
+      );
+    }
+  }
+
   Future<void> clearUserData() async {
     await delete(dailyLogs).go();
+    await delete(userChallengeWeeks).go();
+    await delete(userChallenges).go();
     await delete(pendingSyncOps).go();
     await delete(userCategoryOverrides).go();
     await delete(userTaskOverrides).go();

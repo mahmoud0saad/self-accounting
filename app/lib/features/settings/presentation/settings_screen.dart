@@ -9,6 +9,8 @@ import '../../auth/presentation/providers/auth_provider.dart';
 import '../../checklist/domain/task.dart';
 import '../../customization/presentation/widgets/restore_catalog_dialog.dart';
 import '../../sync/data/customization_restore_provider.dart';
+import '../../challenges/domain/week_boundary.dart';
+import '../../challenges/presentation/providers/challenge_providers.dart';
 import '../../sync/data/sync_service.dart';
 import '../../checklist/presentation/providers/task_catalog_provider.dart';
 import '../../notifications/notification_service.dart';
@@ -53,6 +55,22 @@ class SettingsScreen extends ConsumerWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(title: Text(l.settingsTitle), pinned: true),
+          SliverToBoxAdapter(
+            child: SettingsSectionCard(
+              title: l.challengeWeekStartTitle,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l.challengeWeekStartSubtitle,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const SizedBox(height: 8),
+                  const _WeekStartSettings(),
+                ],
+              ),
+            ),
+          ),
           if (auth.status == AuthStatus.authenticated &&
               auth.user?.isEmailConfirmed == true)
             SliverToBoxAdapter(
@@ -324,6 +342,63 @@ class _RestoreCatalogTile extends ConsumerWidget {
         SnackBar(content: Text(l.settingsSyncDone)),
       );
     }
+  }
+}
+
+class _WeekStartSettings extends ConsumerWidget {
+  const _WeekStartSettings();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
+    final dowAsync = ref.watch(weekStartDowProvider);
+
+    return dowAsync.when(
+      data: (current) => Column(
+        children: [
+          RadioListTile<WeekStartDow>(
+            title: Text(l.challengeWeekStartSaturday),
+            value: WeekStartDow.sat,
+            groupValue: current,
+            onChanged: (v) => _set(context, ref, l, v!),
+          ),
+          RadioListTile<WeekStartDow>(
+            title: Text(l.challengeWeekStartSunday),
+            value: WeekStartDow.sun,
+            groupValue: current,
+            onChanged: (v) => _set(context, ref, l, v!),
+          ),
+          RadioListTile<WeekStartDow>(
+            title: Text(l.challengeWeekStartMonday),
+            value: WeekStartDow.mon,
+            groupValue: current,
+            onChanged: (v) => _set(context, ref, l, v!),
+          ),
+        ],
+      ),
+      loading: () => const SizedBox(height: 48),
+      error: (_, __) => const SizedBox.shrink(),
+    );
+  }
+
+  Future<void> _set(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l,
+    WeekStartDow dow,
+  ) async {
+    await ref.read(weekStartDowProvider.notifier).set(dow);
+    final label = switch (dow) {
+      WeekStartDow.sat => l.challengeWeekStartSaturday,
+      WeekStartDow.sun => l.challengeWeekStartSunday,
+      WeekStartDow.mon => l.challengeWeekStartMonday,
+    };
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l.challengeWeekStartSnackbar(label))),
+      );
+    }
+    ref.invalidate(currentWeekProgressProvider);
   }
 }
 

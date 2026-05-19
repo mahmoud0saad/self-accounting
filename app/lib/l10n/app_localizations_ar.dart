@@ -20,10 +20,10 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get taskStateChecked => 'مُحدد';
+  String get taskStateChecked => 'مُحدَّد';
 
   @override
-  String get taskStateUnchecked => 'غير مُحدد';
+  String get taskStateUnchecked => 'غير مُحدَّد';
 
   @override
   String taskRowSemanticLabel(String title, int points, String state) {
@@ -31,8 +31,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get languageToggleTooltip =>
-      'تبديل اللغة (النظام، الإنجليزية، العربية)';
+  String get languageToggleTooltip => 'تبديل اللغة (العربية، الإنجليزية)';
 
   @override
   String get languageAutoSuffix => 'تلقائي';
@@ -65,13 +64,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get taskFajrWakingUpAdhkar => 'أذكار الاستيقاظ';
 
   @override
-  String get taskFajrSunnahBeforeFajr => 'سنة قبل الفجر';
+  String get taskFajrSunnahBeforeFajr => 'سنة الفجر القبلية';
 
   @override
-  String get taskFajrFirstCongregation => 'الجماعة في أول وقت';
+  String get taskFajrFirstCongregation => 'الصلاة في الجماعة الأولى';
 
   @override
-  String get taskFajrPostPrayerAdhkar => 'أذكار بعد الصلاة';
+  String get taskFajrPostPrayerAdhkar => 'أذكار ما بعد الصلاة';
 
   @override
   String get taskFajrMorningAdhkar => 'أذكار الصباح';
@@ -80,55 +79,55 @@ class AppLocalizationsAr extends AppLocalizations {
   String get taskFajrDuhaPrayer4Rakahs => 'صلاة الضحى — 4 ركعات';
 
   @override
-  String get taskDhuhrSunnahBefore4Rakahs => 'سنة قبل الظهر — 4 ركعات';
+  String get taskDhuhrSunnahBefore4Rakahs => 'سنة الظهر القبلية — 4 ركعات';
 
   @override
-  String get taskDhuhrFirstCongregation => 'الجماعة في أول وقت';
+  String get taskDhuhrFirstCongregation => 'الصلاة في الجماعة الأولى';
 
   @override
-  String get taskDhuhrPostPrayerAdhkar => 'أذكار بعد الصلاة';
+  String get taskDhuhrPostPrayerAdhkar => 'أذكار ما بعد الصلاة';
 
   @override
-  String get taskDhuhrSunnahAfter => 'سنة بعد الظهر';
+  String get taskDhuhrSunnahAfter => 'سنة الظهر البعدية';
 
   @override
-  String get taskAsrFirstCongregation => 'الجماعة في أول وقت';
+  String get taskAsrFirstCongregation => 'الصلاة في الجماعة الأولى';
 
   @override
-  String get taskAsrPostPrayerAdhkar => 'أذكار بعد الصلاة';
+  String get taskAsrPostPrayerAdhkar => 'أذكار ما بعد الصلاة';
 
   @override
   String get taskAsrEveningAdhkar => 'أذكار المساء';
 
   @override
-  String get taskMaghribFirstCongregation => 'الجماعة في أول وقت';
+  String get taskMaghribFirstCongregation => 'الصلاة في الجماعة الأولى';
 
   @override
-  String get taskMaghribPostPrayerAdhkar => 'أذكار بعد الصلاة';
+  String get taskMaghribPostPrayerAdhkar => 'أذكار ما بعد الصلاة';
 
   @override
-  String get taskMaghribSunnahAfter => 'سنة بعد المغرب';
+  String get taskMaghribSunnahAfter => 'سنة المغرب البعدية';
 
   @override
-  String get taskIshaFirstCongregation => 'الجماعة في أول وقت';
+  String get taskIshaFirstCongregation => 'الصلاة في الجماعة الأولى';
 
   @override
-  String get taskIshaPostPrayerAdhkar => 'أذكار بعد الصلاة';
+  String get taskIshaPostPrayerAdhkar => 'أذكار ما بعد الصلاة';
 
   @override
-  String get taskIshaSunnahAfter => 'سنة بعد العشاء';
+  String get taskIshaSunnahAfter => 'سنة العشاء البعدية';
 
   @override
   String get taskQiyamTwoRakahs => 'ركعتان من قيام الليل';
 
   @override
-  String get taskQiyamDailyQuranTwoQuarters => 'ورد القرآن اليومي — ربعان';
+  String get taskQiyamDailyQuranTwoQuarters => 'وِرد القرآن اليومي — ربعان';
 
   @override
   String get taskQiyamWitr => 'صلاة الوتر';
 
   @override
-  String get taskQiyamAdhkarBeforeSleep => 'أذكار قبل النوم';
+  String get taskQiyamAdhkarBeforeSleep => 'أذكار النوم';
 
   @override
   String get taskQuranMemorizeHalfPage => 'حفظ نصف صفحة';
@@ -140,25 +139,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get taskQuranFastingMonThu => 'صيام الاثنين والخميس';
 
   @override
-  String get taskMiscRestroomAdhkar => 'أذكار دخول وخروج الحمام';
+  String get taskMiscRestroomAdhkar => 'أذكار دخول الخلاء والخروج منه';
 
   @override
-  String get taskMiscClothingAdhkar => 'أذكار لبس وخلع الملابس';
+  String get taskMiscClothingAdhkar => 'أذكار لُبس الثوب وخلعه';
 
   @override
   String get taskMiscWuduAdhkar => 'أذكار الوضوء';
 
   @override
-  String get taskMiscHouseAdhkar => 'أذكار دخول وخروج البيت';
+  String get taskMiscHouseAdhkar => 'أذكار دخول البيت والخروج منه';
 
   @override
-  String get taskMiscMosqueAdhkar => 'أذكار دخول وخروج المسجد';
+  String get taskMiscMosqueAdhkar => 'أذكار دخول المسجد والخروج منه';
 
   @override
   String get taskMiscWalkingMosqueAdhkar => 'أذكار المشي إلى المسجد';
 
   @override
-  String get taskMiscEatingDrinkingAdhkar => 'أذكار الأكل والشرب';
+  String get taskMiscEatingDrinkingAdhkar => 'أذكار الطعام والشراب';
 
   @override
   String get taskMiscRidingTravelingAdhkar => 'أذكار الركوب والسفر';
@@ -179,11 +178,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get readOnlyBadge => 'للقراءة فقط';
 
   @override
-  String get resetTodayDialogTitle => 'إعادة تعيين تقدم اليوم؟';
+  String get resetTodayDialogTitle => 'إعادة تعيين تقدّم اليوم؟';
 
   @override
   String get resetTodayDialogBody =>
-      'سيتم إلغاء تحديد كل المهام لهذا اليوم. الأيام السابقة لن تتأثر.';
+      'سيُلغى تحديد كل المهام لهذا اليوم. الأيام السابقة لن تتأثّر.';
 
   @override
   String get resetTodayDialogCancel => 'إلغاء';
@@ -195,208 +194,221 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loadingChecklist => 'جارٍ تحميل قائمتك…';
 
   @override
-  String get navChecklistLabel => 'TODO: قائمة المهام';
+  String get navChecklistLabel => 'قائمة المهام';
 
   @override
-  String get navDashboardLabel => 'TODO: لوحة المعلومات';
+  String get navDashboardLabel => 'لوحة المعلومات';
 
   @override
-  String get navSettingsLabel => 'TODO: الإعدادات';
+  String get navSettingsLabel => 'الإعدادات';
 
   @override
-  String get settingsTitle => 'TODO: الإعدادات';
+  String get settingsTitle => 'الإعدادات';
 
   @override
-  String get settingsNotificationsTitle => 'TODO: التنبيهات';
+  String get settingsNotificationsTitle => 'الإشعارات';
 
   @override
-  String get settingsNotificationsGlobalToggleLabel =>
-      'TODO: تفعيل كل التنبيهات';
+  String get settingsNotificationsGlobalToggleLabel => 'تفعيل جميع الإشعارات';
 
   @override
   String settingsCategoryScheduleTimeLabel(String category, String time) {
-    return 'TODO: $category · $time';
+    return '$category · $time';
   }
 
   @override
-  String get settingsEodToggleLabel => 'TODO: ملخص نهاية اليوم';
+  String get settingsEodToggleLabel => 'ملخّص نهاية اليوم';
 
   @override
   String settingsEodTimeLabel(String time) {
-    return 'TODO: عند $time';
+    return 'عند $time';
   }
 
   @override
-  String get settingsEodThresholdNote =>
-      'TODO: يظهر عندما يكون إنجاز اليوم أقل من 50٪.';
+  String get settingsEodThresholdNote => 'يظهر عند انخفاض إنجاز اليوم عن 50٪.';
 
   @override
   String get settingsWebNotificationNote =>
-      'TODO: التنبيهات تحتاج أن تبقى نافذة التطبيق مفتوحة.';
+      'تتطلّب الإشعارات إبقاء نافذة التطبيق مفتوحة.';
 
   @override
-  String get settingsAboutTitle => 'TODO: حول التطبيق';
+  String get settingsAboutTitle => 'حول التطبيق';
 
   @override
   String settingsVersionLabel(String version) {
-    return 'TODO: الإصدار $version';
+    return 'الإصدار $version';
   }
 
   @override
-  String get onboardingNotifTitle => 'TODO: حافظ على الاستمرارية';
+  String get onboardingNotifTitle => 'حافظ على انتظامك';
 
   @override
   String get onboardingNotifBody =>
-      'TODO: اسمح بتذكيرات لطيفة كي ينبهك التطبيق في أوقات الصلاة التي تختارها. أنت تتحكم في التذكيرات التي تصلك.';
+      'اسمح بتذكيرات لطيفة لينبّهك التطبيق في أوقات الصلاة التي تختارها. أنت من يتحكّم بالتذكيرات التي تصلك.';
 
   @override
-  String get onboardingNotifEnableButton => 'TODO: تفعيل التنبيهات';
+  String get onboardingNotifEnableButton => 'تفعيل الإشعارات';
 
   @override
-  String get onboardingNotifSkipButton => 'TODO: ليس الآن';
+  String get onboardingNotifSkipButton => 'ليس الآن';
 
   @override
   String notifCategoryBody(String taskSummary) {
-    return 'TODO: $taskSummary';
+    return '$taskSummary';
   }
 
   @override
   String notifEodBody(int percent) {
-    return 'TODO: أنجزت $percent% اليوم. دقائق من الذكر قد تغير اليوم.';
+    return 'أنجزت $percent٪ من مهام اليوم. دقائق من الذكر قد تُغيّر يومك.';
   }
 
   @override
   String settingsTaskNotifToggleA11y(String taskName) {
-    return 'TODO: تفعيل تنبيه $taskName';
+    return 'تفعيل إشعار $taskName';
   }
 
   @override
-  String get dashboardTitle => 'TODO: لوحة المعلومات';
+  String get dashboardTitle => 'لوحة المعلومات';
 
   @override
-  String get dashboardRangeWeek => 'TODO: أسبوع';
+  String get dashboardRangeWeek => 'أسبوع';
 
   @override
-  String get dashboardRangeMonth => 'TODO: شهر';
+  String get dashboardRangeMonth => 'شهر';
 
   @override
-  String get dashboardRange90 => 'TODO: 90 يومًا';
+  String get dashboardRange90 => '90 يومًا';
 
   @override
-  String get dashboardWeeklyBarsTitle => 'TODO: الإنجاز اليومي';
+  String get dashboardWeeklyBarsTitle => 'الإنجاز اليومي';
 
   @override
-  String get dashboardHeatmapTitle => 'TODO: خريطة النشاط';
+  String get dashboardHeatmapTitle => 'خريطة النشاط';
 
   @override
-  String get dashboardCategoriesTitle => 'TODO: حسب الفئة';
+  String get dashboardCategoriesTitle => 'حسب الفئة';
 
   @override
-  String get dashboardEmptyTitle => 'TODO: لا توجد بيانات بعد';
+  String get dashboardEmptyTitle => 'لا توجد بيانات بعد';
 
   @override
   String get dashboardEmptyBody =>
-      'TODO: أكمل مهمة في قائمة المهام لتبدأ في عرض الإحصائيات هنا.';
+      'أكمِل مهمة من قائمة المهام لتظهر إحصائياتك هنا.';
 
   @override
-  String get dashboardEmptyCtaLabel => 'TODO: فتح قائمة المهام';
+  String get dashboardEmptyCtaLabel => 'فتح قائمة المهام';
 
   @override
-  String get dashboardErrorLabel => 'TODO: حدث خطأ أثناء تحميل هذا العرض.';
+  String get dashboardErrorLabel => 'حدث خطأ أثناء تحميل هذا العرض.';
 
   @override
-  String get dashboardRetryLabel => 'TODO: إعادة المحاولة';
+  String get dashboardRetryLabel => 'إعادة المحاولة';
 
   @override
-  String get categoryChartTypeBarsTooltip => 'TODO: أعمدة';
+  String get categoryChartTypeBarsTooltip => 'أعمدة';
 
   @override
-  String get categoryChartTypeRadarTooltip => 'TODO: رادار';
+  String get categoryChartTypeRadarTooltip => 'رادار';
 
   @override
-  String get categoryChartTypeStackedTooltip => 'TODO: مكدسة';
+  String get categoryChartTypeStackedTooltip => 'مُكدَّسة';
 
   @override
-  String get categoryChartTypeDonutTooltip => 'TODO: حلقة';
+  String get categoryChartTypeDonutTooltip => 'حلقي';
 
   @override
-  String get categoryNameFajr => 'TODO: الفجر';
+  String get categoryNameFajr => 'الفجر';
 
   @override
-  String get categoryNameDhuhr => 'TODO: الظهر';
+  String get categoryNameDhuhr => 'الظهر';
 
   @override
-  String get categoryNameAsr => 'TODO: العصر';
+  String get categoryNameAsr => 'العصر';
 
   @override
-  String get categoryNameMaghrib => 'TODO: المغرب';
+  String get categoryNameMaghrib => 'المغرب';
 
   @override
-  String get categoryNameIsha => 'TODO: العشاء';
+  String get categoryNameIsha => 'العشاء';
 
   @override
-  String get categoryNameQiyamEvening => 'TODO: قيام الليل والمساء';
+  String get categoryNameQiyamEvening => 'قيام الليل والمساء';
 
   @override
-  String get categoryNameQuranFasting => 'TODO: القرآن والصيام';
+  String get categoryNameQuranFasting => 'القرآن والصيام';
 
   @override
-  String get categoryNameMiscAdhkar => 'TODO: الأذكار';
+  String get categoryNameMiscAdhkar => 'الأذكار';
 
   @override
   String dashboardBarA11y(String date, int percent, String fardState) {
-    return 'TODO: $date، $percent بالمئة، $fardState';
+    return '$date، $percent بالمئة، $fardState';
   }
 
   @override
   String dashboardHeatmapCellA11y(String date, int percent, String fardState) {
-    return 'TODO: $date، $percent بالمئة مكتمل، $fardState';
+    return '$date، $percent بالمئة مكتملة، $fardState';
   }
 
   @override
   String dashboardCategoryA11y(String category, int percent) {
-    return 'TODO: $category: $percent بالمئة مكتمل';
+    return '$category: $percent بالمئة مكتملة';
   }
 
   @override
   String historyStripCellA11y(String date, int percent, String fardState) {
-    return 'TODO: $date، $percent بالمئة مكتمل، $fardState';
+    return '$date، $percent بالمئة مكتملة، $fardState';
   }
 
   @override
-  String get historyStripFardComplete => 'TODO: الفرائض مكتملة';
+  String get historyStripFardComplete => 'الفرائض مكتملة';
 
   @override
-  String get historyStripFardIncomplete => 'TODO: الفرائض غير مكتملة';
+  String get historyStripFardIncomplete => 'الفرائض غير مكتملة';
 
   @override
   String streakCurrentLabel(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'أيام',
+      other: 'يوم',
+      many: 'يومًا',
+      few: 'أيام',
+      two: 'يومان',
       one: 'يوم',
     );
-    return 'TODO: الحالي: $count $_temp0';
+    return 'الحالي: $count $_temp0';
   }
 
   @override
-  String get streakCurrentEmpty => 'TODO: ابدأ سلسلتك اليوم';
+  String get streakCurrentEmpty => 'ابدأ سلسلتك اليوم';
 
   @override
   String streakLongestLabel(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'أيام',
+      other: 'يوم',
+      many: 'يومًا',
+      few: 'أيام',
+      two: 'يومان',
       one: 'يوم',
     );
-    return 'TODO: الأطول: $count $_temp0';
+    return 'الأطول: $count $_temp0';
   }
 
   @override
   String streakLongestWindowQualifier(int days) {
-    return 'TODO: (آخر $days يومًا)';
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'يوم',
+      many: 'يومًا',
+      few: 'أيام',
+      two: 'يومين',
+      one: 'يوم',
+    );
+    return '(خلال آخر $days $_temp0)';
   }
 
   @override
@@ -427,7 +439,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authFullNameLabel => 'الاسم الكامل';
 
   @override
-  String get authFullNameInvalid => 'يجب أن يكون الاسم حرفين على الأقل';
+  String get authFullNameInvalid => 'يجب ألّا يقل الاسم عن حرفين';
 
   @override
   String get authNoAccountPrompt => 'جديد هنا؟ أنشئ حسابًا';
@@ -450,7 +462,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authConfirmCodeButton => 'تأكيد البريد';
 
   @override
-  String get authCodeInvalid => 'أدخل الرمز المكوّن من 6 أرقام من بريدك';
+  String get authCodeInvalid =>
+      'أدخل الرمز المكوّن من 6 أرقام المُرسَل إلى بريدك';
 
   @override
   String get authEmailConfirmedSignIn =>
@@ -460,7 +473,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authResendConfirmation => 'إعادة إرسال الرمز';
 
   @override
-  String get authResendSent => 'إن وُجد حساب، أُرسل رمز جديد.';
+  String get authResendSent => 'إن وُجد حساب بهذا البريد، فقد أُرسل رمز جديد.';
 
   @override
   String get authSignOut => 'تسجيل الخروج';
@@ -469,7 +482,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authSignOutConfirm => 'تسجيل الخروج؟ تبقى بياناتك على هذا الجهاز.';
 
   @override
-  String get authSignOutCancel => 'البقاء مسجّلًا';
+  String get authSignOutCancel => 'البقاء مسجَّلًا';
 
   @override
   String syncHistorySnack(int days) {
@@ -513,50 +526,50 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsSyncDone => 'اكتملت المزامنة.';
 
   @override
-  String get manageChecklistTitle => 'TODO: إدارة القائمة';
+  String get manageChecklistTitle => 'إدارة القائمة';
 
   @override
-  String get manageChecklistMenu => 'TODO: إدارة القائمة';
+  String get manageChecklistMenu => 'إدارة القائمة';
 
   @override
-  String get manageChecklistCategoriesTab => 'TODO: الفئات';
+  String get manageChecklistCategoriesTab => 'الفئات';
 
   @override
-  String get manageChecklistTasksTab => 'TODO: المهام';
+  String get manageChecklistTasksTab => 'المهام';
 
   @override
-  String get manageChecklistAddCategory => 'TODO: إضافة فئة';
+  String get manageChecklistAddCategory => 'إضافة فئة';
 
   @override
-  String get manageChecklistAddTask => 'TODO: إضافة مهمة';
+  String get manageChecklistAddTask => 'إضافة مهمة';
 
   @override
-  String get manageChecklistEditCategory => 'TODO: تعديل الفئة';
+  String get manageChecklistEditCategory => 'تعديل الفئة';
 
   @override
-  String get manageChecklistEditTask => 'TODO: تعديل المهمة';
+  String get manageChecklistEditTask => 'تعديل المهمة';
 
   @override
-  String get manageChecklistNameLabel => 'TODO: الاسم';
+  String get manageChecklistNameLabel => 'الاسم';
 
   @override
-  String get manageChecklistCategoryLabel => 'TODO: الفئة';
+  String get manageChecklistCategoryLabel => 'الفئة';
 
   @override
-  String get manageChecklistSave => 'TODO: حفظ';
+  String get manageChecklistSave => 'حفظ';
 
   @override
-  String get manageChecklistCancel => 'TODO: إلغاء';
+  String get manageChecklistCancel => 'إلغاء';
 
   @override
-  String get manageChecklistHide => 'TODO: إخفاء';
+  String get manageChecklistHide => 'إخفاء';
 
   @override
-  String get manageChecklistFardHideTitle => 'TODO: إخفاء هذه المهمة؟';
+  String get manageChecklistFardHideTitle => 'إخفاء هذه المهمة؟';
 
   @override
   String get manageChecklistFardHideBody =>
-      'هذا فرض. الإخفاء يزيله من عدّك اليومي، لا من يومك.';
+      'هذه فريضة. الإخفاء يُزيلها من عدّك اليومي، لا من يومك.';
 
   @override
   String get manageChecklistRemovePermanently => 'إزالة نهائية';
@@ -570,7 +583,8 @@ class AppLocalizationsAr extends AppLocalizations {
       'لهذا العنصر سجل. يمكنك إخفاؤه بدل الإزالة للاحتفاظ بسجلك.';
 
   @override
-  String get manageChecklistTooltipHide => 'إخفاء من اليوم — يبقى السجل.';
+  String get manageChecklistTooltipHide =>
+      'إخفاء من قائمة اليوم — مع الاحتفاظ بالسجل.';
 
   @override
   String get manageChecklistTooltipShow => 'إظهار في قائمة اليوم.';
@@ -580,7 +594,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get restoreCatalogDialogBody =>
-      'وجدنا قائمتك المحفوظة على هذا الحساب. الاستعادة ستستبدل التخصيصات على هذا الجهاز — يبقى تقدّمك اليومي في المهام الافتراضية.';
+      'وجدنا قائمتك المحفوظة على هذا الحساب. ستحلّ الاستعادة محلّ التخصيصات على هذا الجهاز — مع الاحتفاظ بتقدّمك اليومي في المهام الافتراضية.';
 
   @override
   String get restoreCatalogDialogRestore => 'استعادة';
@@ -598,7 +612,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsRestoreCatalogOffline =>
-      'أنت غير متصل — ستُنفَّذ الاستعادة عند عودة الاتصال.';
+      'أنت غير متصل — ستُنفَّذ الاستعادة عند عودة الاتصال.';
 
   @override
   String get restoreCatalogPushing => 'جارٍ حفظ قائمتك على حسابك…';
@@ -608,9 +622,96 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String restoreCatalogDone(int count) {
-    return 'تمت استعادة $count عنصراً من حسابك.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'عنصر',
+      many: 'عنصرًا',
+      few: 'عناصر',
+      two: 'عنصرين',
+      one: 'عنصر',
+    );
+    return 'تمت استعادة $count $_temp0 من حسابك.';
   }
 
   @override
   String get restoreCatalogSaved => 'تم حفظ قائمتك على حسابك.';
+
+  @override
+  String get challengeStartThisWeek => 'هذا الأسبوع: ابدأ تحديًا';
+
+  @override
+  String get challengesThisWeekTab => 'هذا الأسبوع';
+
+  @override
+  String get challengesBrowseTab => 'استكشاف';
+
+  @override
+  String get challengeSubscribe => 'اشتراك';
+
+  @override
+  String get challengeSubscribed => 'مشترك';
+
+  @override
+  String challengeProgress(int achieved, int goal) {
+    return '$achieved / $goal';
+  }
+
+  @override
+  String get challengeCreateCustom => 'إنشاء تحدي مخصص';
+
+  @override
+  String get challengeWeekStartTitle => 'بداية الأسبوع';
+
+  @override
+  String get challengeWeekStartSubtitle => 'يُطبَّق من الأسبوع القادم.';
+
+  @override
+  String get challengeWeekStartSaturday => 'السبت';
+
+  @override
+  String get challengeWeekStartSunday => 'الأحد';
+
+  @override
+  String get challengeWeekStartMonday => 'الاثنين';
+
+  @override
+  String challengeWeekStartSnackbar(String weekday) {
+    return 'أسبوعك الجديد يبدأ $weekday.';
+  }
+
+  @override
+  String get challengeCelebrationTitle => 'ما شاء الله';
+
+  @override
+  String challengeCelebrationBody(String title, int goal) {
+    return '$title — $goal من $goal أيام هذا الأسبوع.';
+  }
+
+  @override
+  String get challengeContinue => 'متابعة';
+
+  @override
+  String get challengeViewChallenge => 'عرض التحدي';
+
+  @override
+  String get challengeCompletedThisWeek => 'أُنجز هذا الأسبوع';
+
+  @override
+  String get challengeTemplateFajrInJamaah => 'صلِّ كل فجرٍ جماعة';
+
+  @override
+  String get challengeTemplateQiyamWitrAllWeek => 'صلِّ الوتر كل ليلة';
+
+  @override
+  String get challengeTemplateReadQuranDaily => 'اقرأ القرآن كل يوم';
+
+  @override
+  String get challengeTemplateTahajjudThreeNights => 'قُم للتهجد ثلاث ليالٍ';
+
+  @override
+  String get challengeTemplateFajrCategoryAllWeek => 'أكمل بلوك الفجر كل يوم';
+
+  @override
+  String get challengeTemplateMorningAdhkarDaily => 'أذكار الصباح كل صباح';
 }

@@ -9,8 +9,8 @@
       "total": { "type": "int" }
     }
   },
-  "taskStateChecked": "مُحدد",
-  "taskStateUnchecked": "غير مُحدد",
+  "taskStateChecked": "مُحدَّد",
+  "taskStateUnchecked": "غير مُحدَّد",
   "taskRowSemanticLabel": "{title}، {points} نقطة، {state}",
   "@taskRowSemanticLabel": {
     "placeholders": {
@@ -19,7 +19,7 @@
       "state": { "type": "String" }
     }
   },
-  "languageToggleTooltip": "تبديل اللغة (النظام، الإنجليزية، العربية)",
+  "languageToggleTooltip": "تبديل اللغة (العربية، الإنجليزية)",
   "languageAutoSuffix": "تلقائي",
 
   "categoryFajr": "الفجر",
@@ -32,38 +32,38 @@
   "categoryMiscAdhkar": "أذكار متنوعة",
 
   "taskFajrWakingUpAdhkar": "أذكار الاستيقاظ",
-  "taskFajrSunnahBeforeFajr": "سنة قبل الفجر",
-  "taskFajrFirstCongregation": "الجماعة في أول وقت",
-  "taskFajrPostPrayerAdhkar": "أذكار بعد الصلاة",
+  "taskFajrSunnahBeforeFajr": "سنة الفجر القبلية",
+  "taskFajrFirstCongregation": "الصلاة في الجماعة الأولى",
+  "taskFajrPostPrayerAdhkar": "أذكار ما بعد الصلاة",
   "taskFajrMorningAdhkar": "أذكار الصباح",
   "taskFajrDuhaPrayer4Rakahs": "صلاة الضحى — 4 ركعات",
-  "taskDhuhrSunnahBefore4Rakahs": "سنة قبل الظهر — 4 ركعات",
-  "taskDhuhrFirstCongregation": "الجماعة في أول وقت",
-  "taskDhuhrPostPrayerAdhkar": "أذكار بعد الصلاة",
-  "taskDhuhrSunnahAfter": "سنة بعد الظهر",
-  "taskAsrFirstCongregation": "الجماعة في أول وقت",
-  "taskAsrPostPrayerAdhkar": "أذكار بعد الصلاة",
+  "taskDhuhrSunnahBefore4Rakahs": "سنة الظهر القبلية — 4 ركعات",
+  "taskDhuhrFirstCongregation": "الصلاة في الجماعة الأولى",
+  "taskDhuhrPostPrayerAdhkar": "أذكار ما بعد الصلاة",
+  "taskDhuhrSunnahAfter": "سنة الظهر البعدية",
+  "taskAsrFirstCongregation": "الصلاة في الجماعة الأولى",
+  "taskAsrPostPrayerAdhkar": "أذكار ما بعد الصلاة",
   "taskAsrEveningAdhkar": "أذكار المساء",
-  "taskMaghribFirstCongregation": "الجماعة في أول وقت",
-  "taskMaghribPostPrayerAdhkar": "أذكار بعد الصلاة",
-  "taskMaghribSunnahAfter": "سنة بعد المغرب",
-  "taskIshaFirstCongregation": "الجماعة في أول وقت",
-  "taskIshaPostPrayerAdhkar": "أذكار بعد الصلاة",
-  "taskIshaSunnahAfter": "سنة بعد العشاء",
+  "taskMaghribFirstCongregation": "الصلاة في الجماعة الأولى",
+  "taskMaghribPostPrayerAdhkar": "أذكار ما بعد الصلاة",
+  "taskMaghribSunnahAfter": "سنة المغرب البعدية",
+  "taskIshaFirstCongregation": "الصلاة في الجماعة الأولى",
+  "taskIshaPostPrayerAdhkar": "أذكار ما بعد الصلاة",
+  "taskIshaSunnahAfter": "سنة العشاء البعدية",
   "taskQiyamTwoRakahs": "ركعتان من قيام الليل",
-  "taskQiyamDailyQuranTwoQuarters": "ورد القرآن اليومي — ربعان",
+  "taskQiyamDailyQuranTwoQuarters": "وِرد القرآن اليومي — ربعان",
   "taskQiyamWitr": "صلاة الوتر",
-  "taskQiyamAdhkarBeforeSleep": "أذكار قبل النوم",
+  "taskQiyamAdhkarBeforeSleep": "أذكار النوم",
   "taskQuranMemorizeHalfPage": "حفظ نصف صفحة",
   "taskQuranReadSixQuarters": "قراءة ستة أرباع (حوالي 1.5 جزء)",
   "taskQuranFastingMonThu": "صيام الاثنين والخميس",
-  "taskMiscRestroomAdhkar": "أذكار دخول وخروج الحمام",
-  "taskMiscClothingAdhkar": "أذكار لبس وخلع الملابس",
+  "taskMiscRestroomAdhkar": "أذكار دخول الخلاء والخروج منه",
+  "taskMiscClothingAdhkar": "أذكار لُبس الثوب وخلعه",
   "taskMiscWuduAdhkar": "أذكار الوضوء",
-  "taskMiscHouseAdhkar": "أذكار دخول وخروج البيت",
-  "taskMiscMosqueAdhkar": "أذكار دخول وخروج المسجد",
+  "taskMiscHouseAdhkar": "أذكار دخول البيت والخروج منه",
+  "taskMiscMosqueAdhkar": "أذكار دخول المسجد والخروج منه",
   "taskMiscWalkingMosqueAdhkar": "أذكار المشي إلى المسجد",
-  "taskMiscEatingDrinkingAdhkar": "أذكار الأكل والشرب",
+  "taskMiscEatingDrinkingAdhkar": "أذكار الطعام والشراب",
   "taskMiscRidingTravelingAdhkar": "أذكار الركوب والسفر",
 
   "dayLabelToday": "اليوم",
@@ -71,93 +71,93 @@
   "dayPickerPreviousLabel": "اليوم السابق",
   "dayPickerNextLabel": "اليوم التالي",
   "readOnlyBadge": "للقراءة فقط",
-  "resetTodayDialogTitle": "إعادة تعيين تقدم اليوم؟",
-  "resetTodayDialogBody": "سيتم إلغاء تحديد كل المهام لهذا اليوم. الأيام السابقة لن تتأثر.",
+  "resetTodayDialogTitle": "إعادة تعيين تقدّم اليوم؟",
+  "resetTodayDialogBody": "سيُلغى تحديد كل المهام لهذا اليوم. الأيام السابقة لن تتأثّر.",
   "resetTodayDialogCancel": "إلغاء",
   "resetTodayDialogConfirm": "إعادة تعيين",
   "loadingChecklist": "جارٍ تحميل قائمتك…",
 
-  "navChecklistLabel": "TODO: قائمة المهام",
-  "navDashboardLabel": "TODO: لوحة المعلومات",
-  "navSettingsLabel": "TODO: الإعدادات",
+  "navChecklistLabel": "قائمة المهام",
+  "navDashboardLabel": "لوحة المعلومات",
+  "navSettingsLabel": "الإعدادات",
 
-  "settingsTitle": "TODO: الإعدادات",
-  "settingsNotificationsTitle": "TODO: التنبيهات",
-  "settingsNotificationsGlobalToggleLabel": "TODO: تفعيل كل التنبيهات",
-  "settingsCategoryScheduleTimeLabel": "TODO: {category} · {time}",
+  "settingsTitle": "الإعدادات",
+  "settingsNotificationsTitle": "الإشعارات",
+  "settingsNotificationsGlobalToggleLabel": "تفعيل جميع الإشعارات",
+  "settingsCategoryScheduleTimeLabel": "{category} · {time}",
   "@settingsCategoryScheduleTimeLabel": {
     "placeholders": {
       "category": { "type": "String" },
       "time": { "type": "String" }
     }
   },
-  "settingsEodToggleLabel": "TODO: ملخص نهاية اليوم",
-  "settingsEodTimeLabel": "TODO: عند {time}",
+  "settingsEodToggleLabel": "ملخّص نهاية اليوم",
+  "settingsEodTimeLabel": "عند {time}",
   "@settingsEodTimeLabel": {
     "placeholders": {
       "time": { "type": "String" }
     }
   },
-  "settingsEodThresholdNote": "TODO: يظهر عندما يكون إنجاز اليوم أقل من 50٪.",
-  "settingsWebNotificationNote": "TODO: التنبيهات تحتاج أن تبقى نافذة التطبيق مفتوحة.",
-  "settingsAboutTitle": "TODO: حول التطبيق",
-  "settingsVersionLabel": "TODO: الإصدار {version}",
+  "settingsEodThresholdNote": "يظهر عند انخفاض إنجاز اليوم عن 50٪.",
+  "settingsWebNotificationNote": "تتطلّب الإشعارات إبقاء نافذة التطبيق مفتوحة.",
+  "settingsAboutTitle": "حول التطبيق",
+  "settingsVersionLabel": "الإصدار {version}",
   "@settingsVersionLabel": {
     "placeholders": {
       "version": { "type": "String" }
     }
   },
-  "onboardingNotifTitle": "TODO: حافظ على الاستمرارية",
-  "onboardingNotifBody": "TODO: اسمح بتذكيرات لطيفة كي ينبهك التطبيق في أوقات الصلاة التي تختارها. أنت تتحكم في التذكيرات التي تصلك.",
-  "onboardingNotifEnableButton": "TODO: تفعيل التنبيهات",
-  "onboardingNotifSkipButton": "TODO: ليس الآن",
-  "notifCategoryBody": "TODO: {taskSummary}",
+  "onboardingNotifTitle": "حافظ على انتظامك",
+  "onboardingNotifBody": "اسمح بتذكيرات لطيفة لينبّهك التطبيق في أوقات الصلاة التي تختارها. أنت من يتحكّم بالتذكيرات التي تصلك.",
+  "onboardingNotifEnableButton": "تفعيل الإشعارات",
+  "onboardingNotifSkipButton": "ليس الآن",
+  "notifCategoryBody": "{taskSummary}",
   "@notifCategoryBody": {
     "placeholders": {
       "taskSummary": { "type": "String" }
     }
   },
-  "notifEodBody": "TODO: أنجزت {percent}% اليوم. دقائق من الذكر قد تغير اليوم.",
+  "notifEodBody": "أنجزت {percent}٪ من مهام اليوم. دقائق من الذكر قد تُغيّر يومك.",
   "@notifEodBody": {
     "placeholders": {
       "percent": { "type": "int" }
     }
   },
-  "settingsTaskNotifToggleA11y": "TODO: تفعيل تنبيه {taskName}",
+  "settingsTaskNotifToggleA11y": "تفعيل إشعار {taskName}",
   "@settingsTaskNotifToggleA11y": {
     "placeholders": {
       "taskName": { "type": "String" }
     }
   },
 
-  "dashboardTitle": "TODO: لوحة المعلومات",
-  "dashboardRangeWeek": "TODO: أسبوع",
-  "dashboardRangeMonth": "TODO: شهر",
-  "dashboardRange90": "TODO: 90 يومًا",
-  "dashboardWeeklyBarsTitle": "TODO: الإنجاز اليومي",
-  "dashboardHeatmapTitle": "TODO: خريطة النشاط",
-  "dashboardCategoriesTitle": "TODO: حسب الفئة",
-  "dashboardEmptyTitle": "TODO: لا توجد بيانات بعد",
-  "dashboardEmptyBody": "TODO: أكمل مهمة في قائمة المهام لتبدأ في عرض الإحصائيات هنا.",
-  "dashboardEmptyCtaLabel": "TODO: فتح قائمة المهام",
-  "dashboardErrorLabel": "TODO: حدث خطأ أثناء تحميل هذا العرض.",
-  "dashboardRetryLabel": "TODO: إعادة المحاولة",
+  "dashboardTitle": "لوحة المعلومات",
+  "dashboardRangeWeek": "أسبوع",
+  "dashboardRangeMonth": "شهر",
+  "dashboardRange90": "90 يومًا",
+  "dashboardWeeklyBarsTitle": "الإنجاز اليومي",
+  "dashboardHeatmapTitle": "خريطة النشاط",
+  "dashboardCategoriesTitle": "حسب الفئة",
+  "dashboardEmptyTitle": "لا توجد بيانات بعد",
+  "dashboardEmptyBody": "أكمِل مهمة من قائمة المهام لتظهر إحصائياتك هنا.",
+  "dashboardEmptyCtaLabel": "فتح قائمة المهام",
+  "dashboardErrorLabel": "حدث خطأ أثناء تحميل هذا العرض.",
+  "dashboardRetryLabel": "إعادة المحاولة",
 
-  "categoryChartTypeBarsTooltip": "TODO: أعمدة",
-  "categoryChartTypeRadarTooltip": "TODO: رادار",
-  "categoryChartTypeStackedTooltip": "TODO: مكدسة",
-  "categoryChartTypeDonutTooltip": "TODO: حلقة",
+  "categoryChartTypeBarsTooltip": "أعمدة",
+  "categoryChartTypeRadarTooltip": "رادار",
+  "categoryChartTypeStackedTooltip": "مُكدَّسة",
+  "categoryChartTypeDonutTooltip": "حلقي",
 
-  "categoryNameFajr": "TODO: الفجر",
-  "categoryNameDhuhr": "TODO: الظهر",
-  "categoryNameAsr": "TODO: العصر",
-  "categoryNameMaghrib": "TODO: المغرب",
-  "categoryNameIsha": "TODO: العشاء",
-  "categoryNameQiyamEvening": "TODO: قيام الليل والمساء",
-  "categoryNameQuranFasting": "TODO: القرآن والصيام",
-  "categoryNameMiscAdhkar": "TODO: الأذكار",
+  "categoryNameFajr": "الفجر",
+  "categoryNameDhuhr": "الظهر",
+  "categoryNameAsr": "العصر",
+  "categoryNameMaghrib": "المغرب",
+  "categoryNameIsha": "العشاء",
+  "categoryNameQiyamEvening": "قيام الليل والمساء",
+  "categoryNameQuranFasting": "القرآن والصيام",
+  "categoryNameMiscAdhkar": "الأذكار",
 
-  "dashboardBarA11y": "TODO: {date}، {percent} بالمئة، {fardState}",
+  "dashboardBarA11y": "{date}، {percent} بالمئة، {fardState}",
   "@dashboardBarA11y": {
     "placeholders": {
       "date": { "type": "String" },
@@ -165,7 +165,7 @@
       "fardState": { "type": "String" }
     }
   },
-  "dashboardHeatmapCellA11y": "TODO: {date}، {percent} بالمئة مكتمل، {fardState}",
+  "dashboardHeatmapCellA11y": "{date}، {percent} بالمئة مكتملة، {fardState}",
   "@dashboardHeatmapCellA11y": {
     "placeholders": {
       "date": { "type": "String" },
@@ -173,7 +173,7 @@
       "fardState": { "type": "String" }
     }
   },
-  "dashboardCategoryA11y": "TODO: {category}: {percent} بالمئة مكتمل",
+  "dashboardCategoryA11y": "{category}: {percent} بالمئة مكتملة",
   "@dashboardCategoryA11y": {
     "placeholders": {
       "category": { "type": "String" },
@@ -181,7 +181,7 @@
     }
   },
 
-  "historyStripCellA11y": "TODO: {date}، {percent} بالمئة مكتمل، {fardState}",
+  "historyStripCellA11y": "{date}، {percent} بالمئة مكتملة، {fardState}",
   "@historyStripCellA11y": {
     "placeholders": {
       "date": { "type": "String" },
@@ -189,22 +189,22 @@
       "fardState": { "type": "String" }
     }
   },
-  "historyStripFardComplete": "TODO: الفرائض مكتملة",
-  "historyStripFardIncomplete": "TODO: الفرائض غير مكتملة",
-  "streakCurrentLabel": "TODO: الحالي: {count} {count, plural, one{يوم} other{أيام}}",
+  "historyStripFardComplete": "الفرائض مكتملة",
+  "historyStripFardIncomplete": "الفرائض غير مكتملة",
+  "streakCurrentLabel": "الحالي: {count} {count, plural, one{يوم} two{يومان} few{أيام} many{يومًا} other{يوم}}",
   "@streakCurrentLabel": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "streakCurrentEmpty": "TODO: ابدأ سلسلتك اليوم",
-  "streakLongestLabel": "TODO: الأطول: {count} {count, plural, one{يوم} other{أيام}}",
+  "streakCurrentEmpty": "ابدأ سلسلتك اليوم",
+  "streakLongestLabel": "الأطول: {count} {count, plural, one{يوم} two{يومان} few{أيام} many{يومًا} other{يوم}}",
   "@streakLongestLabel": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "streakLongestWindowQualifier": "TODO: (آخر {days} يومًا)",
+  "streakLongestWindowQualifier": "(خلال آخر {days} {days, plural, one{يوم} two{يومين} few{أيام} many{يومًا} other{يوم}})",
   "@streakLongestWindowQualifier": {
     "placeholders": {
       "days": { "type": "int" }
@@ -220,21 +220,31 @@
   "authConfirmPasswordLabel": "تأكيد كلمة المرور",
   "authPasswordMismatch": "كلمتا المرور غير متطابقتين",
   "authFullNameLabel": "الاسم الكامل",
-  "authFullNameInvalid": "يجب أن يكون الاسم حرفين على الأقل",
+  "authFullNameInvalid": "يجب ألّا يقل الاسم عن حرفين",
   "authNoAccountPrompt": "جديد هنا؟ أنشئ حسابًا",
   "authHaveAccountPrompt": "لديك حساب؟ سجّل الدخول",
   "authConfirmEmailTitle": "أكّد بريدك الإلكتروني",
   "authConfirmEmailCodeBody": "أرسلنا رمزًا من 6 أرقام إلى {email}. أدخله أدناه.",
+  "@authConfirmEmailCodeBody": {
+    "placeholders": {
+      "email": { "type": "String" }
+    }
+  },
   "authConfirmationCodeLabel": "رمز التأكيد",
   "authConfirmCodeButton": "تأكيد البريد",
-  "authCodeInvalid": "أدخل الرمز المكوّن من 6 أرقام من بريدك",
+  "authCodeInvalid": "أدخل الرمز المكوّن من 6 أرقام المُرسَل إلى بريدك",
   "authEmailConfirmedSignIn": "تم تأكيد البريد. يمكنك تسجيل الدخول الآن.",
   "authResendConfirmation": "إعادة إرسال الرمز",
-  "authResendSent": "إن وُجد حساب، أُرسل رمز جديد.",
+  "authResendSent": "إن وُجد حساب بهذا البريد، فقد أُرسل رمز جديد.",
   "authSignOut": "تسجيل الخروج",
   "authSignOutConfirm": "تسجيل الخروج؟ تبقى بياناتك على هذا الجهاز.",
-  "authSignOutCancel": "البقاء مسجّلًا",
+  "authSignOutCancel": "البقاء مسجَّلًا",
   "syncHistorySnack": "تمت مزامنة {days} يومًا من السجل.",
+  "@syncHistorySnack": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
   "syncLoadingMessage": "جارٍ مزامنة بياناتك…",
   "profileTitle": "الملف الشخصي",
   "profileSave": "حفظ",
@@ -248,28 +258,28 @@
   "settingsSyncNow": "مزامنة الآن",
   "settingsSyncDone": "اكتملت المزامنة.",
 
-  "manageChecklistTitle": "TODO: إدارة القائمة",
-  "manageChecklistMenu": "TODO: إدارة القائمة",
-  "manageChecklistCategoriesTab": "TODO: الفئات",
-  "manageChecklistTasksTab": "TODO: المهام",
-  "manageChecklistAddCategory": "TODO: إضافة فئة",
-  "manageChecklistAddTask": "TODO: إضافة مهمة",
-  "manageChecklistEditCategory": "TODO: تعديل الفئة",
-  "manageChecklistEditTask": "TODO: تعديل المهمة",
-  "manageChecklistNameLabel": "TODO: الاسم",
-  "manageChecklistCategoryLabel": "TODO: الفئة",
-  "manageChecklistSave": "TODO: حفظ",
-  "manageChecklistCancel": "TODO: إلغاء",
-  "manageChecklistHide": "TODO: إخفاء",
-  "manageChecklistFardHideTitle": "TODO: إخفاء هذه المهمة؟",
-  "manageChecklistFardHideBody": "هذا فرض. الإخفاء يزيله من عدّك اليومي، لا من يومك.",
+  "manageChecklistTitle": "إدارة القائمة",
+  "manageChecklistMenu": "إدارة القائمة",
+  "manageChecklistCategoriesTab": "الفئات",
+  "manageChecklistTasksTab": "المهام",
+  "manageChecklistAddCategory": "إضافة فئة",
+  "manageChecklistAddTask": "إضافة مهمة",
+  "manageChecklistEditCategory": "تعديل الفئة",
+  "manageChecklistEditTask": "تعديل المهمة",
+  "manageChecklistNameLabel": "الاسم",
+  "manageChecklistCategoryLabel": "الفئة",
+  "manageChecklistSave": "حفظ",
+  "manageChecklistCancel": "إلغاء",
+  "manageChecklistHide": "إخفاء",
+  "manageChecklistFardHideTitle": "إخفاء هذه المهمة؟",
+  "manageChecklistFardHideBody": "هذه فريضة. الإخفاء يُزيلها من عدّك اليومي، لا من يومك.",
   "manageChecklistRemovePermanently": "إزالة نهائية",
   "manageChecklistRemoveConfirmBody": "سيُزال هذا العنصر ولا يمكن التراجع. يبقى تقدّمك اليومي في المهام الأخرى.",
   "manageChecklistRemoveHasHistory": "لهذا العنصر سجل. يمكنك إخفاؤه بدل الإزالة للاحتفاظ بسجلك.",
-  "manageChecklistTooltipHide": "إخفاء من اليوم — يبقى السجل.",
+  "manageChecklistTooltipHide": "إخفاء من قائمة اليوم — مع الاحتفاظ بالسجل.",
   "manageChecklistTooltipShow": "إظهار في قائمة اليوم.",
   "restoreCatalogDialogTitle": "استعادة قائمتك المحفوظة؟",
-  "restoreCatalogDialogBody": "وجدنا قائمتك المحفوظة على هذا الحساب. الاستعادة ستستبدل التخصيصات على هذا الجهاز — يبقى تقدّمك اليومي في المهام الافتراضية.",
+  "restoreCatalogDialogBody": "وجدنا قائمتك المحفوظة على هذا الحساب. ستحلّ الاستعادة محلّ التخصيصات على هذا الجهاز — مع الاحتفاظ بتقدّمك اليومي في المهام الافتراضية.",
   "restoreCatalogDialogRestore": "استعادة",
   "settingsRestoreCatalogTitle": "استعادة القائمة من حسابك",
   "settingsRestoreCatalogNever": "لم تُستعَد على هذا الجهاز بعد",
@@ -279,14 +289,56 @@
       "when": { "type": "String" }
     }
   },
-  "settingsRestoreCatalogOffline": "أنت غير متصل — ستُنفَّذ الاستعادة عند عودة الاتصال.",
+  "settingsRestoreCatalogOffline": "أنت غير متصل — ستُنفَّذ الاستعادة عند عودة الاتصال.",
   "restoreCatalogPushing": "جارٍ حفظ قائمتك على حسابك…",
   "restoreCatalogRestoring": "جارٍ استعادة قائمتك المحفوظة…",
-  "restoreCatalogDone": "تمت استعادة {count} عنصراً من حسابك.",
+  "restoreCatalogDone": "تمت استعادة {count} {count, plural, one{عنصر} two{عنصرين} few{عناصر} many{عنصرًا} other{عنصر}} من حسابك.",
   "@restoreCatalogDone": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "restoreCatalogSaved": "تم حفظ قائمتك على حسابك."
+  "restoreCatalogSaved": "تم حفظ قائمتك على حسابك.",
+
+  "challengeStartThisWeek": "هذا الأسبوع: ابدأ تحديًا",
+  "challengesThisWeekTab": "هذا الأسبوع",
+  "challengesBrowseTab": "استكشاف",
+  "challengeSubscribe": "اشتراك",
+  "challengeSubscribed": "مشترك",
+  "challengeProgress": "{achieved} / {goal}",
+  "@challengeProgress": {
+    "placeholders": {
+      "achieved": { "type": "int" },
+      "goal": { "type": "int" }
+    }
+  },
+  "challengeCreateCustom": "إنشاء تحدي مخصص",
+  "challengeWeekStartTitle": "بداية الأسبوع",
+  "challengeWeekStartSubtitle": "يُطبَّق من الأسبوع القادم.",
+  "challengeWeekStartSaturday": "السبت",
+  "challengeWeekStartSunday": "الأحد",
+  "challengeWeekStartMonday": "الاثنين",
+  "challengeWeekStartSnackbar": "أسبوعك الجديد يبدأ {weekday}.",
+  "@challengeWeekStartSnackbar": {
+    "placeholders": {
+      "weekday": { "type": "String" }
+    }
+  },
+  "challengeCelebrationTitle": "ما شاء الله",
+  "challengeCelebrationBody": "{title} — {goal} من {goal} أيام هذا الأسبوع.",
+  "@challengeCelebrationBody": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "goal": { "type": "int" }
+    }
+  },
+  "challengeContinue": "متابعة",
+  "challengeViewChallenge": "عرض التحدي",
+  "challengeCompletedThisWeek": "أُنجز هذا الأسبوع",
+  "challengeTemplateFajrInJamaah": "صلِّ كل فجرٍ جماعة",
+  "challengeTemplateQiyamWitrAllWeek": "صلِّ الوتر كل ليلة",
+  "challengeTemplateReadQuranDaily": "اقرأ القرآن كل يوم",
+  "challengeTemplateTahajjudThreeNights": "قُم للتهجد ثلاث ليالٍ",
+  "challengeTemplateFajrCategoryAllWeek": "أكمل بلوك الفجر كل يوم",
+  "challengeTemplateMorningAdhkarDaily": "أذكار الصباح كل صباح"
 }

@@ -17,6 +17,7 @@ import 'features/notifications/providers/app_localizations_provider.dart';
 import 'features/notifications/providers/notification_scheduler_provider.dart';
 import 'features/settings/presentation/providers/eod_settings_provider.dart';
 import 'features/settings/presentation/providers/notification_settings_provider.dart';
+import 'features/challenges/presentation/widgets/challenge_celebration_listener.dart';
 import 'features/sync/data/sync_scheduler.dart';
 
 Future<void> main() async {
@@ -27,8 +28,8 @@ Future<void> main() async {
   final settingsRepo = DriftSettingsRepository(database);
   final code = await settingsRepo.readLocaleOverride();
   persistedLocaleAtLaunch = switch (code) {
-    'ar' => const Locale('ar'),
     'en' => const Locale('en'),
+    'ar' => const Locale('ar'),
     _ => null,
   };
 
@@ -85,13 +86,16 @@ class MuhasabahApp extends ConsumerWidget {
 
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-      locale: localeOverride,
+      locale: resolveAppLocale(localeOverride),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       theme: ThemeData(colorScheme: colorScheme, useMaterial3: true),
       routerConfig: ref.watch(appRouterProvider),
-      builder: (context, child) =>
-          _NotificationStartup(child: child ?? const SizedBox.shrink()),
+      builder: (context, child) => ChallengeCelebrationListener(
+        child: _NotificationStartup(
+          child: child ?? const SizedBox.shrink(),
+        ),
+      ),
     );
   }
 }

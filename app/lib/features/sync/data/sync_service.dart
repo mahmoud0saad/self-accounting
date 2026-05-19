@@ -10,6 +10,7 @@ import '../../../core/time/day_key.dart';
 import '../../auth/data/token_storage.dart';
 import '../../auth/presentation/providers/auth_provider.dart';
 import 'sync_api.dart';
+import 'sync_constants.dart';
 
 class SyncService {
   SyncService({
@@ -61,6 +62,51 @@ class SyncService {
     required DateTime clientUpdatedAt,
   }) async {
     await _coalesceCustomizationOp(opType, payload, clientUpdatedAt);
+  }
+
+  Future<void> enqueueChallengeOp({
+    required String opType,
+    required Map<String, dynamic> payload,
+    required DateTime clientUpdatedAt,
+  }) async {
+    await _coalesceChallengeOp(opType, payload, clientUpdatedAt);
+  }
+
+  Future<void> _coalesceChallengeOp(
+    String opType,
+    Map<String, dynamic> payload,
+    DateTime clientUpdatedAt,
+  ) async {
+    final targetId = _challengeCoalesceKey(opType, payload);
+    if (targetId != null) {
+      final pending = await db.select(db.pendingSyncOps).get();
+      for (final op in pending) {
+        if (op.opType != opType) {
+          continue;
+        }
+        final existing = jsonDecode(op.payloadJson) as Map<String, dynamic>;
+        if (_challengeCoalesceKey(opType, existing) == targetId) {
+          await (db.delete(db.pendingSyncOps)..where((t) => t.id.equals(op.id)))
+              .go();
+        }
+      }
+    }
+    await db.into(db.pendingSyncOps).insert(
+      PendingSyncOpsCompanion.insert(
+        opType: opType,
+        payloadJson: jsonEncode(payload),
+        clientUpdatedAt: clientUpdatedAt.toUtc(),
+      ),
+    );
+  }
+
+  String? _challengeCoalesceKey(String opType, Map<String, dynamic> payload) {
+    return switch (opType) {
+      'upsert_user_challenge' || 'delete_user_challenge' => payload['id'] as String?,
+      'upsert_user_challenge_week' =>
+        '${payload['userChallengeId']}:${payload['weekStart']}',
+      _ => null,
+    };
   }
 
   Future<void> _coalesceCustomizationOp(
@@ -146,9 +192,17 @@ class SyncService {
       }
       final logItems = <Map<String, dynamic>>[];
       final customizationOps = <Map<String, dynamic>>[];
+      final challengeOps = <Map<String, dynamic>>[];
       for (final o in ops) {
         if (o.opType == 'batch_log') {
           logItems.add(jsonDecode(o.payloadJson) as Map<String, dynamic>);
+        } else if (isChallengeOpType(o.opType)) {
+          challengeOps.add({
+            'opId': '${o.id}',
+            'opType': o.opType,
+            'payload': jsonDecode(o.payloadJson),
+            'clientUpdatedAt': o.clientUpdatedAt.toUtc().toIso8601String(),
+          });
         } else {
           customizationOps.add({
             'opId': '${o.id}',
@@ -162,22 +216,32 @@ class SyncService {
         if (logItems.isNotEmpty) {
           await api.batchUpsert(logItems);
         }
+        final appliedOpIds = <String>{};
         if (customizationOps.isNotEmpty) {
           final outcomes = await api.batchCustomizations(customizationOps);
-          final appliedOpIds = <String>{};
           for (final outcome in outcomes) {
             if (outcome['applied'] == true) {
               appliedOpIds.add(outcome['opId'] as String);
             }
           }
-          final customizationOpIds = customizationOps
-              .map((o) => o['opId'] as String)
-              .toSet();
+        }
+        if (challengeOps.isNotEmpty) {
+          final outcomes = await api.batchChallenges(challengeOps);
+          for (final outcome in outcomes) {
+            if (outcome['applied'] == true) {
+              appliedOpIds.add(outcome['opId'] as String);
+            }
+          }
+        }
+        final batchOpIds = {...customizationOps, ...challengeOps}
+            .map((o) => o['opId'] as String)
+            .toSet();
+        if (batchOpIds.isNotEmpty || logItems.isNotEmpty) {
           final idsToDelete = ops
               .where(
                 (o) =>
                     o.opType == 'batch_log' ||
-                    !customizationOpIds.contains('${o.id}') ||
+                    !batchOpIds.contains('${o.id}') ||
                     appliedOpIds.contains('${o.id}'),
               )
               .map((o) => o.id)
@@ -187,7 +251,7 @@ class SyncService {
                   ..where((t) => t.id.isIn(idsToDelete)))
                 .go();
           }
-        } else {
+        } else if (logItems.isEmpty) {
           final ids = ops.map((o) => o.id).toList();
           await (db.delete(db.pendingSyncOps)
                 ..where((t) => t.id.isIn(ids)))

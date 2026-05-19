@@ -12,3 +12,12 @@ const kCustomizationOpTypes = {
 
 bool isCustomizationOpType(String opType) =>
     kCustomizationOpTypes.contains(opType);
+
+/// Challenge op types stored in [PendingSyncOps].
+const kChallengeOpTypes = {
+  'upsert_user_challenge',
+  'delete_user_challenge',
+  'upsert_user_challenge_week',
+};
+
+bool isChallengeOpType(String opType) => kChallengeOpTypes.contains(opType);

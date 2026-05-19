@@ -182,4 +182,31 @@ class SyncApi {
       },
     );
   }
+
+  Future<List<Map<String, dynamic>>> fetchChallengeTemplates() async {
+    final res = await _dio.get<List<dynamic>>('/challenges/templates');
+    return res.data!.cast<Map<String, dynamic>>();
+  }
+
+  Future<List<Map<String, dynamic>>> fetchChallenges() async {
+    final res = await _dio.get<List<dynamic>>('/challenges');
+    return res.data!.cast<Map<String, dynamic>>();
+  }
+
+  Future<Map<String, dynamic>> fetchChallengeSnapshotState() async {
+    final res =
+        await _dio.get<Map<String, dynamic>>('/challenges/snapshot-state');
+    return res.data!;
+  }
+
+  Future<List<Map<String, dynamic>>> batchChallenges(
+    List<Map<String, dynamic>> ops,
+  ) async {
+    final res = await _dio.put<Map<String, dynamic>>(
+      '/challenges/batch',
+      data: {'ops': ops},
+    );
+    final outcomes = res.data?['outcomes'] as List<dynamic>? ?? [];
+    return outcomes.cast<Map<String, dynamic>>();
+  }
 }
