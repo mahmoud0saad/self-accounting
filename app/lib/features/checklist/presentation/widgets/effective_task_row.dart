@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,6 +44,11 @@ class EffectiveTaskRow extends ConsumerWidget {
       ref.read(checklistControllerProvider).toggle(task.id);
     }
 
+    final maxTitleWidth = math.min(
+      280.0,
+      MediaQuery.sizeOf(context).width - 48,
+    );
+
     return Semantics(
       label: semanticsLabel,
       toggled: isChecked,
@@ -64,11 +71,13 @@ class EffectiveTaskRow extends ConsumerWidget {
               borderRadius: BorderRadius.circular(14),
             ),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _AnimatedCheck(isChecked: isChecked, dimmed: readOnly),
-                const SizedBox(width: 12),
-                Expanded(
+                // _AnimatedCheck(isChecked: isChecked, dimmed: readOnly),
+                // const SizedBox(width: 12),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: maxTitleWidth),
                   child: AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 220),
                     style:
@@ -92,7 +101,11 @@ class EffectiveTaskRow extends ConsumerWidget {
                               : FontWeight.w500,
                         ) ??
                         const TextStyle(),
-                    child: Text(task.displayName),
+                    child: Text(
+                      task.displayName ,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 8),

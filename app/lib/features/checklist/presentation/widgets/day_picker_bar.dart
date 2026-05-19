@@ -4,14 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/time/day_key.dart';
+import '../../domain/day_completion.dart';
+import '../providers/calendar_today_provider.dart';
 import '../providers/checklist_repositories_provider.dart';
+import '../providers/daily_progress_provider.dart';
+import '../providers/day_picker_window_provider.dart';
 
 /// Horizontal scroll of the last 30 calendar days as tappable chips (tabs).
 /// Order: Today → Yesterday → older days. [activeDayProvider] drives selection.
 class DayPickerBar extends ConsumerStatefulWidget {
   const DayPickerBar({super.key});
-
-  static const int _visibleDays = 30;
 
   static DayKey _oldestAllowed(DayKey today) {
     var d = today;
@@ -36,7 +38,7 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
       return;
     }
     _didScheduleInitialScroll = true;
-    final today = DayKey.today();
+    final today = ref.read(calendarTodayProvider);
     final oldest = DayPickerBar._oldestAllowed(today);
     final active = ref.read(activeDayProvider);
     _scrollToActive(active, _buildDayKeys(today, oldest));
@@ -45,7 +47,7 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
   List<DayKey> _buildDayKeys(DayKey today, DayKey oldest) {
     final keys = <DayKey>[];
     var d = today;
-    for (var i = 0; i < DayPickerBar._visibleDays; i++) {
+    for (var i = 0; i < kDayPickerVisibleDays; i++) {
       if (d.compareTo(oldest) < 0) {
         break;
       }
@@ -78,11 +80,36 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
     });
   }
 
+  Color _fillColor(double fraction, ColorScheme scheme) {
+    if (fraction <= 0.0) return scheme.surfaceContainerHighest;
+    return scheme.primary.withValues(alpha: fraction.clamp(0.0, 1.0));
+  }
+
+  Color _labelColor(double fraction, ColorScheme scheme) {
+    return fraction >= 0.50 ? scheme.onPrimary : scheme.onSurface;
+  }
+
+  Color _secondaryLabelColor(double fraction, ColorScheme scheme) {
+    return fraction >= 0.50
+        ? scheme.onPrimary.withValues(alpha: 0.92)
+        : scheme.onSurfaceVariant;
+  }
+
+  Color _selectionBorderColor(
+    bool selected,
+    double fraction,
+    ColorScheme scheme,
+  ) {
+    if (!selected) return scheme.outlineVariant;
+    if (fraction >= 0.65) return scheme.onPrimary;
+    return scheme.secondary;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final active = ref.watch(activeDayProvider);
-    final today = DayKey.today();
+    final today = ref.watch(calendarTodayProvider);
     final oldest = DayPickerBar._oldestAllowed(today);
     final locale = Localizations.localeOf(context);
     final scheme = Theme.of(context).colorScheme;
@@ -90,12 +117,24 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
     final tag = locale.toLanguageTag();
 
     final dayKeys = _buildDayKeys(today, oldest);
+    final completionByDay = ref.watch(dayPickerWindowProvider).maybeWhen(
+      data: (days) => {for (final dc in days) dc.day: dc},
+      orElse: () => <DayKey, DayCompletion>{},
+    );
+    final todayProgress = ref.watch(dailyProgressForDayProvider(today)).maybeWhen(
+      data: (progress) => progress,
+      orElse: () => null,
+    );
+    final activeProgress = ref.watch(dailyProgressProvider).maybeWhen(
+      data: (progress) => progress,
+      orElse: () => null,
+    );
 
     ref.listen<DayKey>(activeDayProvider, (previous, next) {
       if (previous == next) {
         return;
       }
-      _scrollToActive(next, _buildDayKeys(DayKey.today(), oldest));
+      _scrollToActive(next, _buildDayKeys(today, oldest));
     });
 
     String line1(DayKey day) {
@@ -108,17 +147,10 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
       return DateFormat.EEEE(tag).format(day.toLocalDateTime());
     }
 
-    String? line2(DayKey day) {
-      if (day == today || day == today.previousDay()) {
-        return null;
-      }
-      return DateFormat.MMMd(tag).format(day.toLocalDateTime());
-    }
-
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
       child: SizedBox(
-        height: 72,
+        height: 68,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemCount: dayKeys.length,
@@ -128,7 +160,25 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
             final day = dayKeys[index];
             final selected = day == active;
             final l1 = line1(day);
-            final l2 = line2(day);
+            final completion = completionByDay[day];
+            var fraction = completion?.fraction ?? 0.0;
+            var percentInt = completion?.percentInt ?? 0;
+            if (day == today && todayProgress != null) {
+              fraction = todayProgress.fraction;
+              percentInt = todayProgress.percentInt;
+            } else if (selected && activeProgress != null) {
+              fraction = activeProgress.fraction;
+              percentInt = activeProgress.percentInt;
+            }
+            final percentLabel = '$percentInt%';
+            final fillColor = _fillColor(fraction, scheme);
+            final labelColor = _labelColor(fraction, scheme);
+            final secondaryLabelColor = _secondaryLabelColor(fraction, scheme);
+            final borderColor = _selectionBorderColor(
+              selected,
+              fraction,
+              scheme,
+            );
 
             final chip = Material(
               key: _keyFor(day),
@@ -144,11 +194,11 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
                     vertical: 10,
                   ),
                   decoration: BoxDecoration(
-                    color: selected ? scheme.primary : scheme.surface,
+                    color: fillColor,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: selected ? scheme.primary : scheme.outlineVariant,
-                      width: selected ? 0 : 1,
+                      color: borderColor,
+                      width: selected ? 3 : 1,
                     ),
                   ),
                   child: Column(
@@ -161,24 +211,22 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: textTheme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: selected ? scheme.onPrimary : scheme.onSurface,
+                          fontWeight:
+                              selected ? FontWeight.w800 : FontWeight.w700,
+                          color: labelColor,
                         ),
                       ),
-                      if (l2 != null) ...[
-                        const SizedBox(height: 2),
-                        Text(
-                          l2,
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: textTheme.labelSmall?.copyWith(
-                            color: selected
-                                ? scheme.onPrimary.withValues(alpha: 0.92)
-                                : scheme.onSurfaceVariant,
-                          ),
+                      const SizedBox(height: 2),
+                      Text(
+                        percentLabel,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: textTheme.labelSmall?.copyWith(
+                          color: secondaryLabelColor,
+                          fontWeight: FontWeight.w600,
                         ),
-                      ],
+                      ),
                     ],
                   ),
                 ),
@@ -188,7 +236,7 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
             return Semantics(
               button: true,
               selected: selected,
-              label: l1 + (l2 != null ? ', $l2' : ''),
+              label: '$l1, $percentLabel',
               child: chip,
             );
           },

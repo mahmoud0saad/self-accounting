@@ -3,6 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/time/day_key.dart';
 import 'checklist_repositories_provider.dart';
 
+final checklistStateForDayProvider = StreamProvider.autoDispose
+    .family<Map<String, bool>, DayKey>((ref, day) {
+  return ref.watch(checklistRepositoryProvider).watchDay(day);
+});
+
 final checklistStateProvider = StreamProvider.autoDispose<Map<String, bool>>((
   ref,
 ) {

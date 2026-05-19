@@ -90,58 +90,68 @@ class _ManageChecklistScreenState extends ConsumerState<ManageChecklistScreen>
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      builder: (ctx) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.viewInsetsOf(ctx).bottom + 16,
-          left: 16,
-          right: 16,
-          top: 16,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              existing == null
-                  ? l.manageChecklistAddCategory
-                  : l.manageChecklistEditCategory,
-              style: Theme.of(ctx).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: nameCtrl,
-              decoration: InputDecoration(labelText: l.manageChecklistNameLabel),
-              enabled: existing == null || !existing.isFard,
-            ),
-            const SizedBox(height: 12),
-            IconPickerGrid(
-              selected: icon,
-              onSelected: (v) => icon = v,
-            ),
-            const SizedBox(height: 16),
-            FilledButton(
-              onPressed: () async {
-                final repo = ref.read(catalogRepositoryProvider);
-                final name = nameCtrl.text.trim();
-                if (name.length < 2) {
-                  return;
-                }
-                if (existing == null) {
-                  await repo.createUserCategory(name: name, icon: icon);
-                } else if (existing.isUserOwned && existing.userCategoryId != null) {
-                  await repo.updateUserCategory(
-                    existing.userCategoryId!,
-                    name: name,
-                    icon: icon,
-                  );
-                }
-                if (ctx.mounted) {
-                  Navigator.pop(ctx);
-                }
-              },
-              child: Text(l.manageChecklistSave),
-            ),
-          ],
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setSheetState) => Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.viewInsetsOf(ctx).bottom + 16,
+            left: 16,
+            right: 16,
+            top: 16,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                existing == null
+                    ? l.manageChecklistAddCategory
+                    : l.manageChecklistEditCategory,
+                style: Theme.of(ctx).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: nameCtrl,
+                decoration: InputDecoration(labelText: l.manageChecklistNameLabel),
+                enabled: existing == null || !existing.isFard,
+              ),
+              const SizedBox(height: 12),
+              IconPickerGrid(
+                selected: icon,
+                onSelected: (v) => setSheetState(() => icon = v),
+              ),
+              const SizedBox(height: 16),
+              FilledButton(
+                onPressed: () async {
+                  final repo = ref.read(catalogRepositoryProvider);
+                  final name = nameCtrl.text.trim();
+                  if (name.length < 2) {
+                    return;
+                  }
+                  if (existing == null) {
+                    await repo.createUserCategory(name: name, icon: icon);
+                  } else if (existing.isUserOwned &&
+                      existing.userCategoryId != null) {
+                    await repo.updateUserCategory(
+                      existing.userCategoryId!,
+                      name: name,
+                      icon: icon,
+                    );
+                  } else if (existing.defaultCode != null) {
+                    await repo.upsertCategoryOverride(
+                      categoryCode: existing.defaultCode!,
+                      hidden: !existing.isVisible,
+                      customName: existing.isFard ? null : name,
+                      customIcon: icon,
+                    );
+                  }
+                  if (ctx.mounted) {
+                    Navigator.pop(ctx);
+                  }
+                },
+                child: Text(l.manageChecklistSave),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -152,124 +162,142 @@ class _ManageChecklistScreenState extends ConsumerState<ManageChecklistScreen>
     AppLocalizations l, {
     EffectiveTask? existing,
   }) async {
-    final catalog = ref.read(effectiveCatalogProvider).value;
-    if (catalog == null) {
-      return;
-    }
     final nameCtrl = TextEditingController(text: existing?.displayName ?? '');
     var icon = existing?.icon ?? 'star';
     var points = (existing?.points ?? 2).toDouble();
-    var categoryKey = existing?.categoryKey ?? catalog.categories.first.key;
+    var categoryKey = existing?.categoryKey;
 
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      builder: (ctx) => StatefulBuilder(
-        builder: (ctx, setSheetState) => Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.viewInsetsOf(ctx).bottom + 16,
-            left: 16,
-            right: 16,
-            top: 16,
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  existing == null
-                      ? l.manageChecklistAddTask
-                      : l.manageChecklistEditTask,
-                  style: Theme.of(ctx).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: nameCtrl,
-                  decoration:
-                      InputDecoration(labelText: l.manageChecklistNameLabel),
-                ),
-                const SizedBox(height: 8),
-                DropdownButtonFormField<String>(
-                  value: categoryKey,
-                  decoration: InputDecoration(
-                    labelText: l.manageChecklistCategoryLabel,
-                  ),
-                  items: [
-                    for (final c in catalog.categories)
-                      DropdownMenuItem(
-                        value: c.key,
-                        child: Text(c.displayName),
+      builder: (ctx) => Consumer(
+        builder: (ctx, ref, _) {
+          final catalog = ref.watch(manageEffectiveCatalogProvider).value;
+          if (catalog == null) {
+            return const Padding(
+              padding: EdgeInsets.all(32),
+              child: Center(child: CircularProgressIndicator()),
+            );
+          }
+          final selectableCategories =
+              catalog.categories.where((c) => c.isVisible).toList();
+          if (selectableCategories.isEmpty) {
+            return const SizedBox.shrink();
+          }
+          categoryKey ??= selectableCategories.first.key;
+          if (!selectableCategories.any((c) => c.key == categoryKey)) {
+            categoryKey = selectableCategories.first.key;
+          }
+
+          return StatefulBuilder(
+            builder: (ctx, setSheetState) => Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.viewInsetsOf(ctx).bottom + 16,
+                left: 16,
+                right: 16,
+                top: 16,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      existing == null
+                          ? l.manageChecklistAddTask
+                          : l.manageChecklistEditTask,
+                      style: Theme.of(ctx).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: nameCtrl,
+                      decoration: InputDecoration(
+                        labelText: l.manageChecklistNameLabel,
                       ),
+                    ),
+                    const SizedBox(height: 8),
+                    DropdownButtonFormField<String>(
+                      value: categoryKey,
+                      decoration: InputDecoration(
+                        labelText: l.manageChecklistCategoryLabel,
+                      ),
+                      items: [
+                        for (final c in selectableCategories)
+                          DropdownMenuItem(
+                            value: c.key,
+                            child: Text(c.displayName),
+                          ),
+                      ],
+                      onChanged: (v) {
+                        if (v != null) {
+                          setSheetState(() => categoryKey = v);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    Text('${points.round()} ${l.pointsLabel}'),
+                    Slider(
+                      value: points,
+                      min: 1,
+                      max: 20,
+                      divisions: 19,
+                      label: '${points.round()}',
+                      onChanged: (v) => setSheetState(() => points = v),
+                    ),
+                    IconPickerGrid(
+                      selected: icon,
+                      onSelected: (v) => setSheetState(() => icon = v),
+                    ),
+                    const SizedBox(height: 16),
+                    FilledButton(
+                      onPressed: () async {
+                        final repo = ref.read(catalogRepositoryProvider);
+                        final name = nameCtrl.text.trim();
+                        if (name.length < 2) {
+                          return;
+                        }
+                        final cat = selectableCategories
+                            .firstWhere((c) => c.key == categoryKey);
+                        final categoryRef = cat.isUserOwned
+                            ? 'userCategory:${cat.userCategoryId}'
+                            : 'category:${cat.defaultCode}';
+                        final pts = points.round();
+                        if (existing == null) {
+                          await repo.createUserTask(
+                            name: name,
+                            categoryRef: categoryRef,
+                            points: pts,
+                            icon: icon,
+                          );
+                        } else if (existing.isUserOwned) {
+                          await repo.updateUserTask(
+                            existing.id,
+                            name: name,
+                            categoryRef: categoryRef,
+                            points: pts,
+                            icon: icon,
+                          );
+                        } else if (existing.defaultCode != null) {
+                          await repo.upsertTaskOverride(
+                            taskCode: existing.defaultCode!,
+                            customName: name,
+                            customPoints: pts,
+                            customIcon: icon,
+                            customCategoryRef: categoryRef,
+                          );
+                        }
+                        if (ctx.mounted) {
+                          Navigator.pop(ctx);
+                        }
+                      },
+                      child: Text(l.manageChecklistSave),
+                    ),
                   ],
-                  onChanged: (v) {
-                    if (v != null) {
-                      setSheetState(() => categoryKey = v);
-                    }
-                  },
                 ),
-                const SizedBox(height: 8),
-                Text('${points.round()} ${l.pointsLabel}'),
-                Slider(
-                  value: points,
-                  min: 1,
-                  max: 20,
-                  divisions: 19,
-                  label: '${points.round()}',
-                  onChanged: (v) => setSheetState(() => points = v),
-                ),
-                IconPickerGrid(
-                  selected: icon,
-                  onSelected: (v) => setSheetState(() => icon = v),
-                ),
-                const SizedBox(height: 16),
-                FilledButton(
-                  onPressed: () async {
-                    final repo = ref.read(catalogRepositoryProvider);
-                    final name = nameCtrl.text.trim();
-                    if (name.length < 2) {
-                      return;
-                    }
-                    final cat = catalog.categories
-                        .firstWhere((c) => c.key == categoryKey);
-                    final categoryRef = cat.isUserOwned
-                        ? 'userCategory:${cat.userCategoryId}'
-                        : 'category:${cat.defaultCode}';
-                    final pts = points.round();
-                    if (existing == null) {
-                      await repo.createUserTask(
-                        name: name,
-                        categoryRef: categoryRef,
-                        points: pts,
-                        icon: icon,
-                      );
-                    } else if (existing.isUserOwned) {
-                      await repo.updateUserTask(
-                        existing.id,
-                        name: name,
-                        categoryRef: categoryRef,
-                        points: pts,
-                        icon: icon,
-                      );
-                    } else if (existing.defaultCode != null) {
-                      await repo.upsertTaskOverride(
-                        taskCode: existing.defaultCode!,
-                        customName: name,
-                        customPoints: pts,
-                        customIcon: icon,
-                        customCategoryRef: categoryRef,
-                      );
-                    }
-                    if (ctx.mounted) {
-                      Navigator.pop(ctx);
-                    }
-                  },
-                  child: Text(l.manageChecklistSave),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -394,124 +422,217 @@ class _TasksTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final repo = ref.read(catalogRepositoryProvider);
     final grouped = catalog.tasksByCategoryKey();
-    final items = <EffectiveTask>[];
-    for (final cat in catalog.categories) {
-      items.addAll(grouped[cat.key] ?? []);
-    }
 
-    return ListView.builder(
+    return ListView(
       padding: const EdgeInsets.all(16),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        final task = items[index];
-        return ListTile(
-          leading: Icon(curatedIconData(task.icon)),
-          title: Text(task.displayName),
-          subtitle: Text('${task.points} ${l.pointsLabel}'),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Tooltip(
-                message: task.isVisible
-                    ? l.manageChecklistTooltipHide
-                    : l.manageChecklistTooltipShow,
-                child: Switch(
-                  value: task.isVisible,
-                  onChanged: (visible) async {
-                    if (task.isUserOwned) {
-                      if (visible) {
-                        await repo.restoreUserTask(task.id);
-                      } else {
-                        await repo.deleteUserTask(task.id, archive: true);
-                      }
-                    } else if (task.defaultCode != null) {
-                      if (!visible) {
-                        if (fardAnchorTaskIds.contains(task.defaultCode)) {
-                          final ok = await showDialog<bool>(
-                            context: context,
-                            builder: (ctx) => AlertDialog(
-                              title: Text(l.manageChecklistFardHideTitle),
-                              content: Text(l.manageChecklistFardHideBody),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(ctx, false),
-                                  child: Text(l.manageChecklistCancel),
-                                ),
-                                TextButton(
-                                  onPressed: () => Navigator.pop(ctx, true),
-                                  child: Text(l.manageChecklistHide),
-                                ),
-                              ],
-                            ),
-                          );
-                          if (ok != true) {
-                            return;
-                          }
-                        }
-                        await repo.upsertTaskOverride(
-                          taskCode: task.defaultCode!,
-                          hidden: true,
-                        );
-                      } else {
-                        await repo.clearTaskOverride(task.defaultCode!);
-                      }
-                    }
-                  },
+      children: [
+        for (final cat in catalog.categories) ...[
+          if ((grouped[cat.key] ?? []).isNotEmpty) ...[
+            _ManageTasksCategorySection(
+              category: cat,
+              tasks: grouped[cat.key]!,
+              l: l,
+            ),
+            const SizedBox(height: 16),
+          ],
+        ],
+      ],
+    );
+  }
+}
+
+class _ManageTasksCategorySection extends ConsumerWidget {
+  const _ManageTasksCategorySection({
+    required this.category,
+    required this.tasks,
+    required this.l,
+  });
+
+  final EffectiveCategory category;
+  final List<EffectiveTask> tasks;
+  final AppLocalizations l;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Icon(
+              curatedIconData(category.icon),
+              color: scheme.primary,
+              size: 22,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                category.displayName,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-              if (task.isUserOwned)
-                PopupMenuButton<String>(
-                  itemBuilder: (ctx) => [
-                    PopupMenuItem(
-                      value: 'edit',
-                      child: Text(l.manageChecklistEditTask),
+            ),
+            if (category.isFard)
+              Icon(
+                Icons.lock_outline_rounded,
+                size: 18,
+                color: scheme.outline,
+              ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Container(
+          decoration: BoxDecoration(
+            color: scheme.surfaceContainerLow,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: scheme.outlineVariant.withValues(alpha: 0.4),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsetsDirectional.symmetric(
+              horizontal: 6,
+              vertical: 6,
+            ),
+            child: Column(
+              children: [
+                for (var i = 0; i < tasks.length; i++) ...[
+                  _ManageTaskListTile(task: tasks[i], l: l),
+                  if (i != tasks.length - 1)
+                    Divider(
+                      height: 1,
+                      thickness: 1,
+                      indent: 12,
+                      endIndent: 12,
+                      color: scheme.outlineVariant.withValues(alpha: 0.35),
                     ),
-                    PopupMenuItem(
-                      value: 'remove',
-                      child: Text(l.manageChecklistRemovePermanently),
-                    ),
-                  ],
-                  onSelected: (value) async {
-                    if (value == 'edit') {
-                      context
-                          .findAncestorStateOfType<
-                              _ManageChecklistScreenState>()
-                          ?.openTaskEditor(task);
-                    } else if (value == 'remove') {
-                      final logCount =
-                          await repo.countDailyLogsForUserTask(task.id);
-                      if (!context.mounted) {
+                ],
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ManageTaskListTile extends ConsumerWidget {
+  const _ManageTaskListTile({required this.task, required this.l});
+
+  final EffectiveTask task;
+  final AppLocalizations l;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final repo = ref.read(catalogRepositoryProvider);
+
+    return ListTile(
+      leading: Icon(curatedIconData(task.icon)),
+      title: Text(task.displayName),
+      subtitle: Text('${task.points} ${l.pointsLabel}'),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Tooltip(
+            message: task.isVisible
+                ? l.manageChecklistTooltipHide
+                : l.manageChecklistTooltipShow,
+            child: Switch(
+              value: task.isVisible,
+              onChanged: (visible) async {
+                if (task.isUserOwned) {
+                  if (visible) {
+                    await repo.restoreUserTask(task.id);
+                  } else {
+                    await repo.deleteUserTask(task.id, archive: true);
+                  }
+                } else if (task.defaultCode != null) {
+                  if (!visible) {
+                    if (fardAnchorTaskIds.contains(task.defaultCode)) {
+                      final ok = await showDialog<bool>(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text(l.manageChecklistFardHideTitle),
+                          content: Text(l.manageChecklistFardHideBody),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(ctx, false),
+                              child: Text(l.manageChecklistCancel),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(ctx, true),
+                              child: Text(l.manageChecklistHide),
+                            ),
+                          ],
+                        ),
+                      );
+                      if (ok != true) {
                         return;
                       }
-                      await showRemovePermanentlySheet(
-                        context: context,
-                        ref: ref,
-                        l: l,
-                        isCategory: false,
-                        id: task.id,
-                        logCount: logCount,
-                        onHideInstead: () =>
-                            repo.deleteUserTask(task.id, archive: true),
-                      );
                     }
-                  },
-                )
-              else
-                IconButton(
-                  icon: const Icon(Icons.edit_outlined),
-                  onPressed: () {
-                    context
-                        .findAncestorStateOfType<
-                            _ManageChecklistScreenState>()
-                        ?.openTaskEditor(task);
-                  },
-                ),
-            ],
+                    await repo.upsertTaskOverride(
+                      taskCode: task.defaultCode!,
+                      hidden: true,
+                    );
+                  } else {
+                    await repo.clearTaskOverride(task.defaultCode!);
+                  }
+                }
+              },
+            ),
           ),
-        );
-      },
+          if (task.isUserOwned)
+            PopupMenuButton<String>(
+              itemBuilder: (ctx) => [
+                PopupMenuItem(
+                  value: 'edit',
+                  child: Text(l.manageChecklistEditTask),
+                ),
+                PopupMenuItem(
+                  value: 'remove',
+                  child: Text(l.manageChecklistRemovePermanently),
+                ),
+              ],
+              onSelected: (value) async {
+                if (value == 'edit') {
+                  context
+                      .findAncestorStateOfType<_ManageChecklistScreenState>()
+                      ?.openTaskEditor(task);
+                } else if (value == 'remove') {
+                  final logCount =
+                      await repo.countDailyLogsForUserTask(task.id);
+                  if (!context.mounted) {
+                    return;
+                  }
+                  await showRemovePermanentlySheet(
+                    context: context,
+                    ref: ref,
+                    l: l,
+                    isCategory: false,
+                    id: task.id,
+                    logCount: logCount,
+                    onHideInstead: () =>
+                        repo.deleteUserTask(task.id, archive: true),
+                  );
+                }
+              },
+            )
+          else
+            IconButton(
+              icon: const Icon(Icons.edit_outlined),
+              onPressed: () {
+                context
+                    .findAncestorStateOfType<_ManageChecklistScreenState>()
+                    ?.openTaskEditor(task);
+              },
+            ),
+        ],
+      ),
     );
   }
 }

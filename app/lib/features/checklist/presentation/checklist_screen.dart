@@ -58,7 +58,7 @@ class ChecklistScreen extends ConsumerWidget {
           return CustomScrollView(
             slivers: [
               const SliverToBoxAdapter(child: DayPickerBar()),
-              const SliverToBoxAdapter(child: HistoryStrip()),
+              // const SliverToBoxAdapter(child: HistoryStrip()),
               const SliverToBoxAdapter(child: ChecklistProgressHeader()),
               const SliverToBoxAdapter(child: StreakPills()),
               for (final cat in catalog.categories)

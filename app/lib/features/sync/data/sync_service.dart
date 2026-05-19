@@ -163,12 +163,36 @@ class SyncService {
           await api.batchUpsert(logItems);
         }
         if (customizationOps.isNotEmpty) {
-          await api.batchCustomizations(customizationOps);
+          final outcomes = await api.batchCustomizations(customizationOps);
+          final appliedOpIds = <String>{};
+          for (final outcome in outcomes) {
+            if (outcome['applied'] == true) {
+              appliedOpIds.add(outcome['opId'] as String);
+            }
+          }
+          final customizationOpIds = customizationOps
+              .map((o) => o['opId'] as String)
+              .toSet();
+          final idsToDelete = ops
+              .where(
+                (o) =>
+                    o.opType == 'batch_log' ||
+                    !customizationOpIds.contains('${o.id}') ||
+                    appliedOpIds.contains('${o.id}'),
+              )
+              .map((o) => o.id)
+              .toList();
+          if (idsToDelete.isNotEmpty) {
+            await (db.delete(db.pendingSyncOps)
+                  ..where((t) => t.id.isIn(idsToDelete)))
+                .go();
+          }
+        } else {
+          final ids = ops.map((o) => o.id).toList();
+          await (db.delete(db.pendingSyncOps)
+                ..where((t) => t.id.isIn(ids)))
+              .go();
         }
-        final ids = ops.map((o) => o.id).toList();
-        await (db.delete(db.pendingSyncOps)
-              ..where((t) => t.id.isIn(ids)))
-            .go();
       } on Object catch (e) {
         for (final op in ops) {
           await (db.update(db.pendingSyncOps)..where((t) => t.id.equals(op.id)))

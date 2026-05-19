@@ -78,8 +78,14 @@ class EffectiveCategorySection extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 8),
-          for (final task in tasks)
-            EffectiveTaskRow(task: task),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final task in tasks)
+                EffectiveTaskRow(task: task),
+            ],
+          ),
         ],
       ),
     );

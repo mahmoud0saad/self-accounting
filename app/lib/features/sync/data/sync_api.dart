@@ -26,8 +26,15 @@ class SyncApi {
     await _dio.put<void>('/logs/batch', data: {'items': items});
   }
 
-  Future<void> batchCustomizations(List<Map<String, dynamic>> ops) async {
-    await _dio.put<void>('/customizations/batch', data: {'ops': ops});
+  Future<List<Map<String, dynamic>>> batchCustomizations(
+    List<Map<String, dynamic>> ops,
+  ) async {
+    final res = await _dio.put<Map<String, dynamic>>(
+      '/customizations/batch',
+      data: {'ops': ops},
+    );
+    final outcomes = res.data?['outcomes'] as List<dynamic>? ?? [];
+    return outcomes.cast<Map<String, dynamic>>();
   }
 
   Future<Map<String, dynamic>> fetchCatalog() async {
