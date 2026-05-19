@@ -29,10 +29,16 @@ class ChecklistController {
     if (!_isEditable(day)) {
       return;
     }
-    final repo = _ref.read(checklistRepositoryProvider);
-    final current = await repo.readDay(day);
-    final next = !(current[taskId] ?? false);
-    await repo.setCompletion(day: day, taskId: taskId, completed: next);
+    final cached = _ref.read(checklistStateProvider).maybeWhen(
+          data: (m) => m,
+          orElse: () => const <String, bool>{},
+        );
+    final next = !(cached[taskId] ?? false);
+    await _ref.read(checklistRepositoryProvider).setCompletion(
+          day: day,
+          taskId: taskId,
+          completed: next,
+        );
   }
 
   /// Wipes completions for the currently active day. No-op when the active

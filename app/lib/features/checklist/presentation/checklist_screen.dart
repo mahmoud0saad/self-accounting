@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/i18n/language_toggle_button.dart';
+import 'widgets/auth_app_bar_action.dart';
 import '../domain/task.dart';
 import 'providers/task_catalog_provider.dart';
 import 'widgets/category_section.dart';
@@ -45,7 +46,7 @@ class ChecklistScreen extends ConsumerWidget {
             context,
           ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
         ),
-        actions: const [LanguageToggleButton()],
+        actions: const [AuthAppBarAction(), LanguageToggleButton()],
       ),
       body: tasksAsync.when(
         data: (tasks) {

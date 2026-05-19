@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 
 import '../../../core/db/app_database.dart';
 import '../../../core/time/day_key.dart';
+import '../../sync/data/sync_service.dart';
 
 abstract class ChecklistRepository {
   Future<Map<String, bool>> readDay(DayKey day);
@@ -18,9 +19,10 @@ abstract class ChecklistRepository {
 }
 
 class DriftChecklistRepository implements ChecklistRepository {
-  DriftChecklistRepository(this._db);
+  DriftChecklistRepository(this._db, {SyncService? sync}) : _sync = sync;
 
   final AppDatabase _db;
+  final SyncService? _sync;
 
   @override
   Future<Map<String, bool>> readDay(DayKey day) async {
@@ -35,16 +37,25 @@ class DriftChecklistRepository implements ChecklistRepository {
     required DayKey day,
     required String taskId,
     required bool completed,
-  }) {
-    return _db
-        .into(_db.dailyLogs)
-        .insertOnConflictUpdate(
-          DailyLogsCompanion.insert(
-            date: day.toIsoDate(),
-            taskId: taskId,
-            completed: Value(completed),
-          ),
-        );
+  }) async {
+    final now = DateTime.now().toUtc();
+    final dateIso = day.toIsoDate();
+    await _db.transaction(() async {
+      await _db.into(_db.dailyLogs).insertOnConflictUpdate(
+            DailyLogsCompanion.insert(
+              date: dateIso,
+              taskId: taskId,
+              completed: Value(completed),
+              updatedAt: Value(now),
+            ),
+          );
+      await _sync?.enqueueLogOp(
+        date: dateIso,
+        taskId: taskId,
+        completed: completed,
+        clientUpdatedAt: now,
+      );
+    });
   }
 
   @override

@@ -209,5 +209,42 @@
     "placeholders": {
       "days": { "type": "int" }
     }
-  }
+  },
+
+  "authSignInTitle": "تسجيل الدخول",
+  "authSignUpTitle": "إنشاء حساب",
+  "authEmailLabel": "البريد الإلكتروني",
+  "authEmailInvalid": "أدخل بريدًا إلكترونيًا صالحًا",
+  "authPasswordLabel": "كلمة المرور",
+  "authPasswordTooShort": "استخدم 8 أحرف على الأقل",
+  "authConfirmPasswordLabel": "تأكيد كلمة المرور",
+  "authPasswordMismatch": "كلمتا المرور غير متطابقتين",
+  "authFullNameLabel": "الاسم الكامل",
+  "authFullNameInvalid": "يجب أن يكون الاسم حرفين على الأقل",
+  "authNoAccountPrompt": "جديد هنا؟ أنشئ حسابًا",
+  "authHaveAccountPrompt": "لديك حساب؟ سجّل الدخول",
+  "authConfirmEmailTitle": "أكّد بريدك الإلكتروني",
+  "authConfirmEmailCodeBody": "أرسلنا رمزًا من 6 أرقام إلى {email}. أدخله أدناه.",
+  "authConfirmationCodeLabel": "رمز التأكيد",
+  "authConfirmCodeButton": "تأكيد البريد",
+  "authCodeInvalid": "أدخل الرمز المكوّن من 6 أرقام من بريدك",
+  "authEmailConfirmedSignIn": "تم تأكيد البريد. يمكنك تسجيل الدخول الآن.",
+  "authResendConfirmation": "إعادة إرسال الرمز",
+  "authResendSent": "إن وُجد حساب، أُرسل رمز جديد.",
+  "authSignOut": "تسجيل الخروج",
+  "authSignOutConfirm": "تسجيل الخروج؟ تبقى بياناتك على هذا الجهاز.",
+  "authSignOutCancel": "البقاء مسجّلًا",
+  "syncHistorySnack": "تمت مزامنة {days} يومًا من السجل.",
+  "syncLoadingMessage": "جارٍ مزامنة بياناتك…",
+  "profileTitle": "الملف الشخصي",
+  "profileSave": "حفظ",
+  "profilePhotoUrlLabel": "رابط الصورة (اختياري)",
+  "profileTimezoneLabel": "المنطقة الزمنية (اختياري)",
+  "profileLocaleLabel": "اللغة",
+  "profileLocaleEn": "English",
+  "profileLocaleAr": "العربية",
+  "profileBioLabel": "نبذة (اختياري)",
+  "settingsAccountTitle": "الحساب",
+  "settingsSyncNow": "مزامنة الآن",
+  "settingsSyncDone": "اكتملت المزامنة."
 }

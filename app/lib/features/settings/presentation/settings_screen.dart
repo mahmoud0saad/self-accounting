@@ -2,9 +2,12 @@ import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../auth/presentation/providers/auth_provider.dart';
 import '../../checklist/domain/task.dart';
+import '../../sync/data/sync_service.dart';
 import '../../checklist/presentation/providers/task_catalog_provider.dart';
 import '../../notifications/notification_service.dart';
 import '../../notifications/providers/app_localizations_provider.dart';
@@ -41,11 +44,45 @@ class SettingsScreen extends ConsumerWidget {
     final notificationsEnabled = ref.watch(notificationsEnabledProvider);
     final tasks = ref.watch(taskCatalogProvider);
     final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
+    final auth = ref.watch(authNotifierProvider);
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(title: Text(l.settingsTitle), pinned: true),
+          if (auth.status == AuthStatus.authenticated)
+            SliverToBoxAdapter(
+              child: SettingsSectionCard(
+                title: l.settingsAccountTitle,
+                child: Column(
+                  children: [
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(l.settingsSyncNow),
+                      trailing: const Icon(Icons.sync_rounded),
+                      onTap: () async {
+                        await ref.read(syncServiceProvider).syncNow();
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(l.settingsSyncDone)),
+                          );
+                        }
+                      },
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(
+                        l.authSignOut,
+                        style: TextStyle(
+                          color: const Color(0xFFC98E1A),
+                        ),
+                      ),
+                      onTap: () => _confirmSignOut(context, ref, l),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           SliverToBoxAdapter(
             child: SettingsSectionCard(
               title: l.settingsNotificationsTitle,
@@ -66,6 +103,39 @@ class SettingsScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  static Future<void> _confirmSignOut(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l,
+  ) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l.authSignOut),
+        content: Text(l.authSignOutConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(l.authSignOutCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(
+              l.authSignOut,
+              style: const TextStyle(color: Color(0xFFC98E1A)),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (ok == true) {
+      await ref.read(authNotifierProvider.notifier).signOut();
+      if (context.mounted) {
+        context.go('/');
+      }
+    }
   }
 
   Widget _notificationsBody(

@@ -84,6 +84,9 @@ Tiny phases (~3–5 days each). Each phase is independently shippable, demoable,
 - Flutter: optional sign-in flow; on sign-in, merge local data → server.
 - Sync queue: offline writes replay when online.
 - Conflict resolution: last-write-wins on `(user_id, date, task_id)`.
+- implement senario for signed-in optional flow on mobile  show btn login if not on home screen and show name if is already login and make btn sign out in setting and other senario for login or not 
+- add more detail for user like { full name required ,photo optional, and other make optional } 
+- Please add the email (SMTP) feature integration (anti.mahmoud.saad.6@gmail.com) for confirm email when sign up 
 
 **Exit:** A signed-in user can log on phone, open the web build, and see identical state.
 
@@ -92,11 +95,10 @@ Tiny phases (~3–5 days each). Each phase is independently shippable, demoable,
 ## Phase 7 — Task Customization (4 days)
 **Goal:** User-defined tasks and weights.
 
-- CRUD UI for custom tasks (name, category, points, icon).
+- CRUD UI for custom tasks and category (name, category, points, icon).
 - Ability to hide/disable default tasks without deleting them.
 - Validations: prevent negative points; cap per-task points to keep system balanced.
 - Sync custom tasks if signed in.
-
 **Exit:** Users can fully tailor their checklist to their own routine.
 
 ---
