@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 
 import '../../../core/db/app_database.dart';
 import '../../../core/time/day_key.dart';
-import '../../sync/data/sync_service.dart';
+import '../../sync/data/sync_log_enqueue.dart';
 
 /// Fast-path hint for locally created ids; not sufficient on its own after sync.
 bool isUserOwnedTaskLogId(String taskId) => taskId.startsWith('ut_');
@@ -36,10 +36,10 @@ abstract class ChecklistRepository {
 }
 
 class DriftChecklistRepository implements ChecklistRepository {
-  DriftChecklistRepository(this._db, {SyncService? sync}) : _sync = sync;
+  DriftChecklistRepository(this._db, {SyncLogEnqueue? sync}) : _sync = sync;
 
   final AppDatabase _db;
-  final SyncService? _sync;
+  final SyncLogEnqueue? _sync;
 
   @override
   Future<Map<String, bool>> readDay(DayKey day) async {
@@ -70,14 +70,13 @@ class DriftChecklistRepository implements ChecklistRepository {
         completed: completed,
         updatedAt: now,
       );
-      if (!isUserTask) {
-        await _sync?.enqueueLogOp(
-          date: dateIso,
-          taskId: taskId,
-          completed: completed,
-          clientUpdatedAt: now,
-        );
-      }
+      await _sync?.enqueueLogOp(
+        date: dateIso,
+        taskId: isUserTask ? null : taskId,
+        userTaskId: isUserTask ? taskId : null,
+        completed: completed,
+        clientUpdatedAt: now,
+      );
     });
   }
 

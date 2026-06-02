@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:app/core/db/app_database.dart';
 import 'package:app/core/time/day_key.dart';
 import 'package:app/features/checklist/data/checklist_repository.dart';
+import 'package:app/features/sync/data/sync_log_enqueue.dart';
 
 void main() {
   test('Fajr completions persist across database close and reopen', () async {
@@ -121,6 +122,40 @@ void main() {
     expect(m12, isEmpty);
   });
 
+  test('user-owned task completion enqueues sync with userTaskId', () async {
+    final db = AppDatabase(NativeDatabase.memory());
+    await db.seedAndReconcile();
+
+    const userTaskId = 'ut_test_task_1';
+    await db.into(db.userTasks).insert(
+          UserTasksCompanion.insert(
+            id: userTaskId,
+            categoryRef: 'category:miscAdhkar',
+            name: 'قراءه حزب',
+            points: 5,
+            icon: 'star',
+            sortOrder: 0,
+          ),
+        );
+
+    final recording = _RecordingSyncEnqueue();
+    final repo = DriftChecklistRepository(db, sync: recording);
+    final day = DayKey(year: 2026, month: 6, day: 2);
+
+    await repo.setCompletion(
+      day: day,
+      taskId: userTaskId,
+      completed: true,
+    );
+
+    expect(recording.calls, hasLength(1));
+    final call = recording.calls.single;
+    expect(call['date'], '2026-06-02');
+    expect(call['userTaskId'], userTaskId);
+    expect(call['taskId'], isNull);
+    expect(call['completed'], isTrue);
+  });
+
   test('user-owned task completion persists without FK error', () async {
     final db = AppDatabase(NativeDatabase.memory());
     await db.seedAndReconcile();
@@ -188,4 +223,24 @@ void main() {
     expect(row.taskId, isNull);
     expect(row.userTaskId, restoredId);
   });
+}
+
+class _RecordingSyncEnqueue implements SyncLogEnqueue {
+  final List<Map<String, dynamic>> calls = [];
+
+  @override
+  Future<void> enqueueLogOp({
+    required String date,
+    String? taskId,
+    String? userTaskId,
+    required bool completed,
+    required DateTime clientUpdatedAt,
+  }) async {
+    calls.add({
+      'date': date,
+      'taskId': taskId,
+      'userTaskId': userTaskId,
+      'completed': completed,
+    });
+  }
 }

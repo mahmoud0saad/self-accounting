@@ -4,15 +4,15 @@ import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/db/app_database.dart';
-import '../../checklist/data/checklist_repository.dart';
 import '../../../core/db/app_database_provider.dart';
 import '../../../core/time/day_key.dart';
 import '../../auth/data/token_storage.dart';
 import '../../auth/presentation/providers/auth_provider.dart';
 import 'sync_api.dart';
 import 'sync_constants.dart';
+import 'sync_log_enqueue.dart';
 
-class SyncService {
+class SyncService implements SyncLogEnqueue {
   SyncService({
     required this.db,
     required this.api,
@@ -37,20 +37,30 @@ class SyncService {
 
   Future<void> enqueueLogOp({
     required String date,
-    required String taskId,
+    String? taskId,
+    String? userTaskId,
     required bool completed,
     required DateTime clientUpdatedAt,
   }) async {
-    final payload = jsonEncode({
+    assert(
+      (taskId != null) != (userTaskId != null),
+      'Exactly one of taskId or userTaskId must be set',
+    );
+    final payload = <String, dynamic>{
       'date': date,
-      'taskId': taskId,
       'completed': completed,
       'clientUpdatedAt': clientUpdatedAt.toUtc().toIso8601String(),
-    });
+    };
+    if (userTaskId != null) {
+      payload['userTaskId'] = userTaskId;
+    } else {
+      payload['taskId'] = taskId;
+    }
+    final payloadJson = jsonEncode(payload);
     await db.into(db.pendingSyncOps).insert(
       PendingSyncOpsCompanion.insert(
         opType: 'batch_log',
-        payloadJson: payload,
+        payloadJson: payloadJson,
         clientUpdatedAt: clientUpdatedAt.toUtc(),
       ),
     );
@@ -158,12 +168,36 @@ class SyncService {
     if (_inflight != null) {
       // Re-arm a trailing pass so ops enqueued during this run are not missed.
       _pending = true;
-      return _inflight;
+      await _inflight;
+      if (_pending) {
+        _pending = false;
+        await syncNow();
+      }
+      return;
     }
-    final future = _runSyncCycle();
-    _inflight = future;
+    await _runExclusive(_runSyncCycle);
+  }
+
+  /// Waits until no sync operation is in flight, then runs a trailing cycle if
+  /// one was re-armed during the wait.
+  Future<void> waitForIdle() async {
+    while (_inflight != null) {
+      await _inflight;
+    }
+    if (_pending) {
+      await syncNow();
+    }
+  }
+
+  Future<T> _runExclusive<T>(Future<T> Function() action) async {
+    while (_inflight != null) {
+      await _inflight;
+    }
+    late final Future<T> work;
+    work = action();
+    _inflight = work.then((_) {}, onError: (_) {});
     try {
-      await future;
+      return await work;
     } finally {
       _inflight = null;
     }
@@ -172,12 +206,17 @@ class SyncService {
   Future<void> _runSyncCycle() async {
     do {
       _pending = false;
-      await drainOutbound();
-      await pullDeltas();
+      await _drainOutbound();
+      await _pullDeltas();
     } while (_pending);
   }
 
-  Future<void> drainOutbound() async {
+  Future<void> drainOutbound() =>
+      _runExclusive(_drainOutbound);
+
+  Future<void> pullDeltas() => _runExclusive(_pullDeltas);
+
+  Future<void> _drainOutbound() async {
     if (!canSync) {
       return;
     }
@@ -213,9 +252,6 @@ class SyncService {
         }
       }
       try {
-        if (logItems.isNotEmpty) {
-          await api.batchUpsert(logItems);
-        }
         final appliedOpIds = <String>{};
         if (customizationOps.isNotEmpty) {
           final outcomes = await api.batchCustomizations(customizationOps);
@@ -232,6 +268,9 @@ class SyncService {
               appliedOpIds.add(outcome['opId'] as String);
             }
           }
+        }
+        if (logItems.isNotEmpty) {
+          await api.batchUpsert(logItems);
         }
         final batchOpIds = {...customizationOps, ...challengeOps}
             .map((o) => o['opId'] as String)
@@ -272,7 +311,7 @@ class SyncService {
     }
   }
 
-  Future<void> pullDeltas() async {
+  Future<void> _pullDeltas() async {
     if (!canSync) {
       return;
     }
@@ -281,15 +320,44 @@ class SyncService {
         await storage.readSyncCursor(userId) ?? '2000-01-01';
     final today = DayKey.today().toIsoDate();
     final remote = await api.fetchLogs(from: cursor, to: today);
+    final localUserTaskIds = (await db.select(db.userTasks).get())
+        .map((t) => t.id)
+        .toSet();
+    final localTaskIds =
+        (await db.select(db.tasks).get()).map((t) => t.id).toSet();
+    var skippedOrphans = false;
+
     for (final row in remote) {
       final date = row['date'] as String;
-      final taskId = row['taskId'] as String;
+      final taskId = row['taskId'] as String?;
+      final userTaskId = row['userTaskId'] as String?;
       final completed = row['completed'] as bool;
       final remoteAt =
           DateTime.parse(row['updatedAt'] as String).toUtc();
 
+      if (userTaskId != null && !localUserTaskIds.contains(userTaskId)) {
+        skippedOrphans = true;
+        continue;
+      }
+      if (taskId != null && !localTaskIds.contains(taskId)) {
+        skippedOrphans = true;
+        continue;
+      }
+      if (userTaskId == null && taskId == null) {
+        continue;
+      }
+
       final local = await (db.select(db.dailyLogs)
-            ..where((r) => r.date.equals(date) & r.taskId.equals(taskId)))
+            ..where((r) {
+              final dateMatch = r.date.equals(date);
+              if (userTaskId != null) {
+                return dateMatch & r.userTaskId.equals(userTaskId);
+              }
+              if (taskId != null) {
+                return dateMatch & r.taskId.equals(taskId);
+              }
+              return dateMatch;
+            }))
           .getSingleOrNull();
       if (local != null && local.updatedAt.isAfter(remoteAt)) {
         continue;
@@ -306,14 +374,19 @@ class SyncService {
         await db.into(db.dailyLogs).insert(
           DailyLogsCompanion.insert(
             date: date,
-            taskId: Value(taskId),
+            taskId: userTaskId != null
+                ? const Value.absent()
+                : Value(taskId),
+            userTaskId: userTaskId != null
+                ? Value(userTaskId)
+                : const Value.absent(),
             completed: Value(completed),
             updatedAt: Value(remoteAt),
           ),
         );
       }
     }
-    if (remote.isNotEmpty) {
+    if (!skippedOrphans) {
       await storage.writeSyncCursor(userId, today);
     }
   }
@@ -327,29 +400,39 @@ class SyncService {
       return 0;
     }
 
-    await pullDeltas();
+    return _runExclusive(() async {
+      await _pullDeltas();
 
-    final allLogs = await db.select(db.dailyLogs).get();
-    for (final log in allLogs) {
-      final taskId = log.taskId;
-      if (taskId == null) {
-        continue;
+      final allLogs = await db.select(db.dailyLogs).get();
+      for (final log in allLogs) {
+        if (log.userTaskId != null) {
+          await enqueueLogOp(
+            date: log.date,
+            userTaskId: log.userTaskId,
+            completed: log.completed,
+            clientUpdatedAt: log.updatedAt.toUtc(),
+          );
+          continue;
+        }
+        final taskId = log.taskId;
+        if (taskId == null) {
+          continue;
+        }
+        await enqueueLogOp(
+          date: log.date,
+          taskId: taskId,
+          completed: log.completed,
+          clientUpdatedAt: log.updatedAt.toUtc(),
+        );
       }
-      if (await resolveIsUserOwnedTask(db, taskId)) {
-        continue;
-      }
-      await enqueueLogOp(
-        date: log.date,
-        taskId: taskId,
-        completed: log.completed,
-        clientUpdatedAt: log.updatedAt.toUtc(),
-      );
-    }
-    await drainOutbound();
-    await storage.markFirstSyncDone(userId);
+      await _drainOutbound();
+      await storage.markFirstSyncDone(userId);
 
-    final days = allLogs.map((l) => l.date).toSet().length;
-    return days;
+      final today = DayKey.today().toIsoDate();
+      await storage.writeSyncCursor(userId, today);
+
+      return allLogs.map((l) => l.date).toSet().length;
+    });
   }
 }
 

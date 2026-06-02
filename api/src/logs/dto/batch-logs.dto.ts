@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   ArrayMaxSize,
@@ -7,6 +7,7 @@ import {
   IsDateString,
   IsString,
   Matches,
+  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 
@@ -15,9 +16,15 @@ export class BatchLogItemDto {
   @Matches(/^\d{4}-\d{2}-\d{2}$/)
   date!: string;
 
-  @ApiProperty({ example: 'fajr_waking_up_adhkar' })
+  @ApiPropertyOptional({ example: 'fajr_waking_up_adhkar' })
+  @ValidateIf((o: BatchLogItemDto) => o.userTaskId == null)
   @IsString()
-  taskId!: string;
+  taskId?: string;
+
+  @ApiPropertyOptional({ example: 'ut_abc123' })
+  @ValidateIf((o: BatchLogItemDto) => o.taskId == null)
+  @IsString()
+  userTaskId?: string;
 
   @ApiProperty()
   @IsBoolean()
