@@ -11,6 +11,7 @@ import 'widgets/checklist_progress_header.dart';
 import 'widgets/day_picker_bar.dart';
 import 'widgets/history_strip.dart';
 import 'widgets/streak_pills.dart';
+import '../../challenges/presentation/widgets/weekly_challenge_strip.dart';
 
 class ChecklistScreen extends ConsumerWidget {
   const ChecklistScreen({super.key});
@@ -61,6 +62,7 @@ class ChecklistScreen extends ConsumerWidget {
               // const SliverToBoxAdapter(child: HistoryStrip()),
               const SliverToBoxAdapter(child: ChecklistProgressHeader()),
               const SliverToBoxAdapter(child: StreakPills()),
+              const SliverToBoxAdapter(child: WeeklyChallengeStrip()),
               for (final cat in catalog.categories)
                 if ((grouped[cat.key] ?? []).isNotEmpty)
                   SliverToBoxAdapter(

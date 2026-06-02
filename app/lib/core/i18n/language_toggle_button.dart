@@ -2,29 +2,18 @@ import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'launch_locale.dart';
 import 'locale_provider.dart';
 
-/// AppBar action: cycles system → English → Arabic → system.
+/// AppBar action: cycles Arabic → English → Arabic.
 class LanguageToggleButton extends ConsumerWidget {
   const LanguageToggleButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
-    final localeOverride = ref.watch(localeProvider);
-    final systemCode = View.of(context).platformDispatcher.locale.languageCode;
-    final isArPreferred = systemCode.startsWith('ar');
-
-    final String label;
-    if (localeOverride == null) {
-      label = isArPreferred ? 'ع' : 'EN';
-    } else if (localeOverride.languageCode == 'ar') {
-      label = 'ع';
-    } else {
-      label = 'EN';
-    }
-
-    final isAuto = localeOverride == null;
+    final locale = resolveAppLocale(ref.watch(localeProvider));
+    final label = locale.languageCode == 'ar' ? 'ع' : 'EN';
 
     return Padding(
       padding: const EdgeInsetsDirectional.only(end: 4),
@@ -32,13 +21,7 @@ class LanguageToggleButton extends ConsumerWidget {
         message: l.languageToggleTooltip,
         child: TextButton(
           onPressed: () => ref.read(localeProvider.notifier).toggle(),
-          child: Text(
-            isAuto ? '$label · ${l.languageAutoSuffix}' : label,
-            style: TextStyle(
-              decoration: isAuto ? TextDecoration.underline : null,
-              decorationStyle: TextDecorationStyle.dotted,
-            ),
-          ),
+          child: Text(label),
         ),
       ),
     );

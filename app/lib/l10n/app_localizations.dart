@@ -137,7 +137,7 @@ abstract class AppLocalizations {
   /// No description provided for @languageToggleTooltip.
   ///
   /// In en, this message translates to:
-  /// **'Switch language (system, English, Arabic)'**
+  /// **'Switch language (Arabic, English)'**
   String get languageToggleTooltip;
 
   /// No description provided for @languageAutoSuffix.
@@ -488,18 +488,6 @@ abstract class AppLocalizations {
   /// **'Notifications'**
   String get settingsNotificationsTitle;
 
-  /// No description provided for @settingsNotificationsGlobalToggleLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Enable all notifications'**
-  String get settingsNotificationsGlobalToggleLabel;
-
-  /// No description provided for @settingsCategoryScheduleTimeLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'{category} · {time}'**
-  String settingsCategoryScheduleTimeLabel(String category, String time);
-
   /// No description provided for @settingsEodToggleLabel.
   ///
   /// In en, this message translates to:
@@ -545,7 +533,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingNotifBody.
   ///
   /// In en, this message translates to:
-  /// **'Allow gentle reminders so the app can nudge you at your chosen prayer times. You control which reminders you receive.'**
+  /// **'Allow a gentle end-of-day reminder when your daily completion is below 50%. You choose the time in Settings.'**
   String get onboardingNotifBody;
 
   /// No description provided for @onboardingNotifEnableButton.
@@ -560,23 +548,11 @@ abstract class AppLocalizations {
   /// **'Not now'**
   String get onboardingNotifSkipButton;
 
-  /// No description provided for @notifCategoryBody.
-  ///
-  /// In en, this message translates to:
-  /// **'{taskSummary}'**
-  String notifCategoryBody(String taskSummary);
-
   /// No description provided for @notifEodBody.
   ///
   /// In en, this message translates to:
   /// **'You\'re at {percent}% today. A few minutes of Adhkar can change the day.'**
   String notifEodBody(int percent);
-
-  /// No description provided for @settingsTaskNotifToggleA11y.
-  ///
-  /// In en, this message translates to:
-  /// **'Enable notification for {taskName}'**
-  String settingsTaskNotifToggleA11y(String taskName);
 
   /// No description provided for @dashboardTitle.
   ///
@@ -1183,6 +1159,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved your checklist to your account.'**
   String get restoreCatalogSaved;
+
+  /// No description provided for @restoreUnifiedDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore your saved data?'**
+  String get restoreUnifiedDialogTitle;
+
+  /// No description provided for @restoreUnifiedDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We found your saved checklist and your saved challenges on this account. Restoring will replace what\'s on this device — your daily progress on default tasks is kept.'**
+  String get restoreUnifiedDialogBody;
+
+  /// No description provided for @restoreChallengesDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore your saved challenges?'**
+  String get restoreChallengesDialogTitle;
+
+  /// No description provided for @restoreChallengesDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We found your saved weekly challenges on this account. Restoring will replace the challenges on this device.'**
+  String get restoreChallengesDialogBody;
+
+  /// No description provided for @challengeStartThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week: start a challenge'**
+  String get challengeStartThisWeek;
+
+  /// No description provided for @challengeBrowseTemplatesCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse templates'**
+  String get challengeBrowseTemplatesCta;
+
+  /// No description provided for @challengesThisWeekTab.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get challengesThisWeekTab;
+
+  /// No description provided for @challengesBrowseTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse'**
+  String get challengesBrowseTab;
+
+  /// No description provided for @challengeSubscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get challengeSubscribe;
+
+  /// No description provided for @challengeSubscribed.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribed'**
+  String get challengeSubscribed;
+
+  /// No description provided for @challengeProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{achieved} / {goal}'**
+  String challengeProgress(int achieved, int goal);
+
+  /// No description provided for @challengeCreateCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Create custom challenge'**
+  String get challengeCreateCustom;
+
+  /// No description provided for @challengeCustomTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get challengeCustomTitleLabel;
+
+  /// No description provided for @challengeCustomIconLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon'**
+  String get challengeCustomIconLabel;
+
+  /// No description provided for @challengeCustomSourceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get challengeCustomSourceLabel;
+
+  /// No description provided for @challengeSourceTabTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get challengeSourceTabTask;
+
+  /// No description provided for @challengeSourceTabCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get challengeSourceTabCategory;
+
+  /// No description provided for @challengeGoalDaysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal: {days} days this week'**
+  String challengeGoalDaysLabel(int days);
+
+  /// No description provided for @challengeCustomCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get challengeCustomCreate;
+
+  /// No description provided for @challengeWeekStartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Week start'**
+  String get challengeWeekStartTitle;
+
+  /// No description provided for @challengeWeekStartSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Applies to next week.'**
+  String get challengeWeekStartSubtitle;
+
+  /// No description provided for @challengeWeekStartSaturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get challengeWeekStartSaturday;
+
+  /// No description provided for @challengeWeekStartSunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get challengeWeekStartSunday;
+
+  /// No description provided for @challengeWeekStartMonday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get challengeWeekStartMonday;
+
+  /// No description provided for @challengeWeekStartSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Your new week starts {weekday}.'**
+  String challengeWeekStartSnackbar(String weekday);
+
+  /// No description provided for @challengeCelebrationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mā shā\' Allāh'**
+  String get challengeCelebrationTitle;
+
+  /// No description provided for @challengeCelebrationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} — {goal} of {goal} days this week.'**
+  String challengeCelebrationBody(String title, int goal);
+
+  /// No description provided for @challengeContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get challengeContinue;
+
+  /// No description provided for @challengeViewChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'View challenge'**
+  String get challengeViewChallenge;
+
+  /// No description provided for @challengeCompletedThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed this week'**
+  String get challengeCompletedThisWeek;
+
+  /// No description provided for @challengeTemplateFajrInJamaah.
+  ///
+  /// In en, this message translates to:
+  /// **'Pray every Fajr in congregation'**
+  String get challengeTemplateFajrInJamaah;
+
+  /// No description provided for @challengeTemplateQiyamWitrAllWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Pray Witr every night'**
+  String get challengeTemplateQiyamWitrAllWeek;
+
+  /// No description provided for @challengeTemplateReadQuranDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Read Qur\'an every day'**
+  String get challengeTemplateReadQuranDaily;
+
+  /// No description provided for @challengeTemplateTahajjudThreeNights.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand for Tahajjud three nights'**
+  String get challengeTemplateTahajjudThreeNights;
+
+  /// No description provided for @challengeTemplateFajrCategoryAllWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete the Fajr block every day'**
+  String get challengeTemplateFajrCategoryAllWeek;
+
+  /// No description provided for @challengeTemplateMorningAdhkarDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning Adhkar every morning'**
+  String get challengeTemplateMorningAdhkarDaily;
 }
 
 class _AppLocalizationsDelegate

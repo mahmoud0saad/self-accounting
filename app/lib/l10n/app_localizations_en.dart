@@ -31,8 +31,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get languageToggleTooltip =>
-      'Switch language (system, English, Arabic)';
+  String get languageToggleTooltip => 'Switch language (Arabic, English)';
 
   @override
   String get languageAutoSuffix => 'auto';
@@ -212,15 +211,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsNotificationsTitle => 'Notifications';
 
   @override
-  String get settingsNotificationsGlobalToggleLabel =>
-      'Enable all notifications';
-
-  @override
-  String settingsCategoryScheduleTimeLabel(String category, String time) {
-    return '$category · $time';
-  }
-
-  @override
   String get settingsEodToggleLabel => 'End-of-day summary';
 
   @override
@@ -249,7 +239,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingNotifBody =>
-      'Allow gentle reminders so the app can nudge you at your chosen prayer times. You control which reminders you receive.';
+      'Allow a gentle end-of-day reminder when your daily completion is below 50%. You choose the time in Settings.';
 
   @override
   String get onboardingNotifEnableButton => 'Enable notifications';
@@ -258,18 +248,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingNotifSkipButton => 'Not now';
 
   @override
-  String notifCategoryBody(String taskSummary) {
-    return '$taskSummary';
-  }
-
-  @override
   String notifEodBody(int percent) {
     return 'You\'re at $percent% today. A few minutes of Adhkar can change the day.';
-  }
-
-  @override
-  String settingsTaskNotifToggleA11y(String taskName) {
-    return 'Enable notification for $taskName';
   }
 
   @override
@@ -618,4 +598,125 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get restoreCatalogSaved => 'Saved your checklist to your account.';
+
+  @override
+  String get restoreUnifiedDialogTitle => 'Restore your saved data?';
+
+  @override
+  String get restoreUnifiedDialogBody =>
+      'We found your saved checklist and your saved challenges on this account. Restoring will replace what\'s on this device — your daily progress on default tasks is kept.';
+
+  @override
+  String get restoreChallengesDialogTitle => 'Restore your saved challenges?';
+
+  @override
+  String get restoreChallengesDialogBody =>
+      'We found your saved weekly challenges on this account. Restoring will replace the challenges on this device.';
+
+  @override
+  String get challengeStartThisWeek => 'This week: start a challenge';
+
+  @override
+  String get challengeBrowseTemplatesCta => 'Browse templates';
+
+  @override
+  String get challengesThisWeekTab => 'This week';
+
+  @override
+  String get challengesBrowseTab => 'Browse';
+
+  @override
+  String get challengeSubscribe => 'Subscribe';
+
+  @override
+  String get challengeSubscribed => 'Subscribed';
+
+  @override
+  String challengeProgress(int achieved, int goal) {
+    return '$achieved / $goal';
+  }
+
+  @override
+  String get challengeCreateCustom => 'Create custom challenge';
+
+  @override
+  String get challengeCustomTitleLabel => 'Title';
+
+  @override
+  String get challengeCustomIconLabel => 'Icon';
+
+  @override
+  String get challengeCustomSourceLabel => 'Source';
+
+  @override
+  String get challengeSourceTabTask => 'Task';
+
+  @override
+  String get challengeSourceTabCategory => 'Category';
+
+  @override
+  String challengeGoalDaysLabel(int days) {
+    return 'Goal: $days days this week';
+  }
+
+  @override
+  String get challengeCustomCreate => 'Create';
+
+  @override
+  String get challengeWeekStartTitle => 'Week start';
+
+  @override
+  String get challengeWeekStartSubtitle => 'Applies to next week.';
+
+  @override
+  String get challengeWeekStartSaturday => 'Saturday';
+
+  @override
+  String get challengeWeekStartSunday => 'Sunday';
+
+  @override
+  String get challengeWeekStartMonday => 'Monday';
+
+  @override
+  String challengeWeekStartSnackbar(String weekday) {
+    return 'Your new week starts $weekday.';
+  }
+
+  @override
+  String get challengeCelebrationTitle => 'Mā shā\' Allāh';
+
+  @override
+  String challengeCelebrationBody(String title, int goal) {
+    return '$title — $goal of $goal days this week.';
+  }
+
+  @override
+  String get challengeContinue => 'Continue';
+
+  @override
+  String get challengeViewChallenge => 'View challenge';
+
+  @override
+  String get challengeCompletedThisWeek => 'Completed this week';
+
+  @override
+  String get challengeTemplateFajrInJamaah => 'Pray every Fajr in congregation';
+
+  @override
+  String get challengeTemplateQiyamWitrAllWeek => 'Pray Witr every night';
+
+  @override
+  String get challengeTemplateReadQuranDaily => 'Read Qur\'an every day';
+
+  @override
+  String get challengeTemplateTahajjudThreeNights =>
+      'Stand for Tahajjud three nights';
+
+  @override
+  String get challengeTemplateFajrCategoryAllWeek =>
+      'Complete the Fajr block every day';
+
+  @override
+  String get challengeTemplateMorningAdhkarDaily =>
+      'Morning Adhkar every morning';
 }

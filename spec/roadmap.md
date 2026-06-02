@@ -112,7 +112,7 @@ Tiny phases (~3–5 days each). Each phase is independently shippable, demoable,
 - when toggle (task , category) from manage don't remove from db only deactive and can active again  when toggle.
  
 
-## Phase 9 — Weekly Challenges (4 days)
+## Phase 9 — Weekly Challenges (4 days) ✓
 **Goal:** Add a layer of fresh motivation on top of the daily loop.
 
 - Predefined challenge templates (e.g., "Read 1 Juz' this week", "Pray all Fajr in congregation").
@@ -124,6 +124,11 @@ Tiny phases (~3–5 days each). Each phase is independently shippable, demoable,
 ---
 
 ## Post-Roadmap (Backlog, not scheduled)
+- Weekly challenge history list (past weeks per subscription).
+- `MANUAL` challenge source kind (explicit “I did it today” without daily-log tie-in).
+- Challenge milestone notifications (e.g., halfway through the week).
+- Hard-delete affordance for user-owned challenges.
+- Shared / household challenges.
 - Prayer-time API integration (Aladhan / IslamicFinder) to auto-shift notification times by location.
 - Multi-language polish (Arabic copy review, RTL audit).
 - Apple Watch / Wear OS quick-tick companion.

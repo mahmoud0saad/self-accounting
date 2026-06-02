@@ -4,8 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../customization/presentation/widgets/restore_catalog_dialog.dart';
-import '../../sync/data/customization_restore_provider.dart';
-import '../../sync/data/sync_service.dart';
+import '../../sync/data/first_sign_in_coordinator.dart';
 import 'providers/auth_provider.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
@@ -32,7 +31,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    final sync = ref.read(syncServiceProvider);
     setState(() => _loading = true);
     final status = await ref
         .read(authNotifierProvider.notifier)
@@ -61,17 +59,18 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
         ),
       );
 
-      ref.read(customizationRestoreConfirmProvider).call =
-          (total) => showRestoreCatalogDialog(context, l, total);
-
-      final restore = ref.read(customizationRestoreServiceProvider);
-      await restore.restoreIfNeeded(
-        confirmReplacePrompt:
-            ref.read(customizationRestoreConfirmProvider).call,
+      final days = await runFirstSignInAccountSync(
+        ref,
+        context,
+        confirmRestore: (hasCatalog, hasChallenges, total) =>
+            showAccountRestoreDialog(
+          context,
+          l,
+          hasCatalogSnapshot: hasCatalog,
+          hasChallengeSnapshot: hasChallenges,
+          totalItems: total,
+        ),
       );
-
-      final days = await sync.runFirstSignInMigrationIfNeeded();
-      await sync.syncNow();
 
       if (!mounted) {
         return;

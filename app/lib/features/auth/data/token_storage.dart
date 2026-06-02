@@ -87,6 +87,7 @@ class TokenStorage {
     await _storage.delete(key: 'first_sync_done_$userId');
     await _storage.delete(key: 'customization_first_sync_done_$userId');
     await _storage.delete(key: 'customization_server_last_seen_$userId');
+    await _storage.delete(key: 'challenge_first_sync_done_$userId');
   }
 
   Future<bool> isCustomizationFirstSyncDone(String userId) async {
@@ -108,6 +109,17 @@ class TokenStorage {
     String iso,
   ) =>
       _storage.write(key: 'customization_server_last_seen_$userId', value: iso);
+
+  Future<bool> isChallengeFirstSyncDone(String userId) async {
+    final v = await _storage.read(key: 'challenge_first_sync_done_$userId');
+    return v == 'true';
+  }
+
+  Future<void> markChallengeFirstSyncDone(String userId) =>
+      _storage.write(key: 'challenge_first_sync_done_$userId', value: 'true');
+
+  Future<void> clearChallengeFirstSyncFlag(String userId) =>
+      _storage.delete(key: 'challenge_first_sync_done_$userId');
 }
 
 final tokenStorageProvider = Provider<TokenStorage>(

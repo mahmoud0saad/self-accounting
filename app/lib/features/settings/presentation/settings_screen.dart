@@ -5,24 +5,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../../core/api/server_availability_provider.dart';
 import '../../auth/presentation/providers/auth_provider.dart';
-import '../../checklist/domain/task.dart';
 import '../../customization/presentation/widgets/restore_catalog_dialog.dart';
 import '../../sync/data/customization_restore_provider.dart';
+import '../../challenges/domain/week_boundary.dart';
+import '../../challenges/presentation/providers/challenge_providers.dart';
 import '../../sync/data/sync_service.dart';
-import '../../checklist/presentation/providers/task_catalog_provider.dart';
 import '../../notifications/notification_service.dart';
 import '../../notifications/providers/app_localizations_provider.dart';
-import '../../notifications/providers/notification_scheduler_provider.dart';
 import '../../notifications/providers/notification_service_provider.dart';
 import '../../auth/data/token_storage.dart';
 import '../data/app_settings_repository.dart';
-import '../domain/category_notification_schedule.dart';
 import '../domain/eod_summary_settings.dart';
-import '../domain/task_notification_toggle.dart';
 import 'providers/eod_settings_provider.dart';
-import 'providers/notification_settings_provider.dart';
-import 'widgets/category_schedule_tile.dart';
 import 'widgets/eod_summary_row.dart';
 import 'widgets/settings_section_card.dart';
 
@@ -41,19 +37,33 @@ class SettingsScreen extends ConsumerWidget {
       ref.read(appLocalizationsProvider.notifier).set(l);
     });
 
-    final schedules = ref.watch(categorySchedulesProvider);
-    final toggles = ref.watch(taskTogglesProvider);
     final eod = ref.watch(eodSettingsProvider);
-    final notificationsEnabled = ref.watch(notificationsEnabledProvider);
-    final tasks = ref.watch(taskCatalogProvider);
     final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
     final auth = ref.watch(authNotifierProvider);
+    final serverAvailable = ref.watch(serverAvailableProvider);
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(title: Text(l.settingsTitle), pinned: true),
-          if (auth.status == AuthStatus.authenticated &&
+          SliverToBoxAdapter(
+            child: SettingsSectionCard(
+              title: l.challengeWeekStartTitle,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l.challengeWeekStartSubtitle,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const SizedBox(height: 8),
+                  const _WeekStartSettings(),
+                ],
+              ),
+            ),
+          ),
+          if (serverAvailable &&
+              auth.status == AuthStatus.authenticated &&
               auth.user?.isEmailConfirmed == true)
             SliverToBoxAdapter(
               child: SettingsSectionCard(
@@ -102,16 +112,7 @@ class SettingsScreen extends ConsumerWidget {
           SliverToBoxAdapter(
             child: SettingsSectionCard(
               title: l.settingsNotificationsTitle,
-              child: _notificationsBody(
-                context,
-                ref,
-                l,
-                schedules,
-                toggles,
-                eod,
-                notificationsEnabled,
-                tasks,
-              ),
+              child: _notificationsBody(context, ref, l, eod),
             ),
           ),
           SliverToBoxAdapter(child: _AboutSection(l: l)),
@@ -158,75 +159,19 @@ class SettingsScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     AppLocalizations l,
-    AsyncValue<List<CategoryNotificationSchedule>> schedules,
-    AsyncValue<List<TaskNotificationToggle>> toggles,
     AsyncValue<EodSummarySettings> eod,
-    AsyncValue<bool> notificationsEnabled,
-    AsyncValue<List<Task>> tasks,
   ) {
-    final hasError = [
-      schedules,
-      toggles,
-      eod,
-      notificationsEnabled,
-      tasks,
-    ].where((value) => value.hasError).firstOrNull;
-    if (hasError != null) {
-      return Text('${hasError.error}');
-    }
-    if ([
-      schedules,
-      toggles,
-      eod,
-      notificationsEnabled,
-      tasks,
-    ].any((value) => value.isLoading)) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    final scheduleRows = ref.watch(categorySchedulesProvider).requireValue;
-    final toggleRows = ref.watch(taskTogglesProvider).requireValue;
-    final eodSettings = ref.watch(eodSettingsProvider).requireValue;
-    final globalEnabled = ref.watch(notificationsEnabledProvider).requireValue;
-    final taskRows = ref.watch(taskCatalogProvider).requireValue;
-    final grouped = _groupByCategory(taskRows);
-
-    return Column(
-      children: [
-        SwitchListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Text(l.settingsNotificationsGlobalToggleLabel),
-          value: globalEnabled,
-          onChanged: (value) async {
-            await ref
-                .read(appSettingsRepositoryProvider)
-                .setNotificationsEnabled(value);
-            if (value) {
-              await ref.read(notificationSchedulerProvider)?.syncAll();
-            } else {
-              await ref.read(notificationServiceProvider).cancelAll();
-            }
-          },
-        ),
-        if (kIsWeb) _WebNotificationBanner(l: l),
-        EodSummaryRow(settings: eodSettings),
-        for (final schedule in scheduleRows)
-          CategoryScheduleTile(
-            schedule: schedule,
-            tasks: grouped[schedule.category] ?? const <Task>[],
-            toggles: toggleRows,
-          ),
-      ],
+    return eod.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, _) => Text('$error'),
+      data: (eodSettings) => Column(
+        children: [
+          if (kIsWeb) _WebNotificationBanner(l: l),
+          EodSummaryRow(settings: eodSettings),
+        ],
+      ),
     );
   }
-}
-
-Map<TaskCategory, List<Task>> _groupByCategory(List<Task> tasks) {
-  final map = <TaskCategory, List<Task>>{};
-  for (final task in tasks) {
-    map.putIfAbsent(task.category, () => <Task>[]).add(task);
-  }
-  return map;
 }
 
 class _WebNotificationBanner extends ConsumerWidget {
@@ -324,6 +269,63 @@ class _RestoreCatalogTile extends ConsumerWidget {
         SnackBar(content: Text(l.settingsSyncDone)),
       );
     }
+  }
+}
+
+class _WeekStartSettings extends ConsumerWidget {
+  const _WeekStartSettings();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
+    final dowAsync = ref.watch(weekStartDowProvider);
+
+    return dowAsync.when(
+      data: (current) => Column(
+        children: [
+          RadioListTile<WeekStartDow>(
+            title: Text(l.challengeWeekStartSaturday),
+            value: WeekStartDow.sat,
+            groupValue: current,
+            onChanged: (v) => _set(context, ref, l, v!),
+          ),
+          RadioListTile<WeekStartDow>(
+            title: Text(l.challengeWeekStartSunday),
+            value: WeekStartDow.sun,
+            groupValue: current,
+            onChanged: (v) => _set(context, ref, l, v!),
+          ),
+          RadioListTile<WeekStartDow>(
+            title: Text(l.challengeWeekStartMonday),
+            value: WeekStartDow.mon,
+            groupValue: current,
+            onChanged: (v) => _set(context, ref, l, v!),
+          ),
+        ],
+      ),
+      loading: () => const SizedBox(height: 48),
+      error: (_, __) => const SizedBox.shrink(),
+    );
+  }
+
+  Future<void> _set(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l,
+    WeekStartDow dow,
+  ) async {
+    await ref.read(weekStartDowProvider.notifier).set(dow);
+    final label = switch (dow) {
+      WeekStartDow.sat => l.challengeWeekStartSaturday,
+      WeekStartDow.sun => l.challengeWeekStartSunday,
+      WeekStartDow.mon => l.challengeWeekStartMonday,
+    };
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l.challengeWeekStartSnackbar(label))),
+      );
+    }
+    ref.invalidate(currentWeekProgressProvider);
   }
 }
 

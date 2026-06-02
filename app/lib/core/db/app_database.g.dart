@@ -3551,6 +3551,1539 @@ class PendingSyncOpsCompanion extends UpdateCompanion<PendingSyncOp> {
   }
 }
 
+class $ChallengeTemplatesTable extends ChallengeTemplates
+    with TableInfo<$ChallengeTemplatesTable, DbChallengeTemplate> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ChallengeTemplatesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+      'code', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _defaultTitleMeta =
+      const VerificationMeta('defaultTitle');
+  @override
+  late final GeneratedColumn<String> defaultTitle = GeneratedColumn<String>(
+      'default_title', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _defaultIconMeta =
+      const VerificationMeta('defaultIcon');
+  @override
+  late final GeneratedColumn<String> defaultIcon = GeneratedColumn<String>(
+      'default_icon', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _sourceKindMeta =
+      const VerificationMeta('sourceKind');
+  @override
+  late final GeneratedColumn<String> sourceKind = GeneratedColumn<String>(
+      'source_kind', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _sourceRefMeta =
+      const VerificationMeta('sourceRef');
+  @override
+  late final GeneratedColumn<String> sourceRef = GeneratedColumn<String>(
+      'source_ref', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _goalCountMeta =
+      const VerificationMeta('goalCount');
+  @override
+  late final GeneratedColumn<int> goalCount = GeneratedColumn<int>(
+      'goal_count', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _defaultSortOrderMeta =
+      const VerificationMeta('defaultSortOrder');
+  @override
+  late final GeneratedColumn<int> defaultSortOrder = GeneratedColumn<int>(
+      'default_sort_order', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _isActiveMeta =
+      const VerificationMeta('isActive');
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+      'is_active', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_active" IN (0, 1))'),
+      defaultValue: const Constant(true));
+  @override
+  List<GeneratedColumn> get $columns => [
+        code,
+        defaultTitle,
+        defaultIcon,
+        sourceKind,
+        sourceRef,
+        goalCount,
+        defaultSortOrder,
+        isActive
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'challenge_templates';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<DbChallengeTemplate> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('code')) {
+      context.handle(
+          _codeMeta, code.isAcceptableOrUnknown(data['code']!, _codeMeta));
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('default_title')) {
+      context.handle(
+          _defaultTitleMeta,
+          defaultTitle.isAcceptableOrUnknown(
+              data['default_title']!, _defaultTitleMeta));
+    } else if (isInserting) {
+      context.missing(_defaultTitleMeta);
+    }
+    if (data.containsKey('default_icon')) {
+      context.handle(
+          _defaultIconMeta,
+          defaultIcon.isAcceptableOrUnknown(
+              data['default_icon']!, _defaultIconMeta));
+    } else if (isInserting) {
+      context.missing(_defaultIconMeta);
+    }
+    if (data.containsKey('source_kind')) {
+      context.handle(
+          _sourceKindMeta,
+          sourceKind.isAcceptableOrUnknown(
+              data['source_kind']!, _sourceKindMeta));
+    } else if (isInserting) {
+      context.missing(_sourceKindMeta);
+    }
+    if (data.containsKey('source_ref')) {
+      context.handle(_sourceRefMeta,
+          sourceRef.isAcceptableOrUnknown(data['source_ref']!, _sourceRefMeta));
+    } else if (isInserting) {
+      context.missing(_sourceRefMeta);
+    }
+    if (data.containsKey('goal_count')) {
+      context.handle(_goalCountMeta,
+          goalCount.isAcceptableOrUnknown(data['goal_count']!, _goalCountMeta));
+    } else if (isInserting) {
+      context.missing(_goalCountMeta);
+    }
+    if (data.containsKey('default_sort_order')) {
+      context.handle(
+          _defaultSortOrderMeta,
+          defaultSortOrder.isAcceptableOrUnknown(
+              data['default_sort_order']!, _defaultSortOrderMeta));
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(_isActiveMeta,
+          isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {code};
+  @override
+  DbChallengeTemplate map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DbChallengeTemplate(
+      code: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}code'])!,
+      defaultTitle: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}default_title'])!,
+      defaultIcon: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}default_icon'])!,
+      sourceKind: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}source_kind'])!,
+      sourceRef: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}source_ref'])!,
+      goalCount: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}goal_count'])!,
+      defaultSortOrder: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}default_sort_order'])!,
+      isActive: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_active'])!,
+    );
+  }
+
+  @override
+  $ChallengeTemplatesTable createAlias(String alias) {
+    return $ChallengeTemplatesTable(attachedDatabase, alias);
+  }
+}
+
+class DbChallengeTemplate extends DataClass
+    implements Insertable<DbChallengeTemplate> {
+  final String code;
+  final String defaultTitle;
+  final String defaultIcon;
+  final String sourceKind;
+  final String sourceRef;
+  final int goalCount;
+  final int defaultSortOrder;
+  final bool isActive;
+  const DbChallengeTemplate(
+      {required this.code,
+      required this.defaultTitle,
+      required this.defaultIcon,
+      required this.sourceKind,
+      required this.sourceRef,
+      required this.goalCount,
+      required this.defaultSortOrder,
+      required this.isActive});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['code'] = Variable<String>(code);
+    map['default_title'] = Variable<String>(defaultTitle);
+    map['default_icon'] = Variable<String>(defaultIcon);
+    map['source_kind'] = Variable<String>(sourceKind);
+    map['source_ref'] = Variable<String>(sourceRef);
+    map['goal_count'] = Variable<int>(goalCount);
+    map['default_sort_order'] = Variable<int>(defaultSortOrder);
+    map['is_active'] = Variable<bool>(isActive);
+    return map;
+  }
+
+  ChallengeTemplatesCompanion toCompanion(bool nullToAbsent) {
+    return ChallengeTemplatesCompanion(
+      code: Value(code),
+      defaultTitle: Value(defaultTitle),
+      defaultIcon: Value(defaultIcon),
+      sourceKind: Value(sourceKind),
+      sourceRef: Value(sourceRef),
+      goalCount: Value(goalCount),
+      defaultSortOrder: Value(defaultSortOrder),
+      isActive: Value(isActive),
+    );
+  }
+
+  factory DbChallengeTemplate.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DbChallengeTemplate(
+      code: serializer.fromJson<String>(json['code']),
+      defaultTitle: serializer.fromJson<String>(json['defaultTitle']),
+      defaultIcon: serializer.fromJson<String>(json['defaultIcon']),
+      sourceKind: serializer.fromJson<String>(json['sourceKind']),
+      sourceRef: serializer.fromJson<String>(json['sourceRef']),
+      goalCount: serializer.fromJson<int>(json['goalCount']),
+      defaultSortOrder: serializer.fromJson<int>(json['defaultSortOrder']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'code': serializer.toJson<String>(code),
+      'defaultTitle': serializer.toJson<String>(defaultTitle),
+      'defaultIcon': serializer.toJson<String>(defaultIcon),
+      'sourceKind': serializer.toJson<String>(sourceKind),
+      'sourceRef': serializer.toJson<String>(sourceRef),
+      'goalCount': serializer.toJson<int>(goalCount),
+      'defaultSortOrder': serializer.toJson<int>(defaultSortOrder),
+      'isActive': serializer.toJson<bool>(isActive),
+    };
+  }
+
+  DbChallengeTemplate copyWith(
+          {String? code,
+          String? defaultTitle,
+          String? defaultIcon,
+          String? sourceKind,
+          String? sourceRef,
+          int? goalCount,
+          int? defaultSortOrder,
+          bool? isActive}) =>
+      DbChallengeTemplate(
+        code: code ?? this.code,
+        defaultTitle: defaultTitle ?? this.defaultTitle,
+        defaultIcon: defaultIcon ?? this.defaultIcon,
+        sourceKind: sourceKind ?? this.sourceKind,
+        sourceRef: sourceRef ?? this.sourceRef,
+        goalCount: goalCount ?? this.goalCount,
+        defaultSortOrder: defaultSortOrder ?? this.defaultSortOrder,
+        isActive: isActive ?? this.isActive,
+      );
+  DbChallengeTemplate copyWithCompanion(ChallengeTemplatesCompanion data) {
+    return DbChallengeTemplate(
+      code: data.code.present ? data.code.value : this.code,
+      defaultTitle: data.defaultTitle.present
+          ? data.defaultTitle.value
+          : this.defaultTitle,
+      defaultIcon:
+          data.defaultIcon.present ? data.defaultIcon.value : this.defaultIcon,
+      sourceKind:
+          data.sourceKind.present ? data.sourceKind.value : this.sourceKind,
+      sourceRef: data.sourceRef.present ? data.sourceRef.value : this.sourceRef,
+      goalCount: data.goalCount.present ? data.goalCount.value : this.goalCount,
+      defaultSortOrder: data.defaultSortOrder.present
+          ? data.defaultSortOrder.value
+          : this.defaultSortOrder,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DbChallengeTemplate(')
+          ..write('code: $code, ')
+          ..write('defaultTitle: $defaultTitle, ')
+          ..write('defaultIcon: $defaultIcon, ')
+          ..write('sourceKind: $sourceKind, ')
+          ..write('sourceRef: $sourceRef, ')
+          ..write('goalCount: $goalCount, ')
+          ..write('defaultSortOrder: $defaultSortOrder, ')
+          ..write('isActive: $isActive')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(code, defaultTitle, defaultIcon, sourceKind,
+      sourceRef, goalCount, defaultSortOrder, isActive);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DbChallengeTemplate &&
+          other.code == this.code &&
+          other.defaultTitle == this.defaultTitle &&
+          other.defaultIcon == this.defaultIcon &&
+          other.sourceKind == this.sourceKind &&
+          other.sourceRef == this.sourceRef &&
+          other.goalCount == this.goalCount &&
+          other.defaultSortOrder == this.defaultSortOrder &&
+          other.isActive == this.isActive);
+}
+
+class ChallengeTemplatesCompanion extends UpdateCompanion<DbChallengeTemplate> {
+  final Value<String> code;
+  final Value<String> defaultTitle;
+  final Value<String> defaultIcon;
+  final Value<String> sourceKind;
+  final Value<String> sourceRef;
+  final Value<int> goalCount;
+  final Value<int> defaultSortOrder;
+  final Value<bool> isActive;
+  final Value<int> rowid;
+  const ChallengeTemplatesCompanion({
+    this.code = const Value.absent(),
+    this.defaultTitle = const Value.absent(),
+    this.defaultIcon = const Value.absent(),
+    this.sourceKind = const Value.absent(),
+    this.sourceRef = const Value.absent(),
+    this.goalCount = const Value.absent(),
+    this.defaultSortOrder = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ChallengeTemplatesCompanion.insert({
+    required String code,
+    required String defaultTitle,
+    required String defaultIcon,
+    required String sourceKind,
+    required String sourceRef,
+    required int goalCount,
+    this.defaultSortOrder = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.rowid = const Value.absent(),
+  })  : code = Value(code),
+        defaultTitle = Value(defaultTitle),
+        defaultIcon = Value(defaultIcon),
+        sourceKind = Value(sourceKind),
+        sourceRef = Value(sourceRef),
+        goalCount = Value(goalCount);
+  static Insertable<DbChallengeTemplate> custom({
+    Expression<String>? code,
+    Expression<String>? defaultTitle,
+    Expression<String>? defaultIcon,
+    Expression<String>? sourceKind,
+    Expression<String>? sourceRef,
+    Expression<int>? goalCount,
+    Expression<int>? defaultSortOrder,
+    Expression<bool>? isActive,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (code != null) 'code': code,
+      if (defaultTitle != null) 'default_title': defaultTitle,
+      if (defaultIcon != null) 'default_icon': defaultIcon,
+      if (sourceKind != null) 'source_kind': sourceKind,
+      if (sourceRef != null) 'source_ref': sourceRef,
+      if (goalCount != null) 'goal_count': goalCount,
+      if (defaultSortOrder != null) 'default_sort_order': defaultSortOrder,
+      if (isActive != null) 'is_active': isActive,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ChallengeTemplatesCompanion copyWith(
+      {Value<String>? code,
+      Value<String>? defaultTitle,
+      Value<String>? defaultIcon,
+      Value<String>? sourceKind,
+      Value<String>? sourceRef,
+      Value<int>? goalCount,
+      Value<int>? defaultSortOrder,
+      Value<bool>? isActive,
+      Value<int>? rowid}) {
+    return ChallengeTemplatesCompanion(
+      code: code ?? this.code,
+      defaultTitle: defaultTitle ?? this.defaultTitle,
+      defaultIcon: defaultIcon ?? this.defaultIcon,
+      sourceKind: sourceKind ?? this.sourceKind,
+      sourceRef: sourceRef ?? this.sourceRef,
+      goalCount: goalCount ?? this.goalCount,
+      defaultSortOrder: defaultSortOrder ?? this.defaultSortOrder,
+      isActive: isActive ?? this.isActive,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (defaultTitle.present) {
+      map['default_title'] = Variable<String>(defaultTitle.value);
+    }
+    if (defaultIcon.present) {
+      map['default_icon'] = Variable<String>(defaultIcon.value);
+    }
+    if (sourceKind.present) {
+      map['source_kind'] = Variable<String>(sourceKind.value);
+    }
+    if (sourceRef.present) {
+      map['source_ref'] = Variable<String>(sourceRef.value);
+    }
+    if (goalCount.present) {
+      map['goal_count'] = Variable<int>(goalCount.value);
+    }
+    if (defaultSortOrder.present) {
+      map['default_sort_order'] = Variable<int>(defaultSortOrder.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChallengeTemplatesCompanion(')
+          ..write('code: $code, ')
+          ..write('defaultTitle: $defaultTitle, ')
+          ..write('defaultIcon: $defaultIcon, ')
+          ..write('sourceKind: $sourceKind, ')
+          ..write('sourceRef: $sourceRef, ')
+          ..write('goalCount: $goalCount, ')
+          ..write('defaultSortOrder: $defaultSortOrder, ')
+          ..write('isActive: $isActive, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UserChallengesTable extends UserChallenges
+    with TableInfo<$UserChallengesTable, DbUserChallenge> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserChallengesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _templateCodeMeta =
+      const VerificationMeta('templateCode');
+  @override
+  late final GeneratedColumn<String> templateCode = GeneratedColumn<String>(
+      'template_code', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _customTitleMeta =
+      const VerificationMeta('customTitle');
+  @override
+  late final GeneratedColumn<String> customTitle = GeneratedColumn<String>(
+      'custom_title', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _customIconMeta =
+      const VerificationMeta('customIcon');
+  @override
+  late final GeneratedColumn<String> customIcon = GeneratedColumn<String>(
+      'custom_icon', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _customSourceKindMeta =
+      const VerificationMeta('customSourceKind');
+  @override
+  late final GeneratedColumn<String> customSourceKind = GeneratedColumn<String>(
+      'custom_source_kind', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _customSourceRefMeta =
+      const VerificationMeta('customSourceRef');
+  @override
+  late final GeneratedColumn<String> customSourceRef = GeneratedColumn<String>(
+      'custom_source_ref', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _customGoalCountMeta =
+      const VerificationMeta('customGoalCount');
+  @override
+  late final GeneratedColumn<int> customGoalCount = GeneratedColumn<int>(
+      'custom_goal_count', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _startedAtMeta =
+      const VerificationMeta('startedAt');
+  @override
+  late final GeneratedColumn<DateTime> startedAt = GeneratedColumn<DateTime>(
+      'started_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  static const VerificationMeta _archivedAtMeta =
+      const VerificationMeta('archivedAt');
+  @override
+  late final GeneratedColumn<DateTime> archivedAt = GeneratedColumn<DateTime>(
+      'archived_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        templateCode,
+        customTitle,
+        customIcon,
+        customSourceKind,
+        customSourceRef,
+        customGoalCount,
+        startedAt,
+        archivedAt,
+        updatedAt
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_challenges';
+  @override
+  VerificationContext validateIntegrity(Insertable<DbUserChallenge> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('template_code')) {
+      context.handle(
+          _templateCodeMeta,
+          templateCode.isAcceptableOrUnknown(
+              data['template_code']!, _templateCodeMeta));
+    }
+    if (data.containsKey('custom_title')) {
+      context.handle(
+          _customTitleMeta,
+          customTitle.isAcceptableOrUnknown(
+              data['custom_title']!, _customTitleMeta));
+    }
+    if (data.containsKey('custom_icon')) {
+      context.handle(
+          _customIconMeta,
+          customIcon.isAcceptableOrUnknown(
+              data['custom_icon']!, _customIconMeta));
+    }
+    if (data.containsKey('custom_source_kind')) {
+      context.handle(
+          _customSourceKindMeta,
+          customSourceKind.isAcceptableOrUnknown(
+              data['custom_source_kind']!, _customSourceKindMeta));
+    }
+    if (data.containsKey('custom_source_ref')) {
+      context.handle(
+          _customSourceRefMeta,
+          customSourceRef.isAcceptableOrUnknown(
+              data['custom_source_ref']!, _customSourceRefMeta));
+    }
+    if (data.containsKey('custom_goal_count')) {
+      context.handle(
+          _customGoalCountMeta,
+          customGoalCount.isAcceptableOrUnknown(
+              data['custom_goal_count']!, _customGoalCountMeta));
+    }
+    if (data.containsKey('started_at')) {
+      context.handle(_startedAtMeta,
+          startedAt.isAcceptableOrUnknown(data['started_at']!, _startedAtMeta));
+    }
+    if (data.containsKey('archived_at')) {
+      context.handle(
+          _archivedAtMeta,
+          archivedAt.isAcceptableOrUnknown(
+              data['archived_at']!, _archivedAtMeta));
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DbUserChallenge map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DbUserChallenge(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      templateCode: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}template_code']),
+      customTitle: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}custom_title']),
+      customIcon: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}custom_icon']),
+      customSourceKind: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}custom_source_kind']),
+      customSourceRef: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}custom_source_ref']),
+      customGoalCount: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}custom_goal_count']),
+      startedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}started_at'])!,
+      archivedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}archived_at']),
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+    );
+  }
+
+  @override
+  $UserChallengesTable createAlias(String alias) {
+    return $UserChallengesTable(attachedDatabase, alias);
+  }
+}
+
+class DbUserChallenge extends DataClass implements Insertable<DbUserChallenge> {
+  final String id;
+  final String? templateCode;
+  final String? customTitle;
+  final String? customIcon;
+  final String? customSourceKind;
+  final String? customSourceRef;
+  final int? customGoalCount;
+  final DateTime startedAt;
+  final DateTime? archivedAt;
+  final DateTime updatedAt;
+  const DbUserChallenge(
+      {required this.id,
+      this.templateCode,
+      this.customTitle,
+      this.customIcon,
+      this.customSourceKind,
+      this.customSourceRef,
+      this.customGoalCount,
+      required this.startedAt,
+      this.archivedAt,
+      required this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    if (!nullToAbsent || templateCode != null) {
+      map['template_code'] = Variable<String>(templateCode);
+    }
+    if (!nullToAbsent || customTitle != null) {
+      map['custom_title'] = Variable<String>(customTitle);
+    }
+    if (!nullToAbsent || customIcon != null) {
+      map['custom_icon'] = Variable<String>(customIcon);
+    }
+    if (!nullToAbsent || customSourceKind != null) {
+      map['custom_source_kind'] = Variable<String>(customSourceKind);
+    }
+    if (!nullToAbsent || customSourceRef != null) {
+      map['custom_source_ref'] = Variable<String>(customSourceRef);
+    }
+    if (!nullToAbsent || customGoalCount != null) {
+      map['custom_goal_count'] = Variable<int>(customGoalCount);
+    }
+    map['started_at'] = Variable<DateTime>(startedAt);
+    if (!nullToAbsent || archivedAt != null) {
+      map['archived_at'] = Variable<DateTime>(archivedAt);
+    }
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  UserChallengesCompanion toCompanion(bool nullToAbsent) {
+    return UserChallengesCompanion(
+      id: Value(id),
+      templateCode: templateCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(templateCode),
+      customTitle: customTitle == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customTitle),
+      customIcon: customIcon == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customIcon),
+      customSourceKind: customSourceKind == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customSourceKind),
+      customSourceRef: customSourceRef == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customSourceRef),
+      customGoalCount: customGoalCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customGoalCount),
+      startedAt: Value(startedAt),
+      archivedAt: archivedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(archivedAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory DbUserChallenge.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DbUserChallenge(
+      id: serializer.fromJson<String>(json['id']),
+      templateCode: serializer.fromJson<String?>(json['templateCode']),
+      customTitle: serializer.fromJson<String?>(json['customTitle']),
+      customIcon: serializer.fromJson<String?>(json['customIcon']),
+      customSourceKind: serializer.fromJson<String?>(json['customSourceKind']),
+      customSourceRef: serializer.fromJson<String?>(json['customSourceRef']),
+      customGoalCount: serializer.fromJson<int?>(json['customGoalCount']),
+      startedAt: serializer.fromJson<DateTime>(json['startedAt']),
+      archivedAt: serializer.fromJson<DateTime?>(json['archivedAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'templateCode': serializer.toJson<String?>(templateCode),
+      'customTitle': serializer.toJson<String?>(customTitle),
+      'customIcon': serializer.toJson<String?>(customIcon),
+      'customSourceKind': serializer.toJson<String?>(customSourceKind),
+      'customSourceRef': serializer.toJson<String?>(customSourceRef),
+      'customGoalCount': serializer.toJson<int?>(customGoalCount),
+      'startedAt': serializer.toJson<DateTime>(startedAt),
+      'archivedAt': serializer.toJson<DateTime?>(archivedAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  DbUserChallenge copyWith(
+          {String? id,
+          Value<String?> templateCode = const Value.absent(),
+          Value<String?> customTitle = const Value.absent(),
+          Value<String?> customIcon = const Value.absent(),
+          Value<String?> customSourceKind = const Value.absent(),
+          Value<String?> customSourceRef = const Value.absent(),
+          Value<int?> customGoalCount = const Value.absent(),
+          DateTime? startedAt,
+          Value<DateTime?> archivedAt = const Value.absent(),
+          DateTime? updatedAt}) =>
+      DbUserChallenge(
+        id: id ?? this.id,
+        templateCode:
+            templateCode.present ? templateCode.value : this.templateCode,
+        customTitle: customTitle.present ? customTitle.value : this.customTitle,
+        customIcon: customIcon.present ? customIcon.value : this.customIcon,
+        customSourceKind: customSourceKind.present
+            ? customSourceKind.value
+            : this.customSourceKind,
+        customSourceRef: customSourceRef.present
+            ? customSourceRef.value
+            : this.customSourceRef,
+        customGoalCount: customGoalCount.present
+            ? customGoalCount.value
+            : this.customGoalCount,
+        startedAt: startedAt ?? this.startedAt,
+        archivedAt: archivedAt.present ? archivedAt.value : this.archivedAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  DbUserChallenge copyWithCompanion(UserChallengesCompanion data) {
+    return DbUserChallenge(
+      id: data.id.present ? data.id.value : this.id,
+      templateCode: data.templateCode.present
+          ? data.templateCode.value
+          : this.templateCode,
+      customTitle:
+          data.customTitle.present ? data.customTitle.value : this.customTitle,
+      customIcon:
+          data.customIcon.present ? data.customIcon.value : this.customIcon,
+      customSourceKind: data.customSourceKind.present
+          ? data.customSourceKind.value
+          : this.customSourceKind,
+      customSourceRef: data.customSourceRef.present
+          ? data.customSourceRef.value
+          : this.customSourceRef,
+      customGoalCount: data.customGoalCount.present
+          ? data.customGoalCount.value
+          : this.customGoalCount,
+      startedAt: data.startedAt.present ? data.startedAt.value : this.startedAt,
+      archivedAt:
+          data.archivedAt.present ? data.archivedAt.value : this.archivedAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DbUserChallenge(')
+          ..write('id: $id, ')
+          ..write('templateCode: $templateCode, ')
+          ..write('customTitle: $customTitle, ')
+          ..write('customIcon: $customIcon, ')
+          ..write('customSourceKind: $customSourceKind, ')
+          ..write('customSourceRef: $customSourceRef, ')
+          ..write('customGoalCount: $customGoalCount, ')
+          ..write('startedAt: $startedAt, ')
+          ..write('archivedAt: $archivedAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      templateCode,
+      customTitle,
+      customIcon,
+      customSourceKind,
+      customSourceRef,
+      customGoalCount,
+      startedAt,
+      archivedAt,
+      updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DbUserChallenge &&
+          other.id == this.id &&
+          other.templateCode == this.templateCode &&
+          other.customTitle == this.customTitle &&
+          other.customIcon == this.customIcon &&
+          other.customSourceKind == this.customSourceKind &&
+          other.customSourceRef == this.customSourceRef &&
+          other.customGoalCount == this.customGoalCount &&
+          other.startedAt == this.startedAt &&
+          other.archivedAt == this.archivedAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class UserChallengesCompanion extends UpdateCompanion<DbUserChallenge> {
+  final Value<String> id;
+  final Value<String?> templateCode;
+  final Value<String?> customTitle;
+  final Value<String?> customIcon;
+  final Value<String?> customSourceKind;
+  final Value<String?> customSourceRef;
+  final Value<int?> customGoalCount;
+  final Value<DateTime> startedAt;
+  final Value<DateTime?> archivedAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const UserChallengesCompanion({
+    this.id = const Value.absent(),
+    this.templateCode = const Value.absent(),
+    this.customTitle = const Value.absent(),
+    this.customIcon = const Value.absent(),
+    this.customSourceKind = const Value.absent(),
+    this.customSourceRef = const Value.absent(),
+    this.customGoalCount = const Value.absent(),
+    this.startedAt = const Value.absent(),
+    this.archivedAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  UserChallengesCompanion.insert({
+    required String id,
+    this.templateCode = const Value.absent(),
+    this.customTitle = const Value.absent(),
+    this.customIcon = const Value.absent(),
+    this.customSourceKind = const Value.absent(),
+    this.customSourceRef = const Value.absent(),
+    this.customGoalCount = const Value.absent(),
+    this.startedAt = const Value.absent(),
+    this.archivedAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id);
+  static Insertable<DbUserChallenge> custom({
+    Expression<String>? id,
+    Expression<String>? templateCode,
+    Expression<String>? customTitle,
+    Expression<String>? customIcon,
+    Expression<String>? customSourceKind,
+    Expression<String>? customSourceRef,
+    Expression<int>? customGoalCount,
+    Expression<DateTime>? startedAt,
+    Expression<DateTime>? archivedAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (templateCode != null) 'template_code': templateCode,
+      if (customTitle != null) 'custom_title': customTitle,
+      if (customIcon != null) 'custom_icon': customIcon,
+      if (customSourceKind != null) 'custom_source_kind': customSourceKind,
+      if (customSourceRef != null) 'custom_source_ref': customSourceRef,
+      if (customGoalCount != null) 'custom_goal_count': customGoalCount,
+      if (startedAt != null) 'started_at': startedAt,
+      if (archivedAt != null) 'archived_at': archivedAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  UserChallengesCompanion copyWith(
+      {Value<String>? id,
+      Value<String?>? templateCode,
+      Value<String?>? customTitle,
+      Value<String?>? customIcon,
+      Value<String?>? customSourceKind,
+      Value<String?>? customSourceRef,
+      Value<int?>? customGoalCount,
+      Value<DateTime>? startedAt,
+      Value<DateTime?>? archivedAt,
+      Value<DateTime>? updatedAt,
+      Value<int>? rowid}) {
+    return UserChallengesCompanion(
+      id: id ?? this.id,
+      templateCode: templateCode ?? this.templateCode,
+      customTitle: customTitle ?? this.customTitle,
+      customIcon: customIcon ?? this.customIcon,
+      customSourceKind: customSourceKind ?? this.customSourceKind,
+      customSourceRef: customSourceRef ?? this.customSourceRef,
+      customGoalCount: customGoalCount ?? this.customGoalCount,
+      startedAt: startedAt ?? this.startedAt,
+      archivedAt: archivedAt ?? this.archivedAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (templateCode.present) {
+      map['template_code'] = Variable<String>(templateCode.value);
+    }
+    if (customTitle.present) {
+      map['custom_title'] = Variable<String>(customTitle.value);
+    }
+    if (customIcon.present) {
+      map['custom_icon'] = Variable<String>(customIcon.value);
+    }
+    if (customSourceKind.present) {
+      map['custom_source_kind'] = Variable<String>(customSourceKind.value);
+    }
+    if (customSourceRef.present) {
+      map['custom_source_ref'] = Variable<String>(customSourceRef.value);
+    }
+    if (customGoalCount.present) {
+      map['custom_goal_count'] = Variable<int>(customGoalCount.value);
+    }
+    if (startedAt.present) {
+      map['started_at'] = Variable<DateTime>(startedAt.value);
+    }
+    if (archivedAt.present) {
+      map['archived_at'] = Variable<DateTime>(archivedAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserChallengesCompanion(')
+          ..write('id: $id, ')
+          ..write('templateCode: $templateCode, ')
+          ..write('customTitle: $customTitle, ')
+          ..write('customIcon: $customIcon, ')
+          ..write('customSourceKind: $customSourceKind, ')
+          ..write('customSourceRef: $customSourceRef, ')
+          ..write('customGoalCount: $customGoalCount, ')
+          ..write('startedAt: $startedAt, ')
+          ..write('archivedAt: $archivedAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UserChallengeWeeksTable extends UserChallengeWeeks
+    with TableInfo<$UserChallengeWeeksTable, DbUserChallengeWeek> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserChallengeWeeksTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _userChallengeIdMeta =
+      const VerificationMeta('userChallengeId');
+  @override
+  late final GeneratedColumn<String> userChallengeId = GeneratedColumn<String>(
+      'user_challenge_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _weekStartMeta =
+      const VerificationMeta('weekStart');
+  @override
+  late final GeneratedColumn<String> weekStart = GeneratedColumn<String>(
+      'week_start', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _weekEndMeta =
+      const VerificationMeta('weekEnd');
+  @override
+  late final GeneratedColumn<String> weekEnd = GeneratedColumn<String>(
+      'week_end', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _goalCountMeta =
+      const VerificationMeta('goalCount');
+  @override
+  late final GeneratedColumn<int> goalCount = GeneratedColumn<int>(
+      'goal_count', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _achievedCountMeta =
+      const VerificationMeta('achievedCount');
+  @override
+  late final GeneratedColumn<int> achievedCount = GeneratedColumn<int>(
+      'achieved_count', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+      'status', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: const Constant('IN_PROGRESS'));
+  static const VerificationMeta _completedAtMeta =
+      const VerificationMeta('completedAt');
+  @override
+  late final GeneratedColumn<DateTime> completedAt = GeneratedColumn<DateTime>(
+      'completed_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _celebrationSeenAtMeta =
+      const VerificationMeta('celebrationSeenAt');
+  @override
+  late final GeneratedColumn<DateTime> celebrationSeenAt =
+      GeneratedColumn<DateTime>('celebration_seen_at', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        userChallengeId,
+        weekStart,
+        weekEnd,
+        goalCount,
+        achievedCount,
+        status,
+        completedAt,
+        celebrationSeenAt,
+        updatedAt
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_challenge_weeks';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<DbUserChallengeWeek> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('user_challenge_id')) {
+      context.handle(
+          _userChallengeIdMeta,
+          userChallengeId.isAcceptableOrUnknown(
+              data['user_challenge_id']!, _userChallengeIdMeta));
+    } else if (isInserting) {
+      context.missing(_userChallengeIdMeta);
+    }
+    if (data.containsKey('week_start')) {
+      context.handle(_weekStartMeta,
+          weekStart.isAcceptableOrUnknown(data['week_start']!, _weekStartMeta));
+    } else if (isInserting) {
+      context.missing(_weekStartMeta);
+    }
+    if (data.containsKey('week_end')) {
+      context.handle(_weekEndMeta,
+          weekEnd.isAcceptableOrUnknown(data['week_end']!, _weekEndMeta));
+    } else if (isInserting) {
+      context.missing(_weekEndMeta);
+    }
+    if (data.containsKey('goal_count')) {
+      context.handle(_goalCountMeta,
+          goalCount.isAcceptableOrUnknown(data['goal_count']!, _goalCountMeta));
+    } else if (isInserting) {
+      context.missing(_goalCountMeta);
+    }
+    if (data.containsKey('achieved_count')) {
+      context.handle(
+          _achievedCountMeta,
+          achievedCount.isAcceptableOrUnknown(
+              data['achieved_count']!, _achievedCountMeta));
+    }
+    if (data.containsKey('status')) {
+      context.handle(_statusMeta,
+          status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+    }
+    if (data.containsKey('completed_at')) {
+      context.handle(
+          _completedAtMeta,
+          completedAt.isAcceptableOrUnknown(
+              data['completed_at']!, _completedAtMeta));
+    }
+    if (data.containsKey('celebration_seen_at')) {
+      context.handle(
+          _celebrationSeenAtMeta,
+          celebrationSeenAt.isAcceptableOrUnknown(
+              data['celebration_seen_at']!, _celebrationSeenAtMeta));
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+        {userChallengeId, weekStart},
+      ];
+  @override
+  DbUserChallengeWeek map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DbUserChallengeWeek(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      userChallengeId: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}user_challenge_id'])!,
+      weekStart: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}week_start'])!,
+      weekEnd: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}week_end'])!,
+      goalCount: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}goal_count'])!,
+      achievedCount: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}achieved_count'])!,
+      status: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}status'])!,
+      completedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}completed_at']),
+      celebrationSeenAt: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}celebration_seen_at']),
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+    );
+  }
+
+  @override
+  $UserChallengeWeeksTable createAlias(String alias) {
+    return $UserChallengeWeeksTable(attachedDatabase, alias);
+  }
+}
+
+class DbUserChallengeWeek extends DataClass
+    implements Insertable<DbUserChallengeWeek> {
+  final String id;
+  final String userChallengeId;
+  final String weekStart;
+  final String weekEnd;
+  final int goalCount;
+  final int achievedCount;
+  final String status;
+  final DateTime? completedAt;
+  final DateTime? celebrationSeenAt;
+  final DateTime updatedAt;
+  const DbUserChallengeWeek(
+      {required this.id,
+      required this.userChallengeId,
+      required this.weekStart,
+      required this.weekEnd,
+      required this.goalCount,
+      required this.achievedCount,
+      required this.status,
+      this.completedAt,
+      this.celebrationSeenAt,
+      required this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['user_challenge_id'] = Variable<String>(userChallengeId);
+    map['week_start'] = Variable<String>(weekStart);
+    map['week_end'] = Variable<String>(weekEnd);
+    map['goal_count'] = Variable<int>(goalCount);
+    map['achieved_count'] = Variable<int>(achievedCount);
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || completedAt != null) {
+      map['completed_at'] = Variable<DateTime>(completedAt);
+    }
+    if (!nullToAbsent || celebrationSeenAt != null) {
+      map['celebration_seen_at'] = Variable<DateTime>(celebrationSeenAt);
+    }
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  UserChallengeWeeksCompanion toCompanion(bool nullToAbsent) {
+    return UserChallengeWeeksCompanion(
+      id: Value(id),
+      userChallengeId: Value(userChallengeId),
+      weekStart: Value(weekStart),
+      weekEnd: Value(weekEnd),
+      goalCount: Value(goalCount),
+      achievedCount: Value(achievedCount),
+      status: Value(status),
+      completedAt: completedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(completedAt),
+      celebrationSeenAt: celebrationSeenAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(celebrationSeenAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory DbUserChallengeWeek.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DbUserChallengeWeek(
+      id: serializer.fromJson<String>(json['id']),
+      userChallengeId: serializer.fromJson<String>(json['userChallengeId']),
+      weekStart: serializer.fromJson<String>(json['weekStart']),
+      weekEnd: serializer.fromJson<String>(json['weekEnd']),
+      goalCount: serializer.fromJson<int>(json['goalCount']),
+      achievedCount: serializer.fromJson<int>(json['achievedCount']),
+      status: serializer.fromJson<String>(json['status']),
+      completedAt: serializer.fromJson<DateTime?>(json['completedAt']),
+      celebrationSeenAt:
+          serializer.fromJson<DateTime?>(json['celebrationSeenAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'userChallengeId': serializer.toJson<String>(userChallengeId),
+      'weekStart': serializer.toJson<String>(weekStart),
+      'weekEnd': serializer.toJson<String>(weekEnd),
+      'goalCount': serializer.toJson<int>(goalCount),
+      'achievedCount': serializer.toJson<int>(achievedCount),
+      'status': serializer.toJson<String>(status),
+      'completedAt': serializer.toJson<DateTime?>(completedAt),
+      'celebrationSeenAt': serializer.toJson<DateTime?>(celebrationSeenAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  DbUserChallengeWeek copyWith(
+          {String? id,
+          String? userChallengeId,
+          String? weekStart,
+          String? weekEnd,
+          int? goalCount,
+          int? achievedCount,
+          String? status,
+          Value<DateTime?> completedAt = const Value.absent(),
+          Value<DateTime?> celebrationSeenAt = const Value.absent(),
+          DateTime? updatedAt}) =>
+      DbUserChallengeWeek(
+        id: id ?? this.id,
+        userChallengeId: userChallengeId ?? this.userChallengeId,
+        weekStart: weekStart ?? this.weekStart,
+        weekEnd: weekEnd ?? this.weekEnd,
+        goalCount: goalCount ?? this.goalCount,
+        achievedCount: achievedCount ?? this.achievedCount,
+        status: status ?? this.status,
+        completedAt: completedAt.present ? completedAt.value : this.completedAt,
+        celebrationSeenAt: celebrationSeenAt.present
+            ? celebrationSeenAt.value
+            : this.celebrationSeenAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  DbUserChallengeWeek copyWithCompanion(UserChallengeWeeksCompanion data) {
+    return DbUserChallengeWeek(
+      id: data.id.present ? data.id.value : this.id,
+      userChallengeId: data.userChallengeId.present
+          ? data.userChallengeId.value
+          : this.userChallengeId,
+      weekStart: data.weekStart.present ? data.weekStart.value : this.weekStart,
+      weekEnd: data.weekEnd.present ? data.weekEnd.value : this.weekEnd,
+      goalCount: data.goalCount.present ? data.goalCount.value : this.goalCount,
+      achievedCount: data.achievedCount.present
+          ? data.achievedCount.value
+          : this.achievedCount,
+      status: data.status.present ? data.status.value : this.status,
+      completedAt:
+          data.completedAt.present ? data.completedAt.value : this.completedAt,
+      celebrationSeenAt: data.celebrationSeenAt.present
+          ? data.celebrationSeenAt.value
+          : this.celebrationSeenAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DbUserChallengeWeek(')
+          ..write('id: $id, ')
+          ..write('userChallengeId: $userChallengeId, ')
+          ..write('weekStart: $weekStart, ')
+          ..write('weekEnd: $weekEnd, ')
+          ..write('goalCount: $goalCount, ')
+          ..write('achievedCount: $achievedCount, ')
+          ..write('status: $status, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('celebrationSeenAt: $celebrationSeenAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      userChallengeId,
+      weekStart,
+      weekEnd,
+      goalCount,
+      achievedCount,
+      status,
+      completedAt,
+      celebrationSeenAt,
+      updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DbUserChallengeWeek &&
+          other.id == this.id &&
+          other.userChallengeId == this.userChallengeId &&
+          other.weekStart == this.weekStart &&
+          other.weekEnd == this.weekEnd &&
+          other.goalCount == this.goalCount &&
+          other.achievedCount == this.achievedCount &&
+          other.status == this.status &&
+          other.completedAt == this.completedAt &&
+          other.celebrationSeenAt == this.celebrationSeenAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class UserChallengeWeeksCompanion extends UpdateCompanion<DbUserChallengeWeek> {
+  final Value<String> id;
+  final Value<String> userChallengeId;
+  final Value<String> weekStart;
+  final Value<String> weekEnd;
+  final Value<int> goalCount;
+  final Value<int> achievedCount;
+  final Value<String> status;
+  final Value<DateTime?> completedAt;
+  final Value<DateTime?> celebrationSeenAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const UserChallengeWeeksCompanion({
+    this.id = const Value.absent(),
+    this.userChallengeId = const Value.absent(),
+    this.weekStart = const Value.absent(),
+    this.weekEnd = const Value.absent(),
+    this.goalCount = const Value.absent(),
+    this.achievedCount = const Value.absent(),
+    this.status = const Value.absent(),
+    this.completedAt = const Value.absent(),
+    this.celebrationSeenAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  UserChallengeWeeksCompanion.insert({
+    required String id,
+    required String userChallengeId,
+    required String weekStart,
+    required String weekEnd,
+    required int goalCount,
+    this.achievedCount = const Value.absent(),
+    this.status = const Value.absent(),
+    this.completedAt = const Value.absent(),
+    this.celebrationSeenAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        userChallengeId = Value(userChallengeId),
+        weekStart = Value(weekStart),
+        weekEnd = Value(weekEnd),
+        goalCount = Value(goalCount);
+  static Insertable<DbUserChallengeWeek> custom({
+    Expression<String>? id,
+    Expression<String>? userChallengeId,
+    Expression<String>? weekStart,
+    Expression<String>? weekEnd,
+    Expression<int>? goalCount,
+    Expression<int>? achievedCount,
+    Expression<String>? status,
+    Expression<DateTime>? completedAt,
+    Expression<DateTime>? celebrationSeenAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userChallengeId != null) 'user_challenge_id': userChallengeId,
+      if (weekStart != null) 'week_start': weekStart,
+      if (weekEnd != null) 'week_end': weekEnd,
+      if (goalCount != null) 'goal_count': goalCount,
+      if (achievedCount != null) 'achieved_count': achievedCount,
+      if (status != null) 'status': status,
+      if (completedAt != null) 'completed_at': completedAt,
+      if (celebrationSeenAt != null) 'celebration_seen_at': celebrationSeenAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  UserChallengeWeeksCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? userChallengeId,
+      Value<String>? weekStart,
+      Value<String>? weekEnd,
+      Value<int>? goalCount,
+      Value<int>? achievedCount,
+      Value<String>? status,
+      Value<DateTime?>? completedAt,
+      Value<DateTime?>? celebrationSeenAt,
+      Value<DateTime>? updatedAt,
+      Value<int>? rowid}) {
+    return UserChallengeWeeksCompanion(
+      id: id ?? this.id,
+      userChallengeId: userChallengeId ?? this.userChallengeId,
+      weekStart: weekStart ?? this.weekStart,
+      weekEnd: weekEnd ?? this.weekEnd,
+      goalCount: goalCount ?? this.goalCount,
+      achievedCount: achievedCount ?? this.achievedCount,
+      status: status ?? this.status,
+      completedAt: completedAt ?? this.completedAt,
+      celebrationSeenAt: celebrationSeenAt ?? this.celebrationSeenAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (userChallengeId.present) {
+      map['user_challenge_id'] = Variable<String>(userChallengeId.value);
+    }
+    if (weekStart.present) {
+      map['week_start'] = Variable<String>(weekStart.value);
+    }
+    if (weekEnd.present) {
+      map['week_end'] = Variable<String>(weekEnd.value);
+    }
+    if (goalCount.present) {
+      map['goal_count'] = Variable<int>(goalCount.value);
+    }
+    if (achievedCount.present) {
+      map['achieved_count'] = Variable<int>(achievedCount.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (completedAt.present) {
+      map['completed_at'] = Variable<DateTime>(completedAt.value);
+    }
+    if (celebrationSeenAt.present) {
+      map['celebration_seen_at'] = Variable<DateTime>(celebrationSeenAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserChallengeWeeksCompanion(')
+          ..write('id: $id, ')
+          ..write('userChallengeId: $userChallengeId, ')
+          ..write('weekStart: $weekStart, ')
+          ..write('weekEnd: $weekEnd, ')
+          ..write('goalCount: $goalCount, ')
+          ..write('achievedCount: $achievedCount, ')
+          ..write('status: $status, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('celebrationSeenAt: $celebrationSeenAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3569,6 +5102,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TaskNotificationTogglesTable taskNotificationToggles =
       $TaskNotificationTogglesTable(this);
   late final $PendingSyncOpsTable pendingSyncOps = $PendingSyncOpsTable(this);
+  late final $ChallengeTemplatesTable challengeTemplates =
+      $ChallengeTemplatesTable(this);
+  late final $UserChallengesTable userChallenges = $UserChallengesTable(this);
+  late final $UserChallengeWeeksTable userChallengeWeeks =
+      $UserChallengeWeeksTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3584,7 +5122,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         appSettings,
         categoryNotificationSchedules,
         taskNotificationToggles,
-        pendingSyncOps
+        pendingSyncOps,
+        challengeTemplates,
+        userChallenges,
+        userChallengeWeeks
       ];
 }
 
@@ -5483,6 +7024,677 @@ typedef $$PendingSyncOpsTableProcessedTableManager = ProcessedTableManager<
     ),
     PendingSyncOp,
     PrefetchHooks Function()>;
+typedef $$ChallengeTemplatesTableCreateCompanionBuilder
+    = ChallengeTemplatesCompanion Function({
+  required String code,
+  required String defaultTitle,
+  required String defaultIcon,
+  required String sourceKind,
+  required String sourceRef,
+  required int goalCount,
+  Value<int> defaultSortOrder,
+  Value<bool> isActive,
+  Value<int> rowid,
+});
+typedef $$ChallengeTemplatesTableUpdateCompanionBuilder
+    = ChallengeTemplatesCompanion Function({
+  Value<String> code,
+  Value<String> defaultTitle,
+  Value<String> defaultIcon,
+  Value<String> sourceKind,
+  Value<String> sourceRef,
+  Value<int> goalCount,
+  Value<int> defaultSortOrder,
+  Value<bool> isActive,
+  Value<int> rowid,
+});
+
+class $$ChallengeTemplatesTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $ChallengeTemplatesTable> {
+  $$ChallengeTemplatesTableFilterComposer(super.$state);
+  ColumnFilters<String> get code => $state.composableBuilder(
+      column: $state.table.code,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get defaultTitle => $state.composableBuilder(
+      column: $state.table.defaultTitle,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get defaultIcon => $state.composableBuilder(
+      column: $state.table.defaultIcon,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get sourceKind => $state.composableBuilder(
+      column: $state.table.sourceKind,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get sourceRef => $state.composableBuilder(
+      column: $state.table.sourceRef,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get goalCount => $state.composableBuilder(
+      column: $state.table.goalCount,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get defaultSortOrder => $state.composableBuilder(
+      column: $state.table.defaultSortOrder,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<bool> get isActive => $state.composableBuilder(
+      column: $state.table.isActive,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $$ChallengeTemplatesTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $ChallengeTemplatesTable> {
+  $$ChallengeTemplatesTableOrderingComposer(super.$state);
+  ColumnOrderings<String> get code => $state.composableBuilder(
+      column: $state.table.code,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get defaultTitle => $state.composableBuilder(
+      column: $state.table.defaultTitle,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get defaultIcon => $state.composableBuilder(
+      column: $state.table.defaultIcon,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get sourceKind => $state.composableBuilder(
+      column: $state.table.sourceKind,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get sourceRef => $state.composableBuilder(
+      column: $state.table.sourceRef,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get goalCount => $state.composableBuilder(
+      column: $state.table.goalCount,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get defaultSortOrder => $state.composableBuilder(
+      column: $state.table.defaultSortOrder,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<bool> get isActive => $state.composableBuilder(
+      column: $state.table.isActive,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+class $$ChallengeTemplatesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $ChallengeTemplatesTable,
+    DbChallengeTemplate,
+    $$ChallengeTemplatesTableFilterComposer,
+    $$ChallengeTemplatesTableOrderingComposer,
+    $$ChallengeTemplatesTableCreateCompanionBuilder,
+    $$ChallengeTemplatesTableUpdateCompanionBuilder,
+    (
+      DbChallengeTemplate,
+      BaseReferences<_$AppDatabase, $ChallengeTemplatesTable,
+          DbChallengeTemplate>
+    ),
+    DbChallengeTemplate,
+    PrefetchHooks Function()> {
+  $$ChallengeTemplatesTableTableManager(
+      _$AppDatabase db, $ChallengeTemplatesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$ChallengeTemplatesTableFilterComposer(ComposerState(db, table)),
+          orderingComposer: $$ChallengeTemplatesTableOrderingComposer(
+              ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<String> code = const Value.absent(),
+            Value<String> defaultTitle = const Value.absent(),
+            Value<String> defaultIcon = const Value.absent(),
+            Value<String> sourceKind = const Value.absent(),
+            Value<String> sourceRef = const Value.absent(),
+            Value<int> goalCount = const Value.absent(),
+            Value<int> defaultSortOrder = const Value.absent(),
+            Value<bool> isActive = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              ChallengeTemplatesCompanion(
+            code: code,
+            defaultTitle: defaultTitle,
+            defaultIcon: defaultIcon,
+            sourceKind: sourceKind,
+            sourceRef: sourceRef,
+            goalCount: goalCount,
+            defaultSortOrder: defaultSortOrder,
+            isActive: isActive,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String code,
+            required String defaultTitle,
+            required String defaultIcon,
+            required String sourceKind,
+            required String sourceRef,
+            required int goalCount,
+            Value<int> defaultSortOrder = const Value.absent(),
+            Value<bool> isActive = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              ChallengeTemplatesCompanion.insert(
+            code: code,
+            defaultTitle: defaultTitle,
+            defaultIcon: defaultIcon,
+            sourceKind: sourceKind,
+            sourceRef: sourceRef,
+            goalCount: goalCount,
+            defaultSortOrder: defaultSortOrder,
+            isActive: isActive,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ChallengeTemplatesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $ChallengeTemplatesTable,
+    DbChallengeTemplate,
+    $$ChallengeTemplatesTableFilterComposer,
+    $$ChallengeTemplatesTableOrderingComposer,
+    $$ChallengeTemplatesTableCreateCompanionBuilder,
+    $$ChallengeTemplatesTableUpdateCompanionBuilder,
+    (
+      DbChallengeTemplate,
+      BaseReferences<_$AppDatabase, $ChallengeTemplatesTable,
+          DbChallengeTemplate>
+    ),
+    DbChallengeTemplate,
+    PrefetchHooks Function()>;
+typedef $$UserChallengesTableCreateCompanionBuilder = UserChallengesCompanion
+    Function({
+  required String id,
+  Value<String?> templateCode,
+  Value<String?> customTitle,
+  Value<String?> customIcon,
+  Value<String?> customSourceKind,
+  Value<String?> customSourceRef,
+  Value<int?> customGoalCount,
+  Value<DateTime> startedAt,
+  Value<DateTime?> archivedAt,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+typedef $$UserChallengesTableUpdateCompanionBuilder = UserChallengesCompanion
+    Function({
+  Value<String> id,
+  Value<String?> templateCode,
+  Value<String?> customTitle,
+  Value<String?> customIcon,
+  Value<String?> customSourceKind,
+  Value<String?> customSourceRef,
+  Value<int?> customGoalCount,
+  Value<DateTime> startedAt,
+  Value<DateTime?> archivedAt,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+
+class $$UserChallengesTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $UserChallengesTable> {
+  $$UserChallengesTableFilterComposer(super.$state);
+  ColumnFilters<String> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get templateCode => $state.composableBuilder(
+      column: $state.table.templateCode,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get customTitle => $state.composableBuilder(
+      column: $state.table.customTitle,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get customIcon => $state.composableBuilder(
+      column: $state.table.customIcon,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get customSourceKind => $state.composableBuilder(
+      column: $state.table.customSourceKind,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get customSourceRef => $state.composableBuilder(
+      column: $state.table.customSourceRef,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get customGoalCount => $state.composableBuilder(
+      column: $state.table.customGoalCount,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<DateTime> get startedAt => $state.composableBuilder(
+      column: $state.table.startedAt,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<DateTime> get archivedAt => $state.composableBuilder(
+      column: $state.table.archivedAt,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<DateTime> get updatedAt => $state.composableBuilder(
+      column: $state.table.updatedAt,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $$UserChallengesTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $UserChallengesTable> {
+  $$UserChallengesTableOrderingComposer(super.$state);
+  ColumnOrderings<String> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get templateCode => $state.composableBuilder(
+      column: $state.table.templateCode,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get customTitle => $state.composableBuilder(
+      column: $state.table.customTitle,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get customIcon => $state.composableBuilder(
+      column: $state.table.customIcon,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get customSourceKind => $state.composableBuilder(
+      column: $state.table.customSourceKind,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get customSourceRef => $state.composableBuilder(
+      column: $state.table.customSourceRef,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get customGoalCount => $state.composableBuilder(
+      column: $state.table.customGoalCount,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<DateTime> get startedAt => $state.composableBuilder(
+      column: $state.table.startedAt,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<DateTime> get archivedAt => $state.composableBuilder(
+      column: $state.table.archivedAt,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<DateTime> get updatedAt => $state.composableBuilder(
+      column: $state.table.updatedAt,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+class $$UserChallengesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $UserChallengesTable,
+    DbUserChallenge,
+    $$UserChallengesTableFilterComposer,
+    $$UserChallengesTableOrderingComposer,
+    $$UserChallengesTableCreateCompanionBuilder,
+    $$UserChallengesTableUpdateCompanionBuilder,
+    (
+      DbUserChallenge,
+      BaseReferences<_$AppDatabase, $UserChallengesTable, DbUserChallenge>
+    ),
+    DbUserChallenge,
+    PrefetchHooks Function()> {
+  $$UserChallengesTableTableManager(
+      _$AppDatabase db, $UserChallengesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$UserChallengesTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$UserChallengesTableOrderingComposer(ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String?> templateCode = const Value.absent(),
+            Value<String?> customTitle = const Value.absent(),
+            Value<String?> customIcon = const Value.absent(),
+            Value<String?> customSourceKind = const Value.absent(),
+            Value<String?> customSourceRef = const Value.absent(),
+            Value<int?> customGoalCount = const Value.absent(),
+            Value<DateTime> startedAt = const Value.absent(),
+            Value<DateTime?> archivedAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              UserChallengesCompanion(
+            id: id,
+            templateCode: templateCode,
+            customTitle: customTitle,
+            customIcon: customIcon,
+            customSourceKind: customSourceKind,
+            customSourceRef: customSourceRef,
+            customGoalCount: customGoalCount,
+            startedAt: startedAt,
+            archivedAt: archivedAt,
+            updatedAt: updatedAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            Value<String?> templateCode = const Value.absent(),
+            Value<String?> customTitle = const Value.absent(),
+            Value<String?> customIcon = const Value.absent(),
+            Value<String?> customSourceKind = const Value.absent(),
+            Value<String?> customSourceRef = const Value.absent(),
+            Value<int?> customGoalCount = const Value.absent(),
+            Value<DateTime> startedAt = const Value.absent(),
+            Value<DateTime?> archivedAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              UserChallengesCompanion.insert(
+            id: id,
+            templateCode: templateCode,
+            customTitle: customTitle,
+            customIcon: customIcon,
+            customSourceKind: customSourceKind,
+            customSourceRef: customSourceRef,
+            customGoalCount: customGoalCount,
+            startedAt: startedAt,
+            archivedAt: archivedAt,
+            updatedAt: updatedAt,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$UserChallengesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $UserChallengesTable,
+    DbUserChallenge,
+    $$UserChallengesTableFilterComposer,
+    $$UserChallengesTableOrderingComposer,
+    $$UserChallengesTableCreateCompanionBuilder,
+    $$UserChallengesTableUpdateCompanionBuilder,
+    (
+      DbUserChallenge,
+      BaseReferences<_$AppDatabase, $UserChallengesTable, DbUserChallenge>
+    ),
+    DbUserChallenge,
+    PrefetchHooks Function()>;
+typedef $$UserChallengeWeeksTableCreateCompanionBuilder
+    = UserChallengeWeeksCompanion Function({
+  required String id,
+  required String userChallengeId,
+  required String weekStart,
+  required String weekEnd,
+  required int goalCount,
+  Value<int> achievedCount,
+  Value<String> status,
+  Value<DateTime?> completedAt,
+  Value<DateTime?> celebrationSeenAt,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+typedef $$UserChallengeWeeksTableUpdateCompanionBuilder
+    = UserChallengeWeeksCompanion Function({
+  Value<String> id,
+  Value<String> userChallengeId,
+  Value<String> weekStart,
+  Value<String> weekEnd,
+  Value<int> goalCount,
+  Value<int> achievedCount,
+  Value<String> status,
+  Value<DateTime?> completedAt,
+  Value<DateTime?> celebrationSeenAt,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+
+class $$UserChallengeWeeksTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $UserChallengeWeeksTable> {
+  $$UserChallengeWeeksTableFilterComposer(super.$state);
+  ColumnFilters<String> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get userChallengeId => $state.composableBuilder(
+      column: $state.table.userChallengeId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get weekStart => $state.composableBuilder(
+      column: $state.table.weekStart,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get weekEnd => $state.composableBuilder(
+      column: $state.table.weekEnd,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get goalCount => $state.composableBuilder(
+      column: $state.table.goalCount,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get achievedCount => $state.composableBuilder(
+      column: $state.table.achievedCount,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get status => $state.composableBuilder(
+      column: $state.table.status,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<DateTime> get completedAt => $state.composableBuilder(
+      column: $state.table.completedAt,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<DateTime> get celebrationSeenAt => $state.composableBuilder(
+      column: $state.table.celebrationSeenAt,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<DateTime> get updatedAt => $state.composableBuilder(
+      column: $state.table.updatedAt,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $$UserChallengeWeeksTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $UserChallengeWeeksTable> {
+  $$UserChallengeWeeksTableOrderingComposer(super.$state);
+  ColumnOrderings<String> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get userChallengeId => $state.composableBuilder(
+      column: $state.table.userChallengeId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get weekStart => $state.composableBuilder(
+      column: $state.table.weekStart,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get weekEnd => $state.composableBuilder(
+      column: $state.table.weekEnd,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get goalCount => $state.composableBuilder(
+      column: $state.table.goalCount,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get achievedCount => $state.composableBuilder(
+      column: $state.table.achievedCount,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get status => $state.composableBuilder(
+      column: $state.table.status,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<DateTime> get completedAt => $state.composableBuilder(
+      column: $state.table.completedAt,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<DateTime> get celebrationSeenAt => $state.composableBuilder(
+      column: $state.table.celebrationSeenAt,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<DateTime> get updatedAt => $state.composableBuilder(
+      column: $state.table.updatedAt,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+class $$UserChallengeWeeksTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $UserChallengeWeeksTable,
+    DbUserChallengeWeek,
+    $$UserChallengeWeeksTableFilterComposer,
+    $$UserChallengeWeeksTableOrderingComposer,
+    $$UserChallengeWeeksTableCreateCompanionBuilder,
+    $$UserChallengeWeeksTableUpdateCompanionBuilder,
+    (
+      DbUserChallengeWeek,
+      BaseReferences<_$AppDatabase, $UserChallengeWeeksTable,
+          DbUserChallengeWeek>
+    ),
+    DbUserChallengeWeek,
+    PrefetchHooks Function()> {
+  $$UserChallengeWeeksTableTableManager(
+      _$AppDatabase db, $UserChallengeWeeksTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$UserChallengeWeeksTableFilterComposer(ComposerState(db, table)),
+          orderingComposer: $$UserChallengeWeeksTableOrderingComposer(
+              ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> userChallengeId = const Value.absent(),
+            Value<String> weekStart = const Value.absent(),
+            Value<String> weekEnd = const Value.absent(),
+            Value<int> goalCount = const Value.absent(),
+            Value<int> achievedCount = const Value.absent(),
+            Value<String> status = const Value.absent(),
+            Value<DateTime?> completedAt = const Value.absent(),
+            Value<DateTime?> celebrationSeenAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              UserChallengeWeeksCompanion(
+            id: id,
+            userChallengeId: userChallengeId,
+            weekStart: weekStart,
+            weekEnd: weekEnd,
+            goalCount: goalCount,
+            achievedCount: achievedCount,
+            status: status,
+            completedAt: completedAt,
+            celebrationSeenAt: celebrationSeenAt,
+            updatedAt: updatedAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String userChallengeId,
+            required String weekStart,
+            required String weekEnd,
+            required int goalCount,
+            Value<int> achievedCount = const Value.absent(),
+            Value<String> status = const Value.absent(),
+            Value<DateTime?> completedAt = const Value.absent(),
+            Value<DateTime?> celebrationSeenAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              UserChallengeWeeksCompanion.insert(
+            id: id,
+            userChallengeId: userChallengeId,
+            weekStart: weekStart,
+            weekEnd: weekEnd,
+            goalCount: goalCount,
+            achievedCount: achievedCount,
+            status: status,
+            completedAt: completedAt,
+            celebrationSeenAt: celebrationSeenAt,
+            updatedAt: updatedAt,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$UserChallengeWeeksTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $UserChallengeWeeksTable,
+    DbUserChallengeWeek,
+    $$UserChallengeWeeksTableFilterComposer,
+    $$UserChallengeWeeksTableOrderingComposer,
+    $$UserChallengeWeeksTableCreateCompanionBuilder,
+    $$UserChallengeWeeksTableUpdateCompanionBuilder,
+    (
+      DbUserChallengeWeek,
+      BaseReferences<_$AppDatabase, $UserChallengeWeeksTable,
+          DbUserChallengeWeek>
+    ),
+    DbUserChallengeWeek,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -5512,4 +7724,10 @@ class $AppDatabaseManager {
           _db, _db.taskNotificationToggles);
   $$PendingSyncOpsTableTableManager get pendingSyncOps =>
       $$PendingSyncOpsTableTableManager(_db, _db.pendingSyncOps);
+  $$ChallengeTemplatesTableTableManager get challengeTemplates =>
+      $$ChallengeTemplatesTableTableManager(_db, _db.challengeTemplates);
+  $$UserChallengesTableTableManager get userChallenges =>
+      $$UserChallengesTableTableManager(_db, _db.userChallenges);
+  $$UserChallengeWeeksTableTableManager get userChallengeWeeks =>
+      $$UserChallengeWeeksTableTableManager(_db, _db.userChallengeWeeks);
 }

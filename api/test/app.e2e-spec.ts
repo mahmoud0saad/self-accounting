@@ -27,6 +27,18 @@ describe('Health (e2e)', () => {
       .expect(401);
   });
 
+  it('/v1/challenges/snapshot-state (GET) without auth returns 401', () => {
+    return request(app.getHttpServer())
+      .get('/v1/challenges/snapshot-state')
+      .expect(401);
+  });
+
+  it('/v1/challenges/templates (GET) without auth returns 401', () => {
+    return request(app.getHttpServer())
+      .get('/v1/challenges/templates')
+      .expect(401);
+  });
+
   it('/v1/health (GET) returns JSON health payload', async () => {
     const res = await request(app.getHttpServer())
       .get('/v1/health')

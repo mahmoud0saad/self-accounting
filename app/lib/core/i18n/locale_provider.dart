@@ -9,21 +9,19 @@ class LocaleNotifier extends Notifier<Locale?> {
   @override
   Locale? build() => persistedLocaleAtLaunch;
 
-  Future<void> setLocale(Locale? locale) async {
+  Future<void> setLocale(Locale locale) async {
     final repo = ref.read(settingsRepositoryProvider);
-    await repo.writeLocaleOverride(locale?.languageCode);
+    await repo.writeLocaleOverride(locale.languageCode);
     state = locale;
   }
 
-  /// Cycles: system (`null`) → English → Arabic → system.
+  /// Cycles: Arabic → English → Arabic.
   Future<void> toggle() async {
-    final current = state;
-    if (current == null) {
+    final current = resolveAppLocale(state);
+    if (current.languageCode == 'ar') {
       await setLocale(const Locale('en'));
-    } else if (current.languageCode == 'en') {
-      await setLocale(const Locale('ar'));
     } else {
-      await setLocale(null);
+      await setLocale(const Locale('ar'));
     }
   }
 }

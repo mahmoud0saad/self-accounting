@@ -50,7 +50,7 @@ class AppSettingsRepository {
         .map((rows) {
           final values = {for (final row in rows) row.key: row.value};
           return EodSummarySettings(
-            enabled: values[_eodEnabledKey] != 'false',
+            enabled: values[_eodEnabledKey] == 'true',
             hour: int.tryParse(values[_eodHourKey] ?? '') ?? 21,
             minute: int.tryParse(values[_eodMinuteKey] ?? '') ?? 30,
           );
@@ -77,6 +77,10 @@ class AppSettingsRepository {
   Future<void> setCustomizationLastRestoredAt(DateTime at) {
     return _write(customizationLastRestoredAtKey, at.toIso8601String());
   }
+
+  Future<String?> readRaw(String key) => _read(key);
+
+  Future<void> writeRaw(String key, String value) => _write(key, value);
 
   Future<String?> _read(String key) async {
     final row = await (_db.select(

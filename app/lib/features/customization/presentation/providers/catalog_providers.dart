@@ -1,8 +1,8 @@
 import 'package:app/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/db/app_database_provider.dart';
+import '../../../../core/i18n/launch_locale.dart';
 import '../../../../core/i18n/locale_provider.dart';
 import '../../../notifications/providers/app_localizations_provider.dart';
 import '../../../sync/data/sync_service.dart';
@@ -25,7 +25,7 @@ Stream<EffectiveCatalog> _watchCatalog(
   if (l != null) {
     return repo.watchEffective(l, forManage: forManage);
   }
-  final locale = ref.watch(localeProvider) ?? const Locale('en');
+  final locale = resolveAppLocale(ref.watch(localeProvider));
   return repo.watchEffective(
     lookupAppLocalizations(locale),
     forManage: forManage,

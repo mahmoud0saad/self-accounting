@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/api/server_availability_provider.dart';
 import '../../../../core/db/app_database_provider.dart';
 import '../../data/auth_api.dart';
 import '../../data/auth_repository.dart';
@@ -39,6 +42,16 @@ class AuthNotifier extends Notifier<AuthState> {
       state = const AuthState(status: AuthStatus.unauthenticated);
       return;
     }
+    final serverAvailable = await ref.read(serverAvailabilityProvider.future);
+    if (!serverAvailable) {
+      final user = _userFromStoredTokens(tokens);
+      if (user != null) {
+        state = _stateForUser(user);
+      } else {
+        state = const AuthState(status: AuthStatus.unauthenticated);
+      }
+      return;
+    }
     try {
       final user = await ref.read(authRepositoryProvider).fetchMe();
       await storage.save(
@@ -50,6 +63,18 @@ class AuthNotifier extends Notifier<AuthState> {
     } catch (_) {
       await storage.clear();
       state = const AuthState(status: AuthStatus.unauthenticated);
+    }
+  }
+
+  AuthUser? _userFromStoredTokens(StoredTokens tokens) {
+    final raw = tokens.userJson;
+    if (raw == null) {
+      return null;
+    }
+    try {
+      return AuthUser.fromJson(jsonDecode(raw) as Map<String, dynamic>);
+    } catch (_) {
+      return null;
     }
   }
 

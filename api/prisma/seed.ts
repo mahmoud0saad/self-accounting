@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { challengeTemplatesSeed } from '../src/challenges/seed-templates';
 import { defaultCategoriesSeed, defaultTasksSeed } from './seed-data';
 
 const prisma = new PrismaClient();
@@ -44,6 +45,32 @@ async function main() {
     });
   }
   console.log(`Seeded ${defaultTasksSeed.length} default tasks.`);
+
+  for (const t of challengeTemplatesSeed) {
+    await prisma.challengeTemplate.upsert({
+      where: { code: t.code },
+      create: {
+        code: t.code,
+        defaultTitle: t.defaultTitle,
+        defaultIcon: t.defaultIcon,
+        sourceKind: t.sourceKind,
+        sourceRef: t.sourceRef,
+        goalCount: t.goalCount,
+        defaultSortOrder: t.defaultSortOrder,
+        isActive: true,
+      },
+      update: {
+        defaultTitle: t.defaultTitle,
+        defaultIcon: t.defaultIcon,
+        sourceKind: t.sourceKind,
+        sourceRef: t.sourceRef,
+        goalCount: t.goalCount,
+        defaultSortOrder: t.defaultSortOrder,
+        isActive: true,
+      },
+    });
+  }
+  console.log(`Seeded ${challengeTemplatesSeed.length} challenge templates.`);
 }
 
 main()

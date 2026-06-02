@@ -4,11 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:network_logger/network_logger.dart';
 
+import '../api/server_availability_provider.dart';
 import '../../features/auth/presentation/confirm_email_screen.dart';
 import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/auth/presentation/sign_in_screen.dart';
 import '../../features/auth/presentation/sign_up_screen.dart';
 import '../../features/checklist/presentation/checklist_screen.dart';
+import '../../features/challenges/presentation/challenges_screen.dart';
 import '../../features/customization/presentation/manage_checklist_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
@@ -29,6 +31,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   final refresh = _RouterRefreshNotifier();
   ref.onDispose(refresh.dispose);
   ref.listen(authNotifierProvider, (_, __) => refresh.refresh());
+  ref.listen(serverAvailabilityProvider, (_, __) => refresh.refresh());
 
   final router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -36,6 +39,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     refreshListenable: refresh,
     redirect: (context, state) async {
       final auth = ref.read(authNotifierProvider);
+      final serverAvailable = ref.read(serverAvailableProvider);
       final loc = state.matchedLocation;
       final isAuthRoute = loc.startsWith('/auth');
       final isOnboarding = loc == '/onboarding/notifications';
@@ -44,7 +48,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         return null;
       }
 
-      if (auth.status == AuthStatus.emailPending && loc != '/auth/confirm') {
+      if (!serverAvailable && isAuthRoute) {
+        return '/';
+      }
+      if (!serverAvailable &&
+          loc == '/profile' &&
+          auth.status != AuthStatus.authenticated) {
+        return '/';
+      }
+
+      if (serverAvailable &&
+          auth.status == AuthStatus.emailPending &&
+          loc != '/auth/confirm') {
         return '/auth/confirm';
       }
 
@@ -89,6 +104,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/manage',
         builder: (context, state) =>
             const _DebugNetworkLoggerAttach(child: ManageChecklistScreen()),
+      ),
+      GoRoute(
+        path: '/challenges',
+        builder: (context, state) =>
+            const _DebugNetworkLoggerAttach(child: ChallengesScreen()),
       ),
       GoRoute(
         path: '/onboarding/notifications',
@@ -143,8 +163,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       return;
     }
     lastLocation = loc;
-    // Fire-and-forget; offline / unauth runs are no-ops inside syncNow.
-    ref.read(syncServiceProvider).syncNow();
+    if (ref.read(serverAvailableProvider)) {
+      ref.read(syncServiceProvider).syncNow();
+    }
   }
 
   router.routerDelegate.addListener(onRouteChange);
