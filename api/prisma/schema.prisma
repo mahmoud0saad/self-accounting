@@ -1,5 +1,3 @@
-// https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -16,28 +14,27 @@ model HealthCheck {
 }
 
 model User {
-  id               String    @id @default(cuid())
-  email            String    @unique
-  passwordHash     String    @map("password_hash")
-  fullName         String    @map("full_name")
-  photoUrl         String?   @map("photo_url")
-  timezone         String?
-  locale           String?
-  bio              String?   @db.VarChar(280)
-  provider         String    @default("local")
-  emailConfirmedAt DateTime? @map("email_confirmed_at")
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime  @updatedAt @map("updated_at")
-
+  id                    String                   @id @default(cuid())
+  email                 String                   @unique
+  passwordHash          String                   @map("password_hash")
+  fullName              String                   @map("full_name")
+  photoUrl              String?                  @map("photo_url")
+  timezone              String?
+  locale                String?
+  bio                   String?                  @db.VarChar(280)
+  provider              String                   @default("local")
+  emailConfirmedAt      DateTime?                @map("email_confirmed_at")
+  createdAt             DateTime                 @default(now()) @map("created_at")
+  updatedAt             DateTime                 @updatedAt @map("updated_at")
+  dailyLogs             DailyLog[]
   confirmationTokens    EmailConfirmationToken[]
   refreshTokens         RefreshToken[]
-  dailyLogs             DailyLog[]
   userCategories        UserCategory[]
   userCategoryOverrides UserCategoryOverride[]
-  userTasks             UserTask[]
-  userTaskOverrides     UserTaskOverride[]
-  userChallenges        UserChallenge[]
   userChallengeWeeks    UserChallengeWeek[]
+  userChallenges        UserChallenge[]
+  userTaskOverrides     UserTaskOverride[]
+  userTasks             UserTask[]
 
   @@map("users")
 }
@@ -49,8 +46,7 @@ model EmailConfirmationToken {
   expiresAt  DateTime  @map("expires_at")
   consumedAt DateTime? @map("consumed_at")
   createdAt  DateTime  @default(now()) @map("created_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("email_confirmation_tokens")
@@ -64,8 +60,7 @@ model RefreshToken {
   expiresAt DateTime  @map("expires_at")
   revokedAt DateTime? @map("revoked_at")
   createdAt DateTime  @default(now()) @map("created_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("refresh_tokens")
@@ -73,13 +68,12 @@ model RefreshToken {
 
 /// Global default category (Fajr, Dhuhr, …).
 model Category {
-  code             String   @id
-  defaultName      String   @map("default_name")
-  defaultIcon      String   @map("default_icon")
-  defaultSortOrder Int      @map("default_sort_order")
-  isFard           Boolean  @default(false) @map("is_fard")
-  createdAt        DateTime @default(now()) @map("created_at")
-
+  code                  String                 @id
+  defaultName           String                 @map("default_name")
+  defaultIcon           String                 @map("default_icon")
+  defaultSortOrder      Int                    @map("default_sort_order")
+  isFard                Boolean                @default(false) @map("is_fard")
+  createdAt             DateTime               @default(now()) @map("created_at")
   tasks                 Task[]
   userCategoryOverrides UserCategoryOverride[]
 
@@ -94,8 +88,7 @@ model UserCategory {
   sortOrder  Int       @map("sort_order")
   archivedAt DateTime? @map("archived_at")
   updatedAt  DateTime  @updatedAt @map("updated_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, archivedAt])
   @@map("user_categories")
@@ -110,48 +103,46 @@ model UserCategoryOverride {
   customIcon   String?  @map("custom_icon")
   sortOrder    Int?     @map("sort_order")
   updatedAt    DateTime @updatedAt @map("updated_at")
-
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  category Category @relation(fields: [categoryCode], references: [code], onDelete: Cascade)
+  category     Category @relation(fields: [categoryCode], references: [code], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, categoryCode])
+  @@index([categoryCode], map: "user_category_overrides_category_code_fkey")
   @@map("user_category_overrides")
 }
 
 /// Default catalog task. `id` matches Flutter static catalog codes.
 model Task {
-  id               String   @id
-  categoryCode     String   @map("category_code")
-  defaultPoints    Int      @map("default_points")
-  defaultIcon      String   @default("star") @map("default_icon")
-  defaultSortOrder Int      @default(0) @map("default_sort_order")
-  isDefault        Boolean  @default(true) @map("is_default")
-  createdAt        DateTime @default(now()) @map("created_at")
-
-  category            Category            @relation(fields: [categoryCode], references: [code])
-  dailyLogs           DailyLog[]
-  userTaskOverrides   UserTaskOverride[]
+  id                String             @id
+  defaultPoints     Int                @map("default_points")
+  isDefault         Boolean            @default(true) @map("is_default")
+  createdAt         DateTime           @default(now()) @map("created_at")
+  categoryCode      String             @map("category_code")
+  defaultIcon       String             @default("star") @map("default_icon")
+  defaultSortOrder  Int                @default(0) @map("default_sort_order")
+  dailyLogs         DailyLog[]
+  category          Category           @relation(fields: [categoryCode], references: [code])
+  userTaskOverrides UserTaskOverride[]
 
   @@index([categoryCode])
   @@map("tasks")
 }
 
 model UserTask {
-  id           String    @id @default(cuid())
-  userId       String    @map("user_id")
-  categoryRef  String    @map("category_ref")
-  name         String
-  points       Int
-  icon         String
-  sortOrder    Int       @default(0) @map("sort_order")
-  archivedAt   DateTime? @map("archived_at")
-  description  String?   @db.VarChar(280)
-  recurrence   Json?
-  kind         String    @default("TASK")
-  updatedAt    DateTime  @updatedAt @map("updated_at")
-
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  dailyLogs DailyLog[]
+  id          String     @id @default(cuid())
+  userId      String     @map("user_id")
+  categoryRef String     @map("category_ref")
+  name        String
+  points      Int
+  icon        String
+  sortOrder   Int        @default(0) @map("sort_order")
+  archivedAt  DateTime?  @map("archived_at")
+  description String?    @db.VarChar(280)
+  recurrence  Json?
+  kind        String     @default("TASK")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+  dailyLogs   DailyLog[]
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, archivedAt])
   @@map("user_tasks")
@@ -168,86 +159,85 @@ model UserTaskOverride {
   customCategoryRef String?  @map("custom_category_ref")
   sortOrder         Int?     @map("sort_order")
   updatedAt         DateTime @updatedAt @map("updated_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  task Task @relation(fields: [taskCode], references: [id], onDelete: Cascade)
+  task              Task     @relation(fields: [taskCode], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, taskCode])
+  @@index([taskCode], map: "user_task_overrides_task_code_fkey")
   @@map("user_task_overrides")
 }
 
 model DailyLog {
-  id         String   @id @default(cuid())
-  userId     String   @map("user_id")
-  date       DateTime @db.Date
-  taskId     String?  @map("task_id")
-  userTaskId String?  @map("user_task_id")
-  completed  Boolean  @default(false)
-  updatedAt  DateTime @updatedAt @map("updated_at")
-
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  task     Task?     @relation(fields: [taskId], references: [id])
-  userTask UserTask? @relation(fields: [userTaskId], references: [id])
+  id         String    @id @default(cuid())
+  userId     String    @map("user_id")
+  date       DateTime  @db.Date
+  taskId     String?   @map("task_id")
+  completed  Boolean   @default(false)
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  userTaskId String?   @map("user_task_id")
+  task       Task?     @relation(fields: [taskId], references: [id])
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userTask   UserTask? @relation(fields: [userTaskId], references: [id])
 
   @@unique([userId, date, taskId])
   @@unique([userId, date, userTaskId])
   @@index([userId, date])
+  @@index([taskId], map: "daily_logs_task_id_fkey")
+  @@index([userTaskId], map: "daily_logs_user_task_id_fkey")
   @@map("daily_logs")
 }
 
 /// Global weekly challenge templates (seeded).
 model ChallengeTemplate {
-  code             String   @id
-  defaultTitle     String   @map("default_title")
-  defaultIcon      String   @map("default_icon")
-  sourceKind       String   @map("source_kind")
-  sourceRef        String   @map("source_ref")
-  goalCount        Int      @map("goal_count")
-  defaultSortOrder Int      @default(0) @map("default_sort_order")
-  isActive         Boolean  @default(true) @map("is_active")
-  createdAt        DateTime @default(now()) @map("created_at")
-
-  userChallenges UserChallenge[]
+  code             String          @id
+  defaultTitle     String          @map("default_title")
+  defaultIcon      String          @map("default_icon")
+  sourceKind       String          @map("source_kind")
+  sourceRef        String          @map("source_ref")
+  goalCount        Int             @map("goal_count")
+  defaultSortOrder Int             @default(0) @map("default_sort_order")
+  isActive         Boolean         @default(true) @map("is_active")
+  createdAt        DateTime        @default(now()) @map("created_at")
+  userChallenges   UserChallenge[]
 
   @@map("challenge_templates")
 }
 
 model UserChallenge {
-  id               String    @id @default(cuid())
-  userId           String    @map("user_id")
-  templateCode     String?   @map("template_code")
-  customTitle      String?   @map("custom_title")
-  customIcon       String?   @map("custom_icon")
-  customSourceKind String?   @map("custom_source_kind")
-  customSourceRef  String?   @map("custom_source_ref")
-  customGoalCount  Int?      @map("custom_goal_count")
-  startedAt        DateTime  @default(now()) @map("started_at")
-  archivedAt       DateTime? @map("archived_at")
-  updatedAt        DateTime  @updatedAt @map("updated_at")
-
-  user     User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  template ChallengeTemplate?    @relation(fields: [templateCode], references: [code])
-  weeks    UserChallengeWeek[]
+  id               String              @id @default(cuid())
+  userId           String              @map("user_id")
+  templateCode     String?             @map("template_code")
+  customTitle      String?             @map("custom_title")
+  customIcon       String?             @map("custom_icon")
+  customSourceKind String?             @map("custom_source_kind")
+  customSourceRef  String?             @map("custom_source_ref")
+  customGoalCount  Int?                @map("custom_goal_count")
+  startedAt        DateTime            @default(now()) @map("started_at")
+  archivedAt       DateTime?           @map("archived_at")
+  updatedAt        DateTime            @updatedAt @map("updated_at")
+  weeks            UserChallengeWeek[]
+  template         ChallengeTemplate?  @relation(fields: [templateCode], references: [code])
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, archivedAt])
+  @@index([templateCode], map: "user_challenges_template_code_fkey")
   @@map("user_challenges")
 }
 
 model UserChallengeWeek {
-  id                String    @id @default(cuid())
-  userId            String    @map("user_id")
-  userChallengeId   String    @map("user_challenge_id")
-  weekStart         DateTime  @db.Date @map("week_start")
-  weekEnd           DateTime  @db.Date @map("week_end")
-  goalCount         Int       @map("goal_count")
-  achievedCount     Int       @default(0) @map("achieved_count")
-  status            String    @default("IN_PROGRESS")
-  completedAt       DateTime? @map("completed_at")
-  celebrationSeenAt DateTime? @map("celebration_seen_at")
-  updatedAt         DateTime  @updatedAt @map("updated_at")
-
-  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userChallenge UserChallenge @relation(fields: [userChallengeId], references: [id], onDelete: Cascade)
+  id                String        @id @default(cuid())
+  userId            String        @map("user_id")
+  userChallengeId   String        @map("user_challenge_id")
+  weekStart         DateTime      @map("week_start") @db.Date
+  weekEnd           DateTime      @map("week_end") @db.Date
+  goalCount         Int           @map("goal_count")
+  achievedCount     Int           @default(0) @map("achieved_count")
+  status            String        @default("IN_PROGRESS")
+  completedAt       DateTime?     @map("completed_at")
+  celebrationSeenAt DateTime?     @map("celebration_seen_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+  userChallenge     UserChallenge @relation(fields: [userChallengeId], references: [id], onDelete: Cascade)
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userChallengeId, weekStart])
   @@index([userId, weekStart])

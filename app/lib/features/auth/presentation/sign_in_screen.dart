@@ -44,6 +44,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
         return;
       }
       final l = AppLocalizations.of(context)!;
+      var syncDialogOpen = false;
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -58,32 +59,51 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
           ),
         ),
       );
+      syncDialogOpen = true;
 
-      final days = await runFirstSignInAccountSync(
-        ref,
-        context,
-        confirmRestore: (hasCatalog, hasChallenges, total) =>
-            showAccountRestoreDialog(
+      int days = 0;
+      try {
+        days = await runFirstSignInAccountSync(
+          ref,
           context,
-          l,
-          hasCatalogSnapshot: hasCatalog,
-          hasChallengeSnapshot: hasChallenges,
-          totalItems: total,
-        ),
-      );
+          onBeforeRestorePrompt: () async {
+            if (!mounted || !syncDialogOpen) {
+              return;
+            }
+            Navigator.of(context).pop();
+            syncDialogOpen = false;
+          },
+          confirmRestore: (hasCatalog, hasChallenges, total) =>
+              showAccountRestoreDialog(
+            context,
+            l,
+            hasCatalogSnapshot: hasCatalog,
+            hasChallengeSnapshot: hasChallenges,
+            totalItems: total,
+          ),
+        );
 
-      if (!mounted) {
-        return;
-      }
-      Navigator.of(context).pop();
-      if (days > 0) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l.syncHistorySnack(days))));
+        if (!mounted) {
+          return;
+        }
+        if (days > 0) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l.syncHistorySnack(days))),
+          );
+        }
         context.go('/');
-      }
-      if (mounted) {
-        context.go('/');
+      } catch (_) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Something went wrong while syncing. Please try again.'),
+            ),
+          );
+        }
+      } finally {
+        if (mounted && syncDialogOpen) {
+          Navigator.of(context).pop();
+        }
       }
     }
   }

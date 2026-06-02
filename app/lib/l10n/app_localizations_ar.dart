@@ -26,6 +26,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get taskStateUnchecked => 'غير مُحدَّد';
 
   @override
+  String get taskToggleFailed =>
+      'تعذّر تحديث هذه المهمة. يُرجى المحاولة مرة أخرى.';
+
+  @override
   String taskRowSemanticLabel(String title, int points, String state) {
     return '$title، $points نقطة، $state';
   }

@@ -21,6 +21,7 @@ final class SyncScheduler extends WidgetsBindingObserver {
   final SyncService _sync;
   Timer? _heartbeat;
   bool _started = false;
+  bool _paused = false;
 
   void start() {
     if (_started) {
@@ -29,6 +30,21 @@ final class SyncScheduler extends WidgetsBindingObserver {
     _started = true;
     WidgetsBinding.instance.addObserver(this);
     _startHeartbeat();
+    _maybeSync();
+  }
+
+  void pause() {
+    _paused = true;
+  }
+
+  void resume() {
+    _paused = false;
+  }
+
+  void _maybeSync() {
+    if (_paused) {
+      return;
+    }
     unawaited(_sync.syncNow());
   }
 
@@ -36,7 +52,7 @@ final class SyncScheduler extends WidgetsBindingObserver {
     _heartbeat?.cancel();
     _heartbeat = Timer.periodic(
       _heartbeatPeriod,
-      (_) => unawaited(_sync.syncNow()),
+      (_) => _maybeSync(),
     );
   }
 
@@ -50,13 +66,13 @@ final class SyncScheduler extends WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         _startHeartbeat();
-        unawaited(_sync.syncNow());
+        _maybeSync();
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
       case AppLifecycleState.hidden:
       case AppLifecycleState.detached:
         _stopHeartbeat();
-        unawaited(_sync.syncNow());
+        _maybeSync();
     }
   }
 

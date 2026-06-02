@@ -44,7 +44,14 @@ class EffectiveTaskRow extends ConsumerWidget {
         return;
       }
       HapticFeedback.selectionClick();
-      ref.read(checklistControllerProvider).toggle(task.id);
+      ref.read(checklistControllerProvider).toggle(task.id).catchError((_) {
+        if (!context.mounted) {
+          return;
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l.taskToggleFailed)),
+        );
+      });
     }
 
     final maxTitleWidth = math.min(

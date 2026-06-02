@@ -2,10 +2,21 @@ import 'package:drift/drift.dart';
 
 import '../../../core/db/app_database.dart';
 import '../../../core/time/day_key.dart';
-import '../../sync/data/sync_service.dart';
+import '../../sync/data/sync_log_enqueue.dart';
 
-/// User-owned task ids are generated with the `ut_` prefix in [CatalogRepository].
+/// Fast-path hint for locally created ids; not sufficient on its own after sync.
 bool isUserOwnedTaskLogId(String taskId) => taskId.startsWith('ut_');
+
+/// Resolves whether [taskId] belongs to [UserTasks], including server-restored ids.
+Future<bool> resolveIsUserOwnedTask(AppDatabase db, String taskId) async {
+  if (isUserOwnedTaskLogId(taskId)) {
+    return true;
+  }
+  final row = await (db.select(db.userTasks)
+        ..where((r) => r.id.equals(taskId)))
+      .getSingleOrNull();
+  return row != null;
+}
 
 String effectiveTaskIdFromLog(DbDailyLog row) =>
     row.userTaskId ?? row.taskId!;
@@ -25,10 +36,10 @@ abstract class ChecklistRepository {
 }
 
 class DriftChecklistRepository implements ChecklistRepository {
-  DriftChecklistRepository(this._db, {SyncService? sync}) : _sync = sync;
+  DriftChecklistRepository(this._db, {SyncLogEnqueue? sync}) : _sync = sync;
 
   final AppDatabase _db;
-  final SyncService? _sync;
+  final SyncLogEnqueue? _sync;
 
   @override
   Future<Map<String, bool>> readDay(DayKey day) async {
@@ -50,31 +61,32 @@ class DriftChecklistRepository implements ChecklistRepository {
   }) async {
     final now = DateTime.now().toUtc();
     final dateIso = day.toIsoDate();
+    final isUserTask = await resolveIsUserOwnedTask(_db, taskId);
     await _db.transaction(() async {
       await _upsertDailyLog(
         dateIso: dateIso,
         taskId: taskId,
+        isUserTask: isUserTask,
         completed: completed,
         updatedAt: now,
       );
-      if (!isUserOwnedTaskLogId(taskId)) {
-        await _sync?.enqueueLogOp(
-          date: dateIso,
-          taskId: taskId,
-          completed: completed,
-          clientUpdatedAt: now,
-        );
-      }
+      await _sync?.enqueueLogOp(
+        date: dateIso,
+        taskId: isUserTask ? null : taskId,
+        userTaskId: isUserTask ? taskId : null,
+        completed: completed,
+        clientUpdatedAt: now,
+      );
     });
   }
 
   Future<void> _upsertDailyLog({
     required String dateIso,
     required String taskId,
+    required bool isUserTask,
     required bool completed,
     required DateTime updatedAt,
   }) async {
-    final isUserTask = isUserOwnedTaskLogId(taskId);
     final existing = await (_db.select(_db.dailyLogs)
           ..where((r) {
             final dateMatch = r.date.equals(dateIso);

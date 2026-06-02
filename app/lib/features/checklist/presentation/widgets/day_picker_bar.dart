@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/time/day_key.dart';
-import '../../domain/day_completion.dart';
 import '../providers/calendar_today_provider.dart';
 import '../providers/checklist_repositories_provider.dart';
 import '../providers/daily_progress_provider.dart';
@@ -80,31 +79,6 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
     });
   }
 
-  Color _fillColor(double fraction, ColorScheme scheme) {
-    if (fraction <= 0.0) return scheme.surfaceContainerHighest;
-    return scheme.primary.withValues(alpha: fraction.clamp(0.0, 1.0));
-  }
-
-  Color _labelColor(double fraction, ColorScheme scheme) {
-    return fraction >= 0.50 ? scheme.onPrimary : scheme.onSurface;
-  }
-
-  Color _secondaryLabelColor(double fraction, ColorScheme scheme) {
-    return fraction >= 0.50
-        ? scheme.onPrimary.withValues(alpha: 0.92)
-        : scheme.onSurfaceVariant;
-  }
-
-  Color _selectionBorderColor(
-    bool selected,
-    double fraction,
-    ColorScheme scheme,
-  ) {
-    if (!selected) return scheme.outlineVariant;
-    if (fraction >= 0.65) return scheme.onPrimary;
-    return scheme.secondary;
-  }
-
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
@@ -117,18 +91,6 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
     final tag = locale.toLanguageTag();
 
     final dayKeys = _buildDayKeys(today, oldest);
-    final completionByDay = ref.watch(dayPickerWindowProvider).maybeWhen(
-      data: (days) => {for (final dc in days) dc.day: dc},
-      orElse: () => <DayKey, DayCompletion>{},
-    );
-    final todayProgress = ref.watch(dailyProgressForDayProvider(today)).maybeWhen(
-      data: (progress) => progress,
-      orElse: () => null,
-    );
-    final activeProgress = ref.watch(dailyProgressProvider).maybeWhen(
-      data: (progress) => progress,
-      orElse: () => null,
-    );
 
     ref.listen<DayKey>(activeDayProvider, (previous, next) {
       if (previous == next) {
@@ -158,90 +120,135 @@ class _DayPickerBarState extends ConsumerState<DayPickerBar> {
           padding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
           itemBuilder: (context, index) {
             final day = dayKeys[index];
-            final selected = day == active;
-            final l1 = line1(day);
-            final completion = completionByDay[day];
-            var fraction = completion?.fraction ?? 0.0;
-            var percentInt = completion?.percentInt ?? 0;
-            if (day == today && todayProgress != null) {
-              fraction = todayProgress.fraction;
-              percentInt = todayProgress.percentInt;
-            } else if (selected && activeProgress != null) {
-              fraction = activeProgress.fraction;
-              percentInt = activeProgress.percentInt;
-            }
-            final percentLabel = '$percentInt%';
-            final fillColor = _fillColor(fraction, scheme);
-            final labelColor = _labelColor(fraction, scheme);
-            final secondaryLabelColor = _secondaryLabelColor(fraction, scheme);
-            final borderColor = _selectionBorderColor(
-              selected,
-              fraction,
-              scheme,
-            );
-
-            final chip = Material(
+            return _DayPickerChip(
               key: _keyFor(day),
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () => ref.read(activeDayProvider.notifier).goToDay(day),
-                borderRadius: BorderRadius.circular(20),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeOut,
-                  padding: const EdgeInsetsDirectional.symmetric(
-                    horizontal: 14,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: fillColor,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: borderColor,
-                      width: selected ? 3 : 1,
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        l1,
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: textTheme.labelLarge?.copyWith(
-                          fontWeight:
-                              selected ? FontWeight.w800 : FontWeight.w700,
-                          color: labelColor,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        percentLabel,
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: textTheme.labelSmall?.copyWith(
-                          color: secondaryLabelColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-
-            return Semantics(
-              button: true,
-              selected: selected,
-              label: '$l1, $percentLabel',
-              child: chip,
+              day: day,
+              selected: day == active,
+              line1: line1(day),
+              scheme: scheme,
+              textTheme: textTheme,
+              onTap: () => ref.read(activeDayProvider.notifier).goToDay(day),
             );
           },
         ),
       ),
+    );
+  }
+}
+
+class _DayPickerChip extends ConsumerWidget {
+  const _DayPickerChip({
+    required super.key,
+    required this.day,
+    required this.selected,
+    required this.line1,
+    required this.scheme,
+    required this.textTheme,
+    required this.onTap,
+  });
+
+  final DayKey day;
+  final bool selected;
+  final String line1;
+  final ColorScheme scheme;
+  final TextTheme textTheme;
+  final VoidCallback onTap;
+
+  static Color _fillColor(double fraction, ColorScheme scheme) {
+    if (fraction <= 0.0) return scheme.surfaceContainerHighest;
+    return scheme.primary.withValues(alpha: fraction.clamp(0.0, 1.0));
+  }
+
+  static Color _labelColor(double fraction, ColorScheme scheme) {
+    return fraction >= 0.50 ? scheme.onPrimary : scheme.onSurface;
+  }
+
+  static Color _secondaryLabelColor(double fraction, ColorScheme scheme) {
+    return fraction >= 0.50
+        ? scheme.onPrimary.withValues(alpha: 0.92)
+        : scheme.onSurfaceVariant;
+  }
+
+  static Color _selectionBorderColor(
+    bool selected,
+    double fraction,
+    ColorScheme scheme,
+  ) {
+    if (!selected) return scheme.outlineVariant;
+    if (fraction >= 0.65) return scheme.onPrimary;
+    return scheme.secondary;
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final progress = ref.watch(dailyProgressForDayProvider(day)).maybeWhen(
+          data: (p) => p,
+          orElse: () => null,
+        );
+    final fraction = progress?.fraction ?? 0.0;
+    final percentInt = progress?.percentInt ?? 0;
+    final percentLabel = '$percentInt%';
+    final fillColor = _fillColor(fraction, scheme);
+    final labelColor = _labelColor(fraction, scheme);
+    final secondaryLabelColor = _secondaryLabelColor(fraction, scheme);
+    final borderColor = _selectionBorderColor(selected, fraction, scheme);
+
+    final chip = Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+          padding: const EdgeInsetsDirectional.symmetric(
+            horizontal: 14,
+            vertical: 10,
+          ),
+          decoration: BoxDecoration(
+            color: fillColor,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: borderColor,
+              width: selected ? 3 : 1,
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                line1,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.labelLarge?.copyWith(
+                  fontWeight: selected ? FontWeight.w800 : FontWeight.w700,
+                  color: labelColor,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                percentLabel,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.labelSmall?.copyWith(
+                  color: secondaryLabelColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: '$line1, $percentLabel',
+      child: chip,
     );
   }
 }

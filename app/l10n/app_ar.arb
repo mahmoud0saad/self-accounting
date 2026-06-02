@@ -11,6 +11,7 @@
   },
   "taskStateChecked": "مُحدَّد",
   "taskStateUnchecked": "غير مُحدَّد",
+  "taskToggleFailed": "تعذّر تحديث هذه المهمة. يُرجى المحاولة مرة أخرى.",
   "taskRowSemanticLabel": "{title}، {points} نقطة، {state}",
   "@taskRowSemanticLabel": {
     "placeholders": {
