@@ -83,14 +83,6 @@
 
   "settingsTitle": "الإعدادات",
   "settingsNotificationsTitle": "الإشعارات",
-  "settingsNotificationsGlobalToggleLabel": "تفعيل جميع الإشعارات",
-  "settingsCategoryScheduleTimeLabel": "{category} · {time}",
-  "@settingsCategoryScheduleTimeLabel": {
-    "placeholders": {
-      "category": { "type": "String" },
-      "time": { "type": "String" }
-    }
-  },
   "settingsEodToggleLabel": "ملخّص نهاية اليوم",
   "settingsEodTimeLabel": "عند {time}",
   "@settingsEodTimeLabel": {
@@ -108,25 +100,13 @@
     }
   },
   "onboardingNotifTitle": "حافظ على انتظامك",
-  "onboardingNotifBody": "اسمح بتذكيرات لطيفة لينبّهك التطبيق في أوقات الصلاة التي تختارها. أنت من يتحكّم بالتذكيرات التي تصلك.",
+  "onboardingNotifBody": "اسمح بتذكير لطيف في نهاية اليوم عندما يكون إنجازك أقل من 50٪. يمكنك اختيار الوقت من الإعدادات.",
   "onboardingNotifEnableButton": "تفعيل الإشعارات",
   "onboardingNotifSkipButton": "ليس الآن",
-  "notifCategoryBody": "{taskSummary}",
-  "@notifCategoryBody": {
-    "placeholders": {
-      "taskSummary": { "type": "String" }
-    }
-  },
   "notifEodBody": "أنجزت {percent}٪ من مهام اليوم. دقائق من الذكر قد تُغيّر يومك.",
   "@notifEodBody": {
     "placeholders": {
       "percent": { "type": "int" }
-    }
-  },
-  "settingsTaskNotifToggleA11y": "تفعيل إشعار {taskName}",
-  "@settingsTaskNotifToggleA11y": {
-    "placeholders": {
-      "taskName": { "type": "String" }
     }
   },
 

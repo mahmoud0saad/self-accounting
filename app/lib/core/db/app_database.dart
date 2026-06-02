@@ -246,8 +246,7 @@ class AppDatabase extends _$AppDatabase {
       }
 
       const defaults = {
-        'notifications_enabled': 'true',
-        'eod_enabled': 'true',
+        'eod_enabled': 'false',
         'eod_hour': '21',
         'eod_minute': '30',
       };

@@ -1,0 +1,16 @@
+# Railway uses Nixpacks. This repo is a monorepo; set the service Root Directory to `api`.
+# https://nixpacks.com/docs/configuration/file
+
+providers = ["node"]
+
+[variables]
+NIXPACKS_NODE_VERSION = "20"
+
+[phases.install]
+cmds = ["npm ci"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npm run start:prod"

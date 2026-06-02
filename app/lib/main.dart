@@ -7,6 +7,7 @@ import 'core/db/app_database_provider.dart';
 import 'core/i18n/launch_locale.dart';
 import 'core/i18n/locale_provider.dart';
 import 'core/time/midnight_ticker_provider.dart';
+import 'core/api/server_availability_provider.dart';
 import 'core/routing/app_router.dart';
 import 'features/checklist/data/settings_repository.dart';
 import 'features/checklist/presentation/providers/calendar_today_provider.dart';
@@ -16,7 +17,6 @@ import 'features/checklist/presentation/providers/task_catalog_provider.dart';
 import 'features/notifications/providers/app_localizations_provider.dart';
 import 'features/notifications/providers/notification_scheduler_provider.dart';
 import 'features/settings/presentation/providers/eod_settings_provider.dart';
-import 'features/settings/presentation/providers/notification_settings_provider.dart';
 import 'features/challenges/presentation/widgets/challenge_celebration_listener.dart';
 import 'features/sync/data/sync_scheduler.dart';
 
@@ -52,7 +52,7 @@ class _MuhasabahAppRootState extends ConsumerState<MuhasabahAppRoot> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       ref.read(midnightTickerServiceProvider).start((newToday) {
         // Phase 3: rebase the wall-clock today anchor *first* so the history
         // strip + streak window providers see the new today before the active
@@ -60,9 +60,12 @@ class _MuhasabahAppRootState extends ConsumerState<MuhasabahAppRoot> {
         ref.read(calendarTodayProvider.notifier).rebase(newToday);
         ref.read(activeDayProvider.notifier).onCalendarDayAdvanced(newToday);
       });
-      ref.read(syncSchedulerProvider).start();
+      final available = await ref.read(serverAvailabilityProvider.future);
+      if (available) {
+        ref.read(syncSchedulerProvider).start();
+      }
     });
-    //comment test commit 
+    //comment test commit
   }
 
   @override
@@ -87,14 +90,13 @@ class MuhasabahApp extends ConsumerWidget {
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
       locale: resolveAppLocale(localeOverride),
+      debugShowCheckedModeBanner: false,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       theme: ThemeData(colorScheme: colorScheme, useMaterial3: true),
       routerConfig: ref.watch(appRouterProvider),
       builder: (context, child) => ChallengeCelebrationListener(
-        child: _NotificationStartup(
-          child: child ?? const SizedBox.shrink(),
-        ),
+        child: _NotificationStartup(child: child ?? const SizedBox.shrink()),
       ),
     );
   }
@@ -121,12 +123,10 @@ class _NotificationStartup extends ConsumerWidget {
       });
     }
 
-    ref.listen(categorySchedulesProvider, syncOnChange);
-    ref.listen(taskTogglesProvider, syncOnChange);
     ref.listen(eodSettingsProvider, syncOnChange);
-    ref.listen(notificationsEnabledProvider, syncOnChange);
     ref.listen(checklistStateProvider, syncOnChange);
     ref.listen(taskCatalogProvider, syncOnChange);
+    ref.listen(calendarTodayProvider, syncOnChange);
 
     return child;
   }

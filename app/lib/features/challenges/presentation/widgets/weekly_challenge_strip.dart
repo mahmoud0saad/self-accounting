@@ -34,8 +34,8 @@ class WeeklyChallengeStrip extends ConsumerWidget {
         }
         return _ChipRow(items: items, l: l, scheme: scheme);
       },
-      loading: () => const SizedBox.shrink(),
-      error: (_, __) => const SizedBox.shrink(),
+      loading: () => _ZeroState(l: l, scheme: scheme),
+      error: (_, __) => _ZeroState(l: l, scheme: scheme),
     );
   }
 }

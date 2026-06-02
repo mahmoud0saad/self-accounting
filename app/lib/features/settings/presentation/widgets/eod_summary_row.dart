@@ -2,6 +2,8 @@ import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../notifications/providers/notification_scheduler_provider.dart';
+import '../../../notifications/providers/notification_service_provider.dart';
 import '../../data/app_settings_repository.dart';
 import '../../domain/eod_summary_settings.dart';
 
@@ -24,8 +26,7 @@ class EodSummaryRow extends ConsumerWidget {
           title: Text(l.settingsEodToggleLabel),
           trailing: Switch(
             value: settings.enabled,
-            onChanged: (value) =>
-                ref.read(appSettingsRepositoryProvider).setEodEnabled(value),
+            onChanged: (value) => _setEnabled(ref, value),
           ),
         ),
         if (settings.enabled)
@@ -41,6 +42,18 @@ class EodSummaryRow extends ConsumerWidget {
     );
   }
 
+  Future<void> _setEnabled(WidgetRef ref, bool enabled) async {
+    if (enabled) {
+      await ref.read(notificationServiceProvider).requestPermission();
+    }
+    await ref.read(appSettingsRepositoryProvider).setEodEnabled(enabled);
+    if (enabled) {
+      await ref.read(notificationSchedulerProvider)?.syncAll();
+    } else {
+      await ref.read(notificationServiceProvider).cancelAll();
+    }
+  }
+
   Future<void> _pickTime(
     BuildContext context,
     WidgetRef ref,
@@ -53,5 +66,6 @@ class EodSummaryRow extends ConsumerWidget {
     await ref
         .read(appSettingsRepositoryProvider)
         .setEodTime(picked.hour, picked.minute);
+    await ref.read(notificationSchedulerProvider)?.syncAll();
   }
 }

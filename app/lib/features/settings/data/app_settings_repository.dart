@@ -50,7 +50,7 @@ class AppSettingsRepository {
         .map((rows) {
           final values = {for (final row in rows) row.key: row.value};
           return EodSummarySettings(
-            enabled: values[_eodEnabledKey] != 'false',
+            enabled: values[_eodEnabledKey] == 'true',
             hour: int.tryParse(values[_eodHourKey] ?? '') ?? 21,
             minute: int.tryParse(values[_eodMinuteKey] ?? '') ?? 30,
           );

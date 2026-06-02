@@ -211,15 +211,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsNotificationsTitle => 'Notifications';
 
   @override
-  String get settingsNotificationsGlobalToggleLabel =>
-      'Enable all notifications';
-
-  @override
-  String settingsCategoryScheduleTimeLabel(String category, String time) {
-    return '$category · $time';
-  }
-
-  @override
   String get settingsEodToggleLabel => 'End-of-day summary';
 
   @override
@@ -248,7 +239,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingNotifBody =>
-      'Allow gentle reminders so the app can nudge you at your chosen prayer times. You control which reminders you receive.';
+      'Allow a gentle end-of-day reminder when your daily completion is below 50%. You choose the time in Settings.';
 
   @override
   String get onboardingNotifEnableButton => 'Enable notifications';
@@ -257,18 +248,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingNotifSkipButton => 'Not now';
 
   @override
-  String notifCategoryBody(String taskSummary) {
-    return '$taskSummary';
-  }
-
-  @override
   String notifEodBody(int percent) {
     return 'You\'re at $percent% today. A few minutes of Adhkar can change the day.';
-  }
-
-  @override
-  String settingsTaskNotifToggleA11y(String taskName) {
-    return 'Enable notification for $taskName';
   }
 
   @override

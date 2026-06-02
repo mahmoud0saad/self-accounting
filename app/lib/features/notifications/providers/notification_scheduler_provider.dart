@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../checklist/presentation/providers/checklist_repositories_provider.dart';
 import '../../checklist/presentation/providers/task_catalog_provider.dart';
 import '../../settings/data/app_settings_repository.dart';
-import '../../settings/data/notification_settings_repository.dart';
 import '../notification_scheduler.dart';
 import 'app_localizations_provider.dart';
 import 'notification_service_provider.dart';
@@ -15,9 +14,6 @@ final notificationSchedulerProvider = Provider<NotificationScheduler?>((ref) {
   }
   return NotificationScheduler(
     service: ref.watch(notificationServiceProvider),
-    notificationSettingsRepository: ref.watch(
-      notificationSettingsRepositoryProvider,
-    ),
     appSettingsRepository: ref.watch(appSettingsRepositoryProvider),
     checklistRepository: ref.watch(checklistRepositoryProvider),
     taskCatalog: ref.watch(taskCatalogProvider).value ?? const [],

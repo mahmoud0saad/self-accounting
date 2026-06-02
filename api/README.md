@@ -27,7 +27,7 @@ Muhasabah REST API (NestJS + Prisma + MySQL). Phase 6 adds optional email/passwo
 
 ## Local setup (Phase 6)
 
-1. Copy `.env.example` → `.env` and set `DATABASE_URL`, JWT secrets, and SMTP vars.
+1. Copy `.env.example` → `.env` and set `DATABASE_URL`, JWT secrets, and mail vars (`MAIL_PROVIDER`, SMTP or Resend).
 2. Start MySQL **in the background** (keeps running while you use another terminal):
 
 ```bash
@@ -60,9 +60,24 @@ Three MySQL tables: `challenge_templates` (seeded catalog), `user_challenges` (s
 | GET | `/v1/challenges/snapshot-state` | Cheap restore head-check |
 | PUT | `/v1/challenges/batch` | Sync queue drain (`upsert_user_challenge`, `upsert_user_challenge_week`, …) |
 
-### Gmail SMTP (anti.mahmoud.saad.6@gmail.com)
+### Email (`MAIL_PROVIDER`)
 
-Use a [Google App Password](https://support.google.com/accounts/answer/185833) (2FA required). Set `SMTP_USER` and `SMTP_PASSWORD`. Registration sends a **6-digit code** (15 min TTL); the user enters it in the app via `POST /v1/auth/confirm-email`.
+Default is `smtp`. Set `MAIL_PROVIDER=resend` to use [Resend](https://resend.com) instead (keep SMTP vars in `.env` if you switch back).
+
+| Provider | Required vars |
+|----------|----------------|
+| `smtp` (default) | `SMTP_HOST`, `SMTP_USER`, `SMTP_PASSWORD` |
+| `resend` | `RESEND_API_KEY`, `RESEND_FROM` (verified domain or `onboarding@resend.dev` for testing) |
+
+Registration sends a **6-digit code** (15 min TTL); the user enters it in the app via `POST /v1/auth/confirm-email`.
+
+#### Gmail SMTP (anti.mahmoud.saad.6@gmail.com)
+
+Use a [Google App Password](https://support.google.com/accounts/answer/185833) (2FA required). Set `SMTP_USER` and `SMTP_PASSWORD`.
+
+#### Resend
+
+Set `MAIL_PROVIDER=resend`, `RESEND_API_KEY` to your key from the Resend dashboard, and `RESEND_FROM` to a verified sender address.
 
 ## Project setup
 

@@ -209,14 +209,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsNotificationsTitle => 'الإشعارات';
 
   @override
-  String get settingsNotificationsGlobalToggleLabel => 'تفعيل جميع الإشعارات';
-
-  @override
-  String settingsCategoryScheduleTimeLabel(String category, String time) {
-    return '$category · $time';
-  }
-
-  @override
   String get settingsEodToggleLabel => 'ملخّص نهاية اليوم';
 
   @override
@@ -244,7 +236,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onboardingNotifBody =>
-      'اسمح بتذكيرات لطيفة لينبّهك التطبيق في أوقات الصلاة التي تختارها. أنت من يتحكّم بالتذكيرات التي تصلك.';
+      'اسمح بتذكير لطيف في نهاية اليوم عندما يكون إنجازك أقل من 50٪. يمكنك اختيار الوقت من الإعدادات.';
 
   @override
   String get onboardingNotifEnableButton => 'تفعيل الإشعارات';
@@ -253,18 +245,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingNotifSkipButton => 'ليس الآن';
 
   @override
-  String notifCategoryBody(String taskSummary) {
-    return '$taskSummary';
-  }
-
-  @override
   String notifEodBody(int percent) {
     return 'أنجزت $percent٪ من مهام اليوم. دقائق من الذكر قد تُغيّر يومك.';
-  }
-
-  @override
-  String settingsTaskNotifToggleA11y(String taskName) {
-    return 'تفعيل إشعار $taskName';
   }
 
   @override

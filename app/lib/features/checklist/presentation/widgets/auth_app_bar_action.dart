@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/api/server_availability_provider.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 
 class AuthAppBarAction extends ConsumerWidget {
@@ -12,6 +13,7 @@ class AuthAppBarAction extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
     final auth = ref.watch(authNotifierProvider);
+    final serverAvailable = ref.watch(serverAvailableProvider);
 
     if (auth.status == AuthStatus.unknown) {
       return const SizedBox(
@@ -23,6 +25,9 @@ class AuthAppBarAction extends ConsumerWidget {
 
     if (auth.status == AuthStatus.unauthenticated ||
         auth.status == AuthStatus.emailPending) {
+      if (!serverAvailable) {
+        return const SizedBox.shrink();
+      }
       return TextButton(
         onPressed: () => context.push('/auth/sign-in'),
         child: Text(l.authSignInTitle),

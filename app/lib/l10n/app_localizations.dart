@@ -488,18 +488,6 @@ abstract class AppLocalizations {
   /// **'Notifications'**
   String get settingsNotificationsTitle;
 
-  /// No description provided for @settingsNotificationsGlobalToggleLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Enable all notifications'**
-  String get settingsNotificationsGlobalToggleLabel;
-
-  /// No description provided for @settingsCategoryScheduleTimeLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'{category} · {time}'**
-  String settingsCategoryScheduleTimeLabel(String category, String time);
-
   /// No description provided for @settingsEodToggleLabel.
   ///
   /// In en, this message translates to:
@@ -545,7 +533,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingNotifBody.
   ///
   /// In en, this message translates to:
-  /// **'Allow gentle reminders so the app can nudge you at your chosen prayer times. You control which reminders you receive.'**
+  /// **'Allow a gentle end-of-day reminder when your daily completion is below 50%. You choose the time in Settings.'**
   String get onboardingNotifBody;
 
   /// No description provided for @onboardingNotifEnableButton.
@@ -560,23 +548,11 @@ abstract class AppLocalizations {
   /// **'Not now'**
   String get onboardingNotifSkipButton;
 
-  /// No description provided for @notifCategoryBody.
-  ///
-  /// In en, this message translates to:
-  /// **'{taskSummary}'**
-  String notifCategoryBody(String taskSummary);
-
   /// No description provided for @notifEodBody.
   ///
   /// In en, this message translates to:
   /// **'You\'re at {percent}% today. A few minutes of Adhkar can change the day.'**
   String notifEodBody(int percent);
-
-  /// No description provided for @settingsTaskNotifToggleA11y.
-  ///
-  /// In en, this message translates to:
-  /// **'Enable notification for {taskName}'**
-  String settingsTaskNotifToggleA11y(String taskName);
 
   /// No description provided for @dashboardTitle.
   ///

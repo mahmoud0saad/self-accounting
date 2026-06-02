@@ -83,14 +83,6 @@
 
   "settingsTitle": "Settings",
   "settingsNotificationsTitle": "Notifications",
-  "settingsNotificationsGlobalToggleLabel": "Enable all notifications",
-  "settingsCategoryScheduleTimeLabel": "{category} · {time}",
-  "@settingsCategoryScheduleTimeLabel": {
-    "placeholders": {
-      "category": { "type": "String" },
-      "time": { "type": "String" }
-    }
-  },
   "settingsEodToggleLabel": "End-of-day summary",
   "settingsEodTimeLabel": "At {time}",
   "@settingsEodTimeLabel": {
@@ -108,25 +100,13 @@
     }
   },
   "onboardingNotifTitle": "Stay consistent",
-  "onboardingNotifBody": "Allow gentle reminders so the app can nudge you at your chosen prayer times. You control which reminders you receive.",
+  "onboardingNotifBody": "Allow a gentle end-of-day reminder when your daily completion is below 50%. You choose the time in Settings.",
   "onboardingNotifEnableButton": "Enable notifications",
   "onboardingNotifSkipButton": "Not now",
-  "notifCategoryBody": "{taskSummary}",
-  "@notifCategoryBody": {
-    "placeholders": {
-      "taskSummary": { "type": "String" }
-    }
-  },
   "notifEodBody": "You're at {percent}% today. A few minutes of Adhkar can change the day.",
   "@notifEodBody": {
     "placeholders": {
       "percent": { "type": "int" }
-    }
-  },
-  "settingsTaskNotifToggleA11y": "Enable notification for {taskName}",
-  "@settingsTaskNotifToggleA11y": {
-    "placeholders": {
-      "taskName": { "type": "String" }
     }
   },
 
