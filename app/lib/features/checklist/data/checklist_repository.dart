@@ -4,8 +4,19 @@ import '../../../core/db/app_database.dart';
 import '../../../core/time/day_key.dart';
 import '../../sync/data/sync_service.dart';
 
-/// User-owned task ids are generated with the `ut_` prefix in [CatalogRepository].
+/// Fast-path hint for locally created ids; not sufficient on its own after sync.
 bool isUserOwnedTaskLogId(String taskId) => taskId.startsWith('ut_');
+
+/// Resolves whether [taskId] belongs to [UserTasks], including server-restored ids.
+Future<bool> resolveIsUserOwnedTask(AppDatabase db, String taskId) async {
+  if (isUserOwnedTaskLogId(taskId)) {
+    return true;
+  }
+  final row = await (db.select(db.userTasks)
+        ..where((r) => r.id.equals(taskId)))
+      .getSingleOrNull();
+  return row != null;
+}
 
 String effectiveTaskIdFromLog(DbDailyLog row) =>
     row.userTaskId ?? row.taskId!;
@@ -50,14 +61,16 @@ class DriftChecklistRepository implements ChecklistRepository {
   }) async {
     final now = DateTime.now().toUtc();
     final dateIso = day.toIsoDate();
+    final isUserTask = await resolveIsUserOwnedTask(_db, taskId);
     await _db.transaction(() async {
       await _upsertDailyLog(
         dateIso: dateIso,
         taskId: taskId,
+        isUserTask: isUserTask,
         completed: completed,
         updatedAt: now,
       );
-      if (!isUserOwnedTaskLogId(taskId)) {
+      if (!isUserTask) {
         await _sync?.enqueueLogOp(
           date: dateIso,
           taskId: taskId,
@@ -71,10 +84,10 @@ class DriftChecklistRepository implements ChecklistRepository {
   Future<void> _upsertDailyLog({
     required String dateIso,
     required String taskId,
+    required bool isUserTask,
     required bool completed,
     required DateTime updatedAt,
   }) async {
-    final isUserTask = isUserOwnedTaskLogId(taskId);
     final existing = await (_db.select(_db.dailyLogs)
           ..where((r) {
             final dateMatch = r.date.equals(dateIso);

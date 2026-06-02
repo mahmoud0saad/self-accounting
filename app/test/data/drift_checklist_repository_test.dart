@@ -154,4 +154,38 @@ void main() {
     expect(row.taskId, isNull);
     expect(row.userTaskId, userTaskId);
   });
+
+  test('server-restored user task id toggles via user_task_id column', () async {
+    final db = AppDatabase(NativeDatabase.memory());
+    await db.seedAndReconcile();
+
+    const restoredId = 'clx_restored_task_1';
+    await db.into(db.userTasks).insert(
+          UserTasksCompanion.insert(
+            id: restoredId,
+            categoryRef: 'category:miscAdhkar',
+            name: 'Read hizb',
+            points: 3,
+            icon: 'star',
+            sortOrder: 0,
+          ),
+        );
+
+    final repo = DriftChecklistRepository(db);
+    final day = DayKey(year: 2026, month: 5, day: 20);
+
+    await repo.setCompletion(
+      day: day,
+      taskId: restoredId,
+      completed: true,
+    );
+
+    expect(await repo.readDay(day), {restoredId: true});
+
+    final row = await (db.select(db.dailyLogs)
+          ..where((r) => r.userTaskId.equals(restoredId)))
+        .getSingle();
+    expect(row.taskId, isNull);
+    expect(row.userTaskId, restoredId);
+  });
 }

@@ -128,6 +128,12 @@ abstract class AppLocalizations {
   /// **'not checked'**
   String get taskStateUnchecked;
 
+  /// No description provided for @taskToggleFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update this task. Please try again.'**
+  String get taskToggleFailed;
+
   /// No description provided for @taskRowSemanticLabel.
   ///
   /// In en, this message translates to:

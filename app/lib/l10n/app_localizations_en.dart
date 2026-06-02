@@ -26,6 +26,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get taskStateUnchecked => 'not checked';
 
   @override
+  String get taskToggleFailed =>
+      'Could not update this task. Please try again.';
+
+  @override
   String taskRowSemanticLabel(String title, int points, String state) {
     return '$title, $points points, $state';
   }

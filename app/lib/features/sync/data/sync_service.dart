@@ -332,7 +332,10 @@ class SyncService {
     final allLogs = await db.select(db.dailyLogs).get();
     for (final log in allLogs) {
       final taskId = log.taskId;
-      if (taskId == null || isUserOwnedTaskLogId(taskId)) {
+      if (taskId == null) {
+        continue;
+      }
+      if (await resolveIsUserOwnedTask(db, taskId)) {
         continue;
       }
       await enqueueLogOp(

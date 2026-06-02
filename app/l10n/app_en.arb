@@ -11,6 +11,7 @@
   },
   "taskStateChecked": "checked",
   "taskStateUnchecked": "not checked",
+  "taskToggleFailed": "Could not update this task. Please try again.",
   "taskRowSemanticLabel": "{title}, {points} points, {state}",
   "@taskRowSemanticLabel": {
     "placeholders": {
