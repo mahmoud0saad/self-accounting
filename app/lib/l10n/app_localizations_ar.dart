@@ -198,6 +198,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loadingChecklist => 'جارٍ تحميل قائمتك…';
 
   @override
+  String get tasksSection => 'المهام';
+
+  @override
   String get navChecklistLabel => 'قائمة المهام';
 
   @override

@@ -200,6 +200,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadingChecklist => 'Loading your checklist…';
 
   @override
+  String get tasksSection => 'Tasks';
+
+  @override
   String get navChecklistLabel => 'Checklist';
 
   @override

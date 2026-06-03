@@ -42,6 +42,31 @@ final activeUserChallengesProvider =
   return ref.watch(challengeRepositoryProvider).watchActiveChallenges();
 });
 
+/// Strip layout from active challenge count only (not checklist progress).
+enum WeeklyChallengeStripLayout { zero, single, multi }
+
+final weeklyChallengeStripLayoutProvider =
+    Provider<WeeklyChallengeStripLayout>((ref) {
+  final catalog = ref.watch(effectiveCatalogProvider);
+  if (catalog.isLoading || catalog.hasError) {
+    return WeeklyChallengeStripLayout.zero;
+  }
+  final challenges = ref.watch(activeUserChallengesProvider);
+  return challenges.when(
+    data: (list) {
+      if (list.isEmpty) {
+        return WeeklyChallengeStripLayout.zero;
+      }
+      if (list.length == 1) {
+        return WeeklyChallengeStripLayout.single;
+      }
+      return WeeklyChallengeStripLayout.multi;
+    },
+    loading: () => WeeklyChallengeStripLayout.zero,
+    error: (_, __) => WeeklyChallengeStripLayout.zero,
+  );
+});
+
 final _progressEngine = ChallengeProgressEngine();
 
 final currentWeekProgressProvider =
@@ -78,11 +103,8 @@ final currentWeekProgressProvider =
       catalog: catalog,
     );
 
-    final floor = existing?.achievedCount;
-    final achieved = floor != null && derived.achievedCount < floor
-        ? floor
-        : derived.achievedCount;
-    final status = achieved >= c.goalCount ? 'COMPLETED' : derived.status;
+    final achieved = derived.achievedCount;
+    final status = achieved >= c.goalCount ? 'COMPLETED' : 'IN_PROGRESS';
 
     final week = await repo.upsertWeek(
       challengeId: c.id,
@@ -95,11 +117,34 @@ final currentWeekProgressProvider =
           ? (existing?.completedAt ?? DateTime.now().toUtc())
           : null,
       celebrationSeenAt: existing?.celebrationSeenAt,
-      persistedAchievedFloor: floor,
     );
     out.add(ChallengeWithWeek(challenge: c, week: week));
   }
   return out;
+});
+
+/// Achieved/goal for one challenge; rebuilds when counts change, not strip layout.
+final challengeWeekProgressProvider =
+    Provider.family<({int achieved, int goal})?, String>((ref, challengeId) {
+  return ref.watch(
+    currentWeekProgressProvider.select(
+      (async) {
+        final items = async.value;
+        if (items == null) {
+          return null;
+        }
+        for (final item in items) {
+          if (item.challenge.id == challengeId) {
+            return (
+              achieved: item.week?.achievedCount ?? 0,
+              goal: item.challenge.goalCount,
+            );
+          }
+        }
+        return null;
+      },
+    ),
+  );
 });
 
 /// Task ids and category keys with a COMPLETED challenge this week.

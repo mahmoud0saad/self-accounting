@@ -464,6 +464,12 @@ abstract class AppLocalizations {
   /// **'Loading your checklist…'**
   String get loadingChecklist;
 
+  /// No description provided for @tasksSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get tasksSection;
+
   /// No description provided for @navChecklistLabel.
   ///
   /// In en, this message translates to:

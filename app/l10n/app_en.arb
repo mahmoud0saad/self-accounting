@@ -77,6 +77,7 @@
   "resetTodayDialogCancel": "Cancel",
   "resetTodayDialogConfirm": "Reset",
   "loadingChecklist": "Loading your checklist…",
+  "tasksSection": "Tasks",
 
   "navChecklistLabel": "Checklist",
   "navDashboardLabel": "Dashboard",

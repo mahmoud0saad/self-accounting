@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +8,9 @@ import '../../../challenges/presentation/providers/challenge_providers.dart';
 import '../../../customization/domain/catalog_models.dart';
 import '../providers/checklist_repositories_provider.dart';
 import '../providers/checklist_state_provider.dart';
+
+/// Max width of a single task chip when laid out in a [Wrap].
+const double kEffectiveTaskRowMaxWidth = 280;
 
 class EffectiveTaskRow extends ConsumerWidget {
   const EffectiveTaskRow({super.key, required this.task});
@@ -48,16 +49,11 @@ class EffectiveTaskRow extends ConsumerWidget {
         if (!context.mounted) {
           return;
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.taskToggleFailed)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l.taskToggleFailed)));
       });
     }
-
-    final maxTitleWidth = math.min(
-      280.0,
-      MediaQuery.sizeOf(context).width - 48,
-    );
 
     return Semantics(
       label: semanticsLabel,
@@ -80,121 +76,78 @@ class EffectiveTaskRow extends ConsumerWidget {
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(14),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // _AnimatedCheck(isChecked: isChecked, dimmed: readOnly),
-                // const SizedBox(width: 12),
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: maxTitleWidth),
-                  child: AnimatedDefaultTextStyle(
-                    duration: const Duration(milliseconds: 220),
-                    style:
-                        theme.textTheme.bodyLarge?.copyWith(
-                          color: isChecked
-                              ? scheme.onSurface.withValues(
-                                  alpha: readOnly ? 0.4 : 0.55,
-                                )
-                              : scheme.onSurface.withValues(
-                                  alpha: readOnly ? 0.55 : 1.0,
-                                ),
-                          decoration: isChecked
-                              ? TextDecoration.lineThrough
-                              : TextDecoration.none,
-                          decorationColor: scheme.onSurface.withValues(
-                            alpha: 0.45,
-                          ),
-                          decorationThickness: 1.5,
-                          fontWeight: isChecked
-                              ? FontWeight.w400
-                              : FontWeight.w500,
-                        ) ??
-                        const TextStyle(),
-                    child: Text(
-                      task.displayName ,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: kEffectiveTaskRowMaxWidth,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: AnimatedDefaultTextStyle(
+                      duration: const Duration(milliseconds: 220),
+                      style:
+                          theme.textTheme.bodyMedium?.copyWith(
+                            color: isChecked
+                                ? scheme.onSurface.withValues(
+                                    alpha: readOnly ? 0.4 : 0.55,
+                                  )
+                                : scheme.onSurface.withValues(
+                                    alpha: readOnly ? 0.55 : 1.0,
+                                  ),
+                            decoration: isChecked
+                                ? TextDecoration.lineThrough
+                                : TextDecoration.none,
+                            decorationColor: scheme.onSurface.withValues(
+                              alpha: 0.45,
+                            ),
+                            decorationThickness: 1.5,
+                            fontWeight: isChecked
+                                ? FontWeight.w400
+                                : FontWeight.w500,
+                          ) ??
+                          const TextStyle(),
+                      child: Text(
+                        task.displayName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
-                ),
-                if (showWeekComplete) ...[
-                  const SizedBox(width: 6),
-                  Tooltip(
-                    message: l.challengeCompletedThisWeek,
-                    child: Container(
-                      padding: const EdgeInsetsDirectional.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: scheme.primary.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(999),
-                      ),
-                      child: Text(
-                        l.challengeCompletedThisWeek,
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: scheme.primary,
-                          fontWeight: FontWeight.w600,
+                  if (showWeekComplete) ...[
+                    const SizedBox(width: 6),
+                    Tooltip(
+                      message: l.challengeCompletedThisWeek,
+                      child: Container(
+                        padding: const EdgeInsetsDirectional.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: scheme.primary.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        child: Text(
+                          l.challengeCompletedThisWeek,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: scheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
+                  ],
+                  const SizedBox(width: 8),
+                  _PointsBadge(
+                    points: task.points,
+                    dim: isChecked || readOnly,
+                    l: l,
                   ),
                 ],
-                const SizedBox(width: 8),
-                _PointsBadge(
-                  points: task.points,
-                  dim: isChecked || readOnly,
-                  l: l,
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AnimatedCheck extends StatelessWidget {
-  const _AnimatedCheck({required this.isChecked, required this.dimmed});
-
-  final bool isChecked;
-  final bool dimmed;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return AnimatedOpacity(
-      duration: const Duration(milliseconds: 220),
-      opacity: dimmed ? 0.45 : 1,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 220),
-        curve: Curves.easeOutBack,
-        width: 28,
-        height: 28,
-        decoration: BoxDecoration(
-          color: isChecked ? scheme.primary : Colors.transparent,
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: isChecked
-                ? scheme.primary
-                : scheme.outline.withValues(alpha: 0.6),
-            width: 2,
-          ),
-        ),
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 180),
-          transitionBuilder: (child, anim) =>
-              ScaleTransition(scale: anim, child: child),
-          child: isChecked
-              ? Icon(
-                  Icons.check_rounded,
-                  key: const ValueKey('on'),
-                  color: scheme.onPrimary,
-                  size: 18,
-                )
-              : const SizedBox.shrink(key: ValueKey('off')),
         ),
       ),
     );

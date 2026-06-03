@@ -77,6 +77,7 @@
   "resetTodayDialogCancel": "إلغاء",
   "resetTodayDialogConfirm": "إعادة تعيين",
   "loadingChecklist": "جارٍ تحميل قائمتك…",
+  "tasksSection": "المهام",
 
   "navChecklistLabel": "قائمة المهام",
   "navDashboardLabel": "لوحة المعلومات",
