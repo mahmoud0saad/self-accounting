@@ -564,6 +564,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get manageChecklistTooltipShow => 'Show on today\'s list.';
 
   @override
+  String get manageChecklistNewCategory => 'New Category';
+
+  @override
+  String get manageChecklistAddCustomTask => 'Add Custom Task';
+
+  @override
+  String get manageChecklistCustomTasks => 'Custom Tasks';
+
+  @override
+  String get manageChecklistHiddenLabel => 'Hidden';
+
+  @override
+  String get manageChecklistCustomCategoryLabel => 'Custom category';
+
+  @override
+  String get manageChecklistCustomTaskLabel => 'Custom task';
+
+  @override
+  String get manageChecklistNoCategories =>
+      'No categories yet. Add one to organize your tasks.';
+
+  @override
+  String get manageChecklistNoTasks =>
+      'No tasks here yet. Add a custom task to begin.';
+
+  @override
+  String manageChecklistPointsPlus(int points, String label) {
+    return '+$points $label';
+  }
+
+  @override
   String get restoreCatalogDialogTitle => 'Restore your saved checklist?';
 
   @override

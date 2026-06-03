@@ -1100,6 +1100,60 @@ abstract class AppLocalizations {
   /// **'Show on today\'s list.'**
   String get manageChecklistTooltipShow;
 
+  /// No description provided for @manageChecklistNewCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'New Category'**
+  String get manageChecklistNewCategory;
+
+  /// No description provided for @manageChecklistAddCustomTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Custom Task'**
+  String get manageChecklistAddCustomTask;
+
+  /// No description provided for @manageChecklistCustomTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Tasks'**
+  String get manageChecklistCustomTasks;
+
+  /// No description provided for @manageChecklistHiddenLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden'**
+  String get manageChecklistHiddenLabel;
+
+  /// No description provided for @manageChecklistCustomCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom category'**
+  String get manageChecklistCustomCategoryLabel;
+
+  /// No description provided for @manageChecklistCustomTaskLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom task'**
+  String get manageChecklistCustomTaskLabel;
+
+  /// No description provided for @manageChecklistNoCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'No categories yet. Add one to organize your tasks.'**
+  String get manageChecklistNoCategories;
+
+  /// No description provided for @manageChecklistNoTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks here yet. Add a custom task to begin.'**
+  String get manageChecklistNoTasks;
+
+  /// No description provided for @manageChecklistPointsPlus.
+  ///
+  /// In en, this message translates to:
+  /// **'+{points} {label}'**
+  String manageChecklistPointsPlus(int points, String label);
+
   /// No description provided for @restoreCatalogDialogTitle.
   ///
   /// In en, this message translates to:

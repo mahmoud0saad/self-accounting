@@ -259,6 +259,21 @@
   "manageChecklistRemoveHasHistory": "لهذا العنصر سجل. يمكنك إخفاؤه بدل الإزالة للاحتفاظ بسجلك.",
   "manageChecklistTooltipHide": "إخفاء من قائمة اليوم — مع الاحتفاظ بالسجل.",
   "manageChecklistTooltipShow": "إظهار في قائمة اليوم.",
+  "manageChecklistNewCategory": "فئة جديدة",
+  "manageChecklistAddCustomTask": "إضافة مهمة مخصصة",
+  "manageChecklistCustomTasks": "مهام مخصصة",
+  "manageChecklistHiddenLabel": "مخفية",
+  "manageChecklistCustomCategoryLabel": "فئة مخصصة",
+  "manageChecklistCustomTaskLabel": "مهمة مخصصة",
+  "manageChecklistNoCategories": "لا توجد فئات بعد. أضف فئة لتنظيم مهامك.",
+  "manageChecklistNoTasks": "لا توجد مهام هنا بعد. أضف مهمة مخصصة للبدء.",
+  "manageChecklistPointsPlus": "+{points} {label}",
+  "@manageChecklistPointsPlus": {
+    "placeholders": {
+      "points": { "type": "int" },
+      "label": { "type": "String" }
+    }
+  },
   "restoreCatalogDialogTitle": "استعادة قائمتك المحفوظة؟",
   "restoreCatalogDialogBody": "وجدنا قائمتك المحفوظة على هذا الحساب. ستحلّ الاستعادة محلّ التخصيصات على هذا الجهاز — مع الاحتفاظ بتقدّمك اليومي في المهام الافتراضية.",
   "restoreCatalogDialogRestore": "استعادة",

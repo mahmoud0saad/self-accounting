@@ -576,6 +576,37 @@ class AppLocalizationsAr extends AppLocalizations {
   String get manageChecklistTooltipShow => 'إظهار في قائمة اليوم.';
 
   @override
+  String get manageChecklistNewCategory => 'فئة جديدة';
+
+  @override
+  String get manageChecklistAddCustomTask => 'إضافة مهمة مخصصة';
+
+  @override
+  String get manageChecklistCustomTasks => 'مهام مخصصة';
+
+  @override
+  String get manageChecklistHiddenLabel => 'مخفية';
+
+  @override
+  String get manageChecklistCustomCategoryLabel => 'فئة مخصصة';
+
+  @override
+  String get manageChecklistCustomTaskLabel => 'مهمة مخصصة';
+
+  @override
+  String get manageChecklistNoCategories =>
+      'لا توجد فئات بعد. أضف فئة لتنظيم مهامك.';
+
+  @override
+  String get manageChecklistNoTasks =>
+      'لا توجد مهام هنا بعد. أضف مهمة مخصصة للبدء.';
+
+  @override
+  String manageChecklistPointsPlus(int points, String label) {
+    return '+$points $label';
+  }
+
+  @override
   String get restoreCatalogDialogTitle => 'استعادة قائمتك المحفوظة؟';
 
   @override

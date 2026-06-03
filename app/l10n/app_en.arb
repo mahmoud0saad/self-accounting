@@ -259,6 +259,21 @@
   "manageChecklistRemoveHasHistory": "This task has history. Hide it instead to keep your records.",
   "manageChecklistTooltipHide": "Hide from today — keeps your history.",
   "manageChecklistTooltipShow": "Show on today's list.",
+  "manageChecklistNewCategory": "New Category",
+  "manageChecklistAddCustomTask": "Add Custom Task",
+  "manageChecklistCustomTasks": "Custom Tasks",
+  "manageChecklistHiddenLabel": "Hidden",
+  "manageChecklistCustomCategoryLabel": "Custom category",
+  "manageChecklistCustomTaskLabel": "Custom task",
+  "manageChecklistNoCategories": "No categories yet. Add one to organize your tasks.",
+  "manageChecklistNoTasks": "No tasks here yet. Add a custom task to begin.",
+  "manageChecklistPointsPlus": "+{points} {label}",
+  "@manageChecklistPointsPlus": {
+    "placeholders": {
+      "points": { "type": "int" },
+      "label": { "type": "String" }
+    }
+  },
   "restoreCatalogDialogTitle": "Restore your saved checklist?",
   "restoreCatalogDialogBody": "We found your saved checklist on this account. Restoring will replace the customizations on this device — your daily progress on default tasks is kept.",
   "restoreCatalogDialogRestore": "Restore",
