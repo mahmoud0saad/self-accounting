@@ -326,6 +326,13 @@
       "days": { "type": "int" }
     }
   },
+  "challengeGoalDaysCumulativeLabel": "Goal: {days} days to complete",
+  "@challengeGoalDaysCumulativeLabel": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "challengeCustomGoalLabel": "Goal (days)",
   "challengeCustomCreate": "Create",
   "challengeWeekStartTitle": "Week start",
   "challengeWeekStartSubtitle": "Applies to next week.",
@@ -341,6 +348,13 @@
   "challengeCelebrationTitle": "Mā shā' Allāh",
   "challengeCelebrationBody": "{title} — {goal} of {goal} days this week.",
   "@challengeCelebrationBody": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "goal": { "type": "int" }
+    }
+  },
+  "challengeCelebrationBodyCumulative": "{title} — {goal} of {goal} days completed.",
+  "@challengeCelebrationBodyCumulative": {
     "placeholders": {
       "title": { "type": "String" },
       "goal": { "type": "int" }

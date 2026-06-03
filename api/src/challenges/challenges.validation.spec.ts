@@ -1,4 +1,5 @@
 import {
+  assertCustomGoalCount,
   assertGoalCount,
   assertSourceKind,
   assertWeekStartDow,
@@ -22,10 +23,16 @@ describe('challenges.validation', () => {
     expect(() => assertSourceKind('CATEGORY_WEEKLY_COUNT')).not.toThrow();
   });
 
-  it('rejects goalCount outside 1..7', () => {
+  it('rejects goalCount below 1', () => {
     expect(() => assertGoalCount(0)).toThrow(BadRequestException);
-    expect(() => assertGoalCount(8)).toThrow(BadRequestException);
     expect(() => assertGoalCount(5)).not.toThrow();
+    expect(() => assertGoalCount(21)).not.toThrow();
+  });
+
+  it('accepts customGoalCount without upper bound', () => {
+    expect(() => assertCustomGoalCount(0)).toThrow(BadRequestException);
+    expect(() => assertCustomGoalCount(8)).not.toThrow();
+    expect(() => assertCustomGoalCount(50)).not.toThrow();
   });
 
   it('rejects weekStart not on Sat/Sun/Mon (UTC)', () => {

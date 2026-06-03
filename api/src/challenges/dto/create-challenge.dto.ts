@@ -1,12 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsInt,
-  IsOptional,
-  IsString,
-  Max,
-  Min,
-  ValidateIf,
-} from 'class-validator';
+import { IsInt, IsOptional, IsString, Min, ValidateIf } from 'class-validator';
 
 export class CreateChallengeDto {
   @ApiPropertyOptional({ example: 'fajr_in_jamaah' })
@@ -38,6 +31,5 @@ export class CreateChallengeDto {
   @ValidateIf((o: CreateChallengeDto) => o.templateCode == null)
   @IsInt()
   @Min(1)
-  @Max(7)
   customGoalCount?: number;
 }

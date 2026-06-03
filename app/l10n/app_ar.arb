@@ -326,6 +326,13 @@
       "days": { "type": "int" }
     }
   },
+  "challengeGoalDaysCumulativeLabel": "الهدف: {days} يوماً لإنجازه",
+  "@challengeGoalDaysCumulativeLabel": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "challengeCustomGoalLabel": "الهدف (أيام)",
   "challengeCustomCreate": "إنشاء",
   "challengeWeekStartTitle": "بداية الأسبوع",
   "challengeWeekStartSubtitle": "يُطبَّق من الأسبوع القادم.",
@@ -341,6 +348,13 @@
   "challengeCelebrationTitle": "ما شاء الله",
   "challengeCelebrationBody": "{title} — {goal} من {goal} أيام هذا الأسبوع.",
   "@challengeCelebrationBody": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "goal": { "type": "int" }
+    }
+  },
+  "challengeCelebrationBodyCumulative": "{title} — {goal} من {goal} يوماً مُنجَزاً.",
+  "@challengeCelebrationBodyCumulative": {
     "placeholders": {
       "title": { "type": "String" },
       "goal": { "type": "int" }

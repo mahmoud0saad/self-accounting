@@ -31,11 +31,21 @@ export function assertSourceKind(kind: string): void {
   }
 }
 
-export function assertGoalCount(count: number): void {
-  if (!Number.isInteger(count) || count < 1 || count > 7) {
+export function assertCustomGoalCount(count: number): void {
+  if (!Number.isInteger(count) || count < 1) {
     throw new BadRequestException({
       code: 'GOAL_COUNT_OUT_OF_RANGE',
-      message: 'goalCount must be an integer between 1 and 7.',
+      message: 'customGoalCount must be an integer >= 1.',
+    });
+  }
+}
+
+/** Week snapshot goalCount (synced from client); no upper bound. */
+export function assertGoalCount(count: number): void {
+  if (!Number.isInteger(count) || count < 1) {
+    throw new BadRequestException({
+      code: 'GOAL_COUNT_OUT_OF_RANGE',
+      message: 'goalCount must be an integer >= 1.',
     });
   }
 }

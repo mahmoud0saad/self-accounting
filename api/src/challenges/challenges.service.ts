@@ -12,6 +12,7 @@ import type {
 import { PrismaService } from '../prisma/prisma.service';
 import {
   assertCuratedIcon,
+  assertCustomGoalCount,
   assertGoalCount,
   assertName,
   assertSourceKind,
@@ -164,7 +165,7 @@ export class ChallengesService {
         message: 'Manual challenges are not supported yet.',
       });
     }
-    assertGoalCount(dto.customGoalCount);
+    assertCustomGoalCount(dto.customGoalCount);
     assertCuratedIcon(dto.customIcon);
     const title = assertName(dto.customTitle);
     await this.assertSourceRefOwned(
@@ -215,7 +216,7 @@ export class ChallengesService {
         data.customIcon = dto.customIcon;
       }
       if (dto.customGoalCount != null) {
-        assertGoalCount(dto.customGoalCount);
+        assertCustomGoalCount(dto.customGoalCount);
         data.customGoalCount = dto.customGoalCount;
       }
       if (Object.keys(data).length > 0) {

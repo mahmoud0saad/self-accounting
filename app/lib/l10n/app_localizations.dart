@@ -1334,6 +1334,18 @@ abstract class AppLocalizations {
   /// **'Goal: {days} days this week'**
   String challengeGoalDaysLabel(int days);
 
+  /// No description provided for @challengeGoalDaysCumulativeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal: {days} days to complete'**
+  String challengeGoalDaysCumulativeLabel(int days);
+
+  /// No description provided for @challengeCustomGoalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal (days)'**
+  String get challengeCustomGoalLabel;
+
   /// No description provided for @challengeCustomCreate.
   ///
   /// In en, this message translates to:
@@ -1387,6 +1399,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{title} — {goal} of {goal} days this week.'**
   String challengeCelebrationBody(String title, int goal);
+
+  /// No description provided for @challengeCelebrationBodyCumulative.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} — {goal} of {goal} days completed.'**
+  String challengeCelebrationBodyCumulative(String title, int goal);
 
   /// No description provided for @challengeContinue.
   ///

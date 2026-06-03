@@ -1,5 +1,6 @@
 import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../customization/presentation/providers/catalog_providers.dart';
@@ -22,18 +23,31 @@ Future<void> showCustomChallengeSheet(
   }
 
   final titleCtrl = TextEditingController();
+  final goalCtrl = TextEditingController(text: '7');
   var icon = 'star';
-  var goal = 7;
   var tab = _SourceTab.task;
   var taskId = catalog.tasks.isNotEmpty ? catalog.tasks.first.id : '';
   var categoryKey =
       catalog.categories.isNotEmpty ? catalog.categories.first.key : '';
+
+  int? parsedGoal() {
+    final n = int.tryParse(goalCtrl.text.trim());
+    if (n == null || n < 1) {
+      return null;
+    }
+    return n;
+  }
+
+  String goalHint(int days) => days > 7
+      ? l.challengeGoalDaysCumulativeLabel(days)
+      : l.challengeGoalDaysLabel(days);
 
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     builder: (ctx) => StatefulBuilder(
       builder: (ctx, setSheetState) {
+        final goal = parsedGoal();
         return Padding(
           padding: EdgeInsets.only(
             left: 16,
@@ -124,21 +138,26 @@ Future<void> showCustomChallengeSheet(
                       }
                     },
                   ),
-                Slider(
-                  value: goal.toDouble(),
-                  min: 1,
-                  max: 7,
-                  divisions: 6,
-                  label: l.challengeGoalDaysLabel(goal),
-                  onChanged: (v) => setSheetState(() => goal = v.round()),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: goalCtrl,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: InputDecoration(
+                    labelText: l.challengeCustomGoalLabel,
+                  ),
+                  onChanged: (_) => setSheetState(() {}),
                 ),
-                Text(
-                  l.challengeGoalDaysLabel(goal),
-                  style: Theme.of(ctx).textTheme.bodySmall,
-                ),
+                if (goal != null) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    goalHint(goal),
+                    style: Theme.of(ctx).textTheme.bodySmall,
+                  ),
+                ],
                 const SizedBox(height: 12),
                 FilledButton(
-                  onPressed: titleCtrl.text.trim().length < 2
+                  onPressed: titleCtrl.text.trim().length < 2 || goal == null
                       ? null
                       : () async {
                           final name = titleCtrl.text.trim();

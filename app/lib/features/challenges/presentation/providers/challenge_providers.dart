@@ -84,16 +84,20 @@ final currentWeekProgressProvider =
   final weekEndIso = isoDate(weekEnd);
 
   final allLogs = await db.select(db.dailyLogs).get();
-  final logs = allLogs
-      .where(
-        (l) =>
-            l.date.compareTo(weekStartIso) >= 0 &&
-            l.date.compareTo(weekEndIso) <= 0,
-      )
-      .toList();
 
   final out = <ChallengeWithWeek>[];
   for (final c in challenges) {
+    final logStartIso = c.usesCumulativeProgress
+        ? isoDate(dateOnly(c.startedAt.toLocal()))
+        : weekStartIso;
+    final logs = allLogs
+        .where(
+          (l) =>
+              l.date.compareTo(logStartIso) >= 0 &&
+              l.date.compareTo(weekEndIso) <= 0,
+        )
+        .toList();
+
     final existing = await repo.getWeek(c.id, weekStartIso);
     final derived = _progressEngine.compute(
       challenge: c,

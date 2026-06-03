@@ -698,6 +698,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String challengeGoalDaysCumulativeLabel(int days) {
+    return 'Goal: $days days to complete';
+  }
+
+  @override
+  String get challengeCustomGoalLabel => 'Goal (days)';
+
+  @override
   String get challengeCustomCreate => 'Create';
 
   @override
@@ -726,6 +734,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String challengeCelebrationBody(String title, int goal) {
     return '$title — $goal of $goal days this week.';
+  }
+
+  @override
+  String challengeCelebrationBodyCumulative(String title, int goal) {
+    return '$title — $goal of $goal days completed.';
   }
 
   @override
