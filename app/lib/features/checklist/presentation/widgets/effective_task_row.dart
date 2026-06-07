@@ -174,25 +174,24 @@ class _PointsBadge extends StatelessWidget {
       opacity: dim ? 0.55 : 1.0,
       child: Container(
         padding: const EdgeInsetsDirectional.symmetric(
-          horizontal: 10,
+          horizontal: 4,
           vertical: 5,
         ),
         decoration: BoxDecoration(
           color: scheme.primaryContainer,
-          borderRadius: BorderRadius.circular(999),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               Icons.star_rounded,
-              size: 14,
+              size: 10,
               color: scheme.onPrimaryContainer,
             ),
-            const SizedBox(width: 4),
             Text(
               '$points ${l.pointsLabel}',
-              style: text.labelMedium?.copyWith(
+              style: text.labelSmall?.copyWith(
                 color: scheme.onPrimaryContainer,
                 fontWeight: FontWeight.w700,
                 fontFeatures: const [FontFeature.tabularFigures()],

@@ -213,6 +213,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsTitle => 'الإعدادات';
 
   @override
+  String get settingsChallengesTitle => 'التحديات';
+
+  @override
+  String get settingsChallengesManage => 'عرض وإدارة التحديات';
+
+  @override
   String get settingsNotificationsTitle => 'الإشعارات';
 
   @override
@@ -705,6 +711,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get challengeCustomSourceLabel => 'المصدر';
+
+  @override
+  String get challengeCustomSourceHint => 'اختر مهمة من القائمة';
 
   @override
   String get challengeSourceTabTask => 'مهمة';

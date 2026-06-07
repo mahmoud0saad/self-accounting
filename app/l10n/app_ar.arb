@@ -84,6 +84,8 @@
   "navSettingsLabel": "الإعدادات",
 
   "settingsTitle": "الإعدادات",
+  "settingsChallengesTitle": "التحديات",
+  "settingsChallengesManage": "عرض وإدارة التحديات",
   "settingsNotificationsTitle": "الإشعارات",
   "settingsEodToggleLabel": "ملخّص نهاية اليوم",
   "settingsEodTimeLabel": "عند {time}",
@@ -318,6 +320,7 @@
   "challengeCustomTitleLabel": "العنوان",
   "challengeCustomIconLabel": "الأيقونة",
   "challengeCustomSourceLabel": "المصدر",
+  "challengeCustomSourceHint": "اختر مهمة من القائمة",
   "challengeSourceTabTask": "مهمة",
   "challengeSourceTabCategory": "فئة",
   "challengeGoalDaysLabel": "الهدف: {days} أيام هذا الأسبوع",

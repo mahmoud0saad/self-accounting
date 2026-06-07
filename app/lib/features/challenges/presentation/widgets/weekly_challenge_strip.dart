@@ -44,13 +44,15 @@ class _ZeroState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return Container(
+      margin: EdgeInsets.only(top: 8),
+      child:  Material(
       color: scheme.primaryContainer.withValues(alpha: 0.35),
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () => context.push('/challenges'),
         borderRadius: BorderRadius.circular(12),
-        child: Padding(
+        child: Container( 
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Align(
             alignment: AlignmentDirectional.centerStart,
@@ -71,7 +73,7 @@ class _ZeroState extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 }
 

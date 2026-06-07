@@ -84,6 +84,8 @@
   "navSettingsLabel": "Settings",
 
   "settingsTitle": "Settings",
+  "settingsChallengesTitle": "Challenges",
+  "settingsChallengesManage": "View & manage challenges",
   "settingsNotificationsTitle": "Notifications",
   "settingsEodToggleLabel": "End-of-day summary",
   "settingsEodTimeLabel": "At {time}",
@@ -318,6 +320,7 @@
   "challengeCustomTitleLabel": "Title",
   "challengeCustomIconLabel": "Icon",
   "challengeCustomSourceLabel": "Source",
+  "challengeCustomSourceHint": "Select a task from the list",
   "challengeSourceTabTask": "Task",
   "challengeSourceTabCategory": "Category",
   "challengeGoalDaysLabel": "Goal: {days} days this week",

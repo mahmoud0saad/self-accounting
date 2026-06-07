@@ -215,6 +215,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsTitle => 'Settings';
 
   @override
+  String get settingsChallengesTitle => 'Challenges';
+
+  @override
+  String get settingsChallengesManage => 'View & manage challenges';
+
+  @override
   String get settingsNotificationsTitle => 'Notifications';
 
   @override
@@ -685,6 +691,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get challengeCustomSourceLabel => 'Source';
+
+  @override
+  String get challengeCustomSourceHint => 'Select a task from the list';
 
   @override
   String get challengeSourceTabTask => 'Task';

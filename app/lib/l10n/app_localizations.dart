@@ -494,6 +494,18 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settingsTitle;
 
+  /// No description provided for @settingsChallengesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenges'**
+  String get settingsChallengesTitle;
+
+  /// No description provided for @settingsChallengesManage.
+  ///
+  /// In en, this message translates to:
+  /// **'View & manage challenges'**
+  String get settingsChallengesManage;
+
   /// No description provided for @settingsNotificationsTitle.
   ///
   /// In en, this message translates to:
@@ -1315,6 +1327,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Source'**
   String get challengeCustomSourceLabel;
+
+  /// No description provided for @challengeCustomSourceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a task from the list'**
+  String get challengeCustomSourceHint;
 
   /// No description provided for @challengeSourceTabTask.
   ///
