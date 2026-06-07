@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/time/day_key.dart';
 import '../../../challenges/presentation/providers/challenge_providers.dart';
 import '../../../customization/domain/catalog_models.dart';
-import '../providers/checklist_repositories_provider.dart';
 import '../providers/checklist_state_provider.dart';
+import '../providers/effective_task_row_state_provider.dart';
 
 /// Max width of a single task chip when laid out in a [Wrap].
 const double kEffectiveTaskRowMaxWidth = 280;
@@ -22,23 +21,32 @@ class EffectiveTaskRow extends ConsumerWidget {
     final l = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final activeDay = ref.watch(activeDayProvider);
-    final today = DayKey.today();
-    final daysAgo = today.daysSince(activeDay);
-    final readOnly = daysAgo < 0 || daysAgo >= kMaxEditableDays;
 
-    final checklistAsync = ref.watch(checklistStateProvider);
-    final isChecked = checklistAsync.maybeWhen(
-      data: (m) => m[task.id] ?? false,
-      orElse: () => false,
+    final (readOnly, isChecked, challengeVisual) = ref.watch(
+      effectiveTaskRowStateProvider(task.id).select(
+        (s) => (s.readOnly, s.isChecked, s.challengeVisual),
+      ),
     );
-    final weekBadge = ref.watch(completedChallengeWeekBadgesProvider);
-    final showWeekComplete = weekBadge.showsForTask(task.id, task.categoryKey);
+    final showWeekComplete = ref.watch(
+      effectiveTaskRowStateProvider(task.id).select((s) => s.showWeekComplete),
+    );
 
     final stateLabel = isChecked ? l.taskStateChecked : l.taskStateUnchecked;
+    final challengeHint = switch (challengeVisual) {
+      TaskChallengeVisualState.pending => l.challengeTaskPendingThisDay,
+      TaskChallengeVisualState.contributed => l.challengeTaskContributedThisDay,
+      _ => null,
+    };
+    final baseSemantics = l.taskRowSemanticLabel(
+      task.displayName,
+      task.points,
+      stateLabel,
+    );
     final semanticsLabel = readOnly
-        ? '${l.taskRowSemanticLabel(task.displayName, task.points, stateLabel)}, ${l.readOnlyBadge}'
-        : l.taskRowSemanticLabel(task.displayName, task.points, stateLabel);
+        ? '$baseSemantics, ${l.readOnlyBadge}'
+        : challengeHint == null
+        ? baseSemantics
+        : '$baseSemantics, $challengeHint';
 
     void onToggle() {
       if (readOnly) {
@@ -54,6 +62,20 @@ class EffectiveTaskRow extends ConsumerWidget {
         ).showSnackBar(SnackBar(content: Text(l.taskToggleFailed)));
       });
     }
+
+    final challengeFill = effectiveTaskRowChallengeFillColor(
+      challengeVisual,
+      scheme,
+      readOnly,
+    );
+    final challengeBorder = effectiveTaskRowChallengeBorder(
+      challengeVisual,
+      scheme,
+      readOnly,
+    );
+    final containerFill = isChecked
+        ? scheme.primary.withValues(alpha: readOnly ? 0.04 : 0.07)
+        : challengeFill ?? Colors.transparent;
 
     return Semantics(
       label: semanticsLabel,
@@ -71,9 +93,8 @@ class EffectiveTaskRow extends ConsumerWidget {
             curve: Curves.easeOut,
             padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
             decoration: BoxDecoration(
-              color: isChecked
-                  ? scheme.primary.withValues(alpha: readOnly ? 0.04 : 0.07)
-                  : Colors.transparent,
+              color: containerFill,
+              border: challengeBorder,
               borderRadius: BorderRadius.circular(14),
             ),
             child: ConstrainedBox(
@@ -140,8 +161,8 @@ class EffectiveTaskRow extends ConsumerWidget {
                   ],
                   const SizedBox(width: 8),
                   _PointsBadge(
+                    taskId: task.id,
                     points: task.points,
-                    dim: isChecked || readOnly,
                     l: l,
                   ),
                 ],
@@ -154,19 +175,24 @@ class EffectiveTaskRow extends ConsumerWidget {
   }
 }
 
-class _PointsBadge extends StatelessWidget {
+class _PointsBadge extends ConsumerWidget {
   const _PointsBadge({
+    required this.taskId,
     required this.points,
-    required this.dim,
     required this.l,
   });
 
+  final String taskId;
   final int points;
-  final bool dim;
   final AppLocalizations l;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dim = ref.watch(
+      effectiveTaskRowStateProvider(taskId).select(
+        (s) => s.isChecked || s.readOnly,
+      ),
+    );
     final scheme = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     return AnimatedOpacity(

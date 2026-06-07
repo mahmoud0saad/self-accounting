@@ -137,12 +137,6 @@ final List<Task> staticTaskCatalog = <Task>[
     titleResolver: (l) => l.taskQiyamWitr,
   ),
   Task(
-    id: 'qiyam_adhkar_before_sleep',
-    points: 2,
-    category: TaskCategory.qiyamEvening,
-    titleResolver: (l) => l.taskQiyamAdhkarBeforeSleep,
-  ),
-  Task(
     id: 'quran_memorize_half_page',
     points: 2,
     category: TaskCategory.quranFasting,
@@ -153,12 +147,6 @@ final List<Task> staticTaskCatalog = <Task>[
     points: 2,
     category: TaskCategory.quranFasting,
     titleResolver: (l) => l.taskQuranReadSixQuarters,
-  ),
-  Task(
-    id: 'quran_fasting_mon_thu',
-    points: 5,
-    category: TaskCategory.quranFasting,
-    titleResolver: (l) => l.taskQuranFastingMonThu,
   ),
   Task(
     id: 'misc_restroom_adhkar',
@@ -207,6 +195,12 @@ final List<Task> staticTaskCatalog = <Task>[
     points: 2,
     category: TaskCategory.miscAdhkar,
     titleResolver: (l) => l.taskMiscRidingTravelingAdhkar,
+  ),
+  Task(
+    id: 'qiyam_adhkar_before_sleep',
+    points: 2,
+    category: TaskCategory.miscAdhkar,
+    titleResolver: (l) => l.taskQiyamAdhkarBeforeSleep,
   ),
 ];
 

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/db/app_database_provider.dart';
 import '../../../checklist/presentation/providers/calendar_today_provider.dart';
+import '../../../checklist/presentation/providers/checklist_repositories_provider.dart';
 import '../../../checklist/presentation/providers/checklist_state_provider.dart';
 import '../../../customization/presentation/providers/catalog_providers.dart';
 import '../../../settings/data/app_settings_repository.dart';
@@ -194,6 +195,118 @@ final completedChallengeWeekBadgesProvider =
       );
     },
     orElse: () => CompletedChallengeWeekBadges.empty,
+  );
+});
+
+/// Per-day checklist styling for task-level challenges.
+enum TaskChallengeVisualState { none, pending, contributed, weekComplete }
+
+class TaskChallengeVisualLookup {
+  const TaskChallengeVisualLookup(this._states);
+
+  final Map<String, TaskChallengeVisualState> _states;
+
+  static const empty = TaskChallengeVisualLookup({});
+
+  TaskChallengeVisualState forTask(String taskId) =>
+      _states[taskId] ?? TaskChallengeVisualState.none;
+}
+
+int _taskChallengeStatePriority(TaskChallengeVisualState state) =>
+    switch (state) {
+      TaskChallengeVisualState.none => 0,
+      TaskChallengeVisualState.pending => 1,
+      TaskChallengeVisualState.contributed => 2,
+      TaskChallengeVisualState.weekComplete => 3,
+    };
+
+TaskChallengeVisualState _mergeTaskChallengeState(
+  TaskChallengeVisualState current,
+  TaskChallengeVisualState next,
+) =>
+    _taskChallengeStatePriority(current) >= _taskChallengeStatePriority(next)
+        ? current
+        : next;
+
+final taskChallengeVisualLookupProvider =
+    Provider<TaskChallengeVisualLookup>((ref) {
+  final activeDay = ref.watch(activeDayProvider);
+  final activeDayIso = activeDay.toIsoDate();
+  final checklist = ref.watch(checklistStateProvider).maybeWhen(
+        data: (m) => m,
+        orElse: () => const <String, bool>{},
+      );
+  final progress = ref.watch(currentWeekProgressProvider);
+  final dow = ref.watch(weekStartDowProvider);
+  final today = ref.watch(calendarTodayProvider);
+
+  if (progress.isLoading || dow.isLoading) {
+    return TaskChallengeVisualLookup.empty;
+  }
+
+  final progressItems = progress.value;
+  final weekDow = dow.value;
+  if (progressItems == null || weekDow == null) {
+    return TaskChallengeVisualLookup.empty;
+  }
+
+  final todayDt = today.toLocalDateTime();
+  final weekStart = weekStartFor(todayDt, weekDow);
+  final weekEnd = weekEndFor(weekStart);
+  final weekStartIso = isoDate(weekStart);
+  final weekEndIso = isoDate(weekEnd);
+  final todayIso = today.toIsoDate();
+
+  final states = <String, TaskChallengeVisualState>{};
+  for (final item in progressItems) {
+    final challenge = item.challenge;
+    if (challenge.sourceKind != 'TASK_WEEKLY_COUNT') {
+      continue;
+    }
+
+    final taskId = challenge.sourceRef;
+    if (taskId.isEmpty) {
+      continue;
+    }
+
+    final week = item.week;
+    if (week != null && week.isCompleted) {
+      states[taskId] = _mergeTaskChallengeState(
+        states[taskId] ?? TaskChallengeVisualState.none,
+        TaskChallengeVisualState.weekComplete,
+      );
+      continue;
+    }
+
+    final windowStartIso = challenge.usesCumulativeProgress
+        ? isoDate(dateOnly(challenge.startedAt.toLocal()))
+        : weekStartIso;
+    final windowEndIso =
+        challenge.usesCumulativeProgress ? todayIso : weekEndIso;
+
+    if (activeDayIso.compareTo(windowStartIso) < 0 ||
+        activeDayIso.compareTo(windowEndIso) > 0) {
+      continue;
+    }
+
+    final isChecked = checklist[taskId] ?? false;
+    final next = isChecked
+        ? TaskChallengeVisualState.contributed
+        : TaskChallengeVisualState.pending;
+    states[taskId] = _mergeTaskChallengeState(
+      states[taskId] ?? TaskChallengeVisualState.none,
+      next,
+    );
+  }
+
+  return TaskChallengeVisualLookup(states);
+});
+
+/// Per-task challenge styling; rebuilds only when this task's visual changes.
+final taskChallengeVisualForTaskProvider =
+    Provider.family<TaskChallengeVisualState, String>((ref, taskId) {
+  return ref.watch(
+    taskChallengeVisualLookupProvider.select((lookup) => lookup.forTask(taskId)),
   );
 });
 

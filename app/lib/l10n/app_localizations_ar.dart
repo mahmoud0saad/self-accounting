@@ -56,7 +56,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get categoryIsha => 'العشاء';
 
   @override
-  String get categoryQiyamEvening => 'قيام الليل والعبادة المسائية';
+  String get categoryQiyamEvening => 'قيام الليل والوتر';
 
   @override
   String get categoryQuranFasting => 'القرآن والصيام';
@@ -68,103 +68,100 @@ class AppLocalizationsAr extends AppLocalizations {
   String get taskFajrWakingUpAdhkar => 'أذكار الاستيقاظ';
 
   @override
-  String get taskFajrSunnahBeforeFajr => 'سنة الفجر القبلية';
+  String get taskFajrSunnahBeforeFajr => 'السنة القبلية';
 
   @override
-  String get taskFajrFirstCongregation => 'الصلاة في الجماعة الأولى';
+  String get taskFajrFirstCongregation => 'الجماعة الأولى';
 
   @override
-  String get taskFajrPostPrayerAdhkar => 'أذكار ما بعد الصلاة';
+  String get taskFajrPostPrayerAdhkar => 'أذكار بعد الصلاة';
 
   @override
   String get taskFajrMorningAdhkar => 'أذكار الصباح';
 
   @override
-  String get taskFajrDuhaPrayer4Rakahs => 'صلاة الضحى — 4 ركعات';
+  String get taskFajrDuhaPrayer4Rakahs => 'الضحى 4 ركعات';
 
   @override
-  String get taskDhuhrSunnahBefore4Rakahs => 'سنة الظهر القبلية — 4 ركعات';
+  String get taskDhuhrSunnahBefore4Rakahs => 'السنة القبلية 4 ركعات';
 
   @override
-  String get taskDhuhrFirstCongregation => 'الصلاة في الجماعة الأولى';
+  String get taskDhuhrFirstCongregation => 'الجماعة الأولى';
 
   @override
-  String get taskDhuhrPostPrayerAdhkar => 'أذكار ما بعد الصلاة';
+  String get taskDhuhrPostPrayerAdhkar => 'أذكار بعد الصلاة';
 
   @override
-  String get taskDhuhrSunnahAfter => 'سنة الظهر البعدية';
+  String get taskDhuhrSunnahAfter => 'السنة البعدية';
 
   @override
-  String get taskAsrFirstCongregation => 'الصلاة في الجماعة الأولى';
+  String get taskAsrFirstCongregation => 'الجماعة الأولى';
 
   @override
-  String get taskAsrPostPrayerAdhkar => 'أذكار ما بعد الصلاة';
+  String get taskAsrPostPrayerAdhkar => 'أذكار بعد الصلاة';
 
   @override
   String get taskAsrEveningAdhkar => 'أذكار المساء';
 
   @override
-  String get taskMaghribFirstCongregation => 'الصلاة في الجماعة الأولى';
+  String get taskMaghribFirstCongregation => 'الجماعة الأولى';
 
   @override
-  String get taskMaghribPostPrayerAdhkar => 'أذكار ما بعد الصلاة';
+  String get taskMaghribPostPrayerAdhkar => 'أذكار بعد الصلاة';
 
   @override
-  String get taskMaghribSunnahAfter => 'سنة المغرب البعدية';
+  String get taskMaghribSunnahAfter => 'السنة البعدية';
 
   @override
-  String get taskIshaFirstCongregation => 'الصلاة في الجماعة الأولى';
+  String get taskIshaFirstCongregation => 'الجماعة الأولى';
 
   @override
-  String get taskIshaPostPrayerAdhkar => 'أذكار ما بعد الصلاة';
+  String get taskIshaPostPrayerAdhkar => 'أذكار بعد الصلاة';
 
   @override
-  String get taskIshaSunnahAfter => 'سنة العشاء البعدية';
+  String get taskIshaSunnahAfter => 'السنة البعدية';
 
   @override
-  String get taskQiyamTwoRakahs => 'ركعتان من قيام الليل';
+  String get taskQiyamTwoRakahs => 'ركعتان قيام ليل';
 
   @override
-  String get taskQiyamDailyQuranTwoQuarters => 'وِرد القرآن اليومي — ربعان';
+  String get taskQiyamDailyQuranTwoQuarters => 'الورد (ربعين)';
 
   @override
-  String get taskQiyamWitr => 'صلاة الوتر';
+  String get taskQiyamWitr => 'الوتر';
 
   @override
-  String get taskQiyamAdhkarBeforeSleep => 'أذكار النوم';
+  String get taskQiyamAdhkarBeforeSleep => 'قبل النوم';
 
   @override
   String get taskQuranMemorizeHalfPage => 'حفظ نصف صفحة';
 
   @override
-  String get taskQuranReadSixQuarters => 'قراءة ستة أرباع (حوالي 1.5 جزء)';
+  String get taskQuranReadSixQuarters => 'قراءة ستة أرباع';
 
   @override
-  String get taskQuranFastingMonThu => 'صيام الاثنين والخميس';
+  String get taskMiscRestroomAdhkar => 'الخلاء';
 
   @override
-  String get taskMiscRestroomAdhkar => 'أذكار دخول الخلاء والخروج منه';
+  String get taskMiscClothingAdhkar => 'لبس الثوب و خلعه';
 
   @override
-  String get taskMiscClothingAdhkar => 'أذكار لُبس الثوب وخلعه';
+  String get taskMiscWuduAdhkar => 'الوضوء';
 
   @override
-  String get taskMiscWuduAdhkar => 'أذكار الوضوء';
+  String get taskMiscHouseAdhkar => 'دخول المنزل والخروج';
 
   @override
-  String get taskMiscHouseAdhkar => 'أذكار دخول البيت والخروج منه';
+  String get taskMiscMosqueAdhkar => 'المسجد دخول و خروج';
 
   @override
-  String get taskMiscMosqueAdhkar => 'أذكار دخول المسجد والخروج منه';
+  String get taskMiscWalkingMosqueAdhkar => 'المشى إلى المسجد';
 
   @override
-  String get taskMiscWalkingMosqueAdhkar => 'أذكار المشي إلى المسجد';
+  String get taskMiscEatingDrinkingAdhkar => 'الأكل و الشرب';
 
   @override
-  String get taskMiscEatingDrinkingAdhkar => 'أذكار الطعام والشراب';
-
-  @override
-  String get taskMiscRidingTravelingAdhkar => 'أذكار الركوب والسفر';
+  String get taskMiscRidingTravelingAdhkar => 'الركوب';
 
   @override
   String get dayLabelToday => 'اليوم';
@@ -327,7 +324,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get categoryNameIsha => 'العشاء';
 
   @override
-  String get categoryNameQiyamEvening => 'قيام الليل والمساء';
+  String get categoryNameQiyamEvening => 'قيام الليل والوتر';
 
   @override
   String get categoryNameQuranFasting => 'القرآن والصيام';
@@ -778,6 +775,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get challengeCompletedThisWeek => 'أُنجز هذا الأسبوع';
+
+  @override
+  String get challengeTaskPendingThisDay =>
+      'يُحسب للتحدي — لم يُنجز في هذا اليوم';
+
+  @override
+  String get challengeTaskContributedThisDay => 'هذا اليوم يُحسب للتحدي';
 
   @override
   String get challengeTemplateFajrInJamaah => 'صلِّ كل فجرٍ جماعة';
