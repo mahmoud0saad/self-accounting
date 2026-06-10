@@ -1,3 +1,4 @@
+import 'package:app/core/widgets/app_logo.dart';
 import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,6 +65,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const AppLogo(),
+                const SizedBox(height: 24),
                 if (auth.errorMessage != null) ...[
                   Text(
                     auth.errorMessage!,

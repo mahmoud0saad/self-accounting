@@ -22,7 +22,10 @@ class ChallengeProgressEngine {
     required EffectiveCatalog? catalog,
   }) {
     final goal = challenge.goalCount;
-    final dates = datesInWeek(weekStart, weekEnd);
+    final rangeStart = challenge.usesCumulativeProgress
+        ? dateOnly(challenge.startedAt.toLocal())
+        : dateOnly(weekStart);
+    final dates = datesInWeek(rangeStart, weekEnd);
     final completedDates = <String>{};
 
     if (challenge.sourceKind == 'TASK_WEEKLY_COUNT') {

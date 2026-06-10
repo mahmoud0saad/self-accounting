@@ -48,16 +48,30 @@ class SettingsScreen extends ConsumerWidget {
           SliverAppBar(title: Text(l.settingsTitle), pinned: true),
           SliverToBoxAdapter(
             child: SettingsSectionCard(
-              title: l.challengeWeekStartTitle,
+              title: l.settingsChallengesTitle,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    l.challengeWeekStartSubtitle,
-                    style: Theme.of(context).textTheme.bodySmall,
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(l.settingsChallengesManage),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () => context.push('/challenges'),
                   ),
-                  const SizedBox(height: 8),
-                  const _WeekStartSettings(),
+                  // const Divider(height: 24),
+                  // Text(
+                  //   l.challengeWeekStartTitle,
+                  //   style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  //         fontWeight: FontWeight.w600,
+                  //       ),
+                  // ),
+                  // const SizedBox(height: 4),
+                  // Text(
+                  //   l.challengeWeekStartSubtitle,
+                  //   style: Theme.of(context).textTheme.bodySmall,
+                  // ),
+                  // const SizedBox(height: 8),
+                  // const _WeekStartSettings(),
                 ],
               ),
             ),

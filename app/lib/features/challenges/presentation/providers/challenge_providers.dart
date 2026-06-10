@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/db/app_database_provider.dart';
 import '../../../checklist/presentation/providers/calendar_today_provider.dart';
+import '../../../checklist/presentation/providers/checklist_repositories_provider.dart';
 import '../../../checklist/presentation/providers/checklist_state_provider.dart';
 import '../../../customization/presentation/providers/catalog_providers.dart';
 import '../../../settings/data/app_settings_repository.dart';
@@ -42,6 +43,31 @@ final activeUserChallengesProvider =
   return ref.watch(challengeRepositoryProvider).watchActiveChallenges();
 });
 
+/// Strip layout from active challenge count only (not checklist progress).
+enum WeeklyChallengeStripLayout { zero, single, multi }
+
+final weeklyChallengeStripLayoutProvider =
+    Provider<WeeklyChallengeStripLayout>((ref) {
+  final catalog = ref.watch(effectiveCatalogProvider);
+  if (catalog.isLoading || catalog.hasError) {
+    return WeeklyChallengeStripLayout.zero;
+  }
+  final challenges = ref.watch(activeUserChallengesProvider);
+  return challenges.when(
+    data: (list) {
+      if (list.isEmpty) {
+        return WeeklyChallengeStripLayout.zero;
+      }
+      if (list.length == 1) {
+        return WeeklyChallengeStripLayout.single;
+      }
+      return WeeklyChallengeStripLayout.multi;
+    },
+    loading: () => WeeklyChallengeStripLayout.zero,
+    error: (_, __) => WeeklyChallengeStripLayout.zero,
+  );
+});
+
 final _progressEngine = ChallengeProgressEngine();
 
 final currentWeekProgressProvider =
@@ -59,16 +85,20 @@ final currentWeekProgressProvider =
   final weekEndIso = isoDate(weekEnd);
 
   final allLogs = await db.select(db.dailyLogs).get();
-  final logs = allLogs
-      .where(
-        (l) =>
-            l.date.compareTo(weekStartIso) >= 0 &&
-            l.date.compareTo(weekEndIso) <= 0,
-      )
-      .toList();
 
   final out = <ChallengeWithWeek>[];
   for (final c in challenges) {
+    final logStartIso = c.usesCumulativeProgress
+        ? isoDate(dateOnly(c.startedAt.toLocal()))
+        : weekStartIso;
+    final logs = allLogs
+        .where(
+          (l) =>
+              l.date.compareTo(logStartIso) >= 0 &&
+              l.date.compareTo(weekEndIso) <= 0,
+        )
+        .toList();
+
     final existing = await repo.getWeek(c.id, weekStartIso);
     final derived = _progressEngine.compute(
       challenge: c,
@@ -78,11 +108,8 @@ final currentWeekProgressProvider =
       catalog: catalog,
     );
 
-    final floor = existing?.achievedCount;
-    final achieved = floor != null && derived.achievedCount < floor
-        ? floor
-        : derived.achievedCount;
-    final status = achieved >= c.goalCount ? 'COMPLETED' : derived.status;
+    final achieved = derived.achievedCount;
+    final status = achieved >= c.goalCount ? 'COMPLETED' : 'IN_PROGRESS';
 
     final week = await repo.upsertWeek(
       challengeId: c.id,
@@ -95,11 +122,34 @@ final currentWeekProgressProvider =
           ? (existing?.completedAt ?? DateTime.now().toUtc())
           : null,
       celebrationSeenAt: existing?.celebrationSeenAt,
-      persistedAchievedFloor: floor,
     );
     out.add(ChallengeWithWeek(challenge: c, week: week));
   }
   return out;
+});
+
+/// Achieved/goal for one challenge; rebuilds when counts change, not strip layout.
+final challengeWeekProgressProvider =
+    Provider.family<({int achieved, int goal})?, String>((ref, challengeId) {
+  return ref.watch(
+    currentWeekProgressProvider.select(
+      (async) {
+        final items = async.value;
+        if (items == null) {
+          return null;
+        }
+        for (final item in items) {
+          if (item.challenge.id == challengeId) {
+            return (
+              achieved: item.week?.achievedCount ?? 0,
+              goal: item.challenge.goalCount,
+            );
+          }
+        }
+        return null;
+      },
+    ),
+  );
 });
 
 /// Task ids and category keys with a COMPLETED challenge this week.
@@ -145,6 +195,118 @@ final completedChallengeWeekBadgesProvider =
       );
     },
     orElse: () => CompletedChallengeWeekBadges.empty,
+  );
+});
+
+/// Per-day checklist styling for task-level challenges.
+enum TaskChallengeVisualState { none, pending, contributed, weekComplete }
+
+class TaskChallengeVisualLookup {
+  const TaskChallengeVisualLookup(this._states);
+
+  final Map<String, TaskChallengeVisualState> _states;
+
+  static const empty = TaskChallengeVisualLookup({});
+
+  TaskChallengeVisualState forTask(String taskId) =>
+      _states[taskId] ?? TaskChallengeVisualState.none;
+}
+
+int _taskChallengeStatePriority(TaskChallengeVisualState state) =>
+    switch (state) {
+      TaskChallengeVisualState.none => 0,
+      TaskChallengeVisualState.pending => 1,
+      TaskChallengeVisualState.contributed => 2,
+      TaskChallengeVisualState.weekComplete => 3,
+    };
+
+TaskChallengeVisualState _mergeTaskChallengeState(
+  TaskChallengeVisualState current,
+  TaskChallengeVisualState next,
+) =>
+    _taskChallengeStatePriority(current) >= _taskChallengeStatePriority(next)
+        ? current
+        : next;
+
+final taskChallengeVisualLookupProvider =
+    Provider<TaskChallengeVisualLookup>((ref) {
+  final activeDay = ref.watch(activeDayProvider);
+  final activeDayIso = activeDay.toIsoDate();
+  final checklist = ref.watch(checklistStateProvider).maybeWhen(
+        data: (m) => m,
+        orElse: () => const <String, bool>{},
+      );
+  final progress = ref.watch(currentWeekProgressProvider);
+  final dow = ref.watch(weekStartDowProvider);
+  final today = ref.watch(calendarTodayProvider);
+
+  if (progress.isLoading || dow.isLoading) {
+    return TaskChallengeVisualLookup.empty;
+  }
+
+  final progressItems = progress.value;
+  final weekDow = dow.value;
+  if (progressItems == null || weekDow == null) {
+    return TaskChallengeVisualLookup.empty;
+  }
+
+  final todayDt = today.toLocalDateTime();
+  final weekStart = weekStartFor(todayDt, weekDow);
+  final weekEnd = weekEndFor(weekStart);
+  final weekStartIso = isoDate(weekStart);
+  final weekEndIso = isoDate(weekEnd);
+  final todayIso = today.toIsoDate();
+
+  final states = <String, TaskChallengeVisualState>{};
+  for (final item in progressItems) {
+    final challenge = item.challenge;
+    if (challenge.sourceKind != 'TASK_WEEKLY_COUNT') {
+      continue;
+    }
+
+    final taskId = challenge.sourceRef;
+    if (taskId.isEmpty) {
+      continue;
+    }
+
+    final week = item.week;
+    if (week != null && week.isCompleted) {
+      states[taskId] = _mergeTaskChallengeState(
+        states[taskId] ?? TaskChallengeVisualState.none,
+        TaskChallengeVisualState.weekComplete,
+      );
+      continue;
+    }
+
+    final windowStartIso = challenge.usesCumulativeProgress
+        ? isoDate(dateOnly(challenge.startedAt.toLocal()))
+        : weekStartIso;
+    final windowEndIso =
+        challenge.usesCumulativeProgress ? todayIso : weekEndIso;
+
+    if (activeDayIso.compareTo(windowStartIso) < 0 ||
+        activeDayIso.compareTo(windowEndIso) > 0) {
+      continue;
+    }
+
+    final isChecked = checklist[taskId] ?? false;
+    final next = isChecked
+        ? TaskChallengeVisualState.contributed
+        : TaskChallengeVisualState.pending;
+    states[taskId] = _mergeTaskChallengeState(
+      states[taskId] ?? TaskChallengeVisualState.none,
+      next,
+    );
+  }
+
+  return TaskChallengeVisualLookup(states);
+});
+
+/// Per-task challenge styling; rebuilds only when this task's visual changes.
+final taskChallengeVisualForTaskProvider =
+    Provider.family<TaskChallengeVisualState, String>((ref, taskId) {
+  return ref.watch(
+    taskChallengeVisualLookupProvider.select((lookup) => lookup.forTask(taskId)),
   );
 });
 

@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Muhasabah';
+  String get appTitle => 'Raqeeb';
 
   @override
   String get pointsLabel => 'pts';
@@ -56,7 +56,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categoryIsha => 'Isha';
 
   @override
-  String get categoryQiyamEvening => 'Qiyam & Evening Devotion';
+  String get categoryQiyamEvening => 'Qiyam al-Layl & Witr';
 
   @override
   String get categoryQuranFasting => 'Quran & Fasting';
@@ -68,105 +68,100 @@ class AppLocalizationsEn extends AppLocalizations {
   String get taskFajrWakingUpAdhkar => 'Waking up Adhkar';
 
   @override
-  String get taskFajrSunnahBeforeFajr => 'Sunnah before Fajr';
+  String get taskFajrSunnahBeforeFajr => 'Pre-prayer Sunnah';
 
   @override
-  String get taskFajrFirstCongregation => 'First Congregation (Jama\'ah)';
+  String get taskFajrFirstCongregation => 'First Congregation';
 
   @override
-  String get taskFajrPostPrayerAdhkar => 'Post-prayer Adhkar';
+  String get taskFajrPostPrayerAdhkar => 'Adhkar after prayer';
 
   @override
   String get taskFajrMorningAdhkar => 'Morning Adhkar';
 
   @override
-  String get taskFajrDuhaPrayer4Rakahs => 'Duha Prayer — 4 Rak\'ahs';
+  String get taskFajrDuhaPrayer4Rakahs => 'Duha 4 Rak\'ahs';
 
   @override
-  String get taskDhuhrSunnahBefore4Rakahs => 'Sunnah before Dhuhr — 4 Rak\'ahs';
+  String get taskDhuhrSunnahBefore4Rakahs => 'Pre-prayer Sunnah — Rak\'ahs';
 
   @override
-  String get taskDhuhrFirstCongregation => 'First Congregation (Jama\'ah)';
+  String get taskDhuhrFirstCongregation => 'First Congregation';
 
   @override
-  String get taskDhuhrPostPrayerAdhkar => 'Post-prayer Adhkar';
+  String get taskDhuhrPostPrayerAdhkar => 'Adhkar after prayer';
 
   @override
-  String get taskDhuhrSunnahAfter => 'Sunnah after Dhuhr';
+  String get taskDhuhrSunnahAfter => 'Post-prayer Sunnah';
 
   @override
-  String get taskAsrFirstCongregation => 'First Congregation (Jama\'ah)';
+  String get taskAsrFirstCongregation => 'First Congregation';
 
   @override
-  String get taskAsrPostPrayerAdhkar => 'Post-prayer Adhkar';
+  String get taskAsrPostPrayerAdhkar => 'Adhkar after prayer';
 
   @override
   String get taskAsrEveningAdhkar => 'Evening Adhkar';
 
   @override
-  String get taskMaghribFirstCongregation => 'First Congregation (Jama\'ah)';
+  String get taskMaghribFirstCongregation => 'First Congregation';
 
   @override
-  String get taskMaghribPostPrayerAdhkar => 'Post-prayer Adhkar';
+  String get taskMaghribPostPrayerAdhkar => 'Adhkar after prayer';
 
   @override
-  String get taskMaghribSunnahAfter => 'Sunnah after Maghrib';
+  String get taskMaghribSunnahAfter => 'Post-prayer Sunnah';
 
   @override
-  String get taskIshaFirstCongregation => 'First Congregation (Jama\'ah)';
+  String get taskIshaFirstCongregation => 'First Congregation';
 
   @override
-  String get taskIshaPostPrayerAdhkar => 'Post-prayer Adhkar';
+  String get taskIshaPostPrayerAdhkar => 'Adhkar after prayer';
 
   @override
-  String get taskIshaSunnahAfter => 'Sunnah after Isha';
+  String get taskIshaSunnahAfter => 'Post-prayer Sunnah';
 
   @override
   String get taskQiyamTwoRakahs => 'Two Rak\'ahs of Qiyam al-Layl';
 
   @override
-  String get taskQiyamDailyQuranTwoQuarters =>
-      'Daily Quran Portion (Wird) — Two quarters';
+  String get taskQiyamDailyQuranTwoQuarters => 'Daily portion (two quarters)';
 
   @override
-  String get taskQiyamWitr => 'Witr Prayer';
+  String get taskQiyamWitr => 'Witr';
 
   @override
-  String get taskQiyamAdhkarBeforeSleep => 'Adhkar before sleep';
+  String get taskQiyamAdhkarBeforeSleep => 'Before sleep';
 
   @override
   String get taskQuranMemorizeHalfPage => 'Memorizing half a page';
 
   @override
-  String get taskQuranReadSixQuarters => 'Reading six quarters (~1.5 Juz\')';
+  String get taskQuranReadSixQuarters => 'Reading six quarters';
 
   @override
-  String get taskQuranFastingMonThu => 'Fasting (Monday and Thursday)';
+  String get taskMiscRestroomAdhkar => 'Restroom';
 
   @override
-  String get taskMiscRestroomAdhkar => 'Restroom Adhkar (Entering/Leaving)';
+  String get taskMiscClothingAdhkar => 'Putting on and removing clothes';
 
   @override
-  String get taskMiscClothingAdhkar =>
-      'Clothing Adhkar (Putting on/Taking off)';
+  String get taskMiscWuduAdhkar => 'Wudu';
 
   @override
-  String get taskMiscWuduAdhkar => 'Wudu (Ablution) Adhkar';
+  String get taskMiscHouseAdhkar => 'Entering and leaving home';
 
   @override
-  String get taskMiscHouseAdhkar => 'House Adhkar (Entering/Leaving)';
+  String get taskMiscMosqueAdhkar => 'Entering and leaving the mosque';
 
   @override
-  String get taskMiscMosqueAdhkar => 'Mosque Adhkar (Entering/Leaving)';
+  String get taskMiscWalkingMosqueAdhkar => 'Walking to the mosque';
 
   @override
-  String get taskMiscWalkingMosqueAdhkar => 'Walking to the Mosque Adhkar';
+  String get taskMiscEatingDrinkingAdhkar => 'Eating and drinking';
 
   @override
-  String get taskMiscEatingDrinkingAdhkar => 'Eating and Drinking Adhkar';
-
-  @override
-  String get taskMiscRidingTravelingAdhkar => 'Riding/Traveling Adhkar';
+  String get taskMiscRidingTravelingAdhkar => 'Riding';
 
   @override
   String get dayLabelToday => 'Today';
@@ -200,6 +195,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadingChecklist => 'Loading your checklist…';
 
   @override
+  String get tasksSection => 'Tasks';
+
+  @override
   String get navChecklistLabel => 'Checklist';
 
   @override
@@ -210,6 +208,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsChallengesTitle => 'Challenges';
+
+  @override
+  String get settingsChallengesManage => 'View & manage challenges';
 
   @override
   String get settingsNotificationsTitle => 'Notifications';
@@ -321,7 +325,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categoryNameIsha => 'Isha';
 
   @override
-  String get categoryNameQiyamEvening => 'Qiyam & Evening';
+  String get categoryNameQiyamEvening => 'Qiyam al-Layl & Witr';
 
   @override
   String get categoryNameQuranFasting => 'Quran & Fasting';
@@ -564,6 +568,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get manageChecklistTooltipShow => 'Show on today\'s list.';
 
   @override
+  String get manageChecklistNewCategory => 'New Category';
+
+  @override
+  String get manageChecklistAddCustomTask => 'Add Custom Task';
+
+  @override
+  String get manageChecklistCustomTasks => 'Custom Tasks';
+
+  @override
+  String get manageChecklistHiddenLabel => 'Hidden';
+
+  @override
+  String get manageChecklistCustomCategoryLabel => 'Custom category';
+
+  @override
+  String get manageChecklistCustomTaskLabel => 'Custom task';
+
+  @override
+  String get manageChecklistNoCategories =>
+      'No categories yet. Add one to organize your tasks.';
+
+  @override
+  String get manageChecklistNoTasks =>
+      'No tasks here yet. Add a custom task to begin.';
+
+  @override
+  String manageChecklistPointsPlus(int points, String label) {
+    return '+$points $label';
+  }
+
+  @override
   String get restoreCatalogDialogTitle => 'Restore your saved checklist?';
 
   @override
@@ -653,6 +688,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get challengeCustomSourceLabel => 'Source';
 
   @override
+  String get challengeCustomSourceHint => 'Select a task from the list';
+
+  @override
   String get challengeSourceTabTask => 'Task';
 
   @override
@@ -662,6 +700,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String challengeGoalDaysLabel(int days) {
     return 'Goal: $days days this week';
   }
+
+  @override
+  String challengeGoalDaysCumulativeLabel(int days) {
+    return 'Goal: $days days to complete';
+  }
+
+  @override
+  String get challengeCustomGoalLabel => 'Goal (days)';
 
   @override
   String get challengeCustomCreate => 'Create';
@@ -695,6 +741,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String challengeCelebrationBodyCumulative(String title, int goal) {
+    return '$title — $goal of $goal days completed.';
+  }
+
+  @override
   String get challengeContinue => 'Continue';
 
   @override
@@ -702,6 +753,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get challengeCompletedThisWeek => 'Completed this week';
+
+  @override
+  String get challengeTaskPendingThisDay =>
+      'Counts toward your challenge — not done on this day';
+
+  @override
+  String get challengeTaskContributedThisDay =>
+      'This day counts toward your challenge';
 
   @override
   String get challengeTemplateFajrInJamaah => 'Pray every Fajr in congregation';

@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:network_logger/network_logger.dart';
+// import 'package:network_logger/network_logger.dart';
 
 import '../api/server_availability_provider.dart';
 import '../../features/auth/presentation/confirm_email_screen.dart';
@@ -207,7 +207,7 @@ class _DebugNetworkLoggerAttachState extends State<_DebugNetworkLoggerAttach> {
       WidgetsBinding.instance.addPostFrameCallback((_) => _attach());
       return;
     }
-    _entry = NetworkLoggerOverlay.attachTo(context);
+    // _entry = NetworkLoggerOverlay.attachTo(context);
   }
 
   @override

@@ -154,4 +154,90 @@ void main() {
     );
     expect(full.achievedCount, 1);
   });
+
+  test('cumulative custom goal counts distinct days since startedAt', () {
+    final challenge = UserChallenge(
+      id: 'c3',
+      customTitle: 'Long run',
+      customSourceKind: 'TASK_WEEKLY_COUNT',
+      customSourceRef: 'fajr_first_congregation',
+      customGoalCount: 14,
+      startedAt: DateTime(2026, 5, 9),
+      updatedAt: DateTime.utc(2026, 5, 9),
+    );
+    final logs = [
+      for (var i = 0; i < 8; i++)
+        DbDailyLog(
+          id: i + 1,
+          date: isoDate(DateTime(2026, 5, 10 + i)),
+          taskId: 'fajr_first_congregation',
+          userTaskId: null,
+          completed: true,
+          updatedAt: DateTime.utc(2026, 5, 10 + i),
+        ),
+    ];
+
+    final inProgress = engine.compute(
+      challenge: challenge,
+      weekStart: weekStart,
+      weekEnd: weekEnd,
+      logs: logs,
+      catalog: null,
+    );
+    expect(inProgress.achievedCount, 8);
+    expect(inProgress.status, 'IN_PROGRESS');
+
+    final completedLogs = [
+      for (var i = 0; i < 14; i++)
+        DbDailyLog(
+          id: 100 + i,
+          date: isoDate(DateTime(2026, 5, 9 + i)),
+          taskId: 'fajr_first_congregation',
+          userTaskId: null,
+          completed: true,
+          updatedAt: DateTime.utc(2026, 5, 9 + i),
+        ),
+    ];
+    final completed = engine.compute(
+      challenge: challenge,
+      weekStart: weekStart,
+      weekEnd: weekEnd,
+      logs: completedLogs,
+      catalog: null,
+    );
+    expect(completed.achievedCount, 14);
+    expect(completed.status, 'COMPLETED');
+  });
+
+  test('custom goal at 7 uses weekly window only', () {
+    final challenge = UserChallenge(
+      id: 'c4',
+      customTitle: 'Week only',
+      customSourceKind: 'TASK_WEEKLY_COUNT',
+      customSourceRef: 'fajr_first_congregation',
+      customGoalCount: 7,
+      startedAt: DateTime(2026, 5, 1),
+      updatedAt: DateTime.utc(2026, 5, 1),
+    );
+    final logs = [
+      DbDailyLog(
+        id: 1,
+        date: '2026-05-10',
+        taskId: 'fajr_first_congregation',
+        userTaskId: null,
+        completed: true,
+        updatedAt: DateTime.utc(2026, 5, 10),
+      ),
+    ];
+
+    final result = engine.compute(
+      challenge: challenge,
+      weekStart: weekStart,
+      weekEnd: weekEnd,
+      logs: logs,
+      catalog: null,
+    );
+    expect(result.achievedCount, 0);
+    expect(challenge.usesCumulativeProgress, isFalse);
+  });
 }

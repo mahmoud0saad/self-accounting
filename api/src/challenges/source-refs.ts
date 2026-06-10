@@ -34,10 +34,8 @@ const STATIC_TASK_IDS = [
   'qiyam_two_rakahs',
   'qiyam_daily_quran_two_quarters',
   'qiyam_witr',
-  'qiyam_adhkar_before_sleep',
   'quran_memorize_half_page',
   'quran_read_six_quarters',
-  'quran_fasting_mon_thu',
   'misc_restroom_adhkar',
   'misc_clothing_adhkar',
   'misc_wudu_adhkar',
@@ -46,6 +44,7 @@ const STATIC_TASK_IDS = [
   'misc_walking_mosque_adhkar',
   'misc_eating_drinking_adhkar',
   'misc_riding_traveling_adhkar',
+  'qiyam_adhkar_before_sleep',
 ] as const;
 
 export const DEFAULT_CATEGORY_CODES = new Set<string>(STATIC_CATEGORY_CODES);

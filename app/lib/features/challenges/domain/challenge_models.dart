@@ -65,6 +65,10 @@ class UserChallenge {
   String get sourceRef => template?.sourceRef ?? customSourceRef ?? '';
 
   int get goalCount => template?.goalCount ?? customGoalCount ?? 7;
+
+  /// Custom goals above 7 count distinct completion days since [startedAt].
+  bool get usesCumulativeProgress =>
+      templateCode == null && (customGoalCount ?? 0) > 7;
 }
 
 class ChallengeWeek {

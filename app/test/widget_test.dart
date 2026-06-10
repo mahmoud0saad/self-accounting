@@ -1,4 +1,3 @@
-import 'package:app/core/i18n/launch_locale.dart';
 import 'package:app/features/checklist/data/checklist_repository.dart';
 import 'package:app/features/checklist/data/history_repository.dart';
 import 'package:app/features/checklist/data/settings_repository.dart';
@@ -7,9 +6,13 @@ import 'package:app/features/checklist/domain/day_completion.dart';
 import 'package:app/features/checklist/presentation/providers/checklist_repositories_provider.dart';
 import 'package:app/features/checklist/presentation/providers/history_repository_provider.dart';
 import 'package:app/features/checklist/presentation/providers/task_catalog_provider.dart';
+import 'package:app/features/customization/domain/catalog_models.dart';
+import 'package:app/features/customization/domain/effective_catalog.dart';
+import 'package:app/features/customization/presentation/providers/catalog_providers.dart';
 import 'package:app/l10n/app_localizations.dart';
 import 'package:app/features/auth/presentation/providers/auth_provider.dart';
 import 'package:app/features/checklist/presentation/checklist_screen.dart';
+import 'package:app/features/checklist/presentation/widgets/checklist_progress_header.dart';
 import 'package:app/core/time/day_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -96,14 +99,45 @@ class _TestAuthNotifier extends AuthNotifier {
       const AuthState(status: AuthStatus.unauthenticated);
 }
 
+EffectiveCatalog _sampleChecklistCatalog() {
+  return effectiveCatalog(
+    defaultCategories: const [
+      DefaultCategory(
+        code: 'fajr',
+        defaultName: 'Fajr',
+        defaultIcon: 'wb_twilight',
+        defaultSortOrder: 0,
+        isFard: true,
+      ),
+    ],
+    userCategories: const [],
+    categoryOverrides: const [],
+    defaultTasks: const [
+      DefaultTask(
+        code: 'fajr_first_congregation',
+        defaultName: 'First congregation',
+        categoryCode: 'fajr',
+        defaultPoints: 2,
+        defaultIcon: 'mosque',
+        defaultSortOrder: 0,
+      ),
+    ],
+    userTasks: const [],
+    taskOverrides: const [],
+  );
+}
+
 void main() {
-  testWidgets('Checklist screen shows Muhasabah title', (
+  testWidgets('Checklist screen shows Raqeeb title', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           authNotifierProvider.overrideWith(_TestAuthNotifier.new),
+          effectiveCatalogProvider.overrideWith(
+            (ref) => Stream.value(_sampleChecklistCatalog()),
+          ),
           taskCatalogProvider.overrideWith((ref) async => staticTaskCatalog),
           checklistRepositoryProvider.overrideWithValue(
             _FakeChecklistRepository(),
@@ -123,7 +157,13 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.text('Muhasabah'), findsWidgets);
-    expect(find.text('0%'), findsOneWidget);
+    expect(find.text('Raqeeb'), findsWidgets);
+    expect(
+      find.descendant(
+        of: find.byType(ChecklistProgressHeader),
+        matching: find.text('0%'),
+      ),
+      findsOneWidget,
+    );
   });
 }

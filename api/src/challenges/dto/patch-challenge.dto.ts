@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsInt, IsOptional, IsString, Min } from 'class-validator';
 
 export class PatchChallengeDto {
   @ApiPropertyOptional({ nullable: true })
@@ -20,7 +20,6 @@ export class PatchChallengeDto {
   @IsOptional()
   @IsInt()
   @Min(1)
-  @Max(7)
   customGoalCount?: number;
 
   @ApiPropertyOptional()

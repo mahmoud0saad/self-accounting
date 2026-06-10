@@ -12,7 +12,7 @@ class NativeNotificationService implements NotificationService {
   NativeNotificationService({FlutterLocalNotificationsPlugin? plugin})
     : _plugin = plugin ?? FlutterLocalNotificationsPlugin();
 
-  static const String _appUserModelId = 'Muhasabah.SelfAccounting.App';
+  static const String _appUserModelId = 'Raqeeb.App';
   static const String _notificationGuid =
       '6FCA9E57-67A6-45C6-821D-0C7E5D7B7F42';
 
@@ -65,7 +65,7 @@ class NativeNotificationService implements NotificationService {
       scheduledDate: _nextInstanceOfTime(hour, minute),
       notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
-          'muhasabah_daily_reminders',
+          'raqeeb_daily_reminders',
           'Daily reminders',
           channelDescription: 'Gentle reminders for daily worship tasks.',
           importance: Importance.defaultImportance,
@@ -109,7 +109,7 @@ class NativeNotificationService implements NotificationService {
           requestSoundPermission: false,
         ),
         windows: WindowsInitializationSettings(
-          appName: 'Muhasabah',
+          appName: 'Raqeeb',
           appUserModelId: _appUserModelId,
           guid: _notificationGuid,
         ),

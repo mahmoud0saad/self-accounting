@@ -57,7 +57,11 @@ class _ChallengeCelebrationListenerState
       builder: (ctx) => AlertDialog(
         backgroundColor: scheme.surface,
         title: Text(l.challengeCelebrationTitle),
-        content: Text(l.challengeCelebrationBody(title, goal)),
+        content: Text(
+          item.challenge.usesCumulativeProgress
+              ? l.challengeCelebrationBodyCumulative(title, goal)
+              : l.challengeCelebrationBody(title, goal),
+        ),
         actions: [
           TextButton(
             onPressed: () {

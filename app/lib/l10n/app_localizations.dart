@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Muhasabah'**
+  /// **'Raqeeb'**
   String get appTitle;
 
   /// No description provided for @pointsLabel.
@@ -185,7 +185,7 @@ abstract class AppLocalizations {
   /// No description provided for @categoryQiyamEvening.
   ///
   /// In en, this message translates to:
-  /// **'Qiyam & Evening Devotion'**
+  /// **'Qiyam al-Layl & Witr'**
   String get categoryQiyamEvening;
 
   /// No description provided for @categoryQuranFasting.
@@ -209,19 +209,19 @@ abstract class AppLocalizations {
   /// No description provided for @taskFajrSunnahBeforeFajr.
   ///
   /// In en, this message translates to:
-  /// **'Sunnah before Fajr'**
+  /// **'Pre-prayer Sunnah'**
   String get taskFajrSunnahBeforeFajr;
 
   /// No description provided for @taskFajrFirstCongregation.
   ///
   /// In en, this message translates to:
-  /// **'First Congregation (Jama\'ah)'**
+  /// **'First Congregation'**
   String get taskFajrFirstCongregation;
 
   /// No description provided for @taskFajrPostPrayerAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'Post-prayer Adhkar'**
+  /// **'Adhkar after prayer'**
   String get taskFajrPostPrayerAdhkar;
 
   /// No description provided for @taskFajrMorningAdhkar.
@@ -233,43 +233,43 @@ abstract class AppLocalizations {
   /// No description provided for @taskFajrDuhaPrayer4Rakahs.
   ///
   /// In en, this message translates to:
-  /// **'Duha Prayer — 4 Rak\'ahs'**
+  /// **'Duha 4 Rak\'ahs'**
   String get taskFajrDuhaPrayer4Rakahs;
 
   /// No description provided for @taskDhuhrSunnahBefore4Rakahs.
   ///
   /// In en, this message translates to:
-  /// **'Sunnah before Dhuhr — 4 Rak\'ahs'**
+  /// **'Pre-prayer Sunnah — Rak\'ahs'**
   String get taskDhuhrSunnahBefore4Rakahs;
 
   /// No description provided for @taskDhuhrFirstCongregation.
   ///
   /// In en, this message translates to:
-  /// **'First Congregation (Jama\'ah)'**
+  /// **'First Congregation'**
   String get taskDhuhrFirstCongregation;
 
   /// No description provided for @taskDhuhrPostPrayerAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'Post-prayer Adhkar'**
+  /// **'Adhkar after prayer'**
   String get taskDhuhrPostPrayerAdhkar;
 
   /// No description provided for @taskDhuhrSunnahAfter.
   ///
   /// In en, this message translates to:
-  /// **'Sunnah after Dhuhr'**
+  /// **'Post-prayer Sunnah'**
   String get taskDhuhrSunnahAfter;
 
   /// No description provided for @taskAsrFirstCongregation.
   ///
   /// In en, this message translates to:
-  /// **'First Congregation (Jama\'ah)'**
+  /// **'First Congregation'**
   String get taskAsrFirstCongregation;
 
   /// No description provided for @taskAsrPostPrayerAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'Post-prayer Adhkar'**
+  /// **'Adhkar after prayer'**
   String get taskAsrPostPrayerAdhkar;
 
   /// No description provided for @taskAsrEveningAdhkar.
@@ -281,37 +281,37 @@ abstract class AppLocalizations {
   /// No description provided for @taskMaghribFirstCongregation.
   ///
   /// In en, this message translates to:
-  /// **'First Congregation (Jama\'ah)'**
+  /// **'First Congregation'**
   String get taskMaghribFirstCongregation;
 
   /// No description provided for @taskMaghribPostPrayerAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'Post-prayer Adhkar'**
+  /// **'Adhkar after prayer'**
   String get taskMaghribPostPrayerAdhkar;
 
   /// No description provided for @taskMaghribSunnahAfter.
   ///
   /// In en, this message translates to:
-  /// **'Sunnah after Maghrib'**
+  /// **'Post-prayer Sunnah'**
   String get taskMaghribSunnahAfter;
 
   /// No description provided for @taskIshaFirstCongregation.
   ///
   /// In en, this message translates to:
-  /// **'First Congregation (Jama\'ah)'**
+  /// **'First Congregation'**
   String get taskIshaFirstCongregation;
 
   /// No description provided for @taskIshaPostPrayerAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'Post-prayer Adhkar'**
+  /// **'Adhkar after prayer'**
   String get taskIshaPostPrayerAdhkar;
 
   /// No description provided for @taskIshaSunnahAfter.
   ///
   /// In en, this message translates to:
-  /// **'Sunnah after Isha'**
+  /// **'Post-prayer Sunnah'**
   String get taskIshaSunnahAfter;
 
   /// No description provided for @taskQiyamTwoRakahs.
@@ -323,19 +323,19 @@ abstract class AppLocalizations {
   /// No description provided for @taskQiyamDailyQuranTwoQuarters.
   ///
   /// In en, this message translates to:
-  /// **'Daily Quran Portion (Wird) — Two quarters'**
+  /// **'Daily portion (two quarters)'**
   String get taskQiyamDailyQuranTwoQuarters;
 
   /// No description provided for @taskQiyamWitr.
   ///
   /// In en, this message translates to:
-  /// **'Witr Prayer'**
+  /// **'Witr'**
   String get taskQiyamWitr;
 
   /// No description provided for @taskQiyamAdhkarBeforeSleep.
   ///
   /// In en, this message translates to:
-  /// **'Adhkar before sleep'**
+  /// **'Before sleep'**
   String get taskQiyamAdhkarBeforeSleep;
 
   /// No description provided for @taskQuranMemorizeHalfPage.
@@ -347,61 +347,55 @@ abstract class AppLocalizations {
   /// No description provided for @taskQuranReadSixQuarters.
   ///
   /// In en, this message translates to:
-  /// **'Reading six quarters (~1.5 Juz\')'**
+  /// **'Reading six quarters'**
   String get taskQuranReadSixQuarters;
-
-  /// No description provided for @taskQuranFastingMonThu.
-  ///
-  /// In en, this message translates to:
-  /// **'Fasting (Monday and Thursday)'**
-  String get taskQuranFastingMonThu;
 
   /// No description provided for @taskMiscRestroomAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'Restroom Adhkar (Entering/Leaving)'**
+  /// **'Restroom'**
   String get taskMiscRestroomAdhkar;
 
   /// No description provided for @taskMiscClothingAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'Clothing Adhkar (Putting on/Taking off)'**
+  /// **'Putting on and removing clothes'**
   String get taskMiscClothingAdhkar;
 
   /// No description provided for @taskMiscWuduAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'Wudu (Ablution) Adhkar'**
+  /// **'Wudu'**
   String get taskMiscWuduAdhkar;
 
   /// No description provided for @taskMiscHouseAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'House Adhkar (Entering/Leaving)'**
+  /// **'Entering and leaving home'**
   String get taskMiscHouseAdhkar;
 
   /// No description provided for @taskMiscMosqueAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'Mosque Adhkar (Entering/Leaving)'**
+  /// **'Entering and leaving the mosque'**
   String get taskMiscMosqueAdhkar;
 
   /// No description provided for @taskMiscWalkingMosqueAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'Walking to the Mosque Adhkar'**
+  /// **'Walking to the mosque'**
   String get taskMiscWalkingMosqueAdhkar;
 
   /// No description provided for @taskMiscEatingDrinkingAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'Eating and Drinking Adhkar'**
+  /// **'Eating and drinking'**
   String get taskMiscEatingDrinkingAdhkar;
 
   /// No description provided for @taskMiscRidingTravelingAdhkar.
   ///
   /// In en, this message translates to:
-  /// **'Riding/Traveling Adhkar'**
+  /// **'Riding'**
   String get taskMiscRidingTravelingAdhkar;
 
   /// No description provided for @dayLabelToday.
@@ -464,6 +458,12 @@ abstract class AppLocalizations {
   /// **'Loading your checklist…'**
   String get loadingChecklist;
 
+  /// No description provided for @tasksSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get tasksSection;
+
   /// No description provided for @navChecklistLabel.
   ///
   /// In en, this message translates to:
@@ -487,6 +487,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settingsTitle;
+
+  /// No description provided for @settingsChallengesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenges'**
+  String get settingsChallengesTitle;
+
+  /// No description provided for @settingsChallengesManage.
+  ///
+  /// In en, this message translates to:
+  /// **'View & manage challenges'**
+  String get settingsChallengesManage;
 
   /// No description provided for @settingsNotificationsTitle.
   ///
@@ -689,7 +701,7 @@ abstract class AppLocalizations {
   /// No description provided for @categoryNameQiyamEvening.
   ///
   /// In en, this message translates to:
-  /// **'Qiyam & Evening'**
+  /// **'Qiyam al-Layl & Witr'**
   String get categoryNameQiyamEvening;
 
   /// No description provided for @categoryNameQuranFasting.
@@ -1100,6 +1112,60 @@ abstract class AppLocalizations {
   /// **'Show on today\'s list.'**
   String get manageChecklistTooltipShow;
 
+  /// No description provided for @manageChecklistNewCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'New Category'**
+  String get manageChecklistNewCategory;
+
+  /// No description provided for @manageChecklistAddCustomTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Custom Task'**
+  String get manageChecklistAddCustomTask;
+
+  /// No description provided for @manageChecklistCustomTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Tasks'**
+  String get manageChecklistCustomTasks;
+
+  /// No description provided for @manageChecklistHiddenLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden'**
+  String get manageChecklistHiddenLabel;
+
+  /// No description provided for @manageChecklistCustomCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom category'**
+  String get manageChecklistCustomCategoryLabel;
+
+  /// No description provided for @manageChecklistCustomTaskLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom task'**
+  String get manageChecklistCustomTaskLabel;
+
+  /// No description provided for @manageChecklistNoCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'No categories yet. Add one to organize your tasks.'**
+  String get manageChecklistNoCategories;
+
+  /// No description provided for @manageChecklistNoTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks here yet. Add a custom task to begin.'**
+  String get manageChecklistNoTasks;
+
+  /// No description provided for @manageChecklistPointsPlus.
+  ///
+  /// In en, this message translates to:
+  /// **'+{points} {label}'**
+  String manageChecklistPointsPlus(int points, String label);
+
   /// No description provided for @restoreCatalogDialogTitle.
   ///
   /// In en, this message translates to:
@@ -1256,6 +1322,12 @@ abstract class AppLocalizations {
   /// **'Source'**
   String get challengeCustomSourceLabel;
 
+  /// No description provided for @challengeCustomSourceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a task from the list'**
+  String get challengeCustomSourceHint;
+
   /// No description provided for @challengeSourceTabTask.
   ///
   /// In en, this message translates to:
@@ -1273,6 +1345,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Goal: {days} days this week'**
   String challengeGoalDaysLabel(int days);
+
+  /// No description provided for @challengeGoalDaysCumulativeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal: {days} days to complete'**
+  String challengeGoalDaysCumulativeLabel(int days);
+
+  /// No description provided for @challengeCustomGoalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal (days)'**
+  String get challengeCustomGoalLabel;
 
   /// No description provided for @challengeCustomCreate.
   ///
@@ -1328,6 +1412,12 @@ abstract class AppLocalizations {
   /// **'{title} — {goal} of {goal} days this week.'**
   String challengeCelebrationBody(String title, int goal);
 
+  /// No description provided for @challengeCelebrationBodyCumulative.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} — {goal} of {goal} days completed.'**
+  String challengeCelebrationBodyCumulative(String title, int goal);
+
   /// No description provided for @challengeContinue.
   ///
   /// In en, this message translates to:
@@ -1345,6 +1435,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Completed this week'**
   String get challengeCompletedThisWeek;
+
+  /// No description provided for @challengeTaskPendingThisDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Counts toward your challenge — not done on this day'**
+  String get challengeTaskPendingThisDay;
+
+  /// No description provided for @challengeTaskContributedThisDay.
+  ///
+  /// In en, this message translates to:
+  /// **'This day counts toward your challenge'**
+  String get challengeTaskContributedThisDay;
 
   /// No description provided for @challengeTemplateFajrInJamaah.
   ///
