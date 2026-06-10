@@ -25,9 +25,9 @@ final dioProvider = Provider<Dio>((ref) {
   final dio = Dio(base.options);
   final storage = ref.read(tokenStorageProvider);
 
-  if (kDebugMode) {
-    dio.interceptors.add(DioNetworkLogger());
-  }
+  // if (kDebugMode) {
+  //   dio.interceptors.add(DioNetworkLogger());
+  // }
 
   dio.interceptors.add(
     InterceptorsWrapper(

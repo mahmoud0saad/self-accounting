@@ -1,6 +1,6 @@
 {
   "@@locale": "ar",
-  "appTitle": "محاسبة",
+  "appTitle": "رقيب",
   "pointsLabel": "نقاط",
   "pointsRatio": "{completed} / {total} نقطة",
   "@pointsRatio": {

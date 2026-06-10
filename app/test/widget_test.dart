@@ -128,7 +128,7 @@ EffectiveCatalog _sampleChecklistCatalog() {
 }
 
 void main() {
-  testWidgets('Checklist screen shows Muhasabah title', (
+  testWidgets('Checklist screen shows Raqeeb title', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(
@@ -157,7 +157,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.text('Muhasabah'), findsWidgets);
+    expect(find.text('Raqeeb'), findsWidgets);
     expect(
       find.descendant(
         of: find.byType(ChecklistProgressHeader),
